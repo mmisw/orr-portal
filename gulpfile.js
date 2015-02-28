@@ -41,7 +41,7 @@ gulp.task('app', ['clean'], function(){
 
 gulp.task('vendor', ['vendor-js', 'vendor-css', 'vendor-other']);
 
-gulp.task('vendor-js', function() {
+gulp.task('vendor-js', ['clean'], function() {
   return merge(
     gulp.src([
       'src/app/vendor/angular/angular.min.js',
@@ -59,7 +59,7 @@ gulp.task('vendor-js', function() {
   )
 });
 
-gulp.task('vendor-css', function() {
+gulp.task('vendor-css', ['clean'], function() {
   return gulp.src([
       'src/app/vendor/bootstrap-css-only/css/bootstrap.min.css',
       'src/app/vendor/bootstrap-css-only/css/bootstrap-theme.min.css',
@@ -70,7 +70,7 @@ gulp.task('vendor-css', function() {
     .pipe(gulp.dest(distDest + '/min/css/vendor'))
 });
 
-gulp.task('vendor-other', function() {
+gulp.task('vendor-other', ['clean'], function() {
   return merge(
     gulp.src([
       'src/app/vendor/fontawesome/fonts/**'
@@ -90,7 +90,7 @@ gulp.task('orrportal', ['orrportal-js', 'orrportal-css', 'orrportal-other'], fun
     .pipe(gulp.dest(distDest))
 });
 
-gulp.task('orrportal-js', function() {
+gulp.task('orrportal-js', ['clean'], function() {
   return gulp.src([
     'src/app/js/app.js',
     'src/app/js/config.js',
@@ -107,7 +107,7 @@ gulp.task('orrportal-js', function() {
     .pipe(gulp.dest(distDest + '/min/js'))
 });
 
-gulp.task('orrportal-css', function() {
+gulp.task('orrportal-css', ['clean'], function() {
   return gulp.src([
     'src/app/css/orrportal.css'
   ])
@@ -115,7 +115,7 @@ gulp.task('orrportal-css', function() {
     .pipe(gulp.dest(distDest + '/min/css'))
 });
 
-gulp.task('orrportal-other', function() {
+gulp.task('orrportal-other', ['clean'], function() {
   return merge(
     gulp.src([
       'src/app/template/*.html',
@@ -128,5 +128,5 @@ gulp.task('orrportal-other', function() {
 });
 
 gulp.task('clean', function (cb) {
-    rimraf('dist/OrrPortal', cb);
+    rimraf(distDest, cb);
 });
