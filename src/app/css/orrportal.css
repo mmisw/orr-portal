@@ -1,0 +1,230 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 5px;
+}
+
+.effect1 {
+    width: 100%;
+    text-shadow: 0 1px 0 #fff;
+    background-image: -webkit-linear-gradient(top, #fff 0%, #e0e0e0 100%);
+    background-image: -o-linear-gradient(top, #fff 0%, #e0e0e0 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
+    background-image: linear-gradient(to bottom, #fff 0%, #EAF3FC 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    background-repeat: repeat-x;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+    /*border: 1px solid #ccf0ff;*/
+}
+
+.ontGrid {
+    width: 100%;
+    height: 700px;
+}
+
+.testing {
+    vertical-align: super;
+    font-size: smaller;
+    color: red;
+}
+
+div.urititle {
+    padding: 8px;
+    font-size: 2em;
+    /*text-align: center;*/
+    /*border: 1px solid #8cacbb;*/
+    /*background-color: #ecf5fa;*/
+}
+
+div.orgtitle {
+    padding: 8px;
+    font-size: 2em;
+}
+
+div.usertitle {
+    padding: 8px;
+    font-size: 2em;
+}
+
+div.parent-status {
+    position:absolute;
+    top:2px;
+    width:20em;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    padding: 3px;
+    padding-left: 8px;
+}
+
+table.mynav {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e1f3fa;
+}
+table.mynav th {
+    vertical-align: middle;
+    background-color: #eff4f7;
+}
+table.mynav td {
+    padding-left: 5px;
+    background-color: #eff4f7;
+}
+
+input.search {
+    font-size: small;
+}
+
+.orrportal-status {
+  position:absolute;
+  left:0;
+  padding: 1px 10px 1px 10px;
+  font-size: 12px;
+}
+
+div.parent-error {
+    width:80%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    padding: 3px;
+    padding-left: 8px;
+}
+.orrportal-error {
+    padding: 1px 10px 1px 10px;
+}
+
+.orrportal-lastRefresh {
+    color: gray;
+    font-size: small;
+}
+
+.orrportal-bold {
+    font-weight: bold;
+}
+
+.ontClass tr:nth-child(even) {
+    background-color: #fbfbfb;
+}
+
+.ontClass tr > th {
+    padding-top: 1px !important;
+    padding-bottom: 2px !important;
+}
+.ontClass tr > td {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+}
+
+/* trNgGrid sets "*-user-select: none" in general; why? */
+.ontClass > tbody > tr > td,
+.ontClass > tbody > tr > td > .tr-ng-cell {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+.header-navbar {
+    min-height: 0 !important;
+    margin-bottom: 0;
+}
+.summaryClass  {
+    /*width: inherit !important;*/
+    width: 100%;
+    margin-bottom: 0 !important;
+}
+.summaryClass > tfoot {
+    visibility: hidden !important;
+}
+.summaryPositionsClass  {
+    font-size: smaller;
+}
+
+.paddingNarrow {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}
+
+.narrowEH {
+    width: 5px;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    white-space: nowrap;
+}
+.narrowE {
+    width: 5px;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    text-align: center !important;
+    white-space: nowrap;
+    font-size: smaller
+}
+
+.tr-ng-sort-inactive {
+    color: lightgray;
+}
+
+input.globalFilter {
+    width: 12em !important;
+    height: 26px;
+    padding-bottom: 0;
+    padding-top: 0;
+    font-weight: lighter;
+}
+input.pageSize {
+    width: 4em !important;
+    height: 26px;
+    padding-bottom: 0;
+    padding-top: 0;
+    font-weight: lighter;
+}
+
+.navbar-text {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+div.mainBody {
+    margin-top: 9px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px #ccc;
+    border-radius: 4px;
+    border-style: solid;
+    background-color: #eff4f7
+}
+
+div.facetblock {
+    border: 1px #ccc;
+    border-radius: 4px;
+    border-style: solid;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+div.facetsubblock {
+    width: 100%;
+    overflow: auto;
+    overflow-x:hidden;"
+}
+.facetItemSelected {
+    width: 100%;
+    background-color: #d3d3d3;
+}
+
+.uriBody {
+    margin-top: 9px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 10px;
+    border: 1px solid #dee7ec;
+    border-radius: 4px;
+    background-color: #eff4f7
+}

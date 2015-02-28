@@ -1,0 +1,31 @@
+<div style="width: 100%" tooltip="Organization page minimally implemented">
+
+    <div class="orgtitle">
+        Organization short name: {{orgName}}
+    </div>
+
+    <div ng-show="org" class="orgtitle">
+
+        <div ng-show="org.name">
+            Name: {{org.name}}
+        </div>
+
+        <div ng-show="org.registered">
+            Registered: {{org.registered}}
+        </div>
+
+        <div ng-show="org.members">
+            Members:
+            <ul>
+                <li ng-repeat="userName in org.members | orderBy">
+                    <a ng-href="#/user/{{userName}}">{{userName}}</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div ng-show="error">
+        Error: {{error.error}} <br/>
+    </div>
+
+</div>

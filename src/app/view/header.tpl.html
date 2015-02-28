@@ -1,0 +1,38 @@
+<div class="effect1">
+  <div style="float: left; padding: 4px">
+        <span>
+            <a href="#/"><img src="img/logo-sm.png" style="vertical-align: middle"></a>
+            <span style="font-weight: bold; color: #285e8e">ORR Portal (prototype)</span>
+            <span ng-show="cfg.help">
+                <a target="_blank" class="btn btn-sm btn-link" style="color: darkgray; font-size: small"
+                   ng-href="{{cfg.help}}">@@version</a>
+            </span>
+            <span ng-show="!cfg.help" style="color: darkgray; font-size: small">
+                   @@version
+            </span>
+        </span>
+  </div>
+  <span style="width: 30px"></span> <!-- some filler -->
+
+    <span style="float: right; padding: 10px">
+        <span ng-hide="loginInfo.userName">
+            <button class="btn btn-default btn-link btn-xs"
+                    tooltip="Sign in" tooltip-placement="left"
+                    ng-click="signIn()">
+                <i class="fa fa-sign-in"></i>
+            </button>
+        </span>
+        <span ng-show="loginInfo.userName">
+            <a href="#/user/{{loginInfo.userName}}">{{loginInfo.userName}}</a>
+            <button class="btn btn-default btn-link btn-xs"
+                    tooltip="Sign out" tooltip-placement="left"
+                    ng-click="signOut()">
+                <i class="fa fa-sign-out"></i>
+            </button>
+
+        </span>
+    </span>
+
+  <div style="clear:both;"></div>
+</div>
+

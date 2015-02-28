@@ -1,0 +1,202 @@
+<div style="width: 100%" tooltip="page minimally implemented">
+
+    <br/>
+
+    <div class="effect1">
+
+        <span style="font-size: large">
+            {{uri}}
+        </span>
+
+        <span ng-show="ontology.versions">
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle>
+                    Versions <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="version in ontology.versions">
+                        <a ng-href="#/uri/{{uri}}&version={{version}}">{{version}}</a>
+                    </li>
+                </ul>
+            </div>
+        </span>
+    </div>
+
+    <div class="urititle">
+        <div ng-show="ontology" ng-bind-html="ontology.name | mklinks">
+        </div>
+    </div>
+
+    <div ng-show="ontology">
+
+        <div ng-show="ontology.version">
+            Version: {{ontology.version}}
+        </div>
+
+        <div ng-show="ontology.author">
+            Author: {{ontology.author}}
+        </div>
+
+<!--
+        <div ng-show="ontology.orgName">
+            Organization: {{ontology.orgName}}
+        </div>
+-->
+
+        <div ng-show="ontology.submitter">
+            Registered by: {{ontology.submitter}}
+        </div>
+
+        <div ng-show="ontology.metadata">
+
+            <tabset style="width: 100%">
+
+                <tab style="cursor: pointer" heading="General">
+
+                    <form class="form-horizontal uriBody">
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> resourceType </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.resourceType"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> contentCreator </label>
+                            <div class="col-xs-8"> {{ontology.contentCreator}} </div>
+                        </div>
+
+                        <div class="form-group"ng-show="ontology.ontologyCreator">
+                            <label class="col-xs-2"> ontologyCreator </label>
+                            <div class="col-xs-8"> {{ontology.ontologyCreator}} </div>
+                        </div>
+
+                        <div class="form-group"ng-show="ontology.description">
+                            <label class="col-xs-2"> description </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.description"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> keywords </label>
+                            <div class="col-xs-8"> {{ontology.keywords}} </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Original vocabulary </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.origVocUri"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> documentation </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.documentation"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Authority abbreviation </label>
+                            <div class="col-xs-8"> {{ontology.origMaintainerCode}} </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> contributor </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.contributor"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> reference </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.reference"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> ontologyType </label>
+                            <div class="col-xs-8"> {{ontology.ontologyType}} </div>
+                        </div>
+
+                    </form>
+
+                </tab>
+
+
+                <tab style="cursor: pointer" heading="Usage/License/Permissions">
+
+                    <form class="form-horizontal uriBody">
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Manager of source vocabulary: </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.origVocManager"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Contact/Responsible Party: </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.contact"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Contact role: </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.contactRole"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Temporary Mmi role: </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.temporaryMmiRole"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Author credit required: </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.creditRequired"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Citation string: </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.creditCitation"></div>
+                        </div>
+
+
+                    </form>
+
+                </tab>
+
+
+                <tab style="cursor: pointer" heading="Original source">
+
+                    <form class="form-horizontal uriBody">
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Documentation: </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.origVocDocumentationUri"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Descriptive name: </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.origVocDescriptiveName"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Version: </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.origVocVersionId"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Keywords </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.origVocKeywords"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-2"> Syntax format: </label>
+                            <div class="col-xs-8" ng-bind-html="ontology.origVocSyntaxFormat"></div>
+                        </div>
+
+                    </form>
+
+                </tab>
+
+
+            </tabset>
+
+            <!--<pre>{{ontology.metadata | json}}</pre>-->
+        </div>
+    </div>
+
+    <div ng-show="error">
+        Error: {{error.error}} <br/>
+    </div>
+
+</div>

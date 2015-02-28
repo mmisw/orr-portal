@@ -1,0 +1,42 @@
+<div style="width: 100%" tooltip="User page minimally implemented">
+
+    <div class="usertitle">
+        Username: {{userName}}
+    </div>
+
+    <div ng-show="user" class="usertitle">
+
+        <div ng-show="user.firstName">
+            First name: {{user.firstName}}
+        </div>
+
+        <div ng-show="user.lastName">
+            Last name: {{user.lastName}}
+        </div>
+
+        <div ng-show="user.email">
+            Email: {{user.email}}
+        </div>
+
+        <div ng-show="user.ontUri">
+            Ontology: {{user.ontUri}}
+        </div>
+
+        <div ng-show="user.phone">
+            Phone: {{user.phone}}
+        </div>
+
+        <div ng-show="user.registered">
+            Registered: {{user.registered}}
+        </div>
+
+        <div ng-show="user.updated">
+            Updated: {{user.updated}}
+        </div>
+
+    </div>
+    <div ng-show="error">
+        Error: {{error.error}} <br/>
+    </div>
+
+</div>

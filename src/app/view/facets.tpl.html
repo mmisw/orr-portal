@@ -1,0 +1,54 @@
+<div style="width: 100%">
+
+    <br/>
+    <div style="width: 100%; display: inline-block; position: relative">
+        <label style="font-weight: lighter" tooltip="partially implemented">Faceted search</label>
+        <span style="position: absolute; top: 1px; right: 5px"
+              ng-show="anyFacetSelection()"
+              ng-click="clearFacetSelection()"
+              tooltip="Clear selections in all facets"
+              tooltip-placement="right"
+                >
+            <span class="fa fa-times fa-lg"></span>
+        </span>
+    </div>
+
+    <div style="width: 100%">
+        <div ng-repeat="facet in facetArray">
+            <div class="facetblock" tooltip="{{facet.tooltip}}" tooltip-placement="right">
+                <div style="width: 100%; display: inline-block; position: relative">
+                    <label style="font-size: small">{{facet.label}}</label>
+                    <span style="position: absolute; top: 1px; right: 5px"
+                          ng-show="anyFacetSelection(facet.key)"
+                          ng-click="clearFacetSelection(facet.key)"
+                          tooltip="Clear all selections in this facet"
+                          tooltip-placement="right"
+                    >
+                        <span class="fa fa-times"></span>
+                    </span>
+                </div>
+
+                <div ng-show="facet.key === 'org'" style="background-color: #f3f3f3">
+                    <div tooltip="Show only the most recent ontology per organization?"
+                         tooltip-placement="right"
+                    >
+                        <label style="font-weight: lighter; white-space: nowrap">
+                            Most recent ontology<input type="checkbox" ng-model="todo.mostRecentByOrg">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="facetsubblock" style="height: {{facet.height}}" >
+                    <div ng-repeat="item in facet.selection">
+                        <label style="font-weight: lighter" ng-class="{facetItemSelected: item.selected}">
+                            <input type="checkbox" ng-model="item.selected">
+                            {{item.label}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 5px"></div>
+        </div>
+    </div>
+
+</div>
