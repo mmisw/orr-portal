@@ -1,29 +1,41 @@
 <div style="width: 100%" tooltip="Organization page minimally implemented">
 
-    <div class="orgtitle">
-        Organization short name: {{orgName}}
+    <br/>
+
+    <div class="effect1">
+        <span style="font-size: large">
+            <span style="color: gray">
+                Organization:
+            </span>
+            <span style="font-weight: bold">
+                {{orgName}}
+            </span>
+        </span>
     </div>
 
-    <div ng-show="org" class="orgtitle">
+    <form ng-show="org" class="form-horizontal uriBody">
 
-        <div ng-show="org.name">
-            Name: {{org.name}}
+        <div class="form-group" ng-show="org.name">
+            <label class="col-xs-2"> Name: </label>
+            <div class="col-xs-4" ng-bind-html="org.name"></div>
         </div>
 
-        <div ng-show="org.registered">
-            Registered: {{org.registered}}
+        <div class="form-group" ng-show="org.registered">
+            <label class="col-xs-2"> Registered: </label>
+            <div class="col-xs-4"> {{org.registered}} </div>
         </div>
 
-        <div ng-show="org.members">
-            Members:
-            <ul>
-                <li ng-repeat="userName in org.members | orderBy">
+        <div class="form-group"ng-show="org.members">
+            <label class="col-xs-2"> Members: </label>
+            <div class="col-xs-4">
+                <span ng-repeat="userName in org.members | orderBy">
                     <a ng-href="#/user/{{userName}}">{{userName}}</a>
-                </li>
-            </ul>
+                </span>
+            </div>
         </div>
 
-    </div>
+    </form>
+
     <div ng-show="error">
         Error: {{error.error}} <br/>
     </div>

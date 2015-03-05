@@ -1,40 +1,47 @@
 <div style="width: 100%" tooltip="User page minimally implemented">
 
-    <div class="usertitle">
-        Username: {{userName}}
+    <br/>
+
+    <div class="effect1">
+        <span style="font-size: large">
+            <span style="color: gray">
+                {{userName}} -
+            </span>
+            <span style="font-weight: bold">
+                {{user.firstName}} {{user.lastName}}
+            </span>
+        </span>
     </div>
 
-    <div ng-show="user" class="usertitle">
+    <form ng-show="user" class="form-horizontal uriBody">
 
-        <div ng-show="user.firstName">
-            First name: {{user.firstName}}
+        <div class="form-group" ng-show="user.email">
+            <label class="col-xs-2"> Email: </label>
+            <div class="col-xs-4" ng-bind-html="user.email"></div>
         </div>
 
-        <div ng-show="user.lastName">
-            Last name: {{user.lastName}}
+        <div class="form-group" ng-show="user.ontUri">
+            <label class="col-xs-2"> RDF: </label>
+            <div class="col-xs-4"> {{user.ontUri}} </div>
         </div>
 
-        <div ng-show="user.email">
-            Email: {{user.email}}
+        <div class="form-group"ng-show="user.phone">
+            <label class="col-xs-2"> Phone: </label>
+            <div class="col-xs-4"> {{user.phone}} </div>
         </div>
 
-        <div ng-show="user.ontUri">
-            Ontology: {{user.ontUri}}
+        <div class="form-group"ng-show="user.registered">
+            <label class="col-xs-2"> Registered: </label>
+            <div class="col-xs-4"> {{user.registered}} </div>
         </div>
 
-        <div ng-show="user.phone">
-            Phone: {{user.phone}}
+        <div class="form-group"ng-show="user.updated">
+            <label class="col-xs-2"> Updated: </label>
+            <div class="col-xs-4"> {{user.updated}} </div>
         </div>
 
-        <div ng-show="user.registered">
-            Registered: {{user.registered}}
-        </div>
+    </form>
 
-        <div ng-show="user.updated">
-            Updated: {{user.updated}}
-        </div>
-
-    </div>
     <div ng-show="error">
         Error: {{error.error}} <br/>
     </div>
