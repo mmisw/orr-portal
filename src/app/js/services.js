@@ -13,12 +13,15 @@ function serviceFactory($rootScope, $http) {
     var refreshing = false;
     var ontologies = undefined;
     var orgs = undefined;
+    var doRefreshOntologies = false;
 
     return {
         isRefreshing:  function() { return refreshing; },
 
         getOntologies:     getOntologies,
         refreshOntologies: refreshOntologies,
+        setDoRefreshOntologies: setDoRefreshOntologies,
+
         refreshOntology:   refreshOntology,
         refreshOntologyMetadata: refreshOntologyMetadata,
 
@@ -29,11 +32,20 @@ function serviceFactory($rootScope, $http) {
         signIn:            signIn
     };
 
+    /**
+     * With true, allows to force a refresh of the ontology list if that page is visited.
+     */
+    function setDoRefreshOntologies(b) {
+        console.log(appUtil.logTs() + ": setDoRefreshOntologies: " + b);
+        doRefreshOntologies = b;
+    }
+
     function getOntologies(gotOntologies) {
-        if (ontologies) {
+        if (ontologies && !doRefreshOntologies) {
             gotOntologies(null, ontologies);
         }
         else {
+            doRefreshOntologies = false;
             refreshOntologies(gotOntologies);
         }
     }

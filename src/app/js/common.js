@@ -13,9 +13,9 @@ angular.module('orrportal.common', [
     .config(routes)
 ;
 
-init.$inject = ['$rootScope', '$location', 'cfg'];
+init.$inject = ['$rootScope', '$location', 'cfg', 'service'];
 
-function init(scope, $location, cfg) {
+function init(scope, $location, cfg, service) {
     if (appUtil.debug) console.log("++INIT++");
 
     scope.debug = appUtil.debug;
@@ -38,6 +38,8 @@ function init(scope, $location, cfg) {
         _.forOwn(scope.loginInfo, function(val, key) {
             scope.loginInfo[key] = undefined;
         });
+        service.setDoRefreshOntologies(true);
+        scope.refresh();
     };
     scope.isPrivilegedSession = function() {
         return appConfig.orront.secret && scope.loginInfo.role === "extra";

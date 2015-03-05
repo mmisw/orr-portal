@@ -42,6 +42,7 @@ function LoginController($scope, $routeParams, $location, service) {
             }
             else {
                 if (loginInfo.userName === $scope.vm.userName) {
+                    service.setDoRefreshOntologies(true);
                     _.assign($scope.loginInfo, loginInfo);
                     var redir = $scope.redirect;
                     if (redir) {
