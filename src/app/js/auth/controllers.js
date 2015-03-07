@@ -1,13 +1,13 @@
 (function() {
 'use strict';
 
-angular.module('orrportal.login', [])
+angular.module('orrportal.login', ['orrportal.auth'])
     .controller('LoginController', LoginController)
 ;
 
-LoginController.$inject = ['$scope', '$routeParams', '$location', 'service'];
+LoginController.$inject = ['$scope', '$routeParams', '$location', 'service', 'authService'];
 
-function LoginController($scope, $routeParams, $location, service) {
+function LoginController($scope, $routeParams, $location, service, authService) {
     if (appUtil.debug) console.log("++LoginController++");
 
     $scope.redirect = $routeParams.redirect;
@@ -33,7 +33,7 @@ function LoginController($scope, $routeParams, $location, service) {
         }
 
         $scope.error = undefined;
-        service.signIn($scope.vm.userName, $scope.vm.password, gotLogin);
+        authService.signIn($scope.vm.userName, $scope.vm.password, gotLogin);
 
         function gotLogin(error, loginInfo) {
             if (error) {

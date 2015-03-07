@@ -28,8 +28,7 @@ function serviceFactory($rootScope, $http) {
         getOrgs:           getOrgs,
         refreshOrg:        refreshOrg,
 
-        refreshUser:       refreshUser,
-        signIn:            signIn
+        refreshUser:       refreshUser
     };
 
     /**
@@ -224,38 +223,6 @@ function serviceFactory($rootScope, $http) {
                 gotUser(null, res);
             })
             .error(httpErrorHandler(gotUser))
-    }
-
-    function signIn(userName, password, gotLogin) {
-
-        setRefreshing(true);
-
-        var reqPath = "/api/v0/user/chkpw";
-        var url = appConfig.orront.rest + reqPath;
-
-        var body = {
-            userName: userName,
-            password: password
-        };
-
-        var params = ["userName=" + userName];
-
-        if ($rootScope.isPrivilegedSession()) {
-            params.push(appUtil.getHmacParam("POST," + reqPath));
-        }
-
-        if (params.length > 0) {
-            url += "?" + params.join('&');
-        }
-
-        console.log(appUtil.logTs() + ": GET " + url);
-        $http.post(url, body)
-            .success(function(res, status, headers, config) {
-                console.log(appUtil.logTs() + ": chkpw: ", res);
-                setRefreshing(false);
-                gotLogin(null, res);
-            })
-            .error(httpErrorHandler(gotLogin))
     }
 
     function setRefreshing(b) {

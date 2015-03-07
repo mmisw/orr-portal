@@ -82,7 +82,7 @@ function routes($routeProvider) {
         })
 
         .when('/signIn', {
-            templateUrl: 'view/login.tpl.html',
+            templateUrl: 'js/auth/views/login.tpl.html',
             controller: 'LoginController'
         })
         .when('/signIn/:redirect*', {
