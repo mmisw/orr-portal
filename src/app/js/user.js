@@ -26,6 +26,7 @@ function refreshUser($scope, userName, service) {
             $scope.error = error;
         }
         else {
+            //console.log("gotUser=", user);
             $scope.user = user;
         }
     }

@@ -13,7 +13,8 @@ function LoginController($scope, $routeParams, $location, service, authService) 
     $scope.redirect = $routeParams.redirect;
     $scope.vm = {
         userName: "",
-        password: ""
+        password: "",
+        rememberMe: false
     };
     $scope.error = undefined;
 
@@ -33,7 +34,7 @@ function LoginController($scope, $routeParams, $location, service, authService) 
         }
 
         $scope.error = undefined;
-        authService.signIn($scope.vm.userName, $scope.vm.password, gotLogin);
+        authService.signIn($scope.vm, gotLogin);
 
         function gotLogin(error, loginInfo) {
             if (error) {

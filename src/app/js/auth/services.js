@@ -1,38 +1,83 @@
 (function() {
 'use strict';
 
-angular.module('orrportal.auth', [])
+angular.module('orrportal.auth', ['ipCookie', 'base64'])
     .factory('authService', authServiceFactory)
 ;
 
-authServiceFactory.$inject = ['$rootScope', '$http'];
+authServiceFactory.$inject = ['$rootScope', '$http', '$base64', 'ipCookie'];
 
-function authServiceFactory($rootScope, $http) {
+function authServiceFactory($rootScope, $http, $base64, ipCookie) {
     if (appUtil.debug) console.log("++authServiceFactory++");
 
     return {
-        signIn: signIn
+        initAuthentication: initAuthentication,
+
+        signIn:   signIn,
+        signOut:  signOut,
+
+        isAdmin:  isAdmin
     };
 
-    function signIn(userName, password, gotLogin) {
+    function initAuthentication() {
+        if ($rootScope.loginInfo.auth) {
+            $http.defaults.headers.common.Authorization = 'Basic ' + $rootScope.loginInfo.auth;
+        }
+    }
 
-        console.log("HERE!!!!!");
+    function isAdmin() {
+        return $rootScope.loginInfo &&
+            ($rootScope.loginInfo.userName === "admin" || $rootScope.loginInfo.role === "extra");
+    }
 
-        var reqPath = "/api/v0/user/chkpw";
+    function signIn(vm, gotLogin) {
+        var reqPath = "/api/v0/user/auth";
         var url = appConfig.orront.rest + reqPath;
 
         var body = {
-            userName: userName,
-            password: password
+            userName: vm.userName,
+            password: vm.password
         };
 
         console.log(appUtil.logTs() + ": GET " + url);
         $http.post(url, body)
             .success(function(res, status, headers, config) {
-                console.log(appUtil.logTs() + ": chkpw: ", res);
-                gotLogin(null, res);
+                console.log(appUtil.logTs() + ": user/auth:", res);
+                doLoginOk(vm, res, gotLogin);
             })
             .error(httpErrorHandler(gotLogin))
+    }
+
+    function doLoginOk(vm, res, gotLogin) {
+        var auth = $base64.encode(vm.userName + ":" + vm.password);
+        $http.defaults.headers.common.Authorization = 'Basic ' + auth;
+
+        $rootScope.loginInfo.userName = vm.userName;
+        $rootScope.loginInfo.auth     = auth;
+
+        var ontorr = ipCookie("ontorr") || {};
+        if (vm.rememberMe) {
+            ontorr.loginInfo = {userName: vm.userName, auth: auth};
+            //console.log("ontorr.loginInfo=", ontorr.loginInfo);
+        }
+        else {
+            ontorr.loginInfo = undefined;
+        }
+        ipCookie("ontorr", ontorr, {expires: 365 /*days*/, path: "/"});
+
+        gotLogin(null, res);
+    }
+
+    function signOut() {
+        $http.defaults.headers.common.Authorization = '';
+
+        _.forOwn($rootScope.loginInfo, function(val, key) {
+            $rootScope.loginInfo[key] = undefined;
+        });
+
+        var ontorr = ipCookie("ontorr") || {};
+        ontorr.loginInfo = undefined;
+        ipCookie("ontorr", ontorr, {expires: 365 /*days*/, path: "/"});
     }
 
     function httpErrorHandler(cb) {

@@ -36,6 +36,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="inputRememberMe" class="control-label col-xs-4">
+                        Remember me:
+                    </label>
+                    <div class="col-xs-5">
+                        <input id="inputRememberMe"
+                               type="checkbox"
+                               ng-model="vm.rememberMe"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="col-xs-3"> </label>
                     <button class="btn btn-primary btn-sm" ng-click="doLogin()"
                             ng-disabled="refreshing || !isValid()"

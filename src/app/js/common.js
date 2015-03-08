@@ -13,9 +13,9 @@ angular.module('orrportal.common', [
     .config(routes)
 ;
 
-init.$inject = ['$rootScope', '$location', 'cfg', 'service'];
+init.$inject = ['$rootScope', '$location', 'cfg', 'service', 'ipCookie', 'authService'];
 
-function init(scope, $location, cfg, service) {
+function init(scope, $location, cfg, service, ipCookie, authService) {
     if (appUtil.debug) console.log("++INIT++");
 
     scope.debug = appUtil.debug;
@@ -27,7 +27,9 @@ function init(scope, $location, cfg, service) {
 
     scope.cfg = cfg;
 
-    scope.loginInfo = {};
+    scope.loginInfo = (ipCookie("ontorr") || {}).loginInfo || {};
+    //console.log("scope.loginInfo=", scope.loginInfo);
+    authService.initAuthentication();
     scope.signIn = function() {
         var redirect = $location.url();
         if (!redirect.startsWith("/signIn")) {
@@ -35,15 +37,11 @@ function init(scope, $location, cfg, service) {
         }
     };
     scope.signOut = function() {
-        _.forOwn(scope.loginInfo, function(val, key) {
-            scope.loginInfo[key] = undefined;
-        });
+        authService.signOut();
         service.setDoRefreshOntologies(true);
         scope.refresh();
     };
-    scope.isPrivilegedSession = function() {
-        return appConfig.orront.secret && scope.loginInfo.role === "extra";
-    };
+    scope.isPrivilegedSession = authService.isAdmin;
 
     scope.refresh = function() {
         scope.$broadcast('refresh');
@@ -86,7 +84,7 @@ function routes($routeProvider) {
             controller: 'LoginController'
         })
         .when('/signIn/:redirect*', {
-            templateUrl: 'view/login.tpl.html',
+            templateUrl: 'js/auth/views/login.tpl.html',
             controller: 'LoginController'
         })
 

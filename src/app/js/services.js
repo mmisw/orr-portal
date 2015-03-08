@@ -58,9 +58,9 @@ function serviceFactory($rootScope, $http) {
 
         var params = [];
 
-        if ($rootScope.isPrivilegedSession()) {
-            params.push(appUtil.getHmacParam("GET," + reqPath));
-        }
+        //if ($rootScope.isPrivilegedSession()) {
+        //    params.push(appUtil.getHmacParam("GET," + reqPath));
+        //}
 
         if (params.length > 0) {
             url += "?" + params.join('&');
@@ -88,9 +88,9 @@ function serviceFactory($rootScope, $http) {
 
         var params = ['uri=' +uri, 'format=!md'];
 
-        if ($rootScope.isPrivilegedSession()) {
-            params.push(appUtil.getHmacParam("GET," + reqPath));
-        }
+        //if ($rootScope.isPrivilegedSession()) {
+        //    params.push(appUtil.getHmacParam("GET," + reqPath));
+        //}
 
         if (params.length > 0) {
             url += "?" + params.join('&');
@@ -180,9 +180,9 @@ function serviceFactory($rootScope, $http) {
 
         var params = [];
 
-        if ($rootScope.isPrivilegedSession()) {
-            params.push(appUtil.getHmacParam("GET," + reqPath));
-        }
+        //if ($rootScope.isPrivilegedSession()) {
+        //    params.push(appUtil.getHmacParam("GET," + reqPath));
+        //}
 
         if (params.length > 0) {
             url += "?" + params.join('&');
@@ -207,9 +207,9 @@ function serviceFactory($rootScope, $http) {
 
         var params = [];
 
-        if ($rootScope.isPrivilegedSession()) {
-            params.push(appUtil.getHmacParam("GET," + reqPath));
-        }
+        //if ($rootScope.isPrivilegedSession()) {
+        //    params.push(appUtil.getHmacParam("GET," + reqPath));
+        //}
 
         if (params.length > 0) {
             url += "?" + params.join('&');

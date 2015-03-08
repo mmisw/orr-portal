@@ -46,20 +46,29 @@ function OntGridController($scope, $routeParams, $location, $filter, uiGridConst
         //}
     };
 
-    setColumnDefs();
+    $scope.gridOptions.columnDefs = getCommonColumnDefs();
 
-    function setColumnDefs() {
-        $scope.gridOptions.columnDefs = [
+    function getCommonColumnDefs() {
+        return [
             { field: 'uri',       minWidth: 400, displayName: 'URI', enableHiding: false, cellTemplate: mklinksCellTemplate },
             { field: 'name',      cellTemplate: markCellTemplate },
             { field: 'author',    width: 220},
             { field: 'orgName',   width: 110, displayName: 'Org', cellTemplate: orgCellTemplate},
             { field: 'version',   width: 130, sort: { direction: uiGridConstants.DESC } }
         ];
-        if ($scope.isPrivilegedSession()) {
-            $scope.gridOptions.columnDefs.push(
-                { field: 'submitter', width: 120, cellTemplate: userCellTemplate}
-            );
+    }
+    function adjustColumnDefs(ontologies) {
+        var dataHasSubmitter = _.some(ontologies, "submitter");
+        var gridHasSubmitter = _.some($scope.gridOptions.columnDefs, {field: "submitter"});
+        if (dataHasSubmitter !== gridHasSubmitter) {
+            if (dataHasSubmitter) {
+                $scope.gridOptions.columnDefs.push(
+                    {field: 'submitter', width: 120, cellTemplate: userCellTemplate}
+                );
+            }
+            else {
+                $scope.gridOptions.columnDefs = getCommonColumnDefs();
+            }
         }
     }
 
@@ -92,7 +101,7 @@ function OntGridController($scope, $routeParams, $location, $filter, uiGridConst
 
     $scope.$on('setFacetSelectedOntologies', function(event, ontologies) {
         //console.log(appUtil.logTs() + ": on setFacetSelectedOntologies");
-        setColumnDefs();
+        adjustColumnDefs(ontologies);
         addOntologies($scope, ontologies);
     });
 
