@@ -1,4 +1,8 @@
-# A prototype for a new ORR Portal
+## A prototype for a new ORR Portal
+
+This user interface is against the [orr-ont](https://github.com/mmisw/orr-ont) endpoint.
+
+### Development
 
 ```
 $ npm install
@@ -7,11 +11,20 @@ $ http-server
 $ open http://localhost:8080/src/app/indexdev.html
 ```
 
-A deployable zip archive is created under `dist/` by running `gulp`.
+A installable zip archive is created under `dist/` by running `gulp`.
+
+### Test installation
+
+https://mmisw.org/experimental/orrportal/indexdev.html
+
+**Status**: very preliminary
 
 
 ## ChangeLog ##
 
+* 2015-03-08: 0.0.2
+    * initial authentication scheme
+
 * 2015-02-27: 0.0.1
-    * initial version, with lots to do still
+    * initial version
 

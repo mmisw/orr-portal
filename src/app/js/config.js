@@ -1,4 +1,5 @@
 var appConfig = {
+    help: "https://github.com/mmisw/orr-portal",
     orront: {
         rest: "https://mmisw.org/orr-ont",
         selfHostPrefix: "http://mmisw.org/ont/",
