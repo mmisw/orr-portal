@@ -41,7 +41,7 @@ function init(scope, $location, cfg, service, ipCookie, authService) {
         service.setDoRefreshOntologies(true);
         scope.refresh();
     };
-    scope.isPrivilegedSession = authService.isAdmin;
+    //scope.isPrivilegedSession = authService.isAdmin;
 
     scope.refresh = function() {
         scope.$broadcast('refresh');

@@ -12,6 +12,7 @@ function facetModelFactory($rootScope) {
     if (appUtil.debug) console.log("++facetModel++");
 
     var ontologies = [];
+    var dataHasSubmitter = false;
 
     var mostRecentByOrg = false;
 
@@ -28,7 +29,6 @@ function facetModelFactory($rootScope) {
             selection: []
         },
         usr: {
-            privileged: true,
             label: "Submitter",
             height: "160px",
             fieldName: "submitter",
@@ -96,7 +96,7 @@ function facetModelFactory($rootScope) {
             if(facets[facetKey] !== undefined) alert("ERROR: repeated facet key: " + facetKey);
             if(facetDict[facetKey] === undefined) alert("ERROR: facet key not found: " + facetKey);
             var facet = facetDict[facetKey];
-            if ($rootScope.isPrivilegedSession() || !facet.privileged) {
+            if (facetKey !== "usr" || dataHasSubmitter) {
                 facet.key = facetKey;
                 facets[facetKey] = facet;
                 facetArray.push(facet);
@@ -105,6 +105,7 @@ function facetModelFactory($rootScope) {
     }
 
     function setOntologies(onts) {
+        dataHasSubmitter = _.some(onts, "submitter");
         //console.log(appUtil.logTs() + ": facetModel on gotOntologies");
         resetFacets();
         ontologies = onts;
