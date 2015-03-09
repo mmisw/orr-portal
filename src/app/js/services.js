@@ -131,10 +131,12 @@ function serviceFactory($rootScope, $http) {
             'where { <' + uri + '> ?predicate ?value. }\n' +
             'order by ?predicate';
 
+        // un-define the Authorization header for the sparqlEndpoint
+        var headers = {Authorization: undefined};
         var url = appConfig.orront.sparqlEndpoint;
         var params = {query: query};
         console.log(appUtil.logTs() + ": GET " + url, params);
-        $http.get(appConfig.orront.sparqlEndpoint, {params: params})
+        $http.get(appConfig.orront.sparqlEndpoint, {params: params, headers: headers})
             .success(function(data, status, headers, config) {
                 console.log(appUtil.logTs() + ": got metadata: ", data);
                 setRefreshing(false);
