@@ -24,6 +24,7 @@ https://mmisw.org/experimental/orrportal/indexdev.html
 
 * 2015-03-08: 0.0.3
     * enable ontologyTye and resourceType facets
+    * all facet values set to lowercase for unification of mixed case in original values
 
 * 2015-03-08: 0.0.2
     * initial authentication scheme
