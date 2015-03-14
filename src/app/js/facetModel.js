@@ -17,7 +17,7 @@ function facetModelFactory($rootScope) {
     var mostRecentByOrg = false;
 
     // determines the desired display order
-    var facetKeys = ["org", "usr", "ontologyStatus", "hosting", "ontologyType", "resourceType"];
+    var facetKeys = ["org", "usr", "ontologyStatus", "ontologyType", "resourceType", "hosting"];
 
     // facet definitions
     var facetDict = {
@@ -36,9 +36,9 @@ function facetModelFactory($rootScope) {
             selection: []
         },
         ontologyType: {
-            tooltip: "not implemented yet",  // todo
             label: "Ontology type",
             height: "48px",
+            fieldName: "ontologyType",
             list: ['vocabulary', 'mapping'],
             selection: []
         },
@@ -50,9 +50,9 @@ function facetModelFactory($rootScope) {
             selection: []
         },
         resourceType: {
-            tooltip: "not implemented yet",  // todo
             label: "Resource type",
             height: "60px",
+            fieldName: "resourceType",
             list: ['discipline', 'parameter', 'platform', 'sensor', 'unit'],
             selection: []
         },

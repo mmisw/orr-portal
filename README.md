@@ -22,6 +22,9 @@ https://mmisw.org/experimental/orrportal/indexdev.html
 
 ## ChangeLog ##
 
+* 2015-03-08: 0.0.3
+    * enable ontologyTye and resourceType facets
+
 * 2015-03-08: 0.0.2
     * initial authentication scheme
 
