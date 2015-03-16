@@ -123,8 +123,8 @@ function facetModelFactory($rootScope) {
     function prepareFacetWithFieldName(facetKey, fieldName) {
         facets[facetKey].list = _.chain(ontologies)
             .map(function(ont) {
-                var val = ont[fieldName];
-                return val !== undefined ? val.toString().toLowerCase() : val;
+                var val = ont[fieldName] || "";
+                return val.toString().toLowerCase();
             })
             .uniq()
             .sortBy(function(val) { return val })
@@ -169,8 +169,8 @@ function facetModelFactory($rootScope) {
                 //console.log(appUtil.logTs() + ": selectedByFieldName:", selectedByFieldName);
                 if (selectedByFieldName.length && selectedByFieldName.length < facet.list.length) {
                     selectedOnts = _.filter(selectedOnts, function(ont) {
-                        var val = ont[facet.fieldName];
-                        return val && _.contains(selectedByFieldName, val.toLowerCase());
+                        var val = ont[facet.fieldName] || "";
+                        return _.contains(selectedByFieldName, val.toLowerCase());
                     });
                 }
             }
