@@ -7,22 +7,23 @@ This user interface is against the [orr-ont](https://github.com/mmisw/orr-ont) e
 ```
 $ npm install
 $ bower install
-$ http-server
-$ open http://localhost:8080/src/app/indexdev.html
+$ gulp dev   # launches server and browser for local testing
+$ gulp dist  # creates installable zip archive under dist/
 ```
 
-A installable zip archive is created under `dist/` by running `gulp`.
+### Test deployment
 
-### Test installation
+https://mmisw.org/experimental/orrportal/
 
-https://mmisw.org/experimental/orrportal/indexdev.html
-
-**Status**: very preliminary
+**Status**: pre-alpha
 
 
 ## ChangeLog ##
 
-* 2015-03-08: 0.0.3
+* 2015-03-15: 0.0.4
+    * 'gulp dev' to launch server and browser for local testing
+
+* 2015-03-14: 0.0.3
     * enable ontologyTye and resourceType facets
     * all facet values set to lowercase for unification of mixed case in original values
 

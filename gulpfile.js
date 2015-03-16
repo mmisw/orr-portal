@@ -7,6 +7,8 @@ var merge       = require('merge-stream');
 var concat      = require('gulp-concat');
 var uglify      = require('gulp-uglify');
 var rename      = require('gulp-rename');
+var webserver   = require('gulp-webserver');
+var open        = require('open');
 
 
 var bower = require('./bower');
@@ -20,6 +22,28 @@ var zipDest = './dist';
 gutil.log("building version ", version);
 
 gulp.task('default', ['dist']);
+
+
+/////////////////////////////////////////////////////////////////////////////
+// local development/testing
+
+var localPort   = 9001;
+var localUrl    = 'http://localhost:' +localPort+ '/src/app/';
+
+gulp.task('dev', ['webserver'], function(cb) {
+    open(localUrl);
+    cb();
+});
+
+gulp.task('webserver', function() {
+    gulp.src('.')
+        .pipe(webserver({port: localPort}))
+    ;
+});
+
+
+/////////////////////////////////////////////////////////////////////////////
+// dist
 
 gulp.task('dist', ['min'], function(){
   return gulp.src([distDest + '/**'])
