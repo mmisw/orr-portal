@@ -70,12 +70,12 @@ function routes($routeProvider) {
         })
 
         .when('/org/:orgName*', {
-            templateUrl: 'view/org.tpl.html',
+            templateUrl: 'js/org/views/org.tpl.html',
             controller: 'OrgController'
         })
 
         .when('/user/:userName*', {
-            templateUrl: 'view/user.tpl.html',
+            templateUrl: 'js/user/views/user.tpl.html',
             controller: 'UserController'
         })
 
