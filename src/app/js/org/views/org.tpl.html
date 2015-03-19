@@ -1,4 +1,4 @@
-<div style="width: 100%" tooltip="Organization page minimally implemented">
+<div style="width: 100%">
 
     <br/>
 
@@ -17,7 +17,9 @@
 
         <div class="form-group" ng-show="org.name">
             <label class="col-xs-2"> Name: </label>
-            <div class="col-xs-4" ng-bind-html="org.name"></div>
+            <div class="col-xs-4" style="font-size: larger">
+                <a href="#/org/{{org.name}}">{{org.name}}</a>
+            </div>
         </div>
 
         <div class="form-group" ng-show="org.registered">
@@ -27,9 +29,10 @@
 
         <div class="form-group"ng-show="org.members">
             <label class="col-xs-2"> Members: </label>
-            <div class="col-xs-4">
+            <div class="col-xs-4" style="font-size: larger">
                 <span ng-repeat="userName in org.members | orderBy">
                     <a ng-href="#/user/{{userName}}">{{userName}}</a>
+                    &nbsp;
                 </span>
             </div>
         </div>

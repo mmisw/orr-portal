@@ -1,4 +1,4 @@
-<div style="width: 100%" tooltip="page minimally implemented">
+<div style="width: 100%">
 
     <br/>
 
@@ -22,20 +22,16 @@
         </span>
     </div>
 
-    <div class="urititle">
-        <div ng-show="ontology" ng-bind-html="ontology.name | mklinks">
-        </div>
-    </div>
-
     <div ng-show="ontology">
-
-        <div ng-show="ontology.version">
+        <span class="urititle" ng-bind-html="ontology.name | mklinks">
+        </span>
+        <span ng-show="ontology.version">
             Version: {{ontology.version}}
-        </div>
+        </span>
 
-        <div ng-show="ontology.author">
-            Author: {{ontology.author}}
-        </div>
+        <span ng-show="ontology.author">
+            - Author: {{ontology.author}}
+        </span>
 
 <!--
         <div ng-show="ontology.orgName">
@@ -43,9 +39,10 @@
         </div>
 -->
 
-        <div ng-show="ontology.submitter">
-            Registered by: {{ontology.submitter}}
-        </div>
+        <span ng-show="ontology.submitter">
+            - Registered by:
+            <a href="#/user/{{ontology.submitter}}">{{ontology.submitter}}</a>
+        </span>
 
         <div ng-show="ontology.metadata">
 
@@ -56,57 +53,61 @@
                     <form class="form-horizontal uriBody">
 
                         <div class="form-group">
-                            <label class="col-xs-2"> resourceType </label>
+                            <label class="col-xs-2"> Resource Type: </label>
                             <div class="col-xs-8" ng-bind-html="ontology.resourceType"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-2"> contentCreator </label>
+                            <label class="col-xs-2"> Content Creator: </label>
                             <div class="col-xs-8"> {{ontology.contentCreator}} </div>
                         </div>
 
                         <div class="form-group"ng-show="ontology.ontologyCreator">
-                            <label class="col-xs-2"> ontologyCreator </label>
+                            <label class="col-xs-2"> Ontology Creator: </label>
                             <div class="col-xs-8"> {{ontology.ontologyCreator}} </div>
                         </div>
 
                         <div class="form-group"ng-show="ontology.description">
-                            <label class="col-xs-2"> description </label>
-                            <div class="col-xs-8" ng-bind-html="ontology.description"></div>
+                            <label class="col-xs-2"> Description: </label>
+                            <div class="col-xs-8" style="font-size: larger"
+                                 ng-bind-html="ontology.description"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-2"> keywords </label>
-                            <div class="col-xs-8"> {{ontology.keywords}} </div>
+                            <label class="col-xs-2"> Keywords: </label>
+                            <div class="col-xs-8" style="font-size: larger"> {{ontology.keywords}} </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-2"> Original vocabulary </label>
+                            <label class="col-xs-2"> Original vocabulary: </label>
                             <div class="col-xs-8" ng-bind-html="ontology.origVocUri"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-2"> documentation </label>
+                            <label class="col-xs-2"> Documentation: </label>
                             <div class="col-xs-8" ng-bind-html="ontology.documentation"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-2"> Authority abbreviation </label>
-                            <div class="col-xs-8"> {{ontology.origMaintainerCode}} </div>
+                            <label class="col-xs-2"> Organization: </label>
+                            <div class="col-xs-8" style="font-size: larger">
+                                <a href="#/org/{{ontology.origMaintainerCode}}">{{ontology.origMaintainerCode}}</a>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-2"> contributor </label>
-                            <div class="col-xs-8" ng-bind-html="ontology.contributor"></div>
+                            <label class="col-xs-2"> Contributor(s): </label>
+                            <div class="col-xs-8" style="font-size: larger"
+                                 ng-bind-html="ontology.contributor"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-2"> reference </label>
+                            <label class="col-xs-2"> Reference(s): </label>
                             <div class="col-xs-8" ng-bind-html="ontology.reference"></div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-xs-2"> ontologyType </label>
+                        <div class="form-group" ng-show="ontology.ontologyType">
+                            <label class="col-xs-2"> Ontology Type: </label>
                             <div class="col-xs-8"> {{ontology.ontologyType}} </div>
                         </div>
 
@@ -135,7 +136,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-2"> Temporary Mmi role: </label>
+                            <label class="col-xs-2"> Temporary MMI role: </label>
                             <div class="col-xs-8" ng-bind-html="ontology.temporaryMmiRole"></div>
                         </div>
 

@@ -21,7 +21,7 @@ https://mmisw.org/experimental/orrportal/
 ## ChangeLog ##
 
 * 2015-03-18: 0.0.5
-    * sign in/out style adjustments
+    * sign in/out and other various style adjustments
     * do immediate redirect if already signed in
     * code reorganization closer to by-module
 
