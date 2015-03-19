@@ -1,7 +1,7 @@
 (function() {
 'use strict';
 
-angular.module('orrportal.main', [])
+angular.module('orrportal.main', ['orrportal.directives', 'orrportal.filters', 'orrportal.services'])
 
     .controller('MainController', MainController)
 ;
