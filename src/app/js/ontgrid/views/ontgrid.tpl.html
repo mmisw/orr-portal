@@ -1,25 +1,14 @@
 <div style="width: 100%">
 
-    <table class="mynav">
+    <div style="float: left;">
+
+        <table class="mynav">
         <thead>
 
         <tr>
             <th>
                 <table>
                     <tr>
-                        <td>
-                            <div style="float: left;">
-                                <button class="btn btn-default btn-xs" ng-click="refresh()"
-                                        ng-disabled="refreshing"
-                                        tooltip="Refresh"
-                                        tooltip-placement="bottom"
-                                        >
-                                    <span ng-hide="refreshing" class="fa fa-refresh"></span>
-                                    <span ng-show="refreshing" class="fa fa-refresh fa-spin"></span>
-                                </button>
-                            </div>
-                        </td>
-
                         <td>
                             <div style="display: inline-block; position: relative">
                                 <input type="text" class="search form-control" placeholder="Global filter"
@@ -49,9 +38,25 @@
             </th>
         </tr>
         </thead>
-    </table>
+        </table>
+    </div>
+
+    <div style="float: right">
+        <button class="btn btn-default btn-xs" ng-click="refresh()"
+                ng-disabled="refreshing"
+                tooltip="Refresh"
+                tooltip-placement="bottom"
+                >
+            <span ng-hide="refreshing" class="fa fa-refresh"></span>
+            <span ng-show="refreshing" class="fa fa-refresh fa-spin"></span>
+        </button>
+    </div>
+    <span style="width: 30px"></span> <!-- some filler -->
+    <div style="clear:both;"></div>
+</div>
+
+<div style="width: 100%">
 
     <div ui-grid="gridOptions" class="ontGrid"></div>
-
 
 </div>
