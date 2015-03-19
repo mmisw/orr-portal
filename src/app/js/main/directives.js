@@ -6,7 +6,7 @@ angular.module('orrportal.directives', [])
     .directive('orrportalHeader', function() {
         return {
             restrict:    'E',
-            templateUrl: 'view/header.tpl.html'
+            templateUrl: 'js/main/views/header.tpl.html'
         }
     })
 

@@ -57,11 +57,11 @@ routes.$inject = ['$routeProvider'];
 function routes($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'view/main.tpl.html',
+            templateUrl: 'js/main/views/main.tpl.html',
             controller: 'MainController'})
 
         .when('/so/:so*', {
-            templateUrl: 'view/main.tpl.html',
+            templateUrl: 'js/main/views/main.tpl.html',
             controller: 'MainController'})
 
         .when('/uri/:uri*', {
