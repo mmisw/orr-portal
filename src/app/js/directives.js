@@ -21,7 +21,7 @@ angular.module('orrportal.directives', [])
     .directive('ontgrid', function() {
         return {
             restrict:     'E',
-            templateUrl:  'view/ontgrid.tpl.html',
+            templateUrl:  'js/ontgrid/views/ontgrid.tpl.html',
             controller:   'OntGridController'
         }
     })
