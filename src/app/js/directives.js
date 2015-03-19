@@ -10,14 +10,6 @@ angular.module('orrportal.directives', [])
         }
     })
 
-    .directive('facetselection', function() {
-        return {
-            restrict:     'E',
-            templateUrl:  'view/facets.tpl.html',
-            controller:   'FacetController'
-        }
-    })
-
     .directive('ontgrid', function() {
         return {
             restrict:     'E',

@@ -1,7 +1,7 @@
 (function() {
 'use strict';
 
-angular.module('orrportal.facet', [])
+angular.module('orrportal.facet', ['orrportal.facet.directives'])
 
     .controller('FacetController', FacetController)
 ;
