@@ -65,7 +65,7 @@ function routes($routeProvider) {
             controller: 'MainController'})
 
         .when('/uri/:uri*', {
-            templateUrl: 'view/uri.tpl.html',
+            templateUrl: 'js/uri/views/uri.tpl.html',
             controller: 'UriController'
         })
 
