@@ -16,7 +16,13 @@ function LoginController($scope, $routeParams, $location, service, authService) 
         password: "",
         rememberMe: false
     };
+
+    $scope.progress = undefined;
     $scope.error = undefined;
+    $scope.$watch("vm", function() {
+        $scope.progress = undefined;
+        $scope.error = undefined;
+    }, true);
 
     $scope.loginKeyPressed = function($event) {
         if ($event.keyCode == 13) {
@@ -34,12 +40,14 @@ function LoginController($scope, $routeParams, $location, service, authService) 
         }
 
         $scope.error = undefined;
+        $scope.progress = "Verifying...";
         authService.signIn($scope.vm, gotLogin);
 
         function gotLogin(error, loginInfo) {
+            $scope.progress = undefined;
             if (error) {
                 console.log("error with signIn:", error);
-                $scope.error = error;
+                $scope.error = "Invalid credentials";
             }
             else {
                 if (loginInfo.userName === $scope.vm.userName) {

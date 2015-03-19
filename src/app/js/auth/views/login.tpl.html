@@ -63,8 +63,13 @@
 
             </form>
 
-            <label ng-show="error"> {{ error }} </label>
-
+            <div ng-show="progress" style="color: darkgreen">
+                <span class="fa fa-spinner fa-spin"></span>
+                <span>{{progress}}</span>
+            </div>
+            <div ng-show="error" style="color: darkred">
+                {{ error }}
+            </div>
 
         </div>
     </div>

@@ -20,6 +20,9 @@ https://mmisw.org/experimental/orrportal/
 
 ## ChangeLog ##
 
+* 2015-03-18:
+    * sign in/out style adjustments
+
 * 2015-03-15: 0.0.4
     * 'gulp dev' to launch server and browser for local testing
 
