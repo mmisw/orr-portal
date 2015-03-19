@@ -1,6 +1,6 @@
 {
   "name": "ORRPortal",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "dependencies": {
     "angular-bootstrap": "~0.12.1",
     "angular-cookie": "~4.0.2",

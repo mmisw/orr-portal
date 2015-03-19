@@ -121,7 +121,6 @@ gulp.task('orrportal-js', ['clean'], function() {
     'src/app/js/util.js',
     'src/app/js/services.js',
     'src/app/js/directives.js',
-    'src/app/js/common.js',
     'src/app/js/ontgrid.js'
   ])
     .pipe(concat('orrportal.js'))
