@@ -84,9 +84,10 @@ input.search {
   padding: 1px 10px 1px 10px;
   font-size: 12px;
 }
-
-div.parent-error {
-    width:80%;
+div.parent-status {
+    position:absolute;
+    top:2px;
+    width:20em;
     margin-left: auto;
     margin-right: auto;
     left: 0;
@@ -94,8 +95,11 @@ div.parent-error {
     padding: 3px;
     padding-left: 8px;
 }
-.orrportal-error {
+.status {
+    position:absolute;
+    left:0;
     padding: 1px 10px 1px 10px;
+    font-size: 12px;
 }
 
 .orrportal-lastRefresh {
