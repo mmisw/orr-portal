@@ -78,28 +78,27 @@ input.search {
     font-size: small;
 }
 
-.orrportal-status {
-  position:absolute;
-  left:0;
-  padding: 1px 10px 1px 10px;
-  font-size: 12px;
-}
 div.parent-status {
-    position:absolute;
-    top:2px;
-    width:20em;
-    margin-left: auto;
-    margin-right: auto;
+    display: block;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: 0;
     left: 0;
-    right: 0;
-    padding: 3px;
-    padding-left: 8px;
+    z-index: 999999;
 }
 .status {
-    position:absolute;
-    left:0;
-    padding: 1px 10px 1px 10px;
-    font-size: 12px;
+    width: 4px;
+    vertical-align: middle;
+    height:4px;
+    position: fixed;
+    left: 50%;
+    top: 10px;
+    color: blue;
+    margin: 0 auto;
+    margin-left: -2px;
+    margin-top: -2px;
+    z-index: 999999;
 }
 
 .orrportal-lastRefresh {
