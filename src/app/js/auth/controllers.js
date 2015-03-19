@@ -11,6 +11,13 @@ function LoginController($scope, $routeParams, $location, service, authService) 
     if (appUtil.debug) console.log("++LoginController++");
 
     $scope.redirect = $routeParams.redirect;
+
+    // already signed in?
+    if ($scope.loginInfo && $scope.loginInfo.userName) {
+        doRedirect();
+        return;
+    }
+
     $scope.vm = {
         userName: "",
         password: "",
@@ -53,13 +60,7 @@ function LoginController($scope, $routeParams, $location, service, authService) 
                 if (loginInfo.userName === $scope.vm.userName) {
                     service.setDoRefreshOntologies(true);
                     _.assign($scope.loginInfo, loginInfo);
-                    var redir = $scope.redirect;
-                    if (redir) {
-                        $location.url(redir.startsWith("/") ? "" : "/" + redir);
-                    }
-                    else {
-                        $location.url("/");
-                    }
+                    doRedirect();
                 }
             }
         }
@@ -74,6 +75,16 @@ function LoginController($scope, $routeParams, $location, service, authService) 
             $location.url("/");
         }
     };
+
+    function doRedirect() {
+        var redirect = $scope.redirect;
+        if (redirect) {
+            $location.url(redirect.startsWith("/") ? "" : "/" + redirect);
+        }
+        else {
+            $location.url("/");
+        }
+    }
 }
 
 })();
