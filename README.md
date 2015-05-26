@@ -20,6 +20,9 @@ https://mmisw.org/experimental/orrportal/
 
 ## ChangeLog ##
 
+* 2015-05-26: 0.0.5
+    * fix logo img url
+
 * 2015-03-18: 0.0.5
     * sign in/out and other various style adjustments
     * do immediate redirect if already signed in
