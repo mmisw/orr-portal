@@ -99,7 +99,7 @@ function OntGridController($scope, $routeParams, $location, $filter, uiGridConst
         searchSettingsChanged($scope, $location);
     };
 
-    $scope.$on('setFacetSelectedOntologies', function(event, ontologies) {
+    $scope.$on('evtSetFacetSelectedOntologies', function(event, ontologies) {
         //console.log(appUtil.logTs() + ": on setFacetSelectedOntologies");
         adjustColumnDefs(ontologies);
         addOntologies($scope, ontologies);

@@ -39,7 +39,7 @@ function FacetController($scope, facetModel) {
         });
     }
 
-    $scope.$on('gotOntologies', function(event, ontologies) {
+    $scope.$on('evtGotOntologies', function(event, ontologies) {
         //console.log(appUtil.logTs() + ": on gotOntologies");
         facetModel.setOntologies(ontologies);
         setScope();

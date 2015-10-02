@@ -11,7 +11,7 @@ MainController.$inject = ['$scope', 'service'];
 function MainController($scope, service) {
     if (appUtil.debug) console.log("++MainController++");
 
-    $scope.$on('refresh', function() {
+    $scope.$on('evtRefresh', function() {
         console.log(appUtil.logTs() + ": on gotOntologies");
         getOntologies($scope, service, true);
     });
@@ -33,7 +33,7 @@ function getOntologies($scope, service, refresh) {
             return;
         }
         //console.log(appUtil.logTs() + ": $broadcast ontologies");
-        $scope.$broadcast('gotOntologies', ontologies);
+        $scope.$broadcast('evtGotOntologies', ontologies);
     }
 }
 

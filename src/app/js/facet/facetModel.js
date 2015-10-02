@@ -195,7 +195,7 @@ function facetModelFactory($rootScope) {
             }
         });
 
-        $rootScope.$broadcast('setFacetSelectedOntologies', selectedOnts);
+        $rootScope.$broadcast('evtSetFacetSelectedOntologies', selectedOnts);
 
         function getSelectedLabels(selection) {
             return _.chain(selection).filter('selected').map('label').value();

@@ -49,10 +49,10 @@ function init(scope, $location, cfg, service, ipCookie, authService) {
     //scope.isPrivilegedSession = authService.isAdmin;
 
     scope.refresh = function() {
-        scope.$broadcast('refresh');
+        scope.$broadcast('evtRefresh');
     };
 
-    scope.$on('refreshing', function(event, b) {
+    scope.$on('evtRefreshing', function(event, b) {
         scope.refreshing = b;
     });
 }

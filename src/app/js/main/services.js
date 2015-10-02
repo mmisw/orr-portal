@@ -72,7 +72,7 @@ function serviceFactory($rootScope, $http) {
                 console.log(appUtil.logTs() + ": gotOntologies: ", res.length);
                 setRefreshing(false);
                 ontologies = res;
-                $rootScope.$broadcast('refreshCompleteOk');
+                $rootScope.$broadcast('evtRefreshCompleteOk');
                 _.each(ontologies, adjustOntology);
                 gotOntologies(null, ontologies);
             })
@@ -228,7 +228,7 @@ function serviceFactory($rootScope, $http) {
     }
 
     function setRefreshing(b) {
-        $rootScope.$broadcast('refreshing', b);
+        $rootScope.$broadcast('evtRefreshing', b);
         refreshing = b;
     }
 
@@ -250,7 +250,7 @@ function serviceFactory($rootScope, $http) {
             error += "</table>";
 
             setRefreshing(false);
-            $rootScope.$broadcast('refreshCompleteError', error);
+            $rootScope.$broadcast('evtRefreshCompleteError', error);
             if (cb) {
                 cb(data);
             }
