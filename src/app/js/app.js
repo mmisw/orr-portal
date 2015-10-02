@@ -1,7 +1,7 @@
 (function() {
-'use strict';
+  'use strict';
 
-angular.module('orrportal', [
+  angular.module('orrportal', [
     'ngRoute',
     'ngSanitize',
     'ui.bootstrap',
@@ -12,22 +12,24 @@ angular.module('orrportal', [
     'orrportal.org',
     'orrportal.uri',
     'orrportal.user'
-])
+  ])
     .constant("cfg", appConfig)
     .run(init)
+    .factory('httpInterceptor', httpInterceptor)
+    .config(http)
     .config(routes)
-;
+  ;
 
-init.$inject = ['$rootScope', '$location', 'cfg', 'service', 'ipCookie', 'authService'];
+  init.$inject = ['$rootScope', '$location', 'cfg', 'service', 'ipCookie', 'authService'];
 
-function init(scope, $location, cfg, service, ipCookie, authService) {
+  function init(scope, $location, cfg, service, ipCookie, authService) {
     if (appUtil.debug) console.log("++INIT++");
 
     scope.debug = appUtil.debug;
 
     if (appUtil.debug) {
-        appUtil.debug.collapsed = true;
-        appUtil.debug.model = {};
+      appUtil.debug.collapsed = true;
+      appUtil.debug.model = {};
     }
 
     scope.cfg = cfg;
@@ -36,64 +38,84 @@ function init(scope, $location, cfg, service, ipCookie, authService) {
     //console.log("scope.loginInfo=", scope.loginInfo);
     authService.initAuthentication();
     scope.signIn = function() {
-        var redirect = $location.url();
-        if (!redirect.startsWith("/signIn")) {
-            $location.url("/signIn" + redirect);
-        }
+      var redirect = $location.url();
+      if (!redirect.startsWith("/signIn")) {
+        $location.url("/signIn" + redirect);
+      }
     };
     scope.signOut = function() {
-        authService.signOut();
-        service.setDoRefreshOntologies(true);
-        scope.refresh();
+      authService.signOut();
+      service.setDoRefreshOntologies(true);
+      scope.refresh();
     };
     //scope.isPrivilegedSession = authService.isAdmin;
 
     scope.refresh = function() {
-        scope.$broadcast('evtRefresh');
+      scope.$broadcast('evtRefresh');
     };
 
     scope.$on('evtRefreshing', function(event, b) {
-        scope.refreshing = b;
+      scope.refreshing = b;
     });
-}
+  }
 
-routes.$inject = ['$routeProvider'];
+  routes.$inject = ['$routeProvider'];
 
-function routes($routeProvider) {
+  function routes($routeProvider) {
     $routeProvider
-        .when('/', {
-            templateUrl: 'js/main/views/main.tpl.html',
-            controller: 'MainController'})
+      .when('/', {
+        templateUrl: 'js/main/views/main.tpl.html',
+        controller: 'MainController'})
 
-        .when('/so/:so*', {
-            templateUrl: 'js/main/views/main.tpl.html',
-            controller: 'MainController'})
+      .when('/so/:so*', {
+        templateUrl: 'js/main/views/main.tpl.html',
+        controller: 'MainController'})
 
-        .when('/uri/:uri*', {
-            templateUrl: 'js/uri/views/uri.tpl.html',
-            controller: 'UriController'
-        })
+      .when('/uri/:uri*', {
+        templateUrl: 'js/uri/views/uri.tpl.html',
+        controller: 'UriController'
+      })
 
-        .when('/org/:orgName*', {
-            templateUrl: 'js/org/views/org.tpl.html',
-            controller: 'OrgController'
-        })
+      .when('/org/:orgName*', {
+        templateUrl: 'js/org/views/org.tpl.html',
+        controller: 'OrgController'
+      })
 
-        .when('/user/:userName*', {
-            templateUrl: 'js/user/views/user.tpl.html',
-            controller: 'UserController'
-        })
+      .when('/user/:userName*', {
+        templateUrl: 'js/user/views/user.tpl.html',
+        controller: 'UserController'
+      })
 
-        .when('/signIn', {
-            templateUrl: 'js/auth/views/login.tpl.html',
-            controller: 'LoginController'
-        })
-        .when('/signIn/:redirect*', {
-            templateUrl: 'js/auth/views/login.tpl.html',
-            controller: 'LoginController'
-        })
+      .when('/signIn', {
+        templateUrl: 'js/auth/views/login.tpl.html',
+        controller: 'LoginController'
+      })
+      .when('/signIn/:redirect*', {
+        templateUrl: 'js/auth/views/login.tpl.html',
+        controller: 'LoginController'
+      })
 
-        .otherwise({redirectTo: '/'});
-}
+      .otherwise({redirectTo: '/'});
+  }
+
+  httpInterceptor.$inject = ['$rootScope'];
+
+  function httpInterceptor($rootScope) {
+    return {
+      responseError: function(rejection) {
+        if (rejection.status === 401) {
+          //console.log(appUtil.logTs() + ": unauthorized");
+          $rootScope.signOut();
+        }
+        return rejection;
+      }
+    };
+  }
+
+  http.$inject = ['$httpProvider'];
+
+  function http($httpProvider) {
+    $httpProvider.interceptors.push('httpInterceptor');
+  }
 
 })();

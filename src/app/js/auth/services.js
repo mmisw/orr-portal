@@ -47,7 +47,7 @@
         password: vm.password
       };
 
-      console.log(appUtil.logTs() + ": GET " + url);
+      console.log(appUtil.logTs() + ": POST " + url);
       $http.post(url, body)
           .success(function(res, status, headers, config) {
             console.log(appUtil.logTs() + ": user/auth:", res);
