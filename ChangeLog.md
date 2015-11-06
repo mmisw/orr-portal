@@ -1,3 +1,6 @@
+* 2015-11-05: 0.0.7
+    * check res.error in endpoint responses to properly notify error like not found ontology/user/org
+
 * 2015-10-02: 0.0.6
     * fix #1 "re-validate credentials": intercept 401 to do a signOut
 
