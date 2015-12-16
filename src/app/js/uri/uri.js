@@ -171,7 +171,8 @@ function refreshOntologyMetadata($scope, uri, service) {
               value: $scope.ontology.reference
             }, {
               label: "Ontology Type",
-              value: $scope.ontology.ontologyType
+              value: $scope.ontology.ontologyType,
+              omitIfUndef: true
             }
           ]
         }, {

@@ -58,7 +58,7 @@
                       <table class="table table-bordered">
                         <tbody>
 
-                        <tr ng-repeat="prop in section.props">
+                        <tr ng-repeat="prop in section.props" ng-if="prop.value || !prop.omitIfUndef">
                           <td style="white-space: nowrap; width: 10px">
                             {{prop.label}}:
                           </td>
