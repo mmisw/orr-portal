@@ -196,7 +196,9 @@ function refreshOntologyMetadata($scope, uri, service) {
               value: $scope.ontology.documentation
             }, {
               label: "Organization",
-              value: '<a href="#/org/' +$scope.ontology.origMaintainerCode+ '">'+ $scope.ontology.origMaintainerCode+ '</a>'
+              value: $scope.ontology.origMaintainerCode
+                     ? '<a href="#/org/' +$scope.ontology.origMaintainerCode+ '">'+ $scope.ontology.origMaintainerCode+ '</a>'
+                     : undefined
             }, {
               label: "Contributor",
               value: $scope.ontology.contributor
