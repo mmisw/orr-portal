@@ -1,3 +1,6 @@
+* 2015-12-15: 0.0.8
+    * ontology style adjustments and display simplification
+
 * 2015-11-05: 0.0.7
     * check res.error in endpoint responses to properly notify error like not found ontology/user/org
 

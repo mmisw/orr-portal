@@ -100,7 +100,7 @@
       $http.get(url)
         .success(function(res, status, headers, config) {
           setRefreshing(false);
-          console.log(appUtil.logTs() + ": gotOntology: ", res);
+          console.log(appUtil.logTs() + ": gotOntology: ", _.cloneDeep(res));
           if (res.error) {
             gotOntology(res);
           }

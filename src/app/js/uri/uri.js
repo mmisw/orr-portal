@@ -50,8 +50,9 @@ function refreshOntologyMetadata($scope, uri, service) {
                 });
             });
 
-            $scope.ontology.metadata = newPredicates;
-            _.each($scope.ontology.metadata, setPredicateAndValues);
+            _.each(newPredicates, setPredicateAndValues);
+
+            setMetadataSections();
         }
     }
 
@@ -130,6 +131,93 @@ function refreshOntologyMetadata($scope, uri, service) {
             $scope.ontology.origVocSyntaxFormat = values[0];
         }
 
+    }
+
+    function setMetadataSections() {
+      $scope.ontology.metadataSections = [
+        {
+          label: "General",
+          props: [
+            {
+              label: "Resource type",
+              value: $scope.ontology.resourceType
+            }, {
+              label: "Content Creator",
+              value: $scope.ontology.contentCreator
+            }, {
+              label: "Ontology Creator",
+              value: $scope.ontology.ontologyCreator
+            }, {
+              label: "Description",
+              value: $scope.ontology.description
+            }, {
+              label: "Keywords",
+              value: $scope.ontology.keywords
+            }, {
+              label: "Original vocabulary",
+              value: $scope.ontology.origVocUri
+            }, {
+              label: "Documentation",
+              value: $scope.ontology.documentation
+            }, {
+              label: "Organization",
+              value: '<a href="#/org/' +$scope.ontology.origMaintainerCode+ '">'+ $scope.ontology.origMaintainerCode+ '</a>'
+            }, {
+              label: "Contributor",
+              value: $scope.ontology.contributor
+            }, {
+              label: "Reference",
+              value: $scope.ontology.reference
+            }, {
+              label: "Ontology Type",
+              value: $scope.ontology.ontologyType
+            }
+          ]
+        }, {
+          label: "Usage/License/Permissions",
+          props: [
+            {
+              label: "Manager of source vocabulary",
+              value: $scope.ontology.origVocManager
+            }, {
+              label: "Contact/Responsible Party",
+              value: $scope.ontology.contact
+            }, {
+              label: "Contact role",
+              value: $scope.ontology.contactRole
+            }, {
+              label: "Temporary MMI role",
+              value: $scope.ontology.temporaryMmiRole
+            }, {
+              label: "Author credit required",
+              value: $scope.ontology.creditRequired
+            }, {
+              label: "Citation string",
+              value: $scope.ontology.creditCitation
+            }
+          ]
+        }, {
+          label: "Original source",
+          props: [
+            {
+              label: "Documentation",
+              value: $scope.ontology.origVocDocumentationUri
+            }, {
+              label: "Descriptive name",
+              value: $scope.ontology.origVocDescriptiveName
+            }, {
+              label: "Version",
+              value: $scope.ontology.origVocVersionId
+            }, {
+              label: "Keywords",
+              value: $scope.ontology.origVocKeywords
+            }, {
+              label: "Syntax format",
+              value: $scope.ontology.origVocSyntaxFormat
+            }
+          ]
+        }
+      ];
     }
 }
 
