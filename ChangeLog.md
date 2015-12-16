@@ -1,4 +1,5 @@
 * 2015-12-15: 0.0.8
+    * include viewAs options in ontology display
     * show only external link for ontology metadata property values
     * ontology style adjustments and display simplification
 

@@ -8,6 +8,19 @@
             {{uri}}
         </span>
 
+        <span ng-if="viewAsOptions">
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle>
+                  View/download as <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="vao in viewAsOptions">
+                      <a target="_blank" ng-href="{{vao.url}}" ng-bind="vao.label"></a>
+                    </li>
+                </ul>
+            </div>
+        </span>
+
         <span ng-if="ontology.versions">
             <div class="btn-group" dropdown>
                 <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle>

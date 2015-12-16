@@ -27,10 +27,44 @@ function refreshOntology($scope, uri, service) {
         }
         else {
             $scope.ontology = ontology;
+            setViewAsOptions($scope, uri);
             refreshOntologyMetadata($scope, uri, service)
         }
     }
 }
+
+  function setViewAsOptions($scope, uri) {
+    var url = appConfig.orront.rest + "/api/v0/ont?uri=" + uri;
+
+    $scope.viewAsOptions = [
+      {
+        label: "RDF/XML",
+        url: url+ '&format=rdf'
+      }, {
+        label: "JSON-LD",
+        url: url+ '&format=jsonld'
+      }, {
+        label: "N3",
+        url: url+ '&format=n3'
+      }, {
+        label: "Turtle",
+        url: url+ '&format=ttl'
+      }, {
+        label: "N-Triples",
+        url: url+ '&format=nt'
+      }, {
+        label: "N-Quads",
+        url: url+ '&format=nq'
+      //}, {
+      //  label: "TriG",  // TODO jena fails with this(?)
+      //  url: url+ '&format=trig'
+      }, {
+        label: "RDF/JSON",
+        url: url+ '&format=rj'
+      }
+    ]
+
+  }
 
 function refreshOntologyMetadata($scope, uri, service) {
     service.refreshOntologyMetadata(uri, gotOntologyMetadata);
