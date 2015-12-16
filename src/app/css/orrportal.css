@@ -216,6 +216,17 @@ div.facetsubblock {
     overflow: auto;
     overflow-x:hidden;"
 }
+.facetItem {
+  font-weight: 200;
+  width: 100%;
+}
+.facetItem:hover {
+  background-color: #dff1fb;
+}
+.facetItemSelected {
+    width: 100%;
+    background-color: #d3d3d3;
+}
 .facetItemSelected {
     width: 100%;
     background-color: #d3d3d3;
