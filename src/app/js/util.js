@@ -29,10 +29,10 @@ var appUtil = (function(window) {
         return mklinks4uri(uri, true);
     }
 
-    function htmlifyObject(value) {
+    function htmlifyObject(value, onlyExternalLink) {
         if (/^<([^>]*)>$/.test(value)) {
             // it is an uri.
-            value = mklinks4uri(value, true);
+            value = mklinks4uri(value, true, onlyExternalLink);
         }
         else {
             // \"Age of sea ice\" means...  -->  "Age of sea ice" means...
@@ -46,7 +46,7 @@ var appUtil = (function(window) {
                 value = '"' + decodeURIComponent(JSON.parse(m[1])) + '"' + m[2];
             }
             else {
-                value = mklinks4text(value);
+                value = mklinks4text(value, onlyExternalLink);
                 value = value.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
             }
         }
@@ -59,7 +59,8 @@ var appUtil = (function(window) {
         return str;
     }
 
-    function mklinks4uri(uri, possibleBrackets) {
+    function mklinks4uri(uri, possibleBrackets, onlyExternalLink) {
+        //console.log("mklinks4uri: onlyExternalLink=" + onlyExternalLink + " uri=" + uri);
         uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
         var pre = "";
         var post = "";
@@ -70,9 +71,16 @@ var appUtil = (function(window) {
             post = _.escape(m[3]);
         }
         var url4link = uri.replace(/#/g, "%23");
-        var link = '<a href="#/uri/' + url4link + '">' + uri + '</a> '
+
+        var link;
+        if (onlyExternalLink) {
+          link = '<a class="fa fa-external-link" target="_blank" href="' + uri + '">' + uri + '</a>';
+        }
+        else {
+          link = '<a href="#/uri/' + url4link + '">' + uri + '</a> '
             + '<a class="fa fa-external-link" target="_blank" title="open directly in a new browser window" href="' + uri + '"></a>'
             ;
+        }
 
         //console.log("mklinks4uri:" +pre + "|" + link + "|" +post);
         return pre + link + post;
@@ -82,14 +90,19 @@ var appUtil = (function(window) {
         return mklinks4uri(uri);
     }
 
-    function mklinks4text(str) {
+    function mklinks4uriNoBracketsOnlyExternalLink(uri) {
+        return mklinks4uri(uri, false, true);
+    }
+
+    function mklinks4text(str, onlyExternalLink) {
+        //console.log("mklinks4text: onlyExternalLink=" + onlyExternalLink + " str=" + str);
         // first, escape original text
         str = _.escape(str);
         // but restore any '&' for the links processing below:
         str = str.replace(/&amp;/g, "&");
         // then, add our re-formatting
         str = n2br(str);
-        str = str.replace(uriRegex, mklinks4uriNoBrackets);
+        str = str.replace(uriRegex, onlyExternalLink ? mklinks4uriNoBracketsOnlyExternalLink : mklinks4uriNoBrackets);
         return str;
     }
 

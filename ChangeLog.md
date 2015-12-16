@@ -1,4 +1,5 @@
 * 2015-12-15: 0.0.8
+    * show only external link for ontology metadata property values
     * ontology style adjustments and display simplification
 
 * 2015-11-05: 0.0.7

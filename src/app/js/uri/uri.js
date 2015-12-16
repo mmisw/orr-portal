@@ -36,6 +36,7 @@ function refreshOntologyMetadata($scope, uri, service) {
     service.refreshOntologyMetadata(uri, gotOntologyMetadata);
 
     var htmlify = true;
+    var onlyExternalLink = true;
 
     function gotOntologyMetadata(error, predicates) {
         if (error) {
@@ -46,7 +47,7 @@ function refreshOntologyMetadata($scope, uri, service) {
             var newPredicates = {}; // with htmlified or escaped uri's and values
             _.each(predicates, function(values, predicate) {
                 newPredicates[predicate] = _.map(values, function(value) {
-                    return htmlify ? appUtil.htmlifyObject(value) : _.escape(value);
+                    return htmlify ? appUtil.htmlifyObject(value, onlyExternalLink) : _.escape(value);
                 });
             });
 
