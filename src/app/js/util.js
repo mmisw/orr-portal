@@ -89,7 +89,8 @@ var appUtil = (function(window) {
 
         var link;
         if (onlyExternalLink) {
-          link = '<a class="fa fa-external-link" target="_blank" href="' + uri + '">' + uri + '</a>';
+          //link = '<a class="fa fa-external-link" target="_blank" href="' + uri + '">' + uri + '</a>';
+          link = '<a target="_blank" href="' + uri + '">' + uri + '</a>';
         }
         else {
           link = '<a href="#/uri/' + url4link + '">' + uri + '</a> '
