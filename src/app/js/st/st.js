@@ -55,15 +55,26 @@
       vm.searching = true;
       vm.rows = [];
 
-      var keywords = vm.st.replace(/\s+(o|O)(r|R)\s+/, "|");
-      if (appUtil.debug) console.log("doSearch: keywords=", keywords);
+      var searchString = vm.st;
+
+      /*
+       * TODO options for 'literal', 'glob', and 'regex' searches
+       * and do corresponding internal handling as appropriate.
+       * For now escape the given string to avoid any conflicts with
+       * regex expression, and replace OR with | for any alternative strings.
+       */
+      searchString = appUtil.escapeRegex(searchString);
+      searchString = searchString.replace(/\\/g, "\\\\"); // for SPARQL still need to escape \ --> \\
+      searchString = searchString.replace(/\s+(o|O)(r|R)\s+/, "|");
 
       // TODO some paging mechanism
 
       var query = "SELECT DISTINCT ?subject ?predicate ?object " +
         "WHERE { ?subject ?predicate ?object. " +
-        "FILTER regex(?object, \"" +keywords+ "\", \"i\" ) } " +
+        "FILTER regex(?object, \"" +searchString+ "\", \"i\" ) } " +
         "ORDER BY ?subject";
+
+      if (appUtil.debug) console.log("doSearch: query={" +query+ "}");
 
       // un-define the Authorization header for the sparqlEndpoint
       var headers = {Authorization: undefined};
@@ -72,15 +83,27 @@
       console.log(appUtil.logTs() + ": GET " + url, params);
       $http.get(appConfig.orront.sparqlEndpoint, {params: params, headers: headers})
         .success(function(data, status, headers, config) {
-          console.log(appUtil.logTs() + ": got results: ", data);
-          if (data.error) {
-            gotResults(data.error);
+          console.log(appUtil.logTs() + ": got response: status=", status, "data=", data);
+          if (status !== 200) {
+            gotResults("Error: " +status+ ": " +data);
             return;
           }
 
           gotResults(null, data);
         })
-        //.error(httpErrorHandler(gotResults));
+        .error(function(data, status, headers, config) {
+          var reqMsg = config.method + " '" + config.url + "'";
+          var error = "[" + appUtil.logTs() + "] ";
+          console.log("error in request " +reqMsg+ ":",
+            "data=", data, "status=", status,
+            "config=", config);
+          error += "An error occurred with request: " +
+            config.method + " " +config.url+ "\n";
+          error += "Response from server:\n";
+          error += " data: " + JSON.stringify(data) + "\n";
+          error += " status: " + status;
+          gotResults(error);
+        });
     }
 
     function gotResults(error, data) {

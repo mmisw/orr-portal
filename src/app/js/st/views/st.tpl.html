@@ -2,27 +2,25 @@
 
   <br/>
 
-  <!--Use the keyword search below or open the Advanced search with SPARQL interface.-->
-
   <h3>
-    Keyword search
+    Term search
   </h3>
 
   <table class="mynav">
     <thead>
     <tr>
       <th>
-        <table>
-          <tr>
+        <table style="margin: 8px">
+          <tr >
             <td>
-              Search terms containing:
+              Find terms containing:
             </td>
             <td>
               <div style="display: inline-block; position: relative">
                 <input type="text" class="search form-control" style="width: 300px"
                        ng-model="vm.st" ng-keypress="searchKeyPressed($event)"
                        ng-change="filterData()"
-                       tooltip="Enter to capture search in URL and perform search"
+                       tooltip="Use OR to separate alternative strings. Press Enter or click the button to capture search in URL and perform search"
                        tooltip-placement="bottom"
                   >
                   <span style="position: absolute; top: 5px; right: 5px"
@@ -40,9 +38,6 @@
                 >
                 <span class="fa fa-search"></span>
               </button>
-            </td>
-            <td>
-              Use OR to separate alternative keywords
             </td>
           </tr>
         </table>
@@ -82,8 +77,7 @@
     Searching ...
   </div>
 
-  <div ng-if="error">
-    Error: {{error.error}} <br/>
-  </div>
+  <pre ng-if="vm.error" ng-bind="vm.error" style="color: darkred; font-family: monospace">
+  </pre>
 
 </div>

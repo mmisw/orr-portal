@@ -24,6 +24,8 @@ var appUtil = (function(window) {
         getHmac:        getHmac,
         getHmacParam:   getHmacParam,
 
+        escapeRegex:    escapeRegex,
+
         logTs: function() { return moment().local().format(); }
     };
 
@@ -165,4 +167,8 @@ var appUtil = (function(window) {
         }
     }
 
+    // http://stackoverflow.com/a/3561711/830737
+    function escapeRegex(s) {
+      return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    }
 })(window);
