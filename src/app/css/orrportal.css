@@ -242,6 +242,13 @@ div.facetsubblock {
     background-color: #eff4f7
 }
 
+.mdLabel {
+  width: 10px;
+  white-space: nowrap;
+  text-align: right;
+  font-weight: 300;
+}
+
 .stUriCol {
   width: 25% !important;
   max-width: 400px !important;
