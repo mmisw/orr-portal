@@ -16,6 +16,8 @@ var appUtil = (function(window) {
         debug:          debug,
         mklinks4text:   mklinks4text,
 
+        mklinks4uri:    mklinks4uri,
+
         htmlifyUri:     htmlifyUri,
         htmlifyObject:  htmlifyObject,
 
@@ -43,7 +45,17 @@ var appUtil = (function(window) {
             var m = value.match(/^("[^"]+")(@[A-Za-z\-]+)$/);
             if (m) {
                 // http://stackoverflow.com/questions/7885096/how-do-i-decode-a-string-with-escaped-unicode
-                value = '"' + decodeURIComponent(JSON.parse(m[1])) + '"' + m[2];
+              var parsed = JSON.parse(m[1]);
+              value = '"' + parsed + '"' + m[2];
+
+              // TODO review the use of decodeURIComponent below because parsed could
+              // be a long string, not just a URI component.
+              //try {
+              //  value = '"' + decodeURIComponent(parsed) + '"' + m[2];
+              //}
+              //catch(ex) {
+              //  console.error(ex, "parsed=", parsed, "m[2]=", m[2]);
+              //}
             }
             else {
                 value = mklinks4text(value, onlyExternalLink);
@@ -61,6 +73,7 @@ var appUtil = (function(window) {
 
     function mklinks4uri(uri, possibleBrackets, onlyExternalLink) {
         //console.log("mklinks4uri: onlyExternalLink=" + onlyExternalLink + " uri=" + uri);
+        //console.log("1 URI[" + uri+ "]");
         uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
         var pre = "";
         var post = "";
@@ -100,6 +113,7 @@ var appUtil = (function(window) {
         str = _.escape(str);
         // but restore any '&' for the links processing below:
         str = str.replace(/&amp;/g, "&");
+        str = str.replace(/&gt;/g, ">");
         // then, add our re-formatting
         str = n2br(str);
         str = str.replace(uriRegex, onlyExternalLink ? mklinks4uriNoBracketsOnlyExternalLink : mklinks4uriNoBrackets);

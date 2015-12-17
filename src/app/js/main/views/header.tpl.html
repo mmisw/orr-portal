@@ -10,6 +10,9 @@
             <span ng-show="!cfg.help" style="color: darkgray; font-size: small">
                    @@version
             </span>
+            <span ng-if="vm.curView !== 'st'">
+                <a href="#/st/">Search terms</a>
+            </span>
         </span>
   </div>
   <span style="width: 30px"></span> <!-- some filler -->

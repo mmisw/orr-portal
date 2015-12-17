@@ -11,7 +11,8 @@
     'orrportal.ontgrid',
     'orrportal.org',
     'orrportal.uri',
-    'orrportal.user'
+    'orrportal.user',
+    'orrportal.st'
   ])
     .constant("cfg", appConfig)
     .run(init)
@@ -33,6 +34,9 @@
     }
 
     scope.cfg = cfg;
+
+    // TODO unify elements under vm
+    scope.vm = {};
 
     scope.loginInfo = (ipCookie("ontorr") || {}).loginInfo || {};
     //console.log("scope.loginInfo=", scope.loginInfo);
@@ -70,6 +74,14 @@
       .when('/so/:so*', {
         templateUrl: 'js/main/views/main.tpl.html',
         controller: 'MainController'})
+
+      .when('/st/', {
+        templateUrl: 'js/st/views/st.tpl.html',
+        controller: 'SearchTermsController'})
+
+      .when('/st/:st*', {
+        templateUrl: 'js/st/views/st.tpl.html',
+        controller: 'SearchTermsController'})
 
       .when('/uri/:uri*', {
         templateUrl: 'js/uri/views/uri.tpl.html',

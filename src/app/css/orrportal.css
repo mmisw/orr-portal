@@ -241,3 +241,13 @@ div.facetsubblock {
     border-radius: 4px;
     background-color: #eff4f7
 }
+
+.stUriCol {
+  width: 25% !important;
+  max-width: 400px !important;
+  min-width: 150px !important;
+}
+.stValCol {
+  width: 50% !important;
+  max-width: 50% !important;
+}

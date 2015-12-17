@@ -1,3 +1,6 @@
+* 2015-12-16: 0.0.8
+    * initial version of "search terms"
+
 * 2015-12-15: 0.0.8
     * include viewAs options in ontology display
     * show only external link for ontology metadata property values
