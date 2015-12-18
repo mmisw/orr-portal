@@ -1,4 +1,5 @@
 * 2015-12-18: 0.0.8
+    * style adjustments in display of ontology page
     * adjustments in container for the ui-grid (main ontology grid) so it re-sizes in a much better
       way upon changes in browser window size or changes in browser zoom.
       The width of this grid, however, is not 100% (which would be ideal) but 90% so the grid remains

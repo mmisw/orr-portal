@@ -1,103 +1,107 @@
 <div style="width: 100%">
 
-    <br/>
+  <br/>
 
-    <div class="effect1">
+  <div class="effect1">
 
-        <span style="font-size: large" class="uriText">
-            {{uri}}
-        </span>
+    <span style="font-size: x-large;margin-left: 10px;margin-right: 10px"
+          class="uriText">
+        {{vm.uri}}
+    </span>
 
-        <span ng-if="viewAsOptions">
-            <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-default btn-xs dropdown-toggle" dropdown-toggle>
-                  View/download as <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li ng-repeat="vao in viewAsOptions">
-                      <a target="_blank" ng-href="{{vao.url}}" ng-bind="vao.label"></a>
-                    </li>
-                </ul>
-            </div>
-        </span>
-
-        <span ng-if="ontology.versions">
-            <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-default btn-xs dropdown-toggle" dropdown-toggle>
-                    Versions <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li ng-repeat="version in ontology.versions">
-                        <a ng-href="#/uri/{{uri}}&version={{version}}">{{version}}</a>
-                    </li>
-                </ul>
-            </div>
-        </span>
-    </div>
-
-    <div ng-if="ontology">
-        <span class="urititle" ng-bind-html="ontology.name | mklinks">
-        </span>
-        <span ng-if="ontology.version">
-            Version: {{ontology.version}}
-        </span>
-
-        <span ng-if="ontology.author">
-            - Author: {{ontology.author}}
-        </span>
-
-<!--
-        <div ng-if="ontology.orgName">
-            Organization: {{ontology.orgName}}
+    <span ng-if="viewAsOptions">
+        <div class="btn-group" dropdown>
+          <button type="button" class="btn btn-default btn-xs dropdown-toggle" dropdown-toggle>
+            View/download as <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="vao in viewAsOptions">
+              <a target="_blank" ng-href="{{vao.url}}" ng-bind="vao.label"></a>
+            </li>
+          </ul>
         </div>
--->
+    </span>
 
-        <span ng-if="ontology.submitter">
-            - Registered by:
-            <a href="#/user/{{ontology.submitter}}">{{ontology.submitter}}</a>
-        </span>
-
-        <div ng-if="ontology.metadataSections">
-
-            <tabset style="width: 100%">
-
-                <tab ng-repeat="section in ontology.metadataSections" style="cursor: pointer">
-                  <tab-heading>
-                    {{section.label}}
-                  </tab-heading>
-
-                    <form class="form-horizontal uriBody">
-
-                      <table class="table table-bordered">
-                        <tbody>
-
-                        <tr ng-repeat="prop in section.props" ng-if="prop.value || !prop.omitIfUndef">
-                          <td class="mdLabel">
-                            {{prop.label}}:
-                          </td>
-
-                          <td>
-                            <div class="ontContent"
-                                 ng-bind-html="prop.value"></div>
-                          </td>
-
-                        </tr>
-
-                        </tbody>
-                      </table>
-
-                    </form>
-
-                </tab>
-
-            </tabset>
-
-            <!--<pre>{{ontology.metadata | json}}</pre>-->
+    <span ng-if="vm.ontology.versions">
+        <div class="btn-group" dropdown>
+          <button type="button" class="btn btn-default btn-xs dropdown-toggle" dropdown-toggle>
+            Versions <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="version in vm.ontology.versions">
+              <a ng-href="#/uri/{{uri}}&version={{version}}">{{version}}</a>
+            </li>
+          </ul>
         </div>
-    </div>
+    </span>
+  </div>
 
-    <div ng-if="error">
-        Error: {{error.error}} <br/>
+  <div ng-if="vm.ontology">
+    <span class="urititle" ng-bind-html="vm.ontology.name | mklinks">
+    </span>
+
+    <span style="color: gray">
+      <span ng-if="vm.ontology.version">
+          Version: {{vm.ontology.version}}
+      </span>
+
+      <span ng-if="vm.ontology.author">
+          - Author: {{vm.ontology.author}}
+      </span>
+  <!--
+      <span ng-if="vm.ontology.orgName">
+          Organization: {{vm.ontology.orgName}}
+      </span>
+  -->
+      <span ng-if="vm.ontology.submitter">
+          - Registered by:
+          <a href="#/user/{{vm.ontology.submitter}}">{{vm.ontology.submitter}}</a>
+      </span>
+    </span>
+
+    <div ng-if="vm.ontology.metadataSections">
+
+      <tabset style="width: 100%">
+
+        <tab ng-repeat="section in vm.ontology.metadataSections" style="cursor: pointer">
+          <tab-heading>
+            {{section.label}}
+          </tab-heading>
+
+          <form class="form-horizontal uriBody">
+
+            <table class="table table-bordered">
+              <tbody>
+
+              <tr ng-repeat="prop in getProps(section.propNames)">
+                <td class="mdLabel">
+                  <span title="{{prop.predicate}}">
+                    {{prop.label}}:
+                  </span>
+                </td>
+
+                <td>
+                  <div class="ontContent"
+                       ng-bind-html="prop.value">
+                  </div>
+                </td>
+
+              </tr>
+
+              </tbody>
+            </table>
+
+          </form>
+
+        </tab>
+
+      </tabset>
+
     </div>
+  </div>
+
+  <div ng-if="error">
+    Error: {{error.error}} <br/>
+  </div>
 
 </div>
