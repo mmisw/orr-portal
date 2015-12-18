@@ -71,7 +71,7 @@
 
       var query = "SELECT DISTINCT ?subject ?predicate ?object " +
         "WHERE { ?subject ?predicate ?object. " +
-        "FILTER regex(?object, \"" +searchString+ "\", \"i\" ) } " +
+        "FILTER regex(str(?object), \"" +searchString+ "\", \"i\" ) } " +
         "ORDER BY ?subject";
 
       if (appUtil.debug) console.log("doSearch: query={" +query+ "}");
