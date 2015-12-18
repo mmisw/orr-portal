@@ -67,9 +67,21 @@ var appUtil = (function(window) {
         return value
     }
 
+    // newline -> <br/>
     function n2br(str) {
         str = str.replace(/\\n/g, "\n");
         str = str.replace(/\n/g, "<br />\n");
+        return str;
+    }
+
+    // newline -> <p>..</p>
+    function n2p(str) {
+        str = str.replace(/\\n/g, "\n");
+        var parts = str.split(/\n/);
+        if (parts.length > 1) {
+          parts = _.map(parts, function(p) { return "<p>" + p + "</p>"; });
+          str = parts.join("");
+        }
         return str;
     }
 
@@ -118,7 +130,7 @@ var appUtil = (function(window) {
         str = str.replace(/&amp;/g, "&");
         str = str.replace(/&gt;/g, ">");
         // then, add our re-formatting
-        str = n2br(str);
+        str = n2p(str);
         str = str.replace(uriRegex, onlyExternalLink ? mklinks4uriNoBracketsOnlyExternalLink : mklinks4uriNoBrackets);
         return str;
     }
