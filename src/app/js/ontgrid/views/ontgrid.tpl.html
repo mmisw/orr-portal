@@ -1,61 +1,63 @@
 <div style="width: 100%">
+  <div style="width: 100%">
 
     <div style="float: left;">
 
-        <table class="mynav">
+      <table class="mynav">
         <thead>
 
         <tr>
-            <th>
-                <table>
-                    <tr>
-                        <td>
-                            <div style="display: inline-block; position: relative">
-                                <input type="text" class="search form-control"
-                                       placeholder="Global filter"
-                                       size="40"
-                                       ng-model="tableOpts.globalFilter" ng-keypress="searchKeyPressed($event)"
-                                       ng-change="filterData()"
-                                       tooltip="Press Enter to capture search argument in URL"
-                                       tooltip-placement="left"
-                                >
-                                <span style="position: absolute; top: 5px; right: 5px"
-                                      ng-show="!!tableOpts.globalFilter"
-                                      ng-click="clearSearch()">
-                                    <span class="fa fa-times"></span>
-                                </span>
-                            </div>
+          <th>
+            <table>
+              <tr>
+                <td>
+                  <div style="display: inline-block; position: relative">
+                    <input type="text" class="search form-control"
+                           placeholder="Global filter"
+                           size="40"
+                           ng-model="tableOpts.globalFilter" ng-keypress="searchKeyPressed($event)"
+                           ng-change="filterData()"
+                           tooltip="Press Enter to capture search argument in URL"
+                           tooltip-placement="right"
+                      >
+                      <span style="position: absolute; top: 5px; right: 5px"
+                            ng-show="!!tableOpts.globalFilter"
+                            ng-click="clearSearch()">
+                          <span class="fa fa-times"></span>
+                      </span>
+                  </div>
 
-                        </td>
-                        <td>
-                            <button class="btn btn-default btn-xs" ng-click="doSearch()">
-                              <span class="fa fa-search"></span>
-                            </button>
-                        </td>
-                    </tr>
-                </table>
-            </th>
+                </td>
+                <td>
+                  <button class="btn btn-default btn-xs" ng-click="doSearch()">
+                    <span class="fa fa-search"></span>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </th>
         </tr>
         </thead>
-        </table>
+      </table>
     </div>
 
     <div style="float: right">
-        <button class="btn btn-default btn-xs" ng-click="refresh()"
-                ng-disabled="refreshing"
-                tooltip="Refresh"
-                tooltip-placement="bottom"
-                >
-            <span ng-hide="refreshing" class="fa fa-refresh"></span>
-            <span ng-show="refreshing" class="fa fa-refresh fa-spin"></span>
-        </button>
+      <button class="btn btn-default btn-xs" ng-click="refresh()"
+              ng-disabled="refreshing"
+              tooltip="Refresh"
+              tooltip-placement="bottom"
+        >
+        <span ng-hide="refreshing" class="fa fa-refresh"></span>
+        <span ng-show="refreshing" class="fa fa-refresh fa-spin"></span>
+      </button>
     </div>
     <span style="width: 30px"></span> <!-- some filler -->
     <div style="clear:both;"></div>
-</div>
+  </div>
 
-<div style="width: 100%">
+  <div style="width: 100%">
 
     <div ui-grid="gridOptions" class="ontGrid"></div>
 
+  </div>
 </div>

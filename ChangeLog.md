@@ -1,4 +1,8 @@
 * 2015-12-18: 0.0.8
+    * adjustments in container for the ui-grid (main ontology grid) so it re-sizes in a much better
+      way upon changes in browser window size or changes in browser zoom.
+      The width of this grid, however, is not 100% (which would be ideal) but 90% so the grid remains
+      within the visible area for a couple levels of zooming in with the browser.
     * style adjustments including use of google fonts Merriweather for text, Inconsolata for links
 
 * 2015-12-16: 0.0.8

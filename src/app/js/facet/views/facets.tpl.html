@@ -40,7 +40,9 @@
 
                 <div class="facetsubblock" style="height: {{facet.height}}" >
                     <div ng-repeat="item in facet.selection">
-                        <label class="facetItem" ng-class="{facetItemSelected: item.selected}">
+                        <label class="facetItem"
+                               ng-class="{facetItemSelected: item.selected}"
+                               style="white-space: nowrap">
                             <input type="checkbox" ng-model="item.selected">
                             {{item.label}}
                         </label>

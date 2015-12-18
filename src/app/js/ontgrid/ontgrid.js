@@ -50,11 +50,11 @@ function OntGridController($scope, $routeParams, $location, $filter, uiGridConst
 
     function getCommonColumnDefs() {
         return [
-            { field: 'uri',       minWidth: 400, displayName: 'URI', enableHiding: false, cellTemplate: mklinksCellTemplate },
-            { field: 'name',      cellTemplate: markCellTemplate },
-            { field: 'author',    width: 220},
-            { field: 'orgName',   width: 110, displayName: 'Org', cellTemplate: orgCellTemplate},
-            { field: 'version',   width: 130, sort: { direction: uiGridConstants.DESC } }
+            { field: 'uri',       width: '***', minWidth: 400, displayName: 'URI', enableHiding: false, cellTemplate: mklinksCellTemplate },
+            { field: 'name',      width: '*****', cellTemplate: markCellTemplate },
+            { field: 'author',    width: '**'},
+            { field: 'orgName',   width: '*', displayName: 'Org', cellTemplate: orgCellTemplate},
+            { field: 'version',   width: '*', sort: { direction: uiGridConstants.DESC } }
         ];
     }
     function adjustColumnDefs(ontologies) {
@@ -63,7 +63,7 @@ function OntGridController($scope, $routeParams, $location, $filter, uiGridConst
         if (dataHasSubmitter !== gridHasSubmitter) {
             if (dataHasSubmitter) {
                 $scope.gridOptions.columnDefs.push(
-                    {field: 'submitter', width: 120, cellTemplate: userCellTemplate}
+                    {field: 'submitter', width: '*', cellTemplate: userCellTemplate}
                 );
             }
             else {
