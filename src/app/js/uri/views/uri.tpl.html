@@ -4,13 +4,13 @@
 
     <div class="effect1">
 
-        <span style="font-size: large">
+        <span style="font-size: large" class="uriText">
             {{uri}}
         </span>
 
         <span ng-if="viewAsOptions">
             <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle>
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" dropdown-toggle>
                   View/download as <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -23,7 +23,7 @@
 
         <span ng-if="ontology.versions">
             <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle>
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" dropdown-toggle>
                     Versions <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -77,7 +77,8 @@
                           </td>
 
                           <td>
-                            <div ng-bind-html="prop.value"></div>
+                            <div class="ontContent"
+                                 ng-bind-html="prop.value"></div>
                           </td>
 
                         </tr>

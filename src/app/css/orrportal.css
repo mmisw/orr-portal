@@ -1,3 +1,6 @@
+@import url(https://fonts.googleapis.com/css?family=Merriweather:400,300);
+@import url(https://fonts.googleapis.com/css?family=Inconsolata);
+
 html, body {
     height: 100%;
 }
@@ -239,7 +242,7 @@ div.facetsubblock {
     padding: 10px;
     border: 1px solid #dee7ec;
     border-radius: 4px;
-    background-color: #eff4f7
+    background-color: #f5fafd
 }
 
 .mdLabel {
@@ -257,4 +260,14 @@ div.facetsubblock {
 .stValCol {
   width: 50% !important;
   max-width: 50% !important;
+}
+
+.ontContent {
+  font-family: 'Merriweather', serif;
+  font-weight: 300;
+}
+
+a:link, .uriText {
+  font-family: 'Inconsolata', monospace;
+  font-weight: 200;
 }

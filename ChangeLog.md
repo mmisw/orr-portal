@@ -1,3 +1,6 @@
+* 2015-12-18: 0.0.8
+    * style adjustments including use of google fonts Merriweather for text, Inconsolata for links
+
 * 2015-12-16: 0.0.8
     * initial version of "search terms"
 

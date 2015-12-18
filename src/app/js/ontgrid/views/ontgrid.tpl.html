@@ -11,11 +11,13 @@
                     <tr>
                         <td>
                             <div style="display: inline-block; position: relative">
-                                <input type="text" class="search form-control" placeholder="Global filter"
+                                <input type="text" class="search form-control"
+                                       placeholder="Global filter"
+                                       size="40"
                                        ng-model="tableOpts.globalFilter" ng-keypress="searchKeyPressed($event)"
                                        ng-change="filterData()"
-                                       tooltip="Enter to capture search in URL"
-                                       tooltip-placement="bottom"
+                                       tooltip="Press Enter to capture search argument in URL"
+                                       tooltip-placement="left"
                                 >
                                 <span style="position: absolute; top: 5px; right: 5px"
                                       ng-show="!!tableOpts.globalFilter"
@@ -26,11 +28,8 @@
 
                         </td>
                         <td>
-                            <button class="btn btn-default btn-xs" ng-click="doSearch()"
-                                    tooltip="Capture search in URL"
-                                    tooltip-placement="bottom"
-                            >
-                                <span class="fa fa-search"></span>
+                            <button class="btn btn-default btn-xs" ng-click="doSearch()">
+                              <span class="fa fa-search"></span>
                             </button>
                         </td>
                     </tr>
