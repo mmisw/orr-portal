@@ -1,18 +1,18 @@
 (function() {
   'use strict';
 
-  angular.module('orrportal.st', [])
-    .controller('SearchTermsController', SearchTermsController)
+  angular.module('orrportal.kw', [])
+    .controller('KeywordSearchController', KeywordSearchController)
   ;
 
-  SearchTermsController.$inject = ['$rootScope', '$scope', '$routeParams', '$location', '$http'];
+  KeywordSearchController.$inject = ['$rootScope', '$scope', '$routeParams', '$location', '$http'];
 
-  function SearchTermsController($rootScope, $scope, $routeParams, $location, $http) {
-    if (appUtil.debug) console.log("++SearchTermsController++");
+  function KeywordSearchController($rootScope, $scope, $routeParams, $location, $http) {
+    if (appUtil.debug) console.log("++KeywordSearchController++");
 
     $rootScope.vm.curView = 'st';
 
-    var vm = {st: $routeParams.st};
+    var vm = {st: $routeParams.kw};
     $scope.vm = vm;
 
     doSearch();
@@ -33,7 +33,7 @@
     };
 
     $scope.searchSettingsChanged = function() {
-      var stParam = $routeParams.st !== undefined ? $routeParams.st.trim() : '';
+      var stParam = $routeParams.kw !== undefined ? $routeParams.kw.trim() : '';
       var searchText = vm.st !== undefined ? vm.st.trim() : '';
       if (stParam === searchText) {
         doSearch();
@@ -57,21 +57,19 @@
 
       var searchString = vm.st;
 
-      /*
-       * TODO options for 'literal', 'glob', and 'regex' searches
-       * and do corresponding internal handling as appropriate.
-       * For now escape the given string to avoid any conflicts with
-       * regex expression, and replace OR with | for any alternative strings.
-       */
       searchString = appUtil.escapeRegex(searchString);
       searchString = searchString.replace(/\\/g, "\\\\"); // for SPARQL still need to escape \ --> \\
       searchString = searchString.replace(/\s+(o|O)(r|R)\s+/, "|");
 
       // TODO some paging mechanism
 
-      var query = "SELECT DISTINCT ?subject ?predicate ?object " +
-        "WHERE { ?subject ?predicate ?object. " +
-        "FILTER regex(str(?object), \"" +searchString+ "\", \"i\" ) } " +
+      var query = "PREFIX omv: <http://omv.ontoware.org/2005/05/ontology#> " +
+        "select distinct ?subject ?name " +
+        "where {" +
+        " ?subject omv:keywords ?kws." +
+        " FILTER regex(str(?kws), \"" +searchString+ "\", \"i\" ). " +
+        " ?subject omv:name ?name. " +
+        "} " +
         "ORDER BY ?subject";
 
       if (appUtil.debug) console.log("doSearch: query={" +query+ "}");
@@ -124,11 +122,11 @@
       vm.rows = []; // with htmlified or escaped uri's and values
       _.each(data.values, function(row) {
         vm.rows.push(_.map(row, function(value, index) {
-          if (index < 2) {
+          if (index < 1) {
             value = value.replace(/^<|>$/g, '');
           }
           return htmlify
-            ? index < 2
+            ? index < 1
               ? appUtil.mklinks4uri(value, true, false)
               : appUtil.htmlifyObject(value, onlyExternalLink)
             : _.escape(value);

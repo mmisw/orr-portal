@@ -99,14 +99,16 @@ var appUtil = (function(window) {
         }
         var url4link = uri.replace(/#/g, "%23");
 
+        var icon = '<span class="fa fa-external-link xsmall"></span>';
         var link;
         if (onlyExternalLink) {
-          //link = '<a class="fa fa-external-link" target="_blank" href="' + uri + '">' + uri + '</a>';
+          //link = '<a target="_blank" href="' + uri + '">' + icon + uri + '</a>';
           link = '<a target="_blank" href="' + uri + '">' + uri + '</a>';
         }
         else {
           link = '<a href="#/uri/' + url4link + '">' + uri + '</a> '
-            + '<a class="fa fa-external-link" target="_blank" title="open directly in a new browser window" href="' + uri + '"></a>'
+            + '<a target="_blank" title="open directly in a new browser window" href="'
+            + uri + '">' +icon+ '</a>'
             ;
         }
 

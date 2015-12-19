@@ -1,4 +1,8 @@
 * 2015-12-18: 0.0.8
+    * initial version of keyword search, which works on the metadata property for keywords.
+      At this point basically copied from "search terms" but with different query.
+      Todo: perhaps unify this new search at some point.
+      Note also that 'keyword' could be one other filter facet in the main page.
     * style adjustments in display of ontology page
     * adjustments in container for the ui-grid (main ontology grid) so it re-sizes in a much better
       way upon changes in browser window size or changes in browser zoom.

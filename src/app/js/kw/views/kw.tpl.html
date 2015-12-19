@@ -1,0 +1,81 @@
+<div style="width: 100%">
+
+  <br/>
+
+  <h3>
+    Keword search
+  </h3>
+
+  <table class="mynav">
+    <thead>
+    <tr>
+      <th>
+        <table style="margin: 8px">
+          <tr >
+            <td>
+              Keywords separated by commas:
+            </td>
+            <td>
+              <div style="display: inline-block; position: relative">
+                <input type="text" class="search form-control" style="width: 300px"
+                       ng-model="vm.st" ng-keypress="searchKeyPressed($event)"
+                       ng-change="filterData()"
+                       tooltip="Use OR to separate alternative strings. Press Enter or click the button to capture search in URL and perform search"
+                       tooltip-placement="bottom"
+                  >
+                  <span style="position: absolute; top: 5px; right: 5px"
+                        ng-show="!!vm.st"
+                        ng-click="clearSearch()">
+                      <span class="fa fa-times"></span>
+                  </span>
+              </div>
+
+            </td>
+            <td>
+              <button class="btn btn-default btn-xs" ng-click="searchButtonClicked()"
+                      tooltip="Capture search in URL and perform search"
+                      tooltip-placement="bottom"
+                >
+                <span class="fa fa-search"></span>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </th>
+    </tr>
+    </thead>
+  </table>
+
+  <br/>
+
+  <div ng-if="vm.rows.length">
+    <!--{{vm.results | json}}-->
+    <table class="table table-bordered table-hover table-condensed">
+      <thead>
+      <tr class="info">
+        <th ng-bind-html="vm.colNames[0]" class="stUriCol"></th>
+        <th ng-bind-html="vm.colNames[1]" class="stUriCol"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="row in vm.rows">
+        <td ng-bind-html="row[0]" style="word-break: break-all"></td>
+        <td ng-bind-html="row[1]"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div ng-if="vm.st && !vm.searching && !vm.rows.length"
+    style="color: peru">
+    No terms found
+  </div>
+
+  <div ng-if="vm.searching">
+    <span class="fa fa-spinner fa-spin fa-lg"></span>
+    Searching ...
+  </div>
+
+  <pre ng-if="vm.error" ng-bind="vm.error" style="color: darkred; font-family: monospace">
+  </pre>
+
+</div>

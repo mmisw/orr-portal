@@ -186,7 +186,9 @@
         //console.log("prepareKeywords: keywords=", keywords, "list=", list);
         var prepared = _.map(list, function(word) {
           word = word.trim();
-          return '<a href="#/st/' +word+ '">'+ word+ '</a>';
+          var a = '<a href="#/kw/' +word+ '">'+ word+ '</a>';
+          return a;
+          //return'<span class="btn btn-default badge">' + a + '</span>'
         });
         return prepared.join("&nbsp;&nbsp;");
       }

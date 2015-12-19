@@ -271,3 +271,7 @@ a:link, .uriText {
   font-family: 'Inconsolata', monospace;
   font-weight: 200;
 }
+
+.xsmall {
+  font-size: x-small !important;
+}

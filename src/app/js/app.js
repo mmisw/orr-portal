@@ -12,7 +12,8 @@
     'orrportal.org',
     'orrportal.uri',
     'orrportal.user',
-    'orrportal.st'
+    'orrportal.st',
+    'orrportal.kw'
   ])
     .constant("cfg", appConfig)
     .run(init)
@@ -78,10 +79,16 @@
       .when('/st/', {
         templateUrl: 'js/st/views/st.tpl.html',
         controller: 'SearchTermsController'})
-
       .when('/st/:st*', {
         templateUrl: 'js/st/views/st.tpl.html',
         controller: 'SearchTermsController'})
+
+      .when('/kw/', {
+        templateUrl: 'js/kw/views/kw.tpl.html',
+        controller: 'KeywordSearchController'})
+      .when('/kw/:kw*', {
+        templateUrl: 'js/kw/views/kw.tpl.html',
+        controller: 'KeywordSearchController'})
 
       .when('/uri/:uri*', {
         templateUrl: 'js/uri/views/uri.tpl.html',
