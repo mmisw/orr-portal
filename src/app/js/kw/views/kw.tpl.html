@@ -1,7 +1,5 @@
 <div style="width: 100%">
 
-  <br/>
-
   <h3>
     Keword search
   </h3>
@@ -65,9 +63,9 @@
       </tbody>
     </table>
   </div>
-  <div ng-if="vm.kw && !vm.searching && !vm.rows.length"
+  <div ng-if="vm.gotResults && !vm.searching && !vm.rows.length"
     style="color: peru">
-    No terms found
+    No entities found
   </div>
 
   <div ng-if="vm.searching">

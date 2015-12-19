@@ -47,6 +47,7 @@
     function doSearch() {
       vm.error = "";
       vm.results = "";
+      vm.gotResults = false;
 
       if (!vm.st) {
         return;
@@ -109,7 +110,7 @@
     }
 
     function gotResults(error, data) {
-
+      vm.gotResults = true;
       vm.searching = false;
 
       if (error) {

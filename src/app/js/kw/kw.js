@@ -49,6 +49,7 @@
     function doSearch() {
       vm.error = "";
       vm.results = "";
+      vm.gotResults = false;
 
       if (!vm.kw) {
         return;
@@ -107,7 +108,7 @@
     }
 
     function gotResults(error, data) {
-
+      vm.gotResults = false;
       vm.searching = false;
 
       if (error) {
