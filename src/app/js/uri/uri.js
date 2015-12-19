@@ -48,36 +48,39 @@
   }
 
   function setViewAsOptions($scope, uri) {
-    var url = appConfig.orront.rest + "/api/v0/ont?uri=" + uri;
+    uri = uri.replace(/#/g, '%23');
 
     $scope.viewAsOptions = [
       {
         label: "RDF/XML",
-        url: url+ '&format=rdf'
+        url: getUrl('rdf')
       }, {
         label: "JSON-LD",
-        url: url+ '&format=jsonld'
+        url: getUrl('jsonld')
       }, {
         label: "N3",
-        url: url+ '&format=n3'
+        url: getUrl('n3')
       }, {
         label: "Turtle",
-        url: url+ '&format=ttl'
+        url: getUrl('ttl')
       }, {
         label: "N-Triples",
-        url: url+ '&format=nt'
+        url: getUrl('nt')
       }, {
         label: "N-Quads",
-        url: url+ '&format=nq'
+        url: getUrl('nq')
         //}, {
         //  label: "TriG",  // TODO jena fails with this(?)
-        //  url: url+ '&format=trig'
+        //  getUrl('trig')
       }, {
         label: "RDF/JSON",
-        url: url+ '&format=rj'
+        url: getUrl('rj')
       }
-    ]
+    ];
 
+    function getUrl(format) {
+      return appConfig.orront.rest + "/api/v0/ont?format=" +format+ "&uri=" + uri;
+    }
   }
 
   function refreshOntologyMetadata($scope, uri, service) {
