@@ -86,7 +86,7 @@
       var reqPath = "/api/v0/ont";
       var url = appConfig.orront.rest + reqPath;
 
-      var params = ['uri=' +uri, 'format=!md'];
+      var params = ['format=!md', 'uri=' +uri];
 
       //if ($rootScope.isPrivilegedSession()) {
       //    params.push(appUtil.getHmacParam("GET," + reqPath));
@@ -117,9 +117,10 @@
      */
     function adjustOntology(ont) {
       if (!ont.status) {
-        if (ont.orgName === "testing" || ont.orgName === "mmitest" ||
-          ont.orgName === "odm2test" ||
-          ont.orgName.endsWith("_test") || ont.orgName.startsWith("test_")) {
+        var orgName = ont.orgName || '';
+        if (orgName === "testing" || orgName === "mmitest" ||
+          orgName === "odm2test" ||
+          orgName.endsWith("_test") || orgName.startsWith("test_")) {
           ont.status = "testing";
         }
         //else: better leave blank here, as there should be way for users (at submission time)
