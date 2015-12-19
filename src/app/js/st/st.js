@@ -55,17 +55,19 @@
       vm.searching = true;
       vm.rows = [];
 
-      var searchString = vm.st;
-
       /*
        * TODO options for 'literal', 'glob', and 'regex' searches
        * and do corresponding internal handling as appropriate.
-       * For now escape the given string to avoid any conflicts with
-       * regex expression, and replace OR with | for any alternative strings.
+       * For now escape the given OR operands to avoid any conflicts with
+       * regex expression.
        */
-      searchString = appUtil.escapeRegex(searchString);
-      searchString = searchString.replace(/\\/g, "\\\\"); // for SPARQL still need to escape \ --> \\
-      searchString = searchString.replace(/\s+(o|O)(r|R)\s+/, "|");
+      var orOperands = vm.st.split(/\s*\|\s*/);
+      //console.log("doSearch: orOperands={" +orOperands+ "}");
+      var searchString = _.map(orOperands, function(operand) {
+        return appUtil
+          .escapeRegex(operand)
+          .replace(/\\/g, "\\\\"); // for SPARQL still need to escape \ --> \\
+      }).join('|');
 
       // TODO some paging mechanism
 
