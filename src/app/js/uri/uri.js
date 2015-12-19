@@ -187,8 +187,7 @@
         var prepared = _.map(list, function(word) {
           word = word.trim();
           var a = '<a href="#/kw/' +word+ '">'+ word+ '</a>';
-          return a;
-          //return'<span class="btn btn-default badge">' + a + '</span>'
+          return'<span class="btn btn-default btn-link badge">' + a + '</span>'
         });
         return prepared.join("&nbsp;&nbsp;");
       }
