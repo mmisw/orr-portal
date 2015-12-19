@@ -18,13 +18,13 @@
             <td>
               <div style="display: inline-block; position: relative">
                 <input type="text" class="search form-control" style="width: 300px"
-                       ng-model="vm.st" ng-keypress="searchKeyPressed($event)"
+                       ng-model="vm.kw" ng-keypress="searchKeyPressed($event)"
                        ng-change="filterData()"
-                       tooltip="Use OR to separate alternative strings. Press Enter or click the button to capture search in URL and perform search"
+                       tooltip="Press Enter or click button to capture search in URL and perform search"
                        tooltip-placement="bottom"
                   >
                   <span style="position: absolute; top: 5px; right: 5px"
-                        ng-show="!!vm.st"
+                        ng-show="!!vm.kw"
                         ng-click="clearSearch()">
                       <span class="fa fa-times"></span>
                   </span>
@@ -65,7 +65,7 @@
       </tbody>
     </table>
   </div>
-  <div ng-if="vm.st && !vm.searching && !vm.rows.length"
+  <div ng-if="vm.kw && !vm.searching && !vm.rows.length"
     style="color: peru">
     No terms found
   </div>

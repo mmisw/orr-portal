@@ -10,9 +10,10 @@
   function KeywordSearchController($rootScope, $scope, $routeParams, $location, $http) {
     if (appUtil.debug) console.log("++KeywordSearchController++");
 
-    $rootScope.vm.curView = 'st';
+    $rootScope.vm.curView = 'kw';
 
-    var vm = {st: $routeParams.kw};
+    var vm = {};
+    vm.kw = $routeParams.kw ? $routeParams.kw.replace(/\s*,\s*/g, ", ") : '';
     $scope.vm = vm;
 
     doSearch();
@@ -28,18 +29,19 @@
     };
 
     $scope.clearSearch = function() {
-      vm.st = '';
+      vm.kw = '';
       $scope.searchSettingsChanged();
     };
 
     $scope.searchSettingsChanged = function() {
       var stParam = $routeParams.kw !== undefined ? $routeParams.kw.trim() : '';
-      var searchText = vm.st !== undefined ? vm.st.trim() : '';
+      var searchText = vm.kw !== undefined ? vm.kw.trim() : '';
       if (stParam === searchText) {
         doSearch();
       }
       else {
-        var url = "/st/" + searchText;
+        searchText = searchText.replace(/\s*,\s*/g, ",");
+        var url = "/kw/" + searchText;
         $location.url(url);
       }
     };
@@ -48,18 +50,18 @@
       vm.error = "";
       vm.results = "";
 
-      if (!vm.st) {
+      if (!vm.kw) {
         return;
       }
 
       vm.searching = true;
       vm.rows = [];
 
-      var searchString = vm.st;
+      var searchString = vm.kw;
 
       searchString = appUtil.escapeRegex(searchString);
       searchString = searchString.replace(/\\/g, "\\\\"); // for SPARQL still need to escape \ --> \\
-      searchString = searchString.replace(/\s+(o|O)(r|R)\s+/, "|");
+      searchString = searchString.replace(/\s*,\s*/, "|");
 
       // TODO some paging mechanism
 
