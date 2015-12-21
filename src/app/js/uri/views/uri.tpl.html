@@ -64,7 +64,7 @@
       <tabset style="width: 100%">
 
         <tab ng-repeat="section in vm.ontology.metadataSections" style="cursor: pointer">
-          <tab-heading>
+          <tab-heading tooltip="{{section.tooltip}}">
             {{section.label}}
           </tab-heading>
 
@@ -75,8 +75,7 @@
 
               <tr ng-repeat="prop in getProps(section.propNames)">
                 <td class="mdLabel">
-                  <span title="{{prop.predicate}}">
-                    {{prop.label}}:
+                  <span title="{{prop.predicate}}" ng-bind-html="prop.label">
                   </span>
                 </td>
 
