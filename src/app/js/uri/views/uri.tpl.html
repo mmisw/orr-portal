@@ -79,10 +79,16 @@
                   </span>
                 </td>
 
-                <td>
-                  <div class="ontContent"
+                <td class="ontContent">
+                  <div ng-if="prop.value.length === 1"
                        ng-bind-html="prop.value">
                   </div>
+                  <ul ng-if="prop.value.length > 1" style="padding-left: 10px">
+                    <li ng-repeat="v in prop.value" style="padding-left: 0">
+                      <span ng-bind-html="v">
+                      </span>
+                    </li>
+                  </ul>
                 </td>
 
               </tr>

@@ -3,12 +3,11 @@
 
   angular.module('orrportal.uri', [])
     .controller('UriController', UriController)
-    .constant('handledPredicates', getHandledPredicates())
   ;
 
-  UriController.$inject = ['$scope', '$routeParams', 'service', 'handledPredicates'];
+  UriController.$inject = ['$scope', '$routeParams', 'service'];
 
-  function UriController($scope, $routeParams, service, handledPredicates) {
+  function UriController($scope, $routeParams, service) {
     if (appUtil.debug) console.log("++UriController++");
 
     var vm = $scope.vm = {};
@@ -92,22 +91,22 @@
           $scope.error = error;
         }
         else {
-          var newPredicates = {};
+          var receivedPredicates = {}; // only to remove any explicit double quotes in string value
           _.each(predicates, function(values, predicate) {
-            newPredicates[predicate] = _.map(values, function(value) {
-              // only to remove any explicit double quotes in string value
+            receivedPredicates[predicate] = _.map(values, function(value) {
               return value.replace(/^"(.*)"$/, '$1');
             });
           });
 
+          var handledPredicates = getHandledPredicates();
           _.each(handledPredicates, function(pred) {
-            var values = newPredicates[pred.predicate];
+            var values = receivedPredicates[pred.predicate];
             setPredicateAndValues(pred, values);
           });
 
           $scope.vm.ontology.metadataSections = initMetadataSections();
 
-          var otherMdSection = getOtherMetadataSection(newPredicates);
+          var otherMdSection = getOtherMetadataSection(receivedPredicates, handledPredicates);
           //console.log("otherMdSection=", otherMdSection);
           if (otherMdSection) {
             $scope.vm.ontology.metadataSections.push(otherMdSection);
@@ -116,27 +115,36 @@
       }
 
       function setPredicateAndValues(pred, values) {
-        var value = values ? values[0] : undefined;
-
-        if (pred.name === "ontologyType") {
-          if (value === "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/voc2rdf>") {
-            value = "vocabulary";
-          }
-          else if (value === "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/vine>") {
-            value = "mapping";
-          }
+        var resValue = undefined;
+        if (values) {
+          resValue = [];
+          _.each(values, function(value) {
+            if (pred.name === "ontologyType") {
+              if (value === "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/voc2rdf>") {
+                resValue.push("vocabulary");
+              }
+              else if (value === "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/vine>") {
+                resValue.push("mapping");
+              }
+            }
+            else if (pred.name === "keywords") {
+              resValue.push(prepareKeywords(value));
+            }
+            else if (pred.name === "origMaintainerCode") {
+              if (value) {
+                value = value.replace(/"/g, ''); // ignore any double quotes
+                if (value) {
+                  resValue.push('<a href="#/org/' +value+ '">'+ value+ '</a>');
+                }
+              }
+            }
+            else if (value) {
+              resValue.push(appUtil.htmlifyObject(value, true));
+            }
+          })
         }
-        else if (pred.name === "keywords") {
-          value = prepareKeywords(value);
-        }
-        else if (pred.name === "origMaintainerCode") {
-          if (value) {
-            value = value.replace(/"/g, ''); // ignore any double quotes
-            value = value ? '<a href="#/org/' +value+ '">'+ value+ '</a>' : undefined;
-          }
-        }
-        else if (value) {
-          value = appUtil.htmlifyObject(value, true);
+        if (resValue && resValue.length === 0) {
+          resValue = undefined;
         }
 
         if (name !== undefined) {
@@ -144,7 +152,7 @@
             predicate:   pred.predicate,
             label:       pred.label,
             omitIfUndef: pred.omitIfUndef,
-            value:       value
+            value:       resValue
           };
         }
       }
@@ -188,8 +196,8 @@
         ];
       }
 
-      function getOtherMetadataSection(newPredicates) {
-        var allPredicates = _.keys(newPredicates);
+      function getOtherMetadataSection(receivedPredicates, handledPredicates) {
+        var allPredicates = _.keys(receivedPredicates);
         var usedPredicates = _.map(handledPredicates, "predicate");
         var otherPredicates = _.difference(allPredicates, usedPredicates);
         //console.log('otherPredicates=', otherPredicates);
@@ -207,10 +215,9 @@
               name: name,
               label: appUtil.htmlifyObject(name, true)
             };
-            handledPredicates.push(pred);
             propNames.push(name);
 
-            setPredicateAndValues(pred, newPredicates[predicate]);
+            setPredicateAndValues(pred, receivedPredicates[predicate]);
           });
 
           return {
@@ -237,6 +244,7 @@
     }
   }
 
+  /** Used in the traditional sections 'General', 'Usage..', 'Original source' */
   function getHandledPredicates() {
     return [
       {
@@ -334,4 +342,4 @@
     ];
   }
 
-  })();
+})();
