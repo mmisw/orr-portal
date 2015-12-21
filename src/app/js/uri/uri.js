@@ -119,15 +119,7 @@
         if (values) {
           resValue = [];
           _.each(values, function(value) {
-            if (pred.name === "ontologyType") {
-              if (value === "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/voc2rdf>") {
-                resValue.push("vocabulary");
-              }
-              else if (value === "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/vine>") {
-                resValue.push("mapping");
-              }
-            }
-            else if (pred.name === "keywords") {
+            if (pred.name === "keywords") {
               resValue.push(prepareKeywords(value));
             }
             else if (pred.name === "origMaintainerCode") {
@@ -170,8 +162,7 @@
               "origVocUri",
               "origMaintainerCode",
               "contributor",
-              "reference",
-              "ontologyType"
+              "reference"
             ]
           }, {
             label: "Usage/License/Permissions",
@@ -248,11 +239,6 @@
   function getHandledPredicates() {
     return [
       {
-        predicate: "<http://omv.ontoware.org/2005/05/ontology#usedOntologyEngineeringTool>",
-        name: "ontologyType",
-        label: "Ontology type"
-        , omitIfUndef: true
-      }, {
         predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/hasResourceType>",
         name: "resourceType",
         label: "Resource type"
