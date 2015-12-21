@@ -10,8 +10,8 @@
     </span>
 
     <span ng-if="viewAsOptions">
-        <div class="btn-group" dropdown>
-          <button type="button" class="btn btn-default btn-xs dropdown-toggle" dropdown-toggle>
+        <div class="btn-group" uib-dropdown>
+          <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle>
             View/download as <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
@@ -23,8 +23,8 @@
     </span>
 
     <span ng-if="vm.ontology.versions">
-        <div class="btn-group" dropdown>
-          <button type="button" class="btn btn-default btn-xs dropdown-toggle" dropdown-toggle>
+        <div class="btn-group" uib-dropdown>
+          <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle>
             Versions <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
@@ -61,10 +61,10 @@
 
     <div ng-if="vm.ontology.metadataSections">
 
-      <tabset style="width: 100%">
+      <uib-tabset style="width: 100%">
 
-        <tab ng-repeat="section in vm.ontology.metadataSections" style="cursor: pointer">
-          <tab-heading tooltip="{{section.tooltip}}">
+        <uib-tab ng-repeat="section in vm.ontology.metadataSections" style="cursor: pointer">
+          <tab-heading uib-tooltip="{{section.tooltip}}">
             {{section.label}}
           </tab-heading>
 
@@ -98,9 +98,9 @@
 
           </form>
 
-        </tab>
+        </uib-tab>
 
-      </tabset>
+      </uib-tabset>
 
     </div>
   </div>

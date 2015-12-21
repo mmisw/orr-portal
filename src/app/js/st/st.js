@@ -72,10 +72,12 @@
 
       // TODO some paging mechanism
 
-      var query = "SELECT DISTINCT ?subject ?predicate ?object " +
-        "WHERE { ?subject ?predicate ?object. " +
-        "FILTER regex(str(?object), \"" +searchString+ "\", \"i\" ) } " +
-        "ORDER BY ?subject";
+      var query = "select distinct ?subject ?predicate ?object\n" +
+        "where {\n" +
+        " ?subject ?predicate ?object.\n" +
+        " filter regex(str(?object), \"" +searchString+ "\", \"i\")\n" +
+        "}\n" +
+        "order by ?subject";
 
       if (appUtil.debug) console.log("doSearch: query={" +query+ "}");
 
@@ -92,6 +94,7 @@
             return;
           }
 
+          vm.queryHtml = 'Query:<pre>' +query.replace(/</, '&lt;')+ '</pre>';
           gotResults(null, data);
         })
         .error(function(data, status, headers, config) {

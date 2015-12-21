@@ -6,7 +6,7 @@
         <span style="position: absolute; top: 1px; right: 5px"
               ng-show="anyFacetSelection()"
               ng-click="clearFacetSelection()"
-              tooltip="Clear selections in all facets"
+              uib-tooltip="Clear selections in all facets"
               tooltip-placement="right"
                 >
             <span class="fa fa-times fa-lg"></span>
@@ -15,13 +15,13 @@
 
     <div style="width: 100%">
         <div ng-repeat="facet in facetArray">
-            <div class="facetblock" tooltip="{{facet.tooltip}}" tooltip-placement="right">
+            <div class="facetblock" uib-tooltip="{{facet.tooltip}}" tooltip-placement="right">
                 <div style="width: 100%; display: inline-block; position: relative">
                     <label style="font-size: small">{{facet.label}}</label>
                     <span style="position: absolute; top: 1px; right: 5px"
                           ng-show="anyFacetSelection(facet.key)"
                           ng-click="clearFacetSelection(facet.key)"
-                          tooltip="Clear all selections in this facet"
+                          uib-tooltip="Clear all selections in this facet"
                           tooltip-placement="right"
                     >
                         <span class="fa fa-times"></span>
@@ -29,7 +29,7 @@
                 </div>
 
                 <div ng-show="facet.key === 'org'" style="background-color: #f3f3f3">
-                    <div tooltip="Show only the most recent ontology per organization?"
+                    <div uib-tooltip="Show only the most recent ontology per organization?"
                          tooltip-placement="right"
                     >
                         <label style="font-weight: 200; white-space: nowrap">

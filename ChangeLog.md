@@ -1,3 +1,7 @@
+* 2015-12-21: 0.0.9
+    * update some vendor libraries
+    * show performed query in a popover for st and kw
+
 * 2015-12-20: 0.0.8
     * include section with "other" metadata properties, ie. those not classified/aggregated in other sections.
 

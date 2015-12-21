@@ -275,3 +275,7 @@ a:link, .uriText {
 .xsmall {
   font-size: x-small !important;
 }
+
+.popover {
+  max-width: 700px;
+}

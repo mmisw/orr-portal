@@ -66,14 +66,14 @@
 
       // TODO some paging mechanism
 
-      var query = "PREFIX omv: <http://omv.ontoware.org/2005/05/ontology#> " +
-        "select distinct ?subject ?name " +
-        "where {" +
-        " ?subject omv:keywords ?kws." +
-        " FILTER regex(str(?kws), \"" +searchString+ "\", \"i\" ). " +
-        " ?subject omv:name ?name. " +
-        "} " +
-        "ORDER BY ?subject";
+      var query = "prefix omv: <http://omv.ontoware.org/2005/05/ontology#>\n" +
+        "select distinct ?subject ?name\n" +
+        "where {\n" +
+        " ?subject omv:keywords ?kws.\n" +
+        " filter regex(str(?kws), \"" +searchString+ "\", \"i\").\n" +
+        " ?subject omv:name ?name.\n" +
+        "}\n" +
+        "order by ?subject";
 
       if (appUtil.debug) console.log("doSearch: query={" +query+ "}");
 
@@ -90,6 +90,7 @@
             return;
           }
 
+          vm.queryHtml = 'Query:<pre>' +query.replace(/</, '&lt;')+ '</pre>';
           gotResults(null, data);
         })
         .error(function(data, status, headers, config) {

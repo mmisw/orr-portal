@@ -18,7 +18,7 @@
                 <input type="text" class="search form-control" style="width: 300px"
                        ng-model="vm.kw" ng-keypress="searchKeyPressed($event)"
                        ng-change="filterData()"
-                       tooltip="Press Enter or click button to capture search in URL and perform search"
+                       uib-tooltip="Press Enter or click button to capture search in URL and perform search"
                        tooltip-placement="bottom"
                   >
                   <span style="position: absolute; top: 5px; right: 5px"
@@ -31,7 +31,7 @@
             </td>
             <td>
               <button class="btn btn-default btn-xs" ng-click="searchButtonClicked()"
-                      tooltip="Capture search in URL and perform search"
+                      uib-tooltip="Capture search in URL and perform search"
                       tooltip-placement="bottom"
                 >
                 <span class="fa fa-search"></span>
@@ -47,7 +47,13 @@
   <br/>
 
   <div ng-if="vm.rows.length">
-    <!--{{vm.results | json}}-->
+    <div>
+      <label uib-popover-html="vm.queryHtml"
+            popover-trigger="mouseenter"
+            popover-placement="right">
+        Result:
+      </label>
+    </div>
     <table class="table table-bordered table-hover table-condensed">
       <thead>
       <tr class="info">
