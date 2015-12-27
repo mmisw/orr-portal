@@ -1,37 +1,44 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('orrportal.filters', [])
+  angular.module('orrportal.filters', [])
 
-        .filter('mklinks', [function() {
-            return function(text) {
-                return appUtil.mklinks4text(text);
-            }
-        }])
+    .filter('mklinks', [function() {
+      return function(text) {
+        return appUtil.mklinks4text(text);
+      }
+    }])
 
-        .filter('mkMarks', [function() {
-            return function(entity) {
-                var prefix = '';
-                if ('testing' === entity.status) {
-                    prefix = '<span class="testing">(T)</span>'
-                }
+    // todo: instead of this, use mklinks with parameter
+    .filter('mklinksOnlyExternal', [function() {
+      return function(text) {
+        return appUtil.mklinks4text(text, true);
+      }
+    }])
 
-                return prefix + appUtil.mklinks4text(entity.name);
-            }
-        }])
+    .filter('mkMarks', [function() {
+      return function(entity) {
+        var prefix = '';
+        if ('testing' === entity.status) {
+          prefix = '<span class="testing">(T)</span>'
+        }
 
-        .filter('mkOrgLink', [function() {
-            return function(orgName) {
-                return '<a href="#/org/' + orgName + '">' + orgName + '</a>';
-            }
-        }])
+        return prefix + appUtil.mklinks4text(entity.name);
+      }
+    }])
 
-        .filter('mkUserLink', [function() {
-            return function(userName) {
-                return '<a href="#/user/' + userName + '">' + userName + '</a>';
-            }
-        }])
+    .filter('mkOrgLink', [function() {
+      return function(orgName) {
+        return '<a href="#/org/' + orgName + '">' + orgName + '</a>';
+      }
+    }])
 
-    ;
+    .filter('mkUserLink', [function() {
+      return function(userName) {
+        return '<a href="#/user/' + userName + '">' + userName + '</a>';
+      }
+    }])
+
+  ;
 
 })();
