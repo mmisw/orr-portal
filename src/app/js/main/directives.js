@@ -18,6 +18,14 @@ angular.module('orrportal.directives', [])
         }
     })
 
+    .directive('voc', function() {
+        return {
+            restrict:     'E',
+            templateUrl:  'js/voc/views/voc.tpl.html',
+            controller:   'VocController'
+        }
+    })
+
 ;
 
 })();

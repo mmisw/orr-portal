@@ -4,16 +4,17 @@
   angular.module('orrportal', [
     'ngRoute',
     'ngSanitize',
-    'ui.bootstrap',
-    'orrportal.main',
-    'orrportal.facet',
-    'orrportal.login',
-    'orrportal.ontgrid',
-    'orrportal.org',
-    'orrportal.uri',
-    'orrportal.user',
-    'orrportal.st',
-    'orrportal.kw'
+    'ui.bootstrap'
+    ,'orrportal.main'
+    ,'orrportal.facet'
+    ,'orrportal.login'
+    ,'orrportal.ontgrid'
+    ,'orrportal.org'
+    ,'orrportal.uri'
+    ,'orrportal.user'
+    ,'orrportal.st'
+    ,'orrportal.kw'
+    ,'orrportal.voc'
   ])
     .constant("cfg", appConfig)
     .run(init)

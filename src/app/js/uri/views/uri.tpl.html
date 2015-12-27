@@ -103,6 +103,22 @@
       </uib-tabset>
 
     </div>
+
+    <div ng-if="vm.ontology.ontologyType === 'vocabulary'">
+      <h3> Vocabulary </h3>
+      <voc></voc>
+    </div>
+
+    <div ng-if="vm.ontology.ontologyType === 'mapping'">
+      <h3> Mapping </h3>
+      todo
+    </div>
+
+    <div ng-if="vm.ontology.ontologyType !== 'vocabulary' && vm.ontology.ontologyType !== 'mapping'">
+      <h3> Other </h3>
+      todo
+    </div>
+
   </div>
 
   <div ng-if="error">

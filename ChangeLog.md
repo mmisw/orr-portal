@@ -1,3 +1,8 @@
+* 2015-12-27: 0.0.9
+    * \#2: new voc module and directive with preliminaries for displaying ontologies marked "vocabulary"
+      Note: initially using ui-grid, but now a simple table to display all contents. Possibly to use tr-ng-grid
+      for view-only, and ui-grid for editing.
+
 * 2015-12-21: 0.0.9
     * update some vendor libraries
     * show performed query in a popover for st and kw
