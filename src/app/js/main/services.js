@@ -25,6 +25,8 @@
       refreshOntology:   refreshOntology,
       refreshOntologyMetadata: refreshOntologyMetadata,
 
+      getOntologyFormat:   getOntologyFormat,
+
       getOrgs:           getOrgs,
       refreshOrg:        refreshOrg,
 
@@ -167,6 +169,34 @@
           gotOntologyMetadata(null, predicates);
         })
         .error(httpErrorHandler(gotOntologyMetadata));
+    }
+
+    function getOntologyFormat(uri, format, gotOntology) {
+
+      setRefreshing(true);
+
+      var reqPath = "/api/v0/ont";
+      var url = appConfig.orront.rest + reqPath;
+
+      var params = ['format=' +format, 'uri=' +uri];
+
+      if (params.length > 0) {
+        url += "?" + params.join('&');
+      }
+
+      console.log(appUtil.logTs() + ": GET " + url);
+      $http.get(url)
+        .success(function(res, status, headers, config) {
+          setRefreshing(false);
+          console.log(appUtil.logTs() + ": gotOntology: ", _.cloneDeep(res));
+          if (res.error) {
+            gotOntology(res);
+          }
+          else {
+            gotOntology(null, res);
+          }
+        })
+        .error(httpErrorHandler(gotOntology))
     }
 
     function getOrgs(gotOrgs) {
