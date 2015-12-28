@@ -48,11 +48,11 @@
       <span ng-if="vm.ontology.author">
           - Author: {{vm.ontology.author}}
       </span>
-  <!--
-      <span ng-if="vm.ontology.orgName">
-          Organization: {{vm.ontology.orgName}}
-      </span>
-  -->
+      <!--
+          <span ng-if="vm.ontology.orgName">
+              Organization: {{vm.ontology.orgName}}
+          </span>
+      -->
       <span ng-if="vm.ontology.submitter">
           - Registered by:
           <a href="#/user/{{vm.ontology.submitter}}">{{vm.ontology.submitter}}</a>
@@ -61,68 +61,96 @@
 
     <div ng-if="vm.ontology.metadataSections">
 
-      <uib-tabset style="width: 100%">
+      <div class="ont-DisclosurePanel-header"
+           ng-init="mdCollapsed = true"
+           ng-click="mdCollapsed = !mdCollapsed"
+        >
+        <a>
+          <i ng-if="mdCollapsed" class="fa fa-caret-right"></i>
+          <i ng-if="!mdCollapsed" class="fa fa-caret-down"></i>
+          Metadata
+        </a>
+      </div>
 
-        <uib-tab ng-repeat="section in vm.ontology.metadataSections" style="cursor: pointer">
-          <tab-heading uib-tooltip="{{section.tooltip}}">
-            {{section.label}}
-          </tab-heading>
+      <div uib-collapse="mdCollapsed" style="margin-left: 20px">
 
-          <form class="form-horizontal uriBody">
+        <uib-tabset style="width: 100%">
 
-            <table class="table table-bordered">
-              <tbody>
+          <uib-tab ng-repeat="section in vm.ontology.metadataSections" style="cursor: pointer">
+            <tab-heading uib-popover="{{section.tooltip}}" popover-trigger="mouseenter" popover-placement="right">
+              {{section.label}}
+            </tab-heading>
 
-              <tr ng-repeat="prop in getProps(section.propNames)">
-                <td class="mdLabel">
+            <form class="form-horizontal uriBody">
+
+              <table class="table table-bordered">
+                <tbody>
+
+                <tr ng-repeat="prop in getProps(section.propNames)">
+                  <td class="mdLabel">
                   <span title="{{prop.predicate}}" ng-bind-html="prop.label">
                   </span>
-                </td>
+                  </td>
 
-                <td class="ontContent">
-                  <div ng-if="prop.value.length === 1"
-                       ng-bind-html="prop.value">
-                  </div>
-                  <ul ng-if="prop.value.length > 1" style="padding-left: 10px">
-                    <li ng-repeat="v in prop.value" style="padding-left: 0">
+                  <td class="ontContent">
+                    <div ng-if="prop.value.length === 1"
+                         ng-bind-html="prop.value">
+                    </div>
+                    <ul ng-if="prop.value.length > 1" style="padding-left: 10px">
+                      <li ng-repeat="v in prop.value" style="padding-left: 0">
                       <span ng-bind-html="v">
                       </span>
-                    </li>
-                  </ul>
-                </td>
+                      </li>
+                    </ul>
+                  </td>
 
-              </tr>
+                </tr>
 
-              </tbody>
-            </table>
+                </tbody>
+              </table>
 
-          </form>
+            </form>
 
-        </uib-tab>
+          </uib-tab>
 
-      </uib-tabset>
+        </uib-tabset>
+      </div>
 
     </div>
 
-    <div ng-if="vm.ontology.ontologyType === 'vocabulary'">
-      <h3> Vocabulary </h3>
-      <voc></voc>
+    <div class="ont-DisclosurePanel-header"
+        ng-init="contentsCollapsed = false"
+        ng-click="contentsCollapsed = !contentsCollapsed"
+      >
+      <a>
+        <i ng-if="contentsCollapsed" class="fa fa-caret-right"></i>
+        <i ng-if="!contentsCollapsed" class="fa fa-caret-down"></i>
+        Contents
+      </a>
     </div>
 
-    <div ng-if="vm.ontology.ontologyType === 'mapping'">
-      <h3> Mapping </h3>
-      todo
-    </div>
+    <div uib-collapse="contentsCollapsed" style="margin-left: 20px">
 
-    <div ng-if="vm.ontology.ontologyType !== 'vocabulary' && vm.ontology.ontologyType !== 'mapping'">
-      <h3> Other </h3>
-      todo
+      <div ng-if="vm.ontology.ontologyType === 'vocabulary'">
+        <h3> Vocabulary </h3>
+        <voc></voc>
+      </div>
+
+      <div ng-if="vm.ontology.ontologyType === 'mapping'">
+        <h3> Mapping </h3>
+        todo
+      </div>
+
+      <div ng-if="vm.ontology.ontologyType !== 'vocabulary' && vm.ontology.ontologyType !== 'mapping'">
+        <h3> Other </h3>
+        todo
+      </div>
     </div>
 
   </div>
 
   <div ng-if="error">
-    Error: {{error.error}} <br/>
+    Error: {{error.error}}
   </div>
 
 </div>

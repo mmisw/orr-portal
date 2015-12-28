@@ -284,3 +284,25 @@ a:link, .uriText {
   width: 100%;
   height: 700px;
 }
+
+.ont-DisclosurePanel-header {
+  width: 100%;
+  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  box-shadow:inset 0px 1px 0px 0px #ffffff;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff) );
+  background:-moz-linear-gradient( center top, #f6f6f6 5%, #ffffff 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff');
+  background-color:#f6f6f6;
+  -moz-border-radius:6px;
+  -webkit-border-radius:6px;
+  border-radius:6px;
+  display:inline-block;
+  color:#666666;
+  padding:4px 4px;
+}
+.ont-DisclosurePanel-header:hover {
+  cursor: pointer;
+  font-weight:bold;
+}
+

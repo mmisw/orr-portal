@@ -68,12 +68,12 @@
           classUris.push(uri);
         }
       });
-      console.error("CLASSES=", classUris);
 
       if (!classUris.length) {
         console.error("unexpected: no owl:Class found");
         return;
       }
+      if (appUtil.debug) console.log("classUris=", classUris);
 
       var classInfos = _.map(classUris, function(classUri) {
         var classProps = data[classUri];
