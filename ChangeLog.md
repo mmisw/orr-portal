@@ -1,3 +1,6 @@
+* 2015-12-28: 0.0.9
+    * add button to copy ontology URI to clipboard (note: safari not supported)
+
 * 2015-12-27: 0.0.9
     * \#2: new voc module and directive with preliminaries for displaying ontologies marked "vocabulary"
       Note: initially using ui-grid, but now a simple table to display all contents. Possibly to use tr-ng-grid

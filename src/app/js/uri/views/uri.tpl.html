@@ -4,11 +4,18 @@
 
   <div class="effect1">
 
-    <span style="font-size: x-large;margin-left: 10px;margin-right: 10px"
-          class="uriText">
+    <span class="uriText">
         {{vm.uri}}
     </span>
+    <button type="button" class="btn btn-default btn-xs"
+           uib-popover-html="uriClipboard.getTooltip()"
+           popover-trigger="mouseenter" popover-placement="top"
+           clipboard text="vm.uri" on-copied="uriClipboard.success()" on-error="uriClipboard.fail(err)"
+      >
+      <i class="fa fa-clipboard"></i>
+    </button>
 
+    &nbsp;
     <span ng-if="viewAsOptions">
         <div class="btn-group" uib-dropdown>
           <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle>

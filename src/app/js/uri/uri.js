@@ -5,15 +5,34 @@
     .controller('UriController', UriController)
   ;
 
-  UriController.$inject = ['$scope', '$routeParams', 'service'];
+  UriController.$inject = ['$scope', '$routeParams', '$timeout', 'service'];
 
-  function UriController($scope, $routeParams, service) {
+  function UriController($scope, $routeParams, $timeout, service) {
     if (appUtil.debug) console.log("++UriController++");
 
     var vm = $scope.vm = {};
     vm.uri = $routeParams.uri;
     vm.ontology = undefined;
     vm.error = undefined;
+
+    $scope.uriClipboard = {
+      result: '',
+      getTooltip: function() {
+        return $scope.uriClipboard.result || 'Copy URI to clipboard';
+      },
+      setResult: function(result, delay) {
+        $scope.uriClipboard.result = result;
+        $timeout(function() {$scope.uriClipboard.result = '';}, delay || 2000);
+      },
+      success: function() {
+        $scope.uriClipboard.setResult('<b>Copied!</b>');
+      },
+      fail: function(err) {
+        $scope.uriClipboard.setResult('<b>Error</b>');
+        var msg = "Sorry, your browser may not support copying to the clipboard. Reported error: " + err;
+        $timeout(function() {alert(msg);}, 250);
+      }
+    };
 
     /** gets the props to be displayed for a metadata section */
     $scope.getProps = function(propNames) {

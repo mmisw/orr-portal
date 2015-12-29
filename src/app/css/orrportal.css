@@ -267,9 +267,20 @@ div.facetsubblock {
   font-weight: 300;
 }
 
-a:link, .uriText {
+a:link {
   font-family: 'Inconsolata', monospace;
   font-weight: 200;
+}
+.uriText {
+  font-size: x-large;
+  margin-left: 5px;
+  padding-left: 10px;
+  font-family: 'Inconsolata', monospace;
+  font-weight: 200;
+}
+.uriText:hover {
+  background-color: #eaf8ff;
+  border-radius:6px;
 }
 
 .xsmall {
