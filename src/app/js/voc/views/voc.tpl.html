@@ -5,13 +5,15 @@
     <uib-tab ng-repeat="classInfo in vm.classInfos" style="cursor: pointer">
 
       <script type="text/ng-template" id="classTabPopup.html">
-        <a target="_blank"
-           ng-href="{{classInfo.uri}}"
-           ng-bind="classInfo.uri"
-           class="uriText"
-           ng-mouseleave="classInfo.showPopup=false"
-          >
-        </a>
+        <span>
+          Class:
+          <a target="_blank"
+             ng-href="{{classInfo.uri}}"
+             ng-bind="classInfo.uri"
+             ng-mouseleave="classInfo.showPopup=false"
+            >
+          </a>
+        </span>
       </script>
 
       <tab-heading ng-mouseenter="classInfo.showPopup=true" ng-mouseleave="classInfo.showPopup=false">
