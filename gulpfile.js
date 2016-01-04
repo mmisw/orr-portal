@@ -12,24 +12,25 @@ var open        = require('open');
 var fs          = require('fs');
 
 
+var base = gutil.env.base;
+
 var bower = require('./bower');
 var appname = bower.name;
 var version = bower.version;
 
 var distDest = './dist/' + appname;
-var zipfile = appname + '-' + version + '.zip';
+var zipfile = appname + '-' + version + (base ? '-BASE' + base.replace(/\//g, '_') : '') + '.zip';
 var zipDest = './dist';
 
 gutil.log("Building version " + version);
 
-var base = gutil.env.base;
 if (base) {
   gutil.log('Will insert <base href="' +base+ '">');
 }
 
 var installDest = gutil.env.dest;
-gutil.log('dest=' +installDest);
 if (installDest) {
+  gutil.log('dest=' +installDest);
   installDest = installDest.replace(/^~/, process.env.HOME);
   gutil.log('Install destination: ' +installDest);
 }
