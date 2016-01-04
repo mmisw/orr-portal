@@ -2,6 +2,7 @@ var appUtil = (function(window) {
     'use strict';
 
     var windowLocationSearch = parseWindowLocationSearch();
+    var uri = windowLocationSearch.uri || uriFromWindowLocation();
 
     var debug = windowLocationSearch.debug !== undefined
         ? { level: "dummy" }
@@ -16,6 +17,7 @@ var appUtil = (function(window) {
 
     return {
         windowLocationSearch: windowLocationSearch,
+        uri:            uri,
         debug:          debug,
         mklinks4text:   mklinks4text,
 
@@ -209,4 +211,24 @@ var appUtil = (function(window) {
         if (params.debug !== undefined) console.log("parseWindowLocationSearch: params=", params);
         return params;
     }
+
+    /**
+     * Returns window.location.href (without trailing hash part) if it has appConfig.orront.selfHostPrefix
+     * as a proper prefix. The returns string can be interpreted as a particular URI request as opposed
+     * to a request to the main ontology list page. Otherwise, returns undefined.
+     */
+    function uriFromWindowLocation() {
+      var href = window.location.href;
+      if (href.endsWith(window.location.hash)) {
+        href = href.substring(0, href.length - window.location.hash.length);
+      }
+      var selfHostPrefix = appConfig.orront.selfHostPrefix;
+      console.log("selfHostPrefix=" +selfHostPrefix + " href=" +href);
+      if (href.startsWith(selfHostPrefix) && href.length > selfHostPrefix.length) {
+        console.log(selfHostPrefix + " is proper selfHostPrefix of href=" +href);
+        var uri = href;
+      }
+      return uri;
+    }
+
 })(window);
