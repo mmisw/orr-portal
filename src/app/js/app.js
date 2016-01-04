@@ -17,6 +17,7 @@
     ,'orrportal.kw'
     ,'orrportal.voc'
   ])
+    .constant("windowLocationSearch", appUtil.windowLocationSearch)
     .constant("cfg", appConfig)
     .run(init)
     .factory('httpInterceptor', httpInterceptor)
@@ -24,12 +25,14 @@
     .config(routes)
   ;
 
-  init.$inject = ['$rootScope', '$location', 'cfg', 'service', 'ipCookie', 'authService'];
+  init.$inject = ['$rootScope', '$location', 'windowLocationSearch', 'cfg', 'service', 'ipCookie', 'authService'];
 
-  function init(scope, $location, cfg, service, ipCookie, authService) {
+  function init(scope, $location, windowLocationSearch, cfg, service, ipCookie, authService) {
     if (appUtil.debug) console.log("++INIT++");
 
     scope.debug = appUtil.debug;
+
+    scope.rUri = windowLocationSearch.uri;
 
     if (appUtil.debug) {
       appUtil.debug.collapsed = true;
@@ -66,13 +69,20 @@
     });
   }
 
-  routes.$inject = ['$routeProvider'];
+  routes.$inject = ['$routeProvider', 'windowLocationSearch'];
 
-  function routes($routeProvider) {
+  function routes($routeProvider, windowLocationSearch) {
+    console.log("routes: windowLocationSearch=", windowLocationSearch);
     $routeProvider
-      .when('/', {
-        templateUrl: 'js/main/views/main.tpl.html',
-        controller: 'MainController'})
+      // root "/" route set depending on whether we have a URI to dispatch:
+      .when('/', windowLocationSearch.uri
+        ? {
+          templateUrl: 'js/uri/views/uri.tpl.html',
+          controller: 'UriController'}
+        : {
+          templateUrl: 'js/main/views/main.tpl.html',
+          controller: 'MainController'}
+      )
 
       .when('/so/:so*', {
         templateUrl: 'js/main/views/main.tpl.html',

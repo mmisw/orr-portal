@@ -1,4 +1,6 @@
 * 2015-01-03: 0.1.0: preliminaries to dispatch this orr-portal UI with an orr-ont-based URL
+    * add orrmain and orruri directives in case of direct dispatch of main and URI pages
+    * set "/" route depending on whether there's a URI to dispatch (for now only from windowLocationSearch.uri)
     * add appUtil.windowLocationSearch with object capturing the parsing of window.location.search.
       In particular, this will allow to dispatch ../orr-ont?uri=xxx with the specific URI
 

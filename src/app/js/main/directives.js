@@ -18,6 +18,22 @@ angular.module('orrportal.directives', [])
         }
     })
 
+    .directive('orrmain', function() {
+        return {
+          restrict:     'E',
+          templateUrl:  'js/main/views/main.tpl.html',
+          controller:   'MainController'
+        }
+    })
+
+    .directive('orruri', function() {
+        return {
+          restrict:     'E',
+          templateUrl:  'js/uri/views/uri.tpl.html',
+          controller:   'UriController'
+        }
+    })
+
     .directive('voc', function() {
         return {
             restrict:     'E',

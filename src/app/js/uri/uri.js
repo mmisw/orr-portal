@@ -5,13 +5,13 @@
     .controller('UriController', UriController)
   ;
 
-  UriController.$inject = ['$scope', '$routeParams', '$timeout', 'service'];
+  UriController.$inject = ['$rootScope', '$scope', '$routeParams', '$timeout', 'service'];
 
-  function UriController($scope, $routeParams, $timeout, service) {
+  function UriController($rootScope, $scope, $routeParams, $timeout, service) {
     if (appUtil.debug) console.log("++UriController++");
 
     var vm = $scope.vm = {};
-    vm.uri = $routeParams.uri;
+    vm.uri = $rootScope.rUri || $routeParams.uri;
     vm.ontology = undefined;
     vm.error = undefined;
 

@@ -12,13 +12,13 @@
   var rdfsLabelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
   var owlClassUri = 'http://www.w3.org/2002/07/owl#Class';
 
-  VocController.$inject = ['$scope', '$routeParams', 'service'];
+  VocController.$inject = ['$rootScope', '$scope', '$routeParams', 'service'];
 
-  function VocController($scope, $routeParams, service) {
+  function VocController($rootScope, $scope, $routeParams, service) {
     if (appUtil.debug) console.log("++VocController++");
 
     var vm = $scope.vm = {};
-    vm.uri = $routeParams.uri;
+    vm.uri = $rootScope.rUri || $routeParams.uri;
 
     service.getOntologyFormat(vm.uri, "rj", gotOntology);
 

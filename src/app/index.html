@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="orrportal">
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>ORR Portal @@version</title>
-    <link rel="shortcut icon" href="img/logo-sm.png">
+    <title ng-bind="rUri || 'ORR Portal @@version'"></title>
+    <link rel="shortcut icon" href="img/favicon.ico">
 
     <link rel="stylesheet" href="vendor/bootstrap-css-only/css/bootstrap.css">
     <link rel="stylesheet" href="vendor/bootstrap-css-only/css/bootstrap-theme.css">
@@ -30,6 +30,7 @@
 
     <script src='js/config.js'></script>
     <script src='js/config.local.js'></script>
+    <script src='js/util.js'></script>
     <script src='js/app.js'></script>
     <script src='js/main/directives.js'></script>
     <script src='js/main/filters.js'></script>
@@ -47,13 +48,20 @@
     <script src='js/st/st.js'></script>
     <script src='js/kw/kw.js'></script>
     <script src='js/voc/voc.js'></script>
-    <script src='js/util.js'></script>
-
 </head>
 
-<body ng-app="orrportal">
+<body>
 
 <orrportal-header></orrportal-header>
+
+<!--
+<div ng-if="!rUri">
+  <orrmain></orrmain>
+</div>
+<div ng-if="rUri">
+  <orruri></orruri>
+</div>
+-->
 
 <div ng-view></div>
 
