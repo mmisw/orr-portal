@@ -15,6 +15,11 @@ function OntGridController($scope, $routeParams, $location, $filter, uiGridConst
 
     $scope.tableOpts = {globalFilter: ''};
 
+    var mkUriLinkCellTemplate =
+        '<div class="ui-grid-cell-contents">' +
+        '<span ng-bind-html="row.entity[col.field] | mklink4uriWithSelfHostPrefix"></span>'
+        + '</div>';
+
     var mklinksCellTemplate =
         '<div class="ui-grid-cell-contents">' +
         '<span ng-bind-html="row.entity[col.field] | mklinks"></span>'
@@ -50,7 +55,7 @@ function OntGridController($scope, $routeParams, $location, $filter, uiGridConst
 
     function getCommonColumnDefs() {
         return [
-            { field: 'uri',       width: '***', minWidth: 400, displayName: 'URI', enableHiding: false, cellTemplate: mklinksCellTemplate },
+            { field: 'uri',       width: '***', minWidth: 400, displayName: 'URI', enableHiding: false, cellTemplate: mkUriLinkCellTemplate },
             { field: 'name',      width: '*****', cellTemplate: markCellTemplate },
             { field: 'author',    width: '**'},
             { field: 'orgName',   width: '*', displayName: 'Org', cellTemplate: orgCellTemplate},

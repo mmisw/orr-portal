@@ -3,6 +3,12 @@
 
   angular.module('orrportal.filters', [])
 
+    .filter('mklink4uriWithSelfHostPrefix', [function() {
+      return function(text) {
+        return appUtil.mklink4uriWithSelfHostPrefix(text);
+      }
+    }])
+
     .filter('mklinks', [function() {
       return function(text) {
         return appUtil.mklinks4text(text);

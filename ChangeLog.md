@@ -1,6 +1,9 @@
 ## change log ##
 
 * 2016-01-03: 0.1.0: preliminaries to dispatch this orr-portal UI with an orr-ont-based URL
+    * ontgrid: use new mklink4uriWithSelfHostPrefix filter to use appConfig.orront.selfHostPrefix
+      with "?uri" parameter for the link (this still exploratory)
+
     * when there's no explicit uri query parameter, use window.location.href and
       appConfig.orront.selfHostPrefix to determine whether the application URL corresponds
       to a URI request or a request to the main ontology list.

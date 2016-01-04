@@ -19,6 +19,9 @@ var appUtil = (function(window) {
         windowLocationSearch: windowLocationSearch,
         uri:            uri,
         debug:          debug,
+
+        mklink4uriWithSelfHostPrefix: mklink4uriWithSelfHostPrefix,
+
         mklinks4text:   mklinks4text,
 
         mklinks4uri:    mklinks4uri,
@@ -33,6 +36,14 @@ var appUtil = (function(window) {
 
         logTs: function() { return moment().local().format(); }
     };
+
+    function mklink4uriWithSelfHostPrefix(uri) {
+      uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
+      var url4link = uri.replace(/#/g, "%23");
+      var selfHostPrefix = appConfig.orront.selfHostPrefix;
+      var href = selfHostPrefix + "?uri=" + url4link;
+      return '<a href="' + href + '">' + uri + '</a>';
+    }
 
     function htmlifyUri(uri) {
         return mklinks4uri(uri, true);
