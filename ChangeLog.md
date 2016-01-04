@@ -1,9 +1,13 @@
-* 2015-01-03: 0.1.0: preliminaries to dispatch this orr-portal UI with an orr-ont-based URL
+* 2016-01-03: 0.1.0: preliminaries to dispatch this orr-portal UI with an orr-ont-based URL
+    * gulpfile:
+        * insert `<base href="path">` in .html if `--base=path` is passed.
+        * add `install` target, which works along with required `--dest=dir`, eg:
+          ```gulp install --base=/orr-ont/ --dest=/opt/tomcat/webapps/orr-ont/```
+          this "installs" the UI application under the orr-ont service.
     * add orrmain and orruri directives in case of direct dispatch of main and URI pages
     * set "/" route depending on whether there's a URI to dispatch (for now only from windowLocationSearch.uri)
     * add appUtil.windowLocationSearch with object capturing the parsing of window.location.search.
       In particular, this will allow to dispatch ../orr-ont?uri=xxx with the specific URI
-
 
 
 * 2015-12-28: 0.0.9

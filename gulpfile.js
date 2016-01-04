@@ -9,6 +9,7 @@ var uglify      = require('gulp-uglify');
 var rename      = require('gulp-rename');
 var webserver   = require('gulp-webserver');
 var open        = require('open');
+var fs          = require('fs');
 
 
 var bower = require('./bower');
@@ -19,7 +20,19 @@ var distDest = './dist/' + appname;
 var zipfile = appname + '-' + version + '.zip';
 var zipDest = './dist';
 
-gutil.log("building version ", version);
+gutil.log("Building version " + version);
+
+var base = gutil.env.base;
+if (base) {
+  gutil.log('Will insert <base href="' +base+ '">');
+}
+
+var installDest = gutil.env.dest;
+gutil.log('dest=' +installDest);
+if (installDest) {
+  installDest = installDest.replace(/^~/, process.env.HOME);
+  gutil.log('Install destination: ' +installDest);
+}
 
 gulp.task('default', ['dist']);
 
@@ -51,6 +64,26 @@ gulp.task('dist', ['min'], function(){
     .pipe(gulp.dest(zipDest));
 });
 
+/////////////////////////////////////////////////////////////////////////////
+// install
+
+gulp.task('install', ['check-dest', 'min'], function(){
+  return gulp.src([distDest + '/**'])
+    .pipe(gulp.dest(installDest));
+});
+
+gulp.task('check-dest', function (cb) {
+  if (installDest === undefined) throw Error("install needs --dest=dir");
+  if (!fs.lstatSync(installDest).isDirectory()) throw Error(installDest+ " is not a directory");
+  cb()
+});
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+// TODO we are not actually using the min'ified stuff
+
 gulp.task('min', ['app', 'vendor', 'orrportal']);
 
 gulp.task('app', ['clean'], function(){
@@ -58,6 +91,7 @@ gulp.task('app', ['clean'], function(){
     gulp.src(['./src/app/**', '!./src/app/**/*.html', '!./src/app/js/config.local.js'])
       .pipe(gulp.dest(distDest)),
     gulp.src(['./src/app/**/*.html'])
+      .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))
       .pipe(replace(/@@version/g, version))
       .pipe(gulp.dest(distDest))
   );

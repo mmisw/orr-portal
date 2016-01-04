@@ -4,15 +4,36 @@ This user interface is against the [orr-ont](https://github.com/mmisw/orr-ont) e
 
 ### Development
 
-```
+```shell
 $ npm install
 $ bower install
-$ gulp dev   # launches server and browser for local testing
-$ gulp dist  # creates installable zip archive under dist/
 ```
 
-### Test deployment
+Launch server and browser for local testing:
+
+```shell
+$ gulp dev
+```
+
+Create installable zip archive under `dist/`:
+
+```shell
+$ gulp dist
+```
+
+Install under the `orr-ont` service:
+
+```shell
+$ gulp install --base=/orr-ont/ --dest=/opt/tomcat/webapps/orr-ont/
+```
+
+### Test deployments
 
 https://mmisw.org/experimental/orrportal/
 
-**Status**: pre-alpha
+https://mmisw.org/orr-ont/
+
+
+### Status
+
+pre-alpha
