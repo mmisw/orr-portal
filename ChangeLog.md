@@ -1,3 +1,9 @@
+* 2015-01-03: 0.1.0: preliminaries to dispatch this orr-portal UI with an orr-ont-based URL
+    * add appUtil.windowLocationSearch with object capturing the parsing of window.location.search.
+      In particular, this will allow to dispatch ../orr-ont?uri=xxx with the specific URI
+
+
+
 * 2015-12-28: 0.0.9
     * add button to copy ontology URI to clipboard (note: safari not supported)
 

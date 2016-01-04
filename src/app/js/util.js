@@ -1,7 +1,9 @@
 var appUtil = (function(window) {
     'use strict';
 
-    var debug = window && window.location.toString().match(/.*\?debug/)
+    var windowLocationSearch = parseWindowLocationSearch();
+
+    var debug = windowLocationSearch.debug !== undefined
         ? { level: "dummy" }
         : undefined;
 
@@ -13,6 +15,7 @@ var appUtil = (function(window) {
     setPolyfills();
 
     return {
+        windowLocationSearch: windowLocationSearch,
         debug:          debug,
         mklinks4text:   mklinks4text,
 
@@ -185,5 +188,25 @@ var appUtil = (function(window) {
     // http://stackoverflow.com/a/3561711/830737
     function escapeRegex(s) {
       return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    }
+
+    function parseWindowLocationSearch() {
+        var locSearch = window.location.search.substring(1);
+        var params = {};
+        if ( locSearch && locSearch.trim().length > 0 ) {
+          // skip ? and get &-separated chunks:
+          var chunks = locSearch.split("&");
+          _.each(chunks, function(chunk) {
+            var toks = _.map(chunk.split("="), decodeURIComponent);
+            if ( toks.length > 0 ) {
+              var key = toks[0].trim();
+              if (key) {
+                params[key] = toks.length === 2 ? toks[1].trim() : '';
+              }
+            }
+          });
+        }
+        if (params.debug !== undefined) console.log("parseWindowLocationSearch: params=", params);
+        return params;
     }
 })(window);

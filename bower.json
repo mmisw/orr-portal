@@ -1,6 +1,6 @@
 {
-  "name": "ORRPortal",
-  "version": "0.0.9",
+  "name": "orrportal",
+  "version": "0.1.0",
   "dependencies": {
     "angular": "1.4.7",
     "angular-bootstrap": "0.14.3",
