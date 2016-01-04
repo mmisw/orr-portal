@@ -88,8 +88,15 @@ gulp.task('check-dest', function (cb) {
 gulp.task('min', ['app', 'vendor', 'orrportal']);
 
 gulp.task('app', ['clean'], function(){
+  var src = ['./src/app/**', '!./src/app/**/*.html'];
+  if (gutil.env.localConfig) {
+    gutil.log("Including local.config.js");
+  }
+  else {
+    src.push('!./src/app/js/local.config.js');
+  }
   return merge(
-    gulp.src(['./src/app/**', '!./src/app/**/*.html', '!./src/app/js/config.local.js'])
+    gulp.src(src)
       .pipe(gulp.dest(distDest)),
     gulp.src(['./src/app/**/*.html'])
       .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))

@@ -1,5 +1,8 @@
+## change log ##
+
 * 2016-01-03: 0.1.0: preliminaries to dispatch this orr-portal UI with an orr-ont-based URL
     * gulpfile:
+        * accept --localConfig to include local.config.js in dist and install tasks
         * insert `<base href="path">` in .html if `--base=path` is passed.
         * add `install` target, which works along with required `--dest=dir`, eg:
           ```gulp install --base=/orr-ont/ --dest=/opt/tomcat/webapps/orr-ont/```

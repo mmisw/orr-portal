@@ -1,6 +1,6 @@
 node_modules/
 bower_components/
-src/app/js/config.local.js
+src/app/js/local.config.js
 src/app/vendor
 src/app/js/templates.js
 bin/

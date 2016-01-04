@@ -10,4 +10,4 @@ var appConfig = {
     }
 };
 
-// Override properties for local settings in a config.local.js file.
+// Override properties for local settings in a local.config.js file.
