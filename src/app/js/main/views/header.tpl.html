@@ -17,22 +17,7 @@
   </div>
   <span style="width: 30px"></span> <!-- some filler -->
 
-    <span style="float: right; padding: 10px">
-        <span ng-hide="loginInfo.userName">
-            <button class="btn btn-default btn-link btn-xs"
-                    ng-click="signIn()">
-                <i class="fa fa-sign-in"> Sign in</i>
-            </button>
-        </span>
-        <span ng-show="loginInfo.userName">
-            <a href="#/user/{{loginInfo.userName}}">{{loginInfo.userName}}</a>
-            <button class="btn btn-default btn-link btn-xs"
-                    ng-click="signOut()">
-                <i class="fa fa-sign-out"> Sign out</i>
-            </button>
-
-        </span>
-    </span>
+  <orrportal-log-button></orrportal-log-button>
 
   <div style="clear:both;"></div>
 </div>

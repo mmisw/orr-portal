@@ -10,6 +10,14 @@ angular.module('orrportal.directives', [])
         }
     })
 
+    .directive('orrportalLogButton', function() {
+        return {
+            restrict:    'E',
+            templateUrl: 'js/fireauth/views/button.tpl.html',
+            controller:   'MainLoginController'
+        }
+    })
+
     .directive('ontgrid', function() {
         return {
             restrict:     'E',

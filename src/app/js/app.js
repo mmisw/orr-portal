@@ -16,6 +16,7 @@
     ,'orrportal.st'
     ,'orrportal.kw'
     ,'orrportal.voc'
+    ,'orrportal.firebase'
   ])
     .constant("rUri", appUtil.uri)
     .constant("cfg", appConfig)
@@ -40,6 +41,8 @@
     }
 
     scope.cfg = cfg;
+
+    scope.masterAuth = {};
 
     // TODO unify elements under vm
     scope.vm = {};
@@ -124,6 +127,10 @@
       .when('/signIn/:redirect*', {
         templateUrl: 'js/auth/views/login.tpl.html',
         controller: 'LoginController'
+      })
+
+      .when('/fireauth-test', {  // TODO remove
+        templateUrl: 'js/fireauth/views/test.tpl.html'
       })
 
       .otherwise({redirectTo: '/'});

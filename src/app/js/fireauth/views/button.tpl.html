@@ -1,0 +1,23 @@
+<span style="float: right; padding: 10px">
+  <span ng-if="masterAuth.loggedInInfo.uid" title="{{masterAuth.loggedInInfo.uid}}">
+    <span style="font-weight: bold">
+      {{masterAuth.loggedInInfo.displayName}}
+    </span>
+
+    <span>
+      {{masterAuth.loggedInInfo.email}}
+    </span>
+
+    <i class="fa fa-{{masterAuth.loggedInInfo.provider}}"></i>
+
+    <button class="btn btn-default btn-xs" title="Sign out"
+            ng-click="logout()"><i class="fa fa-sign-out"></i>
+    </button>
+  </span>
+
+  <button ng-if="!masterAuth.loggedInInfo.uid"
+    class="btn btn-info btn-xs" ng-click="openLoginDialog()">
+    Login
+  </button>
+
+</span>

@@ -64,6 +64,8 @@
       //    params.push(appUtil.getHmacParam("GET," + reqPath));
       //}
 
+      addJwtIfAvailable(params);
+
       if (params.length > 0) {
         url += "?" + params.join('&');
       }
@@ -226,6 +228,8 @@
       //    params.push(appUtil.getHmacParam("GET," + reqPath));
       //}
 
+      addJwtIfAvailable(params);
+
       if (params.length > 0) {
         url += "?" + params.join('&');
       }
@@ -258,6 +262,8 @@
       //    params.push(appUtil.getHmacParam("GET," + reqPath));
       //}
 
+      addJwtIfAvailable(params);
+
       if (params.length > 0) {
         url += "?" + params.join('&');
       }
@@ -280,6 +286,13 @@
     function setRefreshing(b) {
       $rootScope.$broadcast('evtRefreshing', b);
       refreshing = b;
+    }
+
+    function addJwtIfAvailable(params) {
+      //console.log("refreshOrg: masterAuth.authData=", $rootScope.masterAuth.authData);
+      if ($rootScope.masterAuth.authData && $rootScope.masterAuth.authData.token) {
+        params.push("jwt=" + $rootScope.masterAuth.authData.token);
+      }
     }
 
     function httpErrorHandler(cb) {

@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2016-01-13: 0.2.0:
+    * user authentication now based on Firebase and JWT tokens, along with corresponding support from orr-ont.
+     -- TODO remove previous scheme
+
 * 2016-01-03: 0.1.0: preliminaries to dispatch this orr-portal UI with an orr-ont-based URL
     * ontgrid: use new mklink4uriWithSelfHostPrefix filter to use appConfig.orront.selfHostPrefix
       with "?uri" parameter for the link (this still exploratory)

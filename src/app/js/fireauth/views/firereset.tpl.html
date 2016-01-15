@@ -1,0 +1,50 @@
+<div style="display: inline-block; vertical-align: top; margin-left: 10px; margin-top: 20px">
+    <div class="panel panel-default">
+
+        <div class="panel-heading">Reset password</div>
+
+        <div class="panel-body">
+
+            <form class="form-horizontal">
+
+                <div class="form-group">
+                    <label for="inputEMail" class="control-label col-xs-2">
+                        email:
+                    </label>
+
+                    <div class="col-xs-7">
+                        <input id="inputEMail"
+                               type="text" class="form-control" style="width: 15em"
+                               ng-keypress="loginKeyPressed($event)"
+                               ng-model="vm.email"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-3"> </label>
+                    <button class="btn btn-primary btn-sm" ng-click="doReset()"
+                            ng-disabled="refreshing || !isValid()"
+                            >Reset
+                    </button>
+
+                    <label class="col-xs-1"> </label>
+                    <button class="btn btn-default btn-sm" ng-click="cancel()"
+                            ng-disabled="refreshing"
+                            >Cancel
+                    </button>
+                </div>
+
+            </form>
+
+            <div ng-show="progress" style="color: darkgreen">
+                <span class="fa fa-spinner fa-spin"></span>
+                <span>{{progress}}</span>
+            </div>
+            <div ng-show="error" style="color: darkred">
+                {{ error }}
+            </div>
+
+        </div>
+    </div>
+</div>
