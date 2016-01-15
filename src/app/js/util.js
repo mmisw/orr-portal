@@ -29,8 +29,8 @@ var appUtil = (function(window) {
         htmlifyUri:     htmlifyUri,
         htmlifyObject:  htmlifyObject,
 
-        getHmac:        getHmac,
-        getHmacParam:   getHmacParam,
+        //getHmac:        getHmac,
+        //getHmacParam:   getHmacParam,
 
         escapeRegex:    escapeRegex,
 
@@ -157,14 +157,14 @@ var appUtil = (function(window) {
         return String.fromCharCode(parseInt(val, 16));
     }
 
-    function getHmac(str) {
-        var shaObj = new jsSHA(str, "TEXT");
-        return shaObj.getHMAC(appConfig.orront.secret, "TEXT", "SHA-1", "B64");
-    }
-
-    function getHmacParam(str) {
-        return appConfig.orront.sigParamName + "=" + encodeURIComponent(getHmac(str));
-    }
+    //function getHmac(str) {
+    //    var shaObj = new jsSHA(str, "TEXT");
+    //    return shaObj.getHMAC(appConfig.orront.secret, "TEXT", "SHA-1", "B64");
+    //}
+    //
+    //function getHmacParam(str) {
+    //    return appConfig.orront.sigParamName + "=" + encodeURIComponent(getHmac(str));
+    //}
 
     function setPolyfills() {
         /*

@@ -8,7 +8,6 @@
     ,'angular-clipboard'
     ,'orrportal.main'
     ,'orrportal.facet'
-    ,'orrportal.login'
     ,'orrportal.ontgrid'
     ,'orrportal.org'
     ,'orrportal.uri'
@@ -21,14 +20,12 @@
     .constant("rUri", appUtil.uri)
     .constant("cfg", appConfig)
     .run(init)
-    .factory('httpInterceptor', httpInterceptor)
-    .config(http)
     .config(routes)
   ;
 
-  init.$inject = ['$rootScope', '$location', 'rUri', 'cfg', 'service', 'ipCookie', 'authService'];
+  init.$inject = ['$rootScope', 'rUri', 'cfg'];
 
-  function init(scope, $location, rUri, cfg, service, ipCookie, authService) {
+  function init(scope, rUri, cfg) {
     if (appUtil.debug) console.log("++INIT++");
 
     scope.debug = appUtil.debug;
@@ -46,22 +43,6 @@
 
     // TODO unify elements under vm
     scope.vm = {};
-
-    scope.loginInfo = (ipCookie("ontorr") || {}).loginInfo || {};
-    //console.log("scope.loginInfo=", scope.loginInfo);
-    authService.initAuthentication();
-    scope.signIn = function() {
-      var redirect = $location.url();
-      if (!redirect.startsWith("/signIn")) {
-        $location.url("/signIn" + redirect);
-      }
-    };
-    scope.signOut = function() {
-      authService.signOut();
-      service.setDoRefreshOntologies(true);
-      scope.refresh();
-    };
-    //scope.isPrivilegedSession = authService.isAdmin;
 
     scope.refresh = function() {
       scope.$broadcast('evtRefresh');
@@ -134,26 +115,6 @@
       })
 
       .otherwise({redirectTo: '/'});
-  }
-
-  httpInterceptor.$inject = ['$rootScope'];
-
-  function httpInterceptor($rootScope) {
-    return {
-      responseError: function(rejection) {
-        if (rejection.status === 401) {
-          //console.log(appUtil.logTs() + ": unauthorized");
-          $rootScope.signOut();
-        }
-        return rejection;
-      }
-    };
-  }
-
-  http.$inject = ['$httpProvider'];
-
-  function http($httpProvider) {
-    $httpProvider.interceptors.push('httpInterceptor');
   }
 
 })();

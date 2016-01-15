@@ -2,7 +2,12 @@
 
 * 2016-01-13: 0.2.0:
     * user authentication now based on Firebase and JWT tokens, along with corresponding support from orr-ont.
-     -- TODO remove previous scheme
+    * general clean-up per the simplification provided by the Firebase mechanism
+        * js/app.js: remove reference to 'orrportal.login' module and associated stuff, including
+          the httpInterceptor.  (js/auth/** files still there but to be removed eventually)
+        * no need for angular-base64 dependency (previously required by js/auth/*.js)
+        * (also, no need for jsSHA dependency (used in a previous scheme for Secure Hash operations)
+
 
 * 2016-01-03: 0.1.0: preliminaries to dispatch this orr-portal UI with an orr-ont-based URL
     * ontgrid: use new mklink4uriWithSelfHostPrefix filter to use appConfig.orront.selfHostPrefix
