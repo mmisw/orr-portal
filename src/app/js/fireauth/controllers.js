@@ -132,40 +132,25 @@
 
   MainLoginController.$inject = ['$scope', '$modal', 'fireAuth'];
   function MainLoginController($scope, $modal, fireAuth) {
-
     $scope.openLoginDialog = function() {
-      console.log("MainLoginController.openLoginDialog");
-
-      var modalInstance = $modal.open({
+      //console.log("MainLoginController.openLoginDialog");
+      $modal.open({
         templateUrl: 'js/fireauth/views/main.modal.tpl.html',
         controller:  'FireClientController',
-        backdrop:    'static',
         //size:        'sm',
-        resolve: {
-          info: function () {
-            return $scope.info;
-          }
-        }
-      });
-
-      modalInstance.result.then(function (result) {
-        console.log('main dialog accepted:', result);
-      }, function () {
-        console.log('main dialog dismissed');
+        //templateUrl: 'js/fireauth/views/orront.login.tpl.html',
+        //controller:  'OrrOntLoginController',
+        //size:        'sm',
+        backdrop:    'static'
       });
     };
 
     $scope.logout = fireAuth.logout;
   }
 
-  FireClientController.$inject = ['$rootScope', '$scope', '$modal',
-    //'$modalInstance',
-    '$location', 'cfg', 'fireAuth', 'fireData'];
-  function FireClientController($rootScope, $scope, $modal,
-                                //$modalInstance,
-                                $location, cfg, fireAuth, fireData) {
-
-    console.log("=FireClientController=");
+  FireClientController.$inject = ['$scope', '$modal', 'cfg', 'fireAuth'];
+  function FireClientController($scope, $modal, cfg, fireAuth) {
+    //console.log("=FireClientController=");
 
     $scope.cfg = cfg;
 
@@ -176,50 +161,27 @@
     $scope.logout = fireAuth.logout;
 
     $scope.openCustomLogin = function () {
-
-      var modalInstance = $modal.open({
+      $modal.open({
         templateUrl: 'js/fireauth/views/orront.login.tpl.html',
         controller:  'OrrOntLoginController',
         backdrop:    'static',
-        size:        'sm',
-        resolve: {
-          info: function () {
-            return $scope.info;
-          }
-        }
-      });
-
-      modalInstance.result.then(function (result) {
-        console.log('login dialog accepted:', result);
-        fireAuth.customLogin(result.token);
-
-      }, function () {
+        size:        'sm'
       });
     };
 
     $scope.openFireLogin = function () {
-
-      var modalInstance = $modal.open({
+      $modal.open({
         templateUrl: 'js/fireauth/views/firelogin.tpl.html',
         controller:  'FireLoginController',
         backdrop:    'static',
-        size:        'sm',
-        resolve: {
-          info: function () {
-            return $scope.info;
-          }
-        }
-      });
-
-      modalInstance.result.then(function (result) {
-        console.log('login dialog accepted:', result);
-      }, function () {
+        size:        'sm'
       });
     };
   }
 
-  OrrOntLoginController.$inject = ['$scope', '$modalInstance', '$http', 'cfg'];
-  function OrrOntLoginController($scope, $modalInstance, $http, cfg) {
+  OrrOntLoginController.$inject = ['$scope', '$modalInstance', '$http', 'fireAuth', 'cfg'];
+  function OrrOntLoginController($scope, $modalInstance, $http, fireAuth, cfg) {
+    console.log("=OrrOntLoginController=");
 
     $scope.vm = {
       userName: "",
@@ -260,6 +222,7 @@
       })
         .success(function(data, status, headers, config) {
           console.log("custom auth response:", data);
+          fireAuth.customLogin(data.token);
           $modalInstance.close(data);
         })
         .error(function(data, status, headers, config) {
@@ -322,12 +285,7 @@
         templateUrl: 'js/fireauth/views/firecreate.tpl.html',
         controller:  'FireCreateController',
         backdrop:    'static',
-        size:        'sm',
-        resolve: {
-          info: function () {
-            return $scope.info;
-          }
-        }
+        size:        'sm'
       });
 
       modalInstance.result.then(function (result) {
@@ -337,22 +295,11 @@
     };
 
     $scope.resetPassword = function () {
-
-      var modalInstance = $modal.open({
+      $modal.open({
         templateUrl: 'js/fireauth/views/firereset.tpl.html',
         controller:  'FireResetController',
         backdrop:    'static',
-        size:        'sm',
-        resolve: {
-          info: function () {
-            return $scope.info;
-          }
-        }
-      });
-
-      modalInstance.result.then(function (result) {
-        console.log('login dialog accepted:', result);
-      }, function () {
+        size:        'sm'
       });
     };
 
