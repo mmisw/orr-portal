@@ -1,9 +1,9 @@
 {
-  "name": "ORRPortal",
-  "version": "0.1.0",
+  "name": "orrportal",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/carueda/orrportal.git"
+    "url": "https://github.com/mmisw/orr-portal.git"
   },
   "devDependencies": {
     "gulp": "~3.5.0",
