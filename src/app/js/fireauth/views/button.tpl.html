@@ -1,11 +1,11 @@
 <span style="float: right; padding: 10px">
-  <span ng-if="masterAuth.loggedInInfo.uid" title="{{masterAuth.loggedInInfo.uid}}">
-    <span style="font-weight: bold">
-      {{masterAuth.loggedInInfo.displayName}}
-    </span>
-
-    <span>
-      {{masterAuth.loggedInInfo.email}}
+  <span ng-if="masterAuth.loggedInInfo.uid"
+        uib-popover="{{masterAuth.loggedInInfo.uid || masterAuth.loggedInInfo.displayName}} - {{masterAuth.loggedInInfo.email}}"
+        popover-placement="left"
+        popover-trigger="mouseenter"
+  >
+    <span style="font-weight: 300; font-size: small;color: gray">
+      {{masterAuth.loggedInInfo.displayName || masterAuth.loggedInInfo.uid}}
     </span>
 
     <i class="fa fa-{{masterAuth.loggedInInfo.provider}}"></i>
@@ -16,7 +16,8 @@
   </span>
 
   <button ng-if="!masterAuth.loggedInInfo.uid"
-    class="btn btn-info btn-xs" ng-click="openLoginDialog()">
+    class="btn btn-default btn-xs" ng-click="openLoginDialog()">
+    <i class="fa fa-sign-in"></i>
     Sign in
   </button>
 

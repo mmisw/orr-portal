@@ -1,7 +1,10 @@
 <div style="display: inline-block; vertical-align: top; margin-left: 10px; margin-top: 20px">
     <div class="panel panel-default">
 
-        <div class="panel-heading">Sign in</div>
+        <div class="panel-heading">
+          <i class="fa fa-sign-in"></i>
+          Sign in
+        </div>
 
         <div class="panel-body">
 
@@ -37,13 +40,13 @@
 
                 <div class="form-group">
                     <label class="col-xs-3"> </label>
-                    <button class="btn btn-primary btn-sm" ng-click="doLogin()"
+                    <button class="btn btn-primary btn-xs" ng-click="doLogin()"
                             ng-disabled="refreshing || !isValid()"
                             >Sign in
                     </button>
 
                     <label class="col-xs-1"> </label>
-                    <button class="btn btn-default btn-sm" ng-click="cancel()"
+                    <button class="btn btn-default btn-xs" ng-click="cancel()"
                             ng-disabled="refreshing"
                             >Cancel
                     </button>

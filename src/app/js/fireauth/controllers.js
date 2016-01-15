@@ -130,17 +130,22 @@
     }
   }
 
-  MainLoginController.$inject = ['$scope', '$modal', 'fireAuth'];
-  function MainLoginController($scope, $modal, fireAuth) {
+  MainLoginController.$inject = ['$scope', '$uibModal', 'fireAuth'];
+  function MainLoginController($scope, $uibModal, fireAuth) {
     $scope.openLoginDialog = function() {
       //console.log("MainLoginController.openLoginDialog");
-      $modal.open({
-        templateUrl: 'js/fireauth/views/main.modal.tpl.html',
-        controller:  'FireClientController',
-        //size:        'sm',
-        //templateUrl: 'js/fireauth/views/orront.login.tpl.html',
-        //controller:  'OrrOntLoginController',
-        //size:        'sm',
+      $uibModal.open({
+
+        // directly to the orr-ont login dialog:
+        templateUrl: 'js/fireauth/views/orront.login.tpl.html',
+        controller:  'OrrOntLoginController',
+        size:        'sm',
+
+        // as a basis for a future version, modal with multiple options
+        // (orr-ont; firebase(password db); google, github...)
+        //templateUrl: 'js/fireauth/views/main.modal.tpl.html',
+        //controller:  'FireClientController',
+
         backdrop:    'static'
       });
     };
@@ -148,8 +153,8 @@
     $scope.logout = fireAuth.logout;
   }
 
-  FireClientController.$inject = ['$scope', '$modal', 'cfg', 'fireAuth'];
-  function FireClientController($scope, $modal, cfg, fireAuth) {
+  FireClientController.$inject = ['$scope', '$uibModal', 'cfg', 'fireAuth'];
+  function FireClientController($scope, $uibModal, cfg, fireAuth) {
     //console.log("=FireClientController=");
 
     $scope.cfg = cfg;
@@ -161,7 +166,7 @@
     $scope.logout = fireAuth.logout;
 
     $scope.openCustomLogin = function () {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'js/fireauth/views/orront.login.tpl.html',
         controller:  'OrrOntLoginController',
         backdrop:    'static',
@@ -170,7 +175,7 @@
     };
 
     $scope.openFireLogin = function () {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'js/fireauth/views/firelogin.tpl.html',
         controller:  'FireLoginController',
         backdrop:    'static',
@@ -237,8 +242,8 @@
     };
   }
 
-  FireLoginController.$inject = ['$scope', '$modalInstance', '$modal', 'fireAuth'];
-  function FireLoginController($scope, $modalInstance, $modal, fireAuth) {
+  FireLoginController.$inject = ['$scope', '$modalInstance', '$uibModal', 'fireAuth'];
+  function FireLoginController($scope, $modalInstance, $uibModal, fireAuth) {
 
     $scope.vm = {
       email: "",
@@ -281,7 +286,7 @@
 
     $scope.createFireAccount = function () {
 
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
         templateUrl: 'js/fireauth/views/firecreate.tpl.html',
         controller:  'FireCreateController',
         backdrop:    'static',
@@ -295,7 +300,7 @@
     };
 
     $scope.resetPassword = function () {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'js/fireauth/views/firereset.tpl.html',
         controller:  'FireResetController',
         backdrop:    'static',
