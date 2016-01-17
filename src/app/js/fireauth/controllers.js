@@ -7,6 +7,7 @@
     .controller("MainLoginController", MainLoginController)
     .controller("FireClientController", FireClientController)
     .controller('OrrOntLoginController', OrrOntLoginController)
+    .controller('OrrOntResetController', OrrOntResetController)
     .controller('FireLoginController', FireLoginController)
     .controller('FireCreateController', FireCreateController)
     .controller('FireResetController', FireResetController)
@@ -184,8 +185,8 @@
     };
   }
 
-  OrrOntLoginController.$inject = ['$scope', '$modalInstance', '$http', 'fireAuth', 'cfg'];
-  function OrrOntLoginController($scope, $modalInstance, $http, fireAuth, cfg) {
+  OrrOntLoginController.$inject = ['$scope', '$modalInstance', '$http', '$uibModal', 'fireAuth', 'cfg'];
+  function OrrOntLoginController($scope, $modalInstance, $http, $uibModal, fireAuth, cfg) {
     console.log("=OrrOntLoginController=");
 
     $scope.vm = {
@@ -237,7 +238,67 @@
         });
     };
 
+    $scope.resetPassword = function () {
+      $uibModal.open({
+        templateUrl: 'js/fireauth/views/orront.reset.tpl.html',
+        controller:  'OrrOntResetController',
+        backdrop:    'static',
+        size:        'sm'
+      });
+    };
+
+
     $scope.cancel = function() {
+      $modalInstance.dismiss();
+    };
+  }
+
+  OrrOntResetController.$inject = ['$scope', '$modalInstance', '$http', 'fireAuth', 'cfg'];
+  function OrrOntResetController($scope, $modalInstance, $http, fireAuth, cfg) {
+
+    var vm = $scope.vm = {
+      username: "",
+
+      alreadyRequested: []
+      // to avoid repeated requests for same username at least during the same modal session
+    };
+
+    $scope.error = undefined;
+
+    $scope.isValid = function() {
+      return vm.username && _.indexOf(vm.alreadyRequested, vm.username) < 0
+        && !$scope.working;
+    };
+
+    $scope.doReset = function() {
+      if (!$scope.isValid()) {
+        return;
+      }
+
+      $scope.error = undefined;
+      $scope.working = true;
+      $scope.status = "Resetting...";
+
+      $http({
+        method:  'PUT',
+        url:     cfg.orront.rest + "/api/v0/user/rpwr/" + vm.username,
+      })
+        .success(function(data, status, headers, config) {
+          $scope.working = false;
+          console.log("request password reset response:", data);
+          vm.alreadyRequested.push(vm.username);
+          $scope.status = data.message;
+          fireAuth.logout();   // in case the user is currently signed in.
+        })
+        .error(function(data, status, headers, config) {
+          $scope.working = false;
+          console.error("request password reset error: data=", data, "status=", status);
+          $scope.error = data.error ? data.error : "error: " + angular.toJson(data);
+          $scope.status = undefined;
+        });
+    };
+
+    $scope.close = function() {
       $modalInstance.dismiss();
     };
   }

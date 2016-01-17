@@ -39,13 +39,20 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-xs-3"> </label>
+                    <label class="col-xs-5"> </label>
                     <button class="btn btn-primary btn-xs" ng-click="doLogin()"
                             ng-disabled="refreshing || !isValid()"
                             >Sign in
                     </button>
+                </div>
 
-                    <label class="col-xs-1"> </label>
+                <div class="form-group">
+                  <button class="btn btn-info btn-xs" ng-click="resetPassword()"
+                          ng-disabled="refreshing"
+                  >Reset password
+                  </button>
+
+                  <label class="col-xs-1"> </label>
                     <button class="btn btn-default btn-xs" ng-click="cancel()"
                             ng-disabled="refreshing"
                             >Cancel

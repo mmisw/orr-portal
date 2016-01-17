@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-01-16: 0.3.0:
+  - add option to request password reset
+
 * 2016-01-13: 0.2.0:
     * user authentication now based on Firebase and JWT tokens, along with corresponding support from orr-ont.
     * general clean-up per the simplification provided by the Firebase mechanism
