@@ -57,6 +57,14 @@
         </div>
 
         <div class="form-group">
+          <span class="col-xs-6">Forgot&nbsp;username?</span>
+          <button class="btn btn-default btn-xs" ng-click="remindUsername()"
+                  ng-disabled="refreshing"
+          >Get it
+          </button>
+        </div>
+
+        <div class="form-group">
           <span class="col-xs-6">Not&nbsp;registered?</span>
           <button class="btn btn-default btn-xs" ng-click="createAccount()"
                   ng-disabled="refreshing"

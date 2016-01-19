@@ -1,0 +1,53 @@
+<div style="display: inline-block; vertical-align: top; margin-left: 10px; margin-top: 20px">
+    <div class="panel panel-default">
+
+        <div class="panel-heading">Retrieve username</div>
+
+        <div class="panel-body">
+
+            <form class="form-horizontal">
+
+                <div class="form-group">
+                    <label for="inputEmail" class="control-label col-xs-3">
+                        Email:
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-4">
+                        <input id="inputEmail"
+                               type="text" class="form-control" style="width: 15em"
+                               ng-keypress="loginKeyPressed($event)"
+                               ng-model="vm.email"
+                               ng-disabled="vm.working || vm.reminded"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-3"> </label>
+                    <button class="btn btn-primary btn-sm" ng-click="doRemind()"
+                            ng-disabled="vm.working || !isValid() || vm.reminded"
+                            >Reset
+                    </button>
+
+                    <label class="col-xs-1"> </label>
+                    <button class="btn btn-default btn-sm" ng-click="close()"
+                            ng-disabled="vm.working"
+                            >Close
+                    </button>
+                </div>
+
+            </form>
+
+            <span ng-if="vm.working" class="fa fa-spinner fa-spin"></span>
+
+            <div ng-if="vm.status" ng-bind="vm.status" style="color: darkgreen">
+            </div>
+
+            <div ng-if="vm.error" ng-bind="vm.error" style="color: darkred">
+            </div>
+
+        </div>
+    </div>
+</div>

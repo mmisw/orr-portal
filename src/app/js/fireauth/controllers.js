@@ -8,6 +8,7 @@
     .controller("FireClientController", FireClientController)
     .controller('OrrOntLoginController', OrrOntLoginController)
     .controller('OrrOntResetController', OrrOntResetController)
+    .controller('OrrOntRemindUsernameController', OrrOntRemindUsernameController)
     .controller('OrrOntCreateAccountController', OrrOntCreateAccountController)
     .controller('OrrOntAccountController', OrrOntAccountController)
     .controller('OrrOntChangePasswordController', OrrOntChangePasswordController)
@@ -264,6 +265,15 @@
       });
     };
 
+    $scope.remindUsername = function () {
+      $uibModal.open({
+        templateUrl: 'js/fireauth/views/orront.remind.username.tpl.html',
+        controller:  'OrrOntRemindUsernameController',
+        backdrop:    'static',
+        size:        'sm'
+      });
+    };
+
     $scope.createAccount = function () {
       var modalInstance = $uibModal.open({
         templateUrl: 'js/fireauth/views/orront.create.tpl.html',
@@ -324,6 +334,55 @@
           console.error("request password reset error: data=", data, "status=", status);
           $scope.error = data.error ? data.error : "error: " + angular.toJson(data);
           $scope.status = undefined;
+        });
+    };
+
+    $scope.close = function() {
+      $uibModalInstance.dismiss();
+    };
+  }
+
+  OrrOntRemindUsernameController.$inject = ['$scope', '$uibModalInstance', '$http', 'cfg'];
+  function OrrOntRemindUsernameController($scope, $uibModalInstance, $http, cfg) {
+
+    var vm = $scope.vm = {
+      email: "",
+
+      error: "",
+      working: false,
+      reminded: false
+    };
+
+
+    $scope.isValid = function() {
+      return vm.email && !$scope.working;
+    };
+
+    $scope.doRemind = function() {
+      if (!$scope.isValid()) {
+        return;
+      }
+
+      vm.error = undefined;
+      vm.working = true;
+      vm.status = "Submitting...";
+
+      $http({
+        method:  'PUT',
+        url:     cfg.orront.rest + "/api/v0/user/unr/",
+        data:    {email: vm.email}
+      })
+        .success(function(data, status, headers, config) {
+          vm.working = false;
+          console.log("request username reminder response:", data);
+          vm.status = data.message;
+          vm.reminded = true;
+        })
+        .error(function(data, status, headers, config) {
+          vm.working = false;
+          console.error("request username reminder error: data=", data, "status=", status);
+          vm.error = data.error ? data.error : "error: " + angular.toJson(data);
+          vm.status = undefined;
         });
     };
 
