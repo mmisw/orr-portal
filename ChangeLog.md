@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-01-18: 0.3.0:
+  - add options to view/update general user account info, and change password
   - add option to create user account
   - add option to request password reset
 

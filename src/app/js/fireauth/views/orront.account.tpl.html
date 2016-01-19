@@ -1,0 +1,92 @@
+<div style="display: inline-block; vertical-align: top; width:95%; margin: 10px; margin-top: 20px">
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+      <span ng-if="modified()" style="color: red">*</span>
+      Account:
+      <span style="font-weight: bold">
+        {{vm.username}} - {{vm.email}}
+      </span>
+    </div>
+
+    <div class="panel-body">
+
+      <form class="form-horizontal">
+
+        <div class="form-group">
+          <label for="inputFirstName" class="control-label col-xs-4">
+            First name:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputFirstName"
+                   type="text" class="form-control" style="width: 14em"
+                   ng-model="vm.firstName"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputLastName" class="control-label col-xs-4">
+            Last name:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputLastName"
+                   type="text" class="form-control" style="width: 14em"
+                   ng-model="vm.lastName"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputPhone" class="control-label col-xs-4">
+            Phone:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputPhone"
+                   type="phone" class="form-control" style="width: 13em"
+                   ng-model="vm.phone"
+            >
+          </div>
+        </div>
+
+        <div style="height: 20px;"></div>
+
+        <div class="form-group">
+
+          <label class="col-xs-4"> </label>
+
+          <button class="btn btn-primary btn-sm" ng-click="saveAccountInfo()"
+                  ng-disabled="vm.working || !modified() || !isValid()"
+          >Save
+          </button>
+
+          <button class="btn btn-primary btn-sm" ng-click="resetAccountInfo()"
+                  ng-disabled="vm.working || !modified()"
+          >Reset
+          </button>
+
+          <button class="btn btn-default btn-sm" ng-click="close()"
+                  ng-disabled="vm.working"
+          >Close
+          </button>
+
+        </div>
+
+        <div class="form-group">
+          <label class="col-xs-4"> </label>
+
+          <button class="btn btn-default btn-xs" ng-click="changePassword()"
+                  ng-disabled="vm.working || modified()"
+          >Change password
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

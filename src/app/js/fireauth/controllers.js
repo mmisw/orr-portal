@@ -9,6 +9,8 @@
     .controller('OrrOntLoginController', OrrOntLoginController)
     .controller('OrrOntResetController', OrrOntResetController)
     .controller('OrrOntCreateAccountController', OrrOntCreateAccountController)
+    .controller('OrrOntAccountController', OrrOntAccountController)
+    .controller('OrrOntChangePasswordController', OrrOntChangePasswordController)
     .controller('FireLoginController', FireLoginController)
     .controller('FireCreateController', FireCreateController)
     .controller('FireResetController', FireResetController)
@@ -149,6 +151,20 @@
         //controller:  'FireClientController',
 
         backdrop:    'static'
+      });
+    };
+
+    $scope.openAccountDialog = function(userName) {
+      //console.log("MainLoginController.openLoginDialog");
+      $uibModal.open({
+        templateUrl: 'js/fireauth/views/orront.account.tpl.html',
+        controller:  'OrrOntAccountController',
+        backdrop:    'static',
+        resolve: {
+          userName: function () {
+            return userName;
+          }
+        }
       });
     };
 
@@ -395,6 +411,208 @@
         $uibModalInstance.dismiss();
     };
   }
+
+  OrrOntAccountController.$inject = ['$rootScope', '$scope', '$uibModalInstance', '$uibModal', '$http', 'service', 'userName', 'cfg'];
+  function OrrOntAccountController($rootScope, $scope, $uibModalInstance, $uibModal, $http, service, userName, cfg) {
+
+    var savedUser = {};
+
+    var vm = $scope.vm = {
+      username: userName,
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+
+      status: "",
+      error: ""
+    };
+
+    $scope.resetAccountInfo = resetAccountInfo;
+
+    resetAccountInfo();
+
+    function resetAccountInfo() {
+      vm.working = true;
+      vm.status = "retrieving";
+
+      service.refreshUser(userName, gotUser);
+
+      function gotUser(error, user) {
+        if (error) {
+          vm.working = false;
+          $scope.error = error;
+          console.log("error getting user:", error);
+        }
+        else {
+          vm.working = false;
+          vm.status = "";
+          _.assign(savedUser, user);
+          _.assign(vm, user);
+          console.log("gotUser=", user);
+        }
+      }
+    }
+
+    $scope.modified = function() {
+      return savedUser.firstName !== vm.firstName
+          || savedUser.lastName !== vm.lastName
+          || savedUser.phone !== vm.phone
+      ;
+    };
+
+    $scope.isValid = function() {
+      if ($scope.working) return false;
+      if (!vm.username) return false;
+      if (!vm.firstName) return false;
+      if (!vm.lastName) return false;
+      if (!vm.phone) return false;
+
+      return true;
+    };
+
+    $scope.saveAccountInfo = function() {
+      if (!$scope.isValid()) {
+        return;
+      }
+
+      vm.error = undefined;
+      vm.working = true;
+      vm.status = "Updating...";
+
+      var url = cfg.orront.rest + "/api/v0/user/" + vm.username;
+
+      var params = [];
+      addJwtIfAvailable($rootScope, params);
+      if (params.length > 0) { url += "?" + params.join('&'); }
+
+      var body = {
+        firstName: vm.firstName,
+        lastName:  vm.lastName,
+        phone:     vm.phone
+      };
+
+      $http({
+        method:  'PUT',
+        url:     url,
+        data:    body
+      })
+        .success(function(data, status, headers, config) {
+          console.log("save account info response:", data);
+          vm.working = false;
+          vm.status = "saved.";
+          savedUser = _.clone(vm);
+        })
+        .error(function(data, status, headers, config) {
+          vm.working = false;
+          console.error("save account info error: data=", data, "status=", status);
+          vm.error = data.error ? data.error : "error: " + angular.toJson(data);
+          vm.status = undefined;
+        });
+    };
+
+    $scope.changePassword = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: 'js/fireauth/views/orront.changepw.tpl.html',
+        controller:  'OrrOntChangePasswordController',
+        backdrop:    'static',
+        resolve: {
+          accountInfo: function () {
+            return vm;
+          }
+        }
+      });
+      modalInstance.result.then($uibModalInstance.close);
+    };
+
+    $scope.close = function() {
+      $uibModalInstance.dismiss();
+    };
+
+  }
+
+  OrrOntChangePasswordController.$inject = ['$rootScope', '$scope', '$uibModalInstance', '$http', '$timeout', 'cfg', 'accountInfo', 'fireAuth'];
+  function OrrOntChangePasswordController($rootScope, $scope, $uibModalInstance, $http, $timeout, cfg, accountInfo, fireAuth) {
+
+    var vm = $scope.vm = {
+      username: accountInfo.userName,
+      email:    accountInfo.email,
+
+      password: "",
+      password2: "",
+
+      status: "",
+      error: "",
+
+      changed: false
+    };
+
+    $scope.isValid = function() {
+      if ($scope.working) return false;
+
+      // TODO real password validation!
+      if (!vm.password) return false;
+      if (vm.password !== vm.password2) return false;
+
+      return true;
+    };
+
+    $scope.doSavePassword = function() {
+      if (!$scope.isValid()) {
+        return;
+      }
+
+      vm.error = undefined;
+      vm.working = true;
+      vm.status = "Saving...";
+
+      var url = cfg.orront.rest + "/api/v0/user/" + vm.username;
+
+      var params = [];
+      addJwtIfAvailable($rootScope, params);
+      if (params.length > 0) { url += "?" + params.join('&'); }
+
+      var body = {
+        password:  vm.password
+      };
+
+      $http({
+        method:  'PUT',
+        url:     url,
+        data:    body
+      })
+        .success(function(data, status, headers, config) {
+          vm.working = false;
+          console.log("save password response:", data);
+          vm.status = 'Password changed. Please log in again.';
+          vm.changed = true;
+          fireAuth.logout();
+          $timeout(function(){
+            $uibModalInstance.close();
+          }, 2000)
+        })
+        .error(function(data, status, headers, config) {
+          vm.working = false;
+          console.error("request create account error: data=", data, "status=", status);
+          vm.error = data.error ? data.error : "error: " + angular.toJson(data);
+          vm.status = undefined;
+        });
+    };
+
+    $scope.cancel = function() {
+      $uibModalInstance.dismiss();
+    };
+  }
+
+  // TODO copied from services for the moment
+  function addJwtIfAvailable($rootScope, params) {
+    //console.log("refreshOrg: masterAuth.authData=", $rootScope.masterAuth.authData);
+    if ($rootScope.masterAuth.authData && $rootScope.masterAuth.authData.token) {
+      params.push("jwt=" + $rootScope.masterAuth.authData.token);
+    }
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////
 
   FireLoginController.$inject = ['$scope', '$uibModalInstance', '$uibModal', 'fireAuth'];
   function FireLoginController($scope, $uibModalInstance, $uibModal, fireAuth) {

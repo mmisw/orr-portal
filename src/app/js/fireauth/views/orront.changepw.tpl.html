@@ -1,0 +1,79 @@
+<div style="display: inline-block; vertical-align: top; width:95%; margin: 10px; margin-top: 20px">
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+      Account:
+      <span style="font-weight: bold">
+        {{vm.username}} - {{vm.email}}
+      </span>
+    </div>
+
+    <div class="panel-body">
+
+      <form class="form-horizontal">
+
+        <div class="form-group">
+          <label for="inputPassword" class="control-label col-xs-4">
+            New password:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputPassword"
+                   type="password" class="form-control" style="width: 13em"
+                   ng-keypress="loginKeyPressed($event)"
+                   ng-model="vm.password"
+                   ng-disabled="vm.changed"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputPassword2" class="control-label col-xs-4">
+            Re-enter password:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputPassword2"
+                   type="password" class="form-control" style="width: 13em"
+                   ng-keypress="loginKeyPressed($event)"
+                   ng-model="vm.password2"
+                   ng-disabled="vm.changed"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <span style="margin: 20px; color: gray">
+            Once your new password is saved, you will need to log in again.
+          </span>
+        </div>
+
+        <div class="form-group">
+
+          <label class="col-xs-3"> </label>
+          <button class="btn btn-primary btn-sm"
+                  ng-click="doSavePassword()"
+                  ng-disabled="vm.working || !isValid() || vm.changed"
+          >Save
+          </button>
+
+          <label class="col-xs-1"> </label>
+          <button class="btn btn-default btn-sm" ng-click="cancel()"
+                  ng-disabled="vm.working"
+          >Cancel
+          </button>
+        </div>
+
+      </form>
+
+      <span ng-if="vm.working" class="fa fa-spinner fa-spin"></span>
+
+      <div ng-if="vm.status" ng-bind="vm.status" style="color: darkgreen">
+      </div>
+
+      <div ng-if="vm.error" ng-bind="vm.error" style="color: darkred">
+      </div>
+
+    </div>
+  </div>
+</div>

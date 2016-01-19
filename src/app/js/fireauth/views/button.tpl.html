@@ -1,16 +1,25 @@
 <span style="float: right; padding: 10px">
-  <span ng-if="masterAuth.loggedInInfo.uid"
-        uib-popover="{{masterAuth.loggedInInfo.uid || masterAuth.loggedInInfo.displayName}} - {{masterAuth.loggedInInfo.email}}"
-        popover-placement="left"
-        popover-trigger="mouseenter"
-  >
-    <span style="font-weight: 300; font-size: small;color: gray">
-      {{masterAuth.loggedInInfo.displayName || masterAuth.loggedInInfo.uid}}
+
+  <span ng-if="masterAuth.loggedInInfo.uid">
+    <span ng-if="masterAuth.loggedInInfo.uid"
+          uib-popover="{{masterAuth.loggedInInfo.uid || masterAuth.loggedInInfo.displayName}} - {{masterAuth.loggedInInfo.email}}"
+          popover-placement="left"
+          popover-trigger="mouseenter"
+    >
+      <span style="font-weight: 300; font-size: small;color: gray"
+            class="btn btn-link btn-xs"
+            ng-click="openAccountDialog(masterAuth.loggedInInfo.uid)"
+      >
+        {{masterAuth.loggedInInfo.displayName || masterAuth.loggedInInfo.uid}}
+      </span>
+
+      <i class="fa fa-{{masterAuth.loggedInInfo.provider}}"></i>
     </span>
 
-    <i class="fa fa-{{masterAuth.loggedInInfo.provider}}"></i>
-
-    <button class="btn btn-default btn-xs" title="Sign out"
+    <button uib-popover="Log out"
+            popover-placement="left"
+            popover-trigger="mouseenter"
+            class="btn btn-default btn-xs"
             ng-click="logout()"><i class="fa fa-sign-out"></i>
     </button>
   </span>
