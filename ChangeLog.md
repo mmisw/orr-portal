@@ -1,6 +1,7 @@
 ## change log ##
 
-* 2016-01-16: 0.3.0:
+* 2016-01-18: 0.3.0:
+  - add option to create user account
   - add option to request password reset
 
 * 2016-01-13: 0.2.0:

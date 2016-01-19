@@ -1,0 +1,167 @@
+<div style="display: inline-block; vertical-align: top; width:95%; margin: 10px; margin-top: 20px">
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+      <span ng-if="!vm.created">
+        Create account
+      </span>
+
+      <div ng-if="vm.created" style="color: darkgreen">
+        Your '{{vm.username}}' account has been created
+      </div>
+    </div>
+
+    <div class="panel-body">
+
+      <form class="form-horizontal">
+
+        <div class="form-group">
+          <label for="inputUsername" class="control-label col-xs-4">
+            Username:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputUsername"
+                   type="text" class="form-control" style="width: 11em"
+                   ng-keypress="loginKeyPressed($event)"
+                   ng-model="vm.username"
+                   ng-disabled="vm.created"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputEMail" class="control-label col-xs-4">
+            Email:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputEMail"
+                   type="email" class="form-control" style="width: 18em"
+                   ng-keypress="loginKeyPressed($event)"
+                   ng-model="vm.email"
+                   ng-disabled="vm.created"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputEMail2" class="control-label col-xs-4">
+            Re-enter email:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputEMail2"
+                   type="email" class="form-control" style="width: 18em"
+                   ng-keypress="loginKeyPressed($event)"
+                   ng-model="vm.email2"
+                   ng-disabled="vm.created"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputFirstName" class="control-label col-xs-4">
+            First name:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputFirstName"
+                   type="text" class="form-control" style="width: 14em"
+                   ng-keypress="loginKeyPressed($event)"
+                   ng-model="vm.firstName"
+                   ng-disabled="vm.created"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputLastName" class="control-label col-xs-4">
+            Last name:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputLastName"
+                   type="text" class="form-control" style="width: 14em"
+                   ng-keypress="loginKeyPressed($event)"
+                   ng-model="vm.lastName"
+                   ng-disabled="vm.created"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputPhone" class="control-label col-xs-4">
+            Phone:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputPhone"
+                   type="phone" class="form-control" style="width: 13em"
+                   ng-keypress="loginKeyPressed($event)"
+                   ng-model="vm.phone"
+                   ng-disabled="vm.created"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputPassword" class="control-label col-xs-4">
+            Password:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputPassword"
+                   type="password" class="form-control" style="width: 13em"
+                   ng-keypress="loginKeyPressed($event)"
+                   ng-model="vm.password"
+                   ng-disabled="vm.created"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputPassword2" class="control-label col-xs-4">
+            Re-enter password:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputPassword2"
+                   type="password" class="form-control" style="width: 13em"
+                   ng-keypress="loginKeyPressed($event)"
+                   ng-model="vm.password2"
+                   ng-disabled="vm.created"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+
+          <label class="col-xs-3"> </label>
+          <button ng-if="vm.creating"
+                  class="btn btn-primary btn-sm"
+                  ng-click="doCreate()"
+                  ng-disabled="vm.working || vm.created || !isValid()"
+          >Create
+          </button>
+
+          <label class="col-xs-1"> </label>
+          <button class="btn btn-default btn-sm" ng-click="close()"
+                  ng-disabled="vm.working"
+          >Close
+          </button>
+        </div>
+
+      </form>
+
+      <span ng-if="vm.working" class="fa fa-spinner fa-spin"></span>
+
+      <div ng-if="vm.status" ng-bind="vm.status" style="color: darkgreen">
+      </div>
+
+      <div ng-if="vm.error" ng-bind="vm.error" style="color: darkred">
+      </div>
+
+    </div>
+  </div>
+</div>

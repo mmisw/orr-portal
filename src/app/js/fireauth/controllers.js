@@ -8,6 +8,7 @@
     .controller("FireClientController", FireClientController)
     .controller('OrrOntLoginController', OrrOntLoginController)
     .controller('OrrOntResetController', OrrOntResetController)
+    .controller('OrrOntCreateAccountController', OrrOntCreateAccountController)
     .controller('FireLoginController', FireLoginController)
     .controller('FireCreateController', FireCreateController)
     .controller('FireResetController', FireResetController)
@@ -96,14 +97,14 @@
             fireData.users[uid] = obj;
             fireData.users.$save().then(function() {
               console.log("saved logged in user", masterAuth.loggedInInfo);
-              //$modalInstance.dismiss();
+              //$uibModalInstance.dismiss();
             }).catch(function(error) {
               console.error("error saving logged in user", error);
-              //$modalInstance.dismiss();
+              //$uibModalInstance.dismiss();
             });
           }).catch(function(error) {
             console.error("error loading users", error);
-            //$modalInstance.dismiss();
+            //$uibModalInstance.dismiss();
           });
           // update logins:
           var lastLogin = {
@@ -119,7 +120,7 @@
             });
           }).catch(function(error) {
             console.error("error loading logins", error);
-            //$modalInstance.dismiss();
+            //$uibModalInstance.dismiss();
           });
         }
       }
@@ -185,11 +186,11 @@
     };
   }
 
-  OrrOntLoginController.$inject = ['$scope', '$modalInstance', '$http', '$uibModal', 'fireAuth', 'cfg'];
-  function OrrOntLoginController($scope, $modalInstance, $http, $uibModal, fireAuth, cfg) {
+  OrrOntLoginController.$inject = ['$scope', '$uibModalInstance', '$http', '$uibModal', 'fireAuth', 'cfg'];
+  function OrrOntLoginController($scope, $uibModalInstance, $http, $uibModal, fireAuth, cfg) {
     console.log("=OrrOntLoginController=");
 
-    $scope.vm = {
+    var vm = $scope.vm = {
       userName: "",
       password: ""
     };
@@ -229,7 +230,7 @@
         .success(function(data, status, headers, config) {
           console.log("custom auth response:", data);
           fireAuth.customLogin(data.token);
-          $modalInstance.close(data);
+          $uibModalInstance.close(data);
         })
         .error(function(data, status, headers, config) {
           console.error("custom auth error: data=", data, "status=", status);
@@ -247,14 +248,26 @@
       });
     };
 
+    $scope.createAccount = function () {
+      var modalInstance = $uibModal.open({
+        templateUrl: 'js/fireauth/views/orront.create.tpl.html',
+        controller:  'OrrOntCreateAccountController',
+        backdrop:    'static'
+      });
+      modalInstance.result.then(function (username) {
+        console.log('orront.create dialog accepted: username=', username);
+        vm.userName = username;
+        vm.password = '';
+      }, function () {});
+    };
 
     $scope.cancel = function() {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     };
   }
 
-  OrrOntResetController.$inject = ['$scope', '$modalInstance', '$http', 'fireAuth', 'cfg'];
-  function OrrOntResetController($scope, $modalInstance, $http, fireAuth, cfg) {
+  OrrOntResetController.$inject = ['$scope', '$uibModalInstance', '$http', 'fireAuth', 'cfg'];
+  function OrrOntResetController($scope, $uibModalInstance, $http, fireAuth, cfg) {
 
     var vm = $scope.vm = {
       username: "",
@@ -299,12 +312,92 @@
     };
 
     $scope.close = function() {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     };
   }
 
-  FireLoginController.$inject = ['$scope', '$modalInstance', '$uibModal', 'fireAuth'];
-  function FireLoginController($scope, $modalInstance, $uibModal, fireAuth) {
+  OrrOntCreateAccountController.$inject = ['$scope', '$uibModalInstance', '$http', 'cfg'];
+  function OrrOntCreateAccountController($scope, $uibModalInstance, $http, cfg) {
+
+    var vm = $scope.vm = {
+      username: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      email2: "",
+      phone: "",
+      password: "",
+      password2: "",
+
+      creating: true,
+      created: false
+    };
+
+    vm.error = undefined;
+
+    $scope.isValid = function() {
+      if ($scope.working) return false;
+      if (!vm.username) return false;
+      if (!vm.firstName) return false;
+      if (!vm.lastName) return false;
+      if (!vm.email) return false;
+      if (vm.email !== vm.email2) return false;
+      if (!vm.phone) return false;
+      if (!vm.password) return false;
+      if (vm.password !== vm.password2) return false;
+
+      return true;
+    };
+
+    $scope.doCreate = function() {
+      if (!$scope.isValid()) {
+        return;
+      }
+
+      vm.error = undefined;
+      vm.working = true;
+      vm.status = "Creating...";
+
+      var body = {
+        userName:   vm.username,
+        email:      vm.email,
+        email2:     vm.email2,
+        firstName:  vm.firstName,
+        lastName:   vm.lastName,
+        phone:      vm.phone,
+        password:   vm.password
+      };
+
+      $http({
+        method:  'POST',
+        url:     cfg.orront.rest + "/api/v0/user/",
+        data:    body
+      })
+        .success(function(data, status, headers, config) {
+          vm.working = false;
+          vm.created = true;
+          vm.creating = false;
+          console.log("request create account response:", data);
+          vm.status = '';  // ok creation msg shown in the heading
+        })
+        .error(function(data, status, headers, config) {
+          vm.working = false;
+          console.error("request create account error: data=", data, "status=", status);
+          vm.error = data.error ? data.error : "error: " + angular.toJson(data);
+          vm.status = undefined;
+        });
+    };
+
+    $scope.close = function() {
+      if(vm.created)
+        $uibModalInstance.close(vm.username);
+      else
+        $uibModalInstance.dismiss();
+    };
+  }
+
+  FireLoginController.$inject = ['$scope', '$uibModalInstance', '$uibModal', 'fireAuth'];
+  function FireLoginController($scope, $uibModalInstance, $uibModal, fireAuth) {
 
     $scope.vm = {
       email: "",
@@ -337,7 +430,7 @@
         password : $scope.vm.password
       }).then(function(authData) {
         console.log("fire login ok:", authData);
-        $modalInstance.close(authData);
+        $uibModalInstance.close(authData);
       }).catch(function(error) {
         console.log("fire login error:", error);
         $scope.error = error;
@@ -370,12 +463,12 @@
     };
 
     $scope.cancel = function() {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     };
   }
 
-  FireCreateController.$inject = ['$scope', '$modalInstance', 'fireAuth'];
-  function FireCreateController($scope, $modalInstance, fireAuth) {
+  FireCreateController.$inject = ['$scope', '$uibModalInstance', 'fireAuth'];
+  function FireCreateController($scope, $uibModalInstance, fireAuth) {
 
     $scope.vm = {
       email: "",
@@ -411,7 +504,7 @@
       console.log("fire creating user:", user);
       fireAuth.auth.$createUser(user).then(function(userData) {
         console.log("fire user created ok:", userData);
-        $modalInstance.close(userData);
+        $uibModalInstance.close(userData);
       }).catch(function(error) {
         console.log("fire user creation error:", error);
         $scope.error = error;
@@ -420,12 +513,12 @@
     };
 
     $scope.cancel = function() {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     };
   }
 
-  FireResetController.$inject = ['$scope', '$modalInstance', 'fireAuth'];
-  function FireResetController($scope, $modalInstance, fireAuth) {
+  FireResetController.$inject = ['$scope', '$uibModalInstance', 'fireAuth'];
+  function FireResetController($scope, $uibModalInstance, fireAuth) {
 
     $scope.vm = {
       email: ""
@@ -450,7 +543,7 @@
         email    : $scope.vm.email
       }).then(function() {
         console.log("fire reset password ok");
-        $modalInstance.close();
+        $uibModalInstance.close();
       }).catch(function(error) {
         console.log("fire reset password error:", error);
         $scope.error = error;
@@ -459,7 +552,7 @@
     };
 
     $scope.cancel = function() {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     };
   }
 
