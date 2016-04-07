@@ -1,8 +1,9 @@
 ## A prototype for a new ORR Portal
 
-This user interface is against the [orr-ont](https://github.com/mmisw/orr-ont) endpoint.
+This user interface is against a
+[orr-ont](https://github.com/mmisw/orr-ont)-based endpoint.
 
-### Development
+### development
 
 ```shell
 $ npm install
@@ -27,13 +28,13 @@ Install under the `orr-ont` service:
 $ gulp install --base=/orr-ont/ --dest=/opt/tomcat/webapps/orr-ont/
 ```
 
-### Test deployments
+### test deployments
 
 https://mmisw.org/experimental/orrportal/
 
 https://mmisw.org/orr-ont/
 
 
-### Status
+### status
 
-pre-alpha
+alpha
