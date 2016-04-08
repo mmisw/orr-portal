@@ -1,0 +1,69 @@
+<div style="margin: 20px">
+
+  <form name="myForm">
+    <fieldset>
+      <legend>Upload on form submit</legend>
+
+
+      <br>Ontology file:
+      <input type="file"
+             ngf-select
+             ng-model="vm.file"
+             name="file"
+             accept="*/*"
+             ngf-max-size="7MB" required
+             ngf-model-invalid="errorFile">
+      <i ng-show="myForm.file.$error.required">*required</i>
+
+      <i ng-show="myForm.file.$error.maxSize" style="color: red">
+        <br>
+         File too large
+         {{errorFile.size / 1000000|number:1}}MB: max 7M
+      </i>
+
+      <br>
+      File format:
+      <input type="text" name="format" ng-model="vm.format" size="31" required>
+      <i ng-show="myForm.format.$error.required">*required</i>
+
+      <br>
+
+      <br>
+      Ontology URI:
+      <input type="text" name="uri" ng-model="vm.uri" size="100" required
+             placeholder="URI">
+      <i ng-show="myForm.uri.$error.required">*required</i>
+
+      <br>
+      Ontology name:
+      <input type="text" name="name" ng-model="vm.name" size="31" required>
+      <i ng-show="myForm.name.$error.required">*required</i>
+
+      <br>
+      Organization:
+      <input type="text" name="orgName" ng-model="vm.orgName" size="31" required>
+      <i ng-show="myForm.orgName.$error.required">*required</i>
+
+      <br>
+      Username:
+      <input type="text" name="userName" ng-model="vm.userName" size="31" required>
+      <i ng-show="myForm.userName.$error.required">*required</i>
+
+
+      <br>
+      <button ng-disabled="!myForm.$valid"
+              ng-click="doUpload(vm.file)">
+        Submit
+      </button>
+
+      <span class="progress" ng-show="vm.progressPercentage >= 0">
+        <div style="width:{{vm.progressPercentage}}%; background-color: #8c8c8c"
+             ng-bind="vm.progressPercentage + '%'"></div>
+      </span>
+      <span ng-show="vm.file.result">Upload Successful</span>
+      <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+    </fieldset>
+    <br>
+  </form>
+
+</div>

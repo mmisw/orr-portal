@@ -16,6 +16,7 @@
     ,'orrportal.kw'
     ,'orrportal.voc'
     ,'orrportal.firebase'
+    ,'orrportal.upload'
   ])
     .constant("rUri", appUtil.uri)
     .constant("cfg", appConfig)
@@ -23,9 +24,9 @@
     .config(routes)
   ;
 
-  init.$inject = ['$rootScope', 'rUri', 'cfg'];
+  init.$inject = ['$rootScope', '$location', 'rUri', 'cfg'];
 
-  function init(scope, rUri, cfg) {
+  function init(scope, $location, rUri, cfg) {
     if (appUtil.debug) console.log("++INIT++");
 
     scope.debug = appUtil.debug;
@@ -51,6 +52,15 @@
     scope.$on('evtRefreshing', function(event, b) {
       scope.refreshing = b;
     });
+
+    scope.uploadOntology = function() {
+      $location.url("rx")
+    };
+
+    scope.userLoggedIn = function() {
+      return scope.masterAuth && scope.masterAuth.loggedInInfo
+        && scope.masterAuth.loggedInInfo.uid;
+    };
   }
 
   routes.$inject = ['$routeProvider', 'rUri'];
@@ -112,6 +122,11 @@
 
       .when('/fireauth-test', {  // TODO remove
         templateUrl: 'js/fireauth/views/test.tpl.html'
+      })
+
+      .when('/rx', {
+        templateUrl: 'js/upload/views/upload.tpl.html',
+        controller: 'UploadController'
       })
 
       .otherwise({redirectTo: '/'});

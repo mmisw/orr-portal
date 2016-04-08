@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-04-08: 0.3.1:
+  - initial basis for ontology upload operation
+
 * 2016-04-07: 0.3.1:
   - adjustment and documentation of the configuration (config.js)
 

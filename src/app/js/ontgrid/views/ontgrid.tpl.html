@@ -33,6 +33,15 @@
                     <span class="fa fa-search"></span>
                   </button>
                 </td>
+
+                <td></td>
+
+                <td ng-if="userLoggedIn()">
+                  <button class="btn btn-default btn-sm" ng-click="uploadOntology()">
+                    <span class="fa fa-upload"></span>
+                    Upload ontology
+                  </button>
+                </td>
               </tr>
             </table>
           </th>
