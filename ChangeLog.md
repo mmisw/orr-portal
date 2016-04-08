@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-04-07: 0.3.1:
+  - adjustment and documentation of the configuration (config.js)
+
 * 2016-01-18: 0.3.0:
   - add option to request email with username reminder
   - add options to view/update general user account info, and change password
