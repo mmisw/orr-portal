@@ -10,7 +10,7 @@ var appConfig = {
   help: "https://github.com/mmisw/orr-portal",
 
   orront: {
-    // (required) orr-ont endpoint (without trailing slash).
+    // (required) orr-ont endpoint URL (without trailing slash).
     // The default value here, "/orr-ont", assumes that the orr-ont service is
     // under the same host as this orr-portal instance.
     // You can indicate the full URL of the endpoint if needed.
@@ -18,7 +18,7 @@ var appConfig = {
 
     // (required) prefix to recognize "self-resolvable" URLs.
     // Typically this will be the same as the full URI of the orr-ont REST endpoint.
-    selfHostPrefix: "http://example.net/ont/",
+    selfHostPrefix: "http://example.net/orr-ont/",
 
     // (required) URL of the SPARQL endpoint:
     sparqlEndpoint: 'https://example.net/sparql'
