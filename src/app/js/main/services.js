@@ -29,6 +29,7 @@
 
       getOrgs:           getOrgs,
       refreshOrg:        refreshOrg,
+      createOrg:         createOrg,
 
       refreshUser:       refreshUser
     };
@@ -249,6 +250,26 @@
         .error(httpErrorHandler(gotOrg))
     }
 
+    function createOrg(orgName, name, members, cb) {
+      members = members.split(/\s*,\s*/);
+      var data = {
+        orgName:  orgName,
+        name:     name,
+        members:  members
+      };
+      putJwtIfAvailable(data);
+
+      doHttp("createOrg", {
+        method: 'POST',
+        url:    appConfig.orront.rest + "/api/v0/org",
+        data:   data
+      }, cb)
+        .success(function (data) {
+          console.log(appUtil.logTs() + ": createdOrg: data=", data);
+          cb(null, data);
+        })
+    }
+
     function refreshUser(userName, gotUser) {
 
       setRefreshing(true);
@@ -294,6 +315,24 @@
         params.push("jwt=" + $rootScope.masterAuth.authData.token);
       }
     }
+    function putJwtIfAvailable(params) {
+      if ($rootScope.masterAuth.authData && $rootScope.masterAuth.authData.token) {
+        params.jwt = $rootScope.masterAuth.authData.token;
+      }
+    }
+
+    function doHttp(operationName, config, cb) {
+      console.log(appUtil.logTs()
+        + ": " +operationName
+        + ": " + config.method+ " " + config.url
+        + " params=", config.params
+        + " data=", config.data
+      );
+
+      var http = $http(config);
+      http.error(httpErrorHandler(cb));
+      return http;
+    }
 
     function httpErrorHandler(cb) {
       return function(data, status, headers, config) {
@@ -304,7 +343,7 @@
         console.log("error in request " +reqMsg+ ":",
           "data=", data, "status=", status,
           "config=", config);
-        error += "An error occured with request: " +
+        error += "An error occurred with request: " +
           config.method + " " +config.url+ "<br/>";
         error += "Response from server:<br/>";
         error += '<table class="orrportal-error">';
@@ -315,7 +354,7 @@
         setRefreshing(false);
         $rootScope.$broadcast('evtRefreshCompleteError', error);
         if (cb) {
-          cb(data);
+          cb(data.error || data);
         }
       };
     }

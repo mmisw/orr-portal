@@ -1,0 +1,85 @@
+<div style="display: inline-block; vertical-align: top; width:95%; margin: 10px; margin-top: 20px">
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+      <span ng-if="!vm.created">
+        Create an organization
+      </span>
+    </div>
+
+    <div class="panel-body">
+
+      <form class="form-horizontal">
+
+        <div class="form-group">
+          <label for="inputOrgName" class="control-label col-xs-3">
+            Short&nbsp;name:
+          </label>
+
+          <div class="col-xs-8">
+            <input id="inputOrgName"
+                   type="text" class="form-control" style="width: 12em"
+                   ng-model="vm.orgName"
+                   ng-disabled="vm.created"
+            >
+            <br>
+            <span style="color: gray">
+              {{cfg.orront.rest}}/org/<span style="font-weight: bold" ng-bind="vm.orgName"></span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputName" class="control-label col-xs-3">
+            Full&nbsp;name:
+          </label>
+
+          <div class="col-xs-8">
+            <input id="inputName"
+                   type="text" class="form-control" style="width: 20em"
+                   ng-model="vm.name"
+                   ng-disabled="vm.created"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputMembers" class="control-label col-xs-3">
+            Members:
+          </label>
+
+          <div class="col-xs-8">
+            <input id="inputMembers"
+                   type="text" class="form-control" style="width: 20em"
+                   placeholder="comma-separated list of usernames"
+                   ng-model="vm.members"
+                   ng-disabled="vm.created"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+
+          <label class="col-xs-3"> </label>
+          <button ng-if="!vm.created"
+                  class="btn btn-primary btn-sm"
+                  ng-click="createOrg()"
+                  ng-disabled="vm.working || !okToCreateOrg()"
+          >Create organization
+          </button>
+
+        </div>
+
+      </form>
+
+      <span ng-if="vm.working" class="fa fa-spinner fa-spin"></span>
+
+      <span ng-if="vm.status" ng-bind="vm.status" style="color: darkgreen">
+      </span>
+
+      <div ng-if="vm.error" ng-bind="vm.error" style="color: darkred">
+      </div>
+
+    </div>
+  </div>
+</div>

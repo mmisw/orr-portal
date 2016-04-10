@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-04-10: 0.3.1:
+  - initial org creation
+
 * 2016-04-08: 0.3.1:
   - initial basis for ontology upload operation
 

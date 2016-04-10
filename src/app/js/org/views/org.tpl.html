@@ -17,8 +17,7 @@
 
         <div class="form-group" ng-show="org.name">
             <label class="col-xs-2"> Name: </label>
-            <div class="col-xs-4" style="font-size: larger">
-                <a href="#/org/{{org.name}}">{{org.name}}</a>
+            <div class="col-xs-4" style="font-size: larger" ng-bind="org.name">
             </div>
         </div>
 
