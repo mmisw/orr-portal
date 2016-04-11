@@ -186,9 +186,9 @@ function facetModelFactory($rootScope) {
                 var selectedHosting = getSelectedLabels(facet.selection);
                 if (selectedHosting.length === 1) {
                     var takeSelfHosted = selectedHosting[0] === "fully-hosted";
-                    var selfHostPrefix = appConfig.orront.selfHostPrefix;
+                    var orrOntRest = appConfig.orront.rest;
                     selectedOnts = _.filter(selectedOnts, function(ont) {
-                        var isSelfHosted = ont.uri.startsWith(selfHostPrefix);
+                        var isSelfHosted = ont.uri.startsWith(orrOntRest);
                         return takeSelfHosted === isSelfHosted;
                     });
                 }

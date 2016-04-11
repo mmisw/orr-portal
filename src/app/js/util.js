@@ -39,10 +39,17 @@ var appUtil = (function(window) {
 
     function mklink4uriWithSelfHostPrefix(uri) {
       uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
-      var url4link = uri.replace(/#/g, "%23");
-      var selfHostPrefix = appConfig.orront.selfHostPrefix;
-      var href = selfHostPrefix + "?uri=" + url4link;
-      return '<a href="' + href + '">' + uri + '</a>';
+      if (uri.startsWith(windowHref())) {
+        // it's self-resolvable:
+        return '<a href="' + uri + '">' + uri + '</a>';
+      }
+      else {
+        // use "uri" parameter:
+        var url4link = uri.replace(/#/g, "%23");
+        var orrOntRest = appConfig.orront.rest;
+        var href = orrOntRest + "?uri=" + url4link;
+        return '<a href="' + href + '">' + uri + '</a>';
+      }
     }
 
     function htmlifyUri(uri) {
@@ -224,19 +231,27 @@ var appUtil = (function(window) {
     }
 
     /**
-     * Returns window.location.href (without trailing hash part) if it has appConfig.orront.selfHostPrefix
-     * as a proper prefix. The returns string can be interpreted as a particular URI request as opposed
-     * to a request to the main ontology list page. Otherwise, returns undefined.
+     * Returns window.location.href without trailing hash part.
      */
-    function uriFromWindowLocation() {
+    function windowHref() {
       var href = window.location.href;
       if (href.endsWith(window.location.hash)) {
         href = href.substring(0, href.length - window.location.hash.length);
       }
-      var selfHostPrefix = appConfig.orront.selfHostPrefix;
-      console.log("selfHostPrefix=" +selfHostPrefix + " href=" +href);
-      if (href.startsWith(selfHostPrefix) && href.length > selfHostPrefix.length) {
-        console.log(selfHostPrefix + " is proper selfHostPrefix of href=" +href);
+      return href;
+    }
+
+    /**
+     * Returns windowHref if it has appConfig.orront.rest as a proper prefix.
+     * The returned string can be interpreted as a particular URI request as opposed
+     * to a request to the main ontology list page. Otherwise, returns undefined.
+     */
+    function uriFromWindowLocation() {
+      var href = windowHref();
+      var orrOntRest = appConfig.orront.rest;
+      console.log("orrOntRest=" +orrOntRest + " href=" +href);
+      if (href.startsWith(orrOntRest) && href.length > orrOntRest.length) {
+        console.log(orrOntRest + " is proper orrOntRest of href=" +href);
         var uri = href;
       }
       return uri;

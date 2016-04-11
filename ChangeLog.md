@@ -1,6 +1,10 @@
 ## change log ##
 
 * 2016-04-10: 0.3.1:
+  - use orr-portal's own "href" to determine the url for an ontology link,
+    in particular, for self-resolvable ontology URLs (later one for terms too)
+  - remove orront.selfHostPrefix config property; orront.rest serves the purpose as well
+
   - initial org creation
 
 * 2016-04-08: 0.3.1:
