@@ -53,14 +53,15 @@
       scope.refreshing = b;
     });
 
-    // TODO use popup dialogs for uploadOntology, createOrg, etc??
 
+    // TODO use popup dialog for uploadOntology??
     scope.uploadOntology = function() {
       $location.url("rx");
     };
 
+    // TODO use popup dialog for createOrg??
     scope.createOrg = function() {
-      $location.url("createOrg");
+      $location.url("neworg");
     };
 
     scope.userLoggedIn = function() {
@@ -112,7 +113,7 @@
         controller: 'OrgController'
       })
 
-      .when('/createOrg', {
+      .when('/neworg', {
         templateUrl: 'js/org/views/createOrg.tpl.html',
         controller: 'CreateOrgController'
       })

@@ -38,9 +38,9 @@
     if (appUtil.debug) console.log("++CreateOrgController++");
 
     var vm = $scope.vm = {
-      orgName: 'org3',
-      name:    'organiz 3',
-      members: 'admin'
+      orgName: '',
+      name:    '',
+      members: ''
     };
 
     $scope.okToCreateOrg = function() {
