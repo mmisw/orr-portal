@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-04-11: 0.3.1:
+  - some upload ontology styling
+
 * 2016-04-10: 0.3.1:
   - use orr-portal's own "href" to determine the url for an ontology link,
     in particular, for self-resolvable ontology URLs (later one for terms too)

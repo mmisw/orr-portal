@@ -1,68 +1,129 @@
 <div style="margin: 20px">
 
-  <form name="myForm">
-    <fieldset>
-      <legend>Upload ontology</legend>
+  <div class="panel panel-default">
 
-      <br>Ontology file:
-      <input type="file"
-             ngf-select
-             ng-model="vm.file"
-             name="file"
-             accept="*/*"
-             ngf-max-size="7MB" required
-             ngf-model-invalid="errorFile">
-      <i ng-show="myForm.file.$error.required">*required</i>
-
-      <i ng-show="myForm.file.$error.maxSize" style="color: red">
-        <br>
-         File too large
-         {{errorFile.size / 1000000|number:1}}MB: max 7M
-      </i>
-
-      <br>
-      File format:
-      <input type="text" name="format" ng-model="vm.format" size="31" required>
-      <i ng-show="myForm.format.$error.required">*required</i>
-
-      <br>
-
-      <br>
-      Ontology URI:
-      <input type="text" name="uri" ng-model="vm.uri" size="70" required
-             placeholder="URI">
-      <i ng-show="myForm.uri.$error.required">*required</i>
-
-      <br>
-      Ontology name:
-      <input type="text" name="name" ng-model="vm.name" size="31" required>
-      <i ng-show="myForm.name.$error.required">*required</i>
-
-      <br>
-      Organization:
-      <input type="text" name="orgName" ng-model="vm.orgName" size="31" required>
-      <i ng-show="myForm.orgName.$error.required">*required</i>
-
-      <br>
-      Username:
-      <input type="text" name="userName" ng-model="vm.userName" size="31" required>
-      <i ng-show="myForm.userName.$error.required">*required</i>
-
-
-      <br>
-      <button ng-disabled="!myForm.$valid"
-              ng-click="doUpload(vm.file)">
-        Submit
-      </button>
-
-      <span class="progress" ng-show="vm.progressPercentage >= 0">
-        <div style="width:{{vm.progressPercentage}}%; background-color: #8c8c8c"
-             ng-bind="vm.progressPercentage + '%'"></div>
+    <div class="panel-heading">
+      <span>
+        Upload ontology
       </span>
-      <span ng-show="vm.file.result">Upload Successful</span>
-      <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
-    </fieldset>
-    <br>
-  </form>
+    </div>
 
+    <div class="panel-body">
+
+      <form name="myForm" class="form-horizontal">
+
+        <div class="form-group">
+          <label for="inputOrgName" class="control-label col-xs-2">
+            Owner:
+          </label>
+
+          <div class="col-xs-2">
+
+            <select id="inputOrgName"
+                    name="orgName"
+                    class="form-control"
+                    ng-model="vm.selectedOwner"
+                    ng-options="option.name for option in vm.ownerOptions track by option.id"
+            >
+            </select>
+
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="inputFile" class="control-label col-xs-2">
+            Ontology file:
+          </label>
+
+          <div class="col-xs-4">
+            <input id="inputFile"
+                   type="file"
+                   class="form-control"
+                   ngf-select
+                   ng-model="vm.file"
+                   name="file"
+                   accept="*/*"
+                   ngf-max-size="7MB" required
+                   ngf-model-invalid="errorFile">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputFormat" class="control-label col-xs-2">
+            File format:
+          </label>
+          <div class="col-xs-2">
+
+            <select id="inputFormat"
+                    name="format"
+                    class="form-control"
+                    ng-style="vm.selectedFormat.id === '-' ? {'border-color': 'red'} : {}"
+                    required
+                    ng-model="vm.selectedFormat"
+                    ng-options="option.name for option in vm.formatOptions track by option.id"
+            >
+            </select>
+
+            <i ng-show="myForm.file.$error.maxSize" style="color: red">
+              <br>
+              File too large
+              {{errorFile.size / 1000000|number:1}}MB: max 7M
+            </i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputUri" class="control-label col-xs-2">
+            Ontology URI:
+          </label>
+
+          <div class="col-xs-8">
+            <!--<i ng-show="myForm.uri.$error.required">*</i>-->
+            <input id="inputUri"
+                   type="text"
+                   class="form-control" style="width: 30em"
+                   name="uri"
+                   ng-model="vm.uri"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputName" class="control-label col-xs-2">
+            Ontology name:
+          </label>
+
+          <div class="col-xs-8">
+            <!--<i ng-show="myForm.name.$error.required">*</i>-->
+            <input id="inputName"
+                   type="text"
+                   class="form-control" style="width: 30em"
+                   name="name"
+                   ng-model="vm.name"
+                   size="31" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+
+          <label class="col-xs-2"> </label>
+          <button ng-disabled="!myForm.$valid"
+                  ng-click="doUpload(vm.file)"
+                  class="btn btn-primary btn-sm">
+            Submit
+          </button>
+
+        </div>
+
+        <span class="progress" ng-show="vm.progressPercentage >= 0">
+          <div style="width:{{vm.progressPercentage}}%; background-color: #8c8c8c"
+               ng-bind="vm.progressPercentage + '%'"></div>
+        </span>
+        <span ng-show="vm.file.result">Upload Successful</span>
+        <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+
+      </form>
+    </div>
+  </div>
 </div>
