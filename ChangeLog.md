@@ -1,5 +1,10 @@
 ## change log ##
 
+* 2016-04-12: 0.3.1:
+  - complete basic sequence to register new ontology in re-hosted mode,
+    starting with initial upload of the file then continuing with some
+    fields and the with actual registration
+
 * 2016-04-11: 0.3.1:
   - some upload ontology styling
 

@@ -31,6 +31,8 @@
       refreshOrg:        refreshOrg,
       createOrg:         createOrg,
 
+      registerOntology:  registerOntology,
+
       refreshUser:       refreshUser
     };
 
@@ -266,6 +268,20 @@
       }, cb)
         .success(function (data) {
           console.log(appUtil.logTs() + ": createdOrg: data=", data);
+          cb(null, data);
+        })
+    }
+
+    function registerOntology(params, cb) {
+      putJwtIfAvailable(params);
+
+      doHttp("registerOntology", {
+        method: 'POST',
+        url:    appConfig.orront.rest + "/api/v0/ont",
+        params: params
+      }, cb)
+        .success(function (data) {
+          console.log(appUtil.logTs() + ": registerOntology: data=", data);
           cb(null, data);
         })
     }

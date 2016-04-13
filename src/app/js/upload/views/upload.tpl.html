@@ -1,35 +1,30 @@
 <div style="margin: 20px">
 
-  <div class="panel panel-default">
+  <div class="panel panel-default" ng-if="!vm.page">
 
     <div class="panel-heading">
-      <span>
-        Upload ontology
-      </span>
+      <div>
+        <div style="float: left">
+          Upload ontology file
+        </div>
+
+        <div style="float: right">
+
+          <button ng-disabled="!vm.uploadResponse"
+                  ng-click="vm.page = 1"
+                  class="btn btn-primary btn-sm">
+            Next <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </button>
+
+        </div>
+
+        <div style="clear:both;"></div>
+      </div>
     </div>
 
     <div class="panel-body">
 
       <form name="myForm" class="form-horizontal">
-
-        <div class="form-group">
-          <label for="inputOrgName" class="control-label col-xs-2">
-            Owner:
-          </label>
-
-          <div class="col-xs-2">
-
-            <select id="inputOrgName"
-                    name="orgName"
-                    class="form-control"
-                    ng-model="vm.selectedOwner"
-                    ng-options="option.name for option in vm.ownerOptions track by option.id"
-            >
-            </select>
-
-          </div>
-        </div>
-
 
         <div class="form-group">
           <label for="inputFile" class="control-label col-xs-2">
@@ -74,18 +69,163 @@
         </div>
 
         <div class="form-group">
+          <label class="col-xs-2"> </label>
+          <button ng-disabled="!myForm.$valid"
+                  ng-click="doUpload(vm.file)"
+                  class="btn btn-primary btn-sm">
+            Upload file
+          </button>
+        </div>
+
+        <div class="progress" ng-show="vm.progressPercentage >= 0">
+          <div style="width:{{vm.progressPercentage}}%; background-color: #dbdbdb"
+               ng-bind="vm.progressPercentage + '%'">
+          </div>
+        </div>
+
+        <span ng-show="vm.file.result">Upload Successful</span>
+        <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+
+
+        <div ng-if="vm.uploadResponse">
+
+          <div
+            class="form-group">
+            <label class="control-label col-xs-2">
+              Possible ontology URIs:
+            </label>
+
+            <div class="col-xs-8">
+              <ul>
+                <li ng-repeat="e in vm.uploadResponse.possibleOntologies">
+                  <span ng-bind="e.uri" style="font-weight: bold"></span>
+                  <span ng-if="e.explanation" style="color:gray; font-weight: 200">
+                    ({{e.explanation}})
+                  </span>
+                  <div ng-if="e.label">
+                    <span ng-bind="e.label" style="font-weight: bold"></span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="panel panel-default" ng-if="vm.page === 1">
+
+    <div class="panel-heading">
+      <div>
+        <div style="float: left">
+          Registration type
+        </div>
+
+        <div style="float: right">
+
+          <button ng-click="vm.page = 0"
+                  class="btn btn-primary btn-sm">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+          </button>
+
+          <button ng-click="vm.page = 2"
+                  ng-disabled="!vm.registrationType"
+                  class="btn btn-primary btn-sm">
+            Next <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </button>
+
+        </div>
+
+        <div style="clear:both;"></div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+
+      <p>
+        Specify the desired type of registration:
+      </p>
+
+      <label>
+        <input type="radio" ng-model="vm.registrationType" value="re-hosted">
+        Re-hosted ontology
+      </label>
+
+      <br>
+
+      <label>
+        <input type="radio" ng-model="vm.registrationType" value="fully-hosted">
+        Fully hosted ontology
+      </label>
+
+    </div>
+  </div>
+
+  <div class="panel panel-default" ng-if="vm.page === 2 && vm.registrationType === 're-hosted'">
+
+    <div class="panel-heading">
+      <div>
+        <div style="float: left">
+          Re-hosted registration type
+        </div>
+
+        <div style="float: right">
+
+          <button ng-click="vm.page = 1"
+                  class="btn btn-primary btn-sm">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+          </button>
+
+          <button ng-click="vm.page = 3"
+                  ng-disabled="true"
+                  class="btn btn-primary btn-sm">
+            Next <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </button>
+
+        </div>
+
+        <div style="clear:both;"></div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+
+      <form name="myForm" class="form-horizontal">
+
+        <div class="form-group">
+          <label for="inputOrgName" class="control-label col-xs-2">
+            Owner:
+          </label>
+
+          <div class="col-xs-2">
+
+            <select id="inputOrgName"
+                    name="orgName"
+                    class="form-control"
+                    ng-model="vm.selectedOwner"
+                    ng-options="option.name for option in vm.ownerOptions track by option.id"
+            >
+            </select>
+
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="inputUri" class="control-label col-xs-2">
             Ontology URI:
           </label>
 
           <div class="col-xs-8">
-            <!--<i ng-show="myForm.uri.$error.required">*</i>-->
+            <!--<i ng-show="myForm.name.$error.required">*</i>-->
             <input id="inputUri"
                    type="text"
                    class="form-control" style="width: 30em"
                    name="uri"
-                   ng-model="vm.uri"
-                   required>
+                   ng-model="vm.uri">
           </div>
         </div>
 
@@ -100,30 +240,58 @@
                    type="text"
                    class="form-control" style="width: 30em"
                    name="name"
-                   ng-model="vm.name"
-                   size="31" required>
+                   ng-model="vm.name">
           </div>
         </div>
 
         <div class="form-group">
+          <div class="form-group">
+            <label class="col-xs-2"> </label>
+            <button ng-disabled="!myForm.$valid"
+                    ng-click="doRegister()"
+                    class="btn btn-primary btn-sm">
+              Register ontology
+            </button>
+          </div>
+        </div>
 
-          <label class="col-xs-2"> </label>
-          <button ng-disabled="!myForm.$valid"
-                  ng-click="doUpload(vm.file)"
+      </form>
+
+    </div>
+  </div>
+
+  <div class="panel panel-default" ng-if="vm.page === 2 && vm.registrationType === 'fully-hosted'">
+
+    <div class="panel-heading">
+      <div>
+        <div style="float: left">
+          Fully hosted registration type
+        </div>
+
+        <div style="float: right">
+
+          <button ng-click="vm.page = 1"
                   class="btn btn-primary btn-sm">
-            Submit
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+          </button>
+
+          <button ng-click="vm.page = 3"
+                  ng-disabled="true"
+                  class="btn btn-primary btn-sm">
+            Next <i class="fa fa-chevron-right" aria-hidden="true"></i>
           </button>
 
         </div>
 
-        <span class="progress" ng-show="vm.progressPercentage >= 0">
-          <div style="width:{{vm.progressPercentage}}%; background-color: #8c8c8c"
-               ng-bind="vm.progressPercentage + '%'"></div>
-        </span>
-        <span ng-show="vm.file.result">Upload Successful</span>
-        <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+        <div style="clear:both;"></div>
+      </div>
+    </div>
 
-      </form>
+    <div class="panel-body">
+
+      TODO
+
     </div>
   </div>
+
 </div>
