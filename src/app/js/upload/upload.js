@@ -88,6 +88,10 @@
       });
     };
 
+    $scope.okToRegister = function() {
+      return vm.uri && vm.name;
+    };
+
     $scope.doRegister = function() {
       var params = {
         uri:      vm.uri,
