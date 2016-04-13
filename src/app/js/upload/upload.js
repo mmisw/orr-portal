@@ -32,7 +32,7 @@
       ],
       ownerOptions: [{
           id:    userName,
-          name: 'User: ' + userName
+          name: 'User: ' + userName + ": " + $rootScope.masterAuth.loggedInInfo.displayName
           }]
     };
     vm.selectedFormat = vm.formatOptions[0];
