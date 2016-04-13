@@ -46,7 +46,7 @@ var appUtil = (function(window) {
       else {
         // use "uri" parameter:
         var url4link = uri.replace(/#/g, "%23");
-        var orrOntRest = appConfig.orront.rest + "/api/v0/ont";
+        var orrOntRest = appConfig.orront.rest + "/";
         var href = orrOntRest + "?uri=" + url4link;
         return '<a href="' + href + '">' + uri + '</a>';
       }
