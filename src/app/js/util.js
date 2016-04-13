@@ -242,7 +242,7 @@ var appUtil = (function(window) {
     }
 
     /**
-     * Returns windowHref if it has appConfig.orront.rest as a proper prefix.
+     * Returns windowHref if it has appConfig.orront.rest as a proper prefix (modulo trailing slash).
      * The returned string can be interpreted as a particular URI request as opposed
      * to a request to the main ontology list page. Otherwise, returns undefined.
      */
@@ -250,7 +250,7 @@ var appUtil = (function(window) {
       var href = windowHref();
       var orrOntRest = appConfig.orront.rest;
       console.log("orrOntRest=" +orrOntRest + " href=" +href);
-      if (href.startsWith(orrOntRest) && href.length > orrOntRest.length) {
+      if (href.startsWith(orrOntRest) && href.length > orrOntRest.length && orrOntRest+"/" !== href) {
         console.log(orrOntRest + " is proper orrOntRest of href=" +href);
         var uri = href;
       }
