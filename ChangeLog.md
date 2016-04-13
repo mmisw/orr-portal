@@ -5,6 +5,8 @@
     starting with initial upload of the file then continuing with some
     fields and the with actual registration
   - /user/username: show organizations
+  - include user's organizations is selection for "owner" in ontology registration.
+    TODO: username itself is also included but not yet handled as owner (orr-ont)
 
 * 2016-04-11: 0.3.1:
   - some upload ontology styling

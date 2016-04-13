@@ -30,6 +30,8 @@
         { id: 'nt',     name: 'N-TRIPLE'},
         { id: 'turtle', name: 'TURTLE'}
       ],
+
+      // TODO properly handle distinction between userName OR organization (this also involves orr-ont)
       ownerOptions: [{
           id:    userName,
           name: 'User: ' + userName + ": " + $rootScope.masterAuth.loggedInInfo.displayName
@@ -38,13 +40,23 @@
     vm.selectedFormat = vm.formatOptions[0];
     vm.selectedOwner = vm.ownerOptions[0];
 
-    // TODO add organizations that the user can submit ontologies on behalf of
-    vm.ownerOptions.push({
-      id:   "mmi",
-      name: 'Organization: ' + "mmi: Marine Metadata Interoperability Project"
+    // add user's organizations:
+    service.refreshUser(userName, function(error, user) {
+      if (error) {
+        console.error("error getting user:", error);
+      }
+      else {
+        console.log("refreshUser: got=", user);
+        if (user.organizations) {
+          _.each(user.organizations, function(o) {
+            vm.ownerOptions.push({
+              id: o.orgName,
+              name: 'Organization: ' + o.orgName + ": " + o.name
+            });
+          })
+        }
+      }
     });
-    // TODO properly handle distinction between userName OR organization being submitting (this also involves orr-ont)
-
 
     $scope.doUpload = function (file) {
       vm.uri = vm.name = '';
