@@ -22,23 +22,23 @@
     var vm = $scope.vm = {
       name:     '',
       uri:      '',
+
       formatOptions: [
-        { id: '-',       name: '--select--'},
         { id: 'rdf',    name: 'RDF/XML'},
         { id: 'owl',    name: 'OWL/XML'},
         { id: 'n3',     name: 'N3'},
         { id: 'nt',     name: 'N-TRIPLE'},
         { id: 'turtle', name: 'TURTLE'}
       ],
+      selectedFormat: undefined,
 
       // TODO properly handle distinction between userName OR organization (this also involves orr-ont)
       ownerOptions: [{
-          id:    userName,
-          name: 'User: ' + userName + ": " + $rootScope.masterAuth.loggedInInfo.displayName
-          }]
-    };
-    vm.selectedFormat = vm.formatOptions[0];
-    vm.selectedOwner = vm.ownerOptions[0];
+        id:    userName,
+        name: 'User: ' + userName + ": " + $rootScope.masterAuth.loggedInInfo.displayName
+      }],
+      selectedOwner: undefined
+  };
 
     // add user's organizations:
     service.refreshUser(userName, function(error, user) {
@@ -89,7 +89,11 @@
     };
 
     $scope.okToRegister = function() {
-      return vm.uri && vm.name;
+      return vm.selectedOwner && validUri(vm.uri) && vm.name;
+
+      function validUri(uri) {
+        return uri;  // TODO URI validation
+      }
     };
 
     $scope.doRegister = function() {

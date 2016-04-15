@@ -5,6 +5,7 @@
     'ngRoute',
     'ngSanitize',
     'ui.bootstrap'
+    ,'ui.select'
     ,'angular-clipboard'
     ,'orrportal.main'
     ,'orrportal.facet'
