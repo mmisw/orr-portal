@@ -9,6 +9,24 @@
         templateUrl: 'js/upload/views/0-upload.tpl.html'
       }
     })
+    .directive('orrportalSelectRegistrationType', function() {
+      return {
+        restrict:    'E',
+        templateUrl: 'js/upload/views/1-regtype.tpl.html'
+      }
+    })
+    .directive('orrportalUploadRehosted', function() {
+      return {
+        restrict:    'E',
+        templateUrl: 'js/upload/views/2-rehosted.tpl.html'
+      }
+    })
+    .directive('orrportalUploadFullyHosted', function() {
+      return {
+        restrict:    'E',
+        templateUrl: 'js/upload/views/2-fullyhosted.tpl.html'
+      }
+    })
   ;
 
   var formatOptions = [
