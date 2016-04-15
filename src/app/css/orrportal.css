@@ -271,6 +271,12 @@ a:link {
   font-family: 'Inconsolata', monospace;
   font-weight: 200;
 }
+.uriText0 {
+  font-size: x-large;
+  text-align: center;
+  font-family: 'Inconsolata', monospace;
+  margin-bottom: 12px;
+}
 .uriText {
   font-size: x-large;
   margin-left: 5px;

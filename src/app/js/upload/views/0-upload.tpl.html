@@ -2,7 +2,7 @@
 
   <div class="panel-heading">
     <div>
-      <div style="float: left">
+      <div style="float: left; font-weight: bold">
         Upload ontology file
       </div>
 
@@ -22,6 +22,8 @@
 
   <div class="panel-body">
 
+    <div class="uriText0" ng-bind="vm.originalUri"></div>
+
     <form name="myForm" class="form-horizontal">
 
       <div class="form-group">
@@ -38,6 +40,7 @@
                  id="inputFile"
                  type="file"
                  class="form-control"
+                 style="font-weight: bold"
                  ngf-select
                  ng-model="vm.file"
                  name="file"
@@ -99,7 +102,7 @@
 
         <div class="form-group">
           <label class="control-label col-xs-2" for="inputOriginalUri">
-            Ontology URI:
+            Original ontology URI:
           </label>
 
           <div class="col-xs-4">
@@ -127,8 +130,8 @@
               <li ng-repeat="e in vm.uploadResponse.data.possibleOntologies">
                 <span ng-bind="e.uri" style="font-weight: bold">
                 </span>
-                <button ng-click="vm.originalUri = e.uri" uib-tooltip="Select this URI"
-                        class="btn btn-default btn-xs">
+                <button ng-click="vm.originalUri = e.uri" uib-tooltip="Select this URI as the original"
+                        class="btn btn-info btn-xs">
                   <i class="fa fa-check" aria-hidden="true"></i>
                 </button>
 

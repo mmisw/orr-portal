@@ -1,5 +1,7 @@
 <div style="margin: 20px">
 
+  <h3>New ontology registration</h3>
+
   <div ng-if="!vm.page">
     <orrportal-upload-ontology></orrportal-upload-ontology>
   </div>
@@ -8,7 +10,7 @@
 
     <div class="panel-heading">
       <div>
-        <div style="float: left">
+        <div style="float: left; font-weight: bold">
           Registration type
         </div>
 
@@ -33,21 +35,34 @@
 
     <div class="panel-body">
 
+      <div class="uriText0" ng-bind="vm.originalUri"></div>
+
       <p>
-        Specify the desired type of registration:
+        <label>
+          Desired type of registration:
+        </label>
       </p>
 
-      <label>
-        <input type="radio" ng-model="vm.registrationType" value="re-hosted">
-        Re-hosted ontology
-      </label>
+      <div style="margin-left: 40px">
 
-      <br>
+        <label>
+          <input type="radio" ng-model="vm.registrationType" value="re-hosted">
+          Re-hosted ontology
+        </label>
+        <span style="color: gray">
+          - No changes at all to any ontology and terms URIs
+        </span>
 
-      <label>
-        <input type="radio" ng-model="vm.registrationType" value="fully-hosted">
-        Fully hosted ontology
-      </label>
+        <br><br>
+
+        <label>
+          <input type="radio" ng-model="vm.registrationType" value="fully-hosted">
+          Fully hosted ontology
+        </label>
+        <span style="color: gray">
+          - Ontology and associated terms are moved to an ORR-based namespace
+        </span>
+      </div>
 
     </div>
   </div>
@@ -56,7 +71,7 @@
 
     <div class="panel-heading">
       <div>
-        <div style="float: left">
+        <div style="float: left; font-weight: bold">
           Re-hosted registration type
         </div>
 
@@ -81,18 +96,9 @@
 
     <div class="panel-body">
 
+      <div class="uriText0" ng-bind="vm.originalUri"></div>
+
       <form name="myForm" class="form-horizontal">
-
-        <div class="form-group">
-          <label class="control-label col-xs-2">
-            Ontology URI:
-          </label>
-
-          <div class="col-xs-4">
-            <label class="form-control" ng-bind="vm.originalUri">
-            </label>
-          </div>
-        </div>
 
         <div class="form-group">
           <label for="inputOrgName" class="control-label col-xs-2">
@@ -153,7 +159,7 @@
 
     <div class="panel-heading">
       <div>
-        <div style="float: left">
+        <div style="float: left; font-weight: bold">
           Fully hosted registration type
         </div>
 
@@ -178,7 +184,9 @@
 
     <div class="panel-body">
 
-      TODO
+      <div class="uriText0" ng-bind="vm.originalUri"></div>
+
+      <h1>TODO</h1>
 
     </div>
   </div>
