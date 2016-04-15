@@ -43,7 +43,6 @@
 
       vm = $scope.vm = {
         name:     '',
-        uri:      '',
 
         formatOptions: formatOptions,
         selectedFormat: undefined,
@@ -72,7 +71,7 @@
     }
 
     $scope.doUpload = function (file) {
-      vm.uri = vm.name = '';
+      vm.name = '';
 
       var url = appConfig.orront.rest + "/api/v0/ont/upload";
       var data = {
@@ -98,12 +97,15 @@
     };
 
     function gotUploadResponse(resp) {
-      console.log('gotUploadResponse:', resp.config.data.file.name, 'uploaded. resp.data:', resp.data);
-      vm.uploadResponse = resp.data;
-      $scope.possibleOntologyUris = _.uniq(_.map(vm.uploadResponse.possibleOntologies, "uri")) || [];
-      $scope.possibleOntologyLabels = _.uniq(_.map(vm.uploadResponse.possibleOntologies, "label")) || [];
-      console.log('possibleOntologyUris=', $scope.possibleOntologyUris);
-      console.log('possibleOntologyLabels=', $scope.possibleOntologyLabels);
+      console.log('gotUploadResponse:', resp.config.data.file.name, 'uploaded. resp:', resp);
+      vm.uploadResponse = {
+        origFilename: resp.config.data.file.name,
+        data:         resp.data
+      };
+      $scope.possibleOntologyUris = _.uniq(_.map(vm.uploadResponse.data.possibleOntologies, "uri")) || [];
+      $scope.possibleOntologyLabels = _.uniq(_.map(vm.uploadResponse.data.possibleOntologies, "label")) || [];
+      //console.log('possibleOntologyUris=', $scope.possibleOntologyUris);
+      //console.log('possibleOntologyLabels=', $scope.possibleOntologyLabels);
     }
 
     $scope.getPossibleOntologyUris = function(search) {  // http://stackoverflow.com/a/32914532/830737
@@ -122,7 +124,7 @@
     };
 
     $scope.okToRegister = function() {
-      return vm.selectedOwner && validUri(vm.uri) && vm.name;
+      return vm.selectedOwner && validUri(vm.originalUri) && vm.name;
 
       function validUri(uri) {
         return uri;  // TODO URI validation
@@ -131,12 +133,12 @@
 
     $scope.doRegister = function() {
       var params = {
-        uri:      vm.uri,
+        uri:      vm.originalUri,
         name:     vm.name,
         orgName:  vm.selectedOwner.id,
         userName: userName,
-        uploadedFilename: vm.uploadResponse.filename,
-        uploadedFormat:   vm.uploadResponse.format
+        uploadedFilename: vm.uploadResponse.data.filename,
+        uploadedFormat:   vm.uploadResponse.data.format
       };
 
       service.registerOntology(params, cb);

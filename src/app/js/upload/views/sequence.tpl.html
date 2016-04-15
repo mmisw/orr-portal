@@ -84,6 +84,17 @@
       <form name="myForm" class="form-horizontal">
 
         <div class="form-group">
+          <label class="control-label col-xs-2">
+            Ontology URI:
+          </label>
+
+          <div class="col-xs-4">
+            <label class="form-control" ng-bind="vm.originalUri">
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="inputOrgName" class="control-label col-xs-2">
             Owner:
           </label>
@@ -96,26 +107,6 @@
               </ui-select-match>
               <ui-select-choices repeat="item in (vm.ownerOptions | filter: $select.search) track by item.id">
                 <span ng-bind="item.name"></span>
-              </ui-select-choices>
-            </ui-select>
-
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="inputUri" class="control-label col-xs-2">
-            Ontology URI:
-          </label>
-
-          <div class="col-xs-4">
-            <!--<i ng-show="myForm.name.$error.required">*</i>-->
-
-            <ui-select id="inputUri" ng-model="vm.uri">
-              <ui-select-match placeholder="Indicate URI of the ontology">
-                <span ng-bind="$select.selected"></span>
-              </ui-select-match>
-              <ui-select-choices repeat="item in getPossibleOntologyUris($select.search) | filter: $select.search">
-                <span ng-bind="item"></span>
               </ui-select-choices>
             </ui-select>
 

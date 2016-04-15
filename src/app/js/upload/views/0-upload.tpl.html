@@ -8,7 +8,7 @@
 
       <div style="float: right">
 
-        <button ng-disabled="!vm.uploadResponse"
+        <button ng-disabled="!vm.uploadResponse || !vm.originalUri"
                 ng-click="vm.page = 1"
                 class="btn btn-primary btn-sm">
           Next <i class="fa fa-chevron-right" aria-hidden="true"></i>
@@ -30,7 +30,12 @@
         </label>
 
         <div class="col-xs-4">
-          <input id="inputFile"
+          <label ng-if="vm.uploadResponse"
+                 ng-bind="vm.uploadResponse.origFilename"
+                 class="form-control">
+          </label>
+          <input ng-if="!vm.uploadResponse"
+                 id="inputFile"
                  type="file"
                  class="form-control"
                  ngf-select
@@ -47,7 +52,8 @@
           File format:
         </label>
         <div class="col-xs-2">
-          <ui-select ng-model="vm.selectedFormat" id="inputFormat">
+          <ui-select ng-disabled="vm.uploadResponse"
+                     ng-model="vm.selectedFormat" id="inputFormat">
             <ui-select-match placeholder="Select format">
               <span ng-bind="$select.selected.name"></span>
             </ui-select-match>
@@ -66,7 +72,13 @@
 
       <div class="form-group">
         <label class="col-xs-2"> </label>
-        <button ng-disabled="!myForm.$valid || !vm.selectedFormat.id"
+        <button ng-if="vm.uploadResponse"
+                ng-click="vm.uploadResponse = undefined"
+                class="btn btn-primary btn-sm">
+          Upload another file
+        </button>
+        <button ng-if="!vm.uploadResponse"
+                ng-disabled="!myForm.$valid || !vm.selectedFormat.id"
                 ng-click="doUpload(vm.file)"
                 class="btn btn-primary btn-sm">
           Upload file
@@ -75,7 +87,7 @@
 
       <div class="progress" ng-show="vm.progressPercentage >= 0">
         <div style="width:{{vm.progressPercentage}}%; background-color: #dbdbdb"
-             ng-bind="vm.progressPercentage + '%'">
+             ng-bind="vm.progressPercentage < 100 ? vm.progressPercentage + '%' : ''">
         </div>
       </div>
 
@@ -85,23 +97,45 @@
 
       <div ng-if="vm.uploadResponse">
 
-        <div
-          class="form-group">
-          <label class="control-label col-xs-2">
-            Possible ontology URIs:
+        <div class="form-group">
+          <label class="control-label col-xs-2" for="inputOriginalUri">
+            Ontology URI:
           </label>
 
-          <div class="col-xs-8">
+          <div class="col-xs-4">
+            <input id="inputOriginalUri"
+                   type="text"
+                   class="form-control"
+                   ng-model="vm.originalUri"
+                   name="originalUri"
+                   placeholder="Indicate the original URI of this ontology"
+                   required>
+          </div>
+        </div>
+
+        <div class="form-group" ng-if="vm.uploadResponse.data.possibleOntologies">
+          <label class="col-xs-2"> </label>
+
+          <div class="col-xs-6">
+            <label>
+              The following
+              {{vm.uploadResponse.data.possibleOntologies.length > 1 ? 'were' : 'was'}}
+              detected in the contents of the file:
+            </label>
+
             <ul>
-              <li ng-repeat="e in vm.uploadResponse.possibleOntologies">
-                <span ng-bind="e.uri" style="font-weight: bold"></span>
-                  <span ng-if="e.explanation" style="color:gray; font-weight: 200">
-                    ({{e.explanation}})
-                  </span>
-                <div ng-if="e.label">
-                  <span ng-bind="e.label" style="font-weight: bold"></span>
+              <li ng-repeat="e in vm.uploadResponse.data.possibleOntologies">
+                <span ng-bind="e.uri" style="font-weight: bold">
+                </span>
+                <button ng-click="vm.originalUri = e.uri" uib-tooltip="Select this URI"
+                        class="btn btn-default btn-xs">
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                </button>
+
+                <div ng-if="e.explanation" ng-bind="e.explanation" style="color:gray; font-weight: 200">
                 </div>
               </li>
+
             </ul>
           </div>
         </div>
