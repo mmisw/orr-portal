@@ -1,6 +1,8 @@
-<div style="margin: 20px">
+<div style="margin: 20px" ng-if="userLoggedIn()">
 
   <h3>New ontology registration</h3>
+
+  <div class="uriText0" ng-bind="vm.originalUri"></div>
 
   <div ng-if="!vm.page">
     <orrportal-upload-ontology></orrportal-upload-ontology>

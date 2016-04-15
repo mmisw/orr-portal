@@ -22,8 +22,6 @@
 
   <div class="panel-body">
 
-    <div class="uriText0" ng-bind="vm.originalUri"></div>
-
     <form name="myForm" class="form-horizontal">
 
       <div class="form-group">
@@ -76,7 +74,7 @@
       <div class="form-group">
         <label class="col-xs-2"> </label>
         <button ng-if="vm.uploadResponse"
-                ng-click="vm.uploadResponse = undefined"
+                ng-click="vm.uploadResponse = vm.originalUri = undefined"
                 class="btn btn-primary btn-sm">
           Upload another file
         </button>
