@@ -37,9 +37,9 @@
     { id: 'turtle', name: 'TURTLE'}
   ];
 
-  UploadController.$inject = ['$rootScope', '$scope', '$timeout', '$location', 'Upload', 'service'];
+  UploadController.$inject = ['$rootScope', '$scope', '$timeout', '$location', 'Upload', 'cfg', 'service'];
 
-  function UploadController($rootScope, $scope, $timeout, $location, Upload, service) {
+  function UploadController($rootScope, $scope, $timeout, $location, Upload, cfg, service) {
     if (appUtil.debug) console.log("++UploadController++");
 
     var userName, vm;
@@ -141,7 +141,7 @@
       return newList;
     };
 
-    $scope.okToRegister = function() {
+    $scope.okToRegisterRehosted = function() {
       return vm.selectedOwner && validUri(vm.originalUri) && vm.name;
 
       function validUri(uri) {
@@ -149,7 +149,44 @@
       }
     };
 
-    $scope.doRegister = function() {
+    $scope.doRegisterRehosted = function() {
+      var params = {
+        uri:      vm.originalUri,
+        name:     vm.name,
+        orgName:  vm.selectedOwner.id,
+        userName: userName,
+        uploadedFilename: vm.uploadResponse.data.filename,
+        uploadedFormat:   vm.uploadResponse.data.format
+      };
+
+      service.registerOntology(params, cb);
+
+      function cb(error, data) {
+        if (error) {
+          console.error(error)
+        }
+        else {
+          console.log("registerOntology: success data=", data);
+        }
+      }
+    };
+
+    ////////////////////
+    // Fully hosted
+    ////////////////////
+
+
+    $scope.shortNameFromFileName = function() {
+      vm.newShortName = vm.uploadResponse.origFilename;
+      var dotIdx = vm.newShortName.lastIndexOf('.');
+      if (dotIdx >= 0) vm.newShortName = vm.newShortName.substring(0, dotIdx);
+    };
+
+    $scope.okToRegisterFullyHosted = function() {
+      return vm.selectedOwner && vm.newShortName && vm.name;
+    };
+
+    $scope.doRegisterFullyHosted = function() {
       var params = {
         uri:      vm.originalUri,
         name:     vm.name,

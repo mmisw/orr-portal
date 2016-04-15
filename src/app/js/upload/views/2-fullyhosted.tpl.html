@@ -27,7 +27,103 @@
 
     <div class="panel-body">
 
-      <h1>TODO</h1>
+      <form name="myForm" class="form-horizontal">
+
+        <div class="form-group">
+          <label for="inputOrgName" class="control-label col-xs-2">
+            Owner:
+          </label>
+
+          <div class="col-xs-4">
+
+            <ui-select ng-model="vm.selectedOwner" id="inputOrgName">
+              <ui-select-match placeholder="Select owner">
+                <span ng-bind="$select.selected.name"></span>
+              </ui-select-match>
+              <ui-select-choices repeat="item in (vm.ownerOptions | filter: $select.search) track by item.id">
+                <span ng-bind="item.name"></span>
+              </ui-select-choices>
+            </ui-select>
+
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputNewShortName" class="control-label col-xs-2">
+            Ontology short name:
+          </label>
+
+          <div class="col-xs-2">
+
+            <input id="inputNewShortName"
+                   type="text"
+                   class="form-control"
+                   ng-model="vm.newShortName"
+                   name="newShortName"
+                   required>
+
+            <button ng-click="shortNameFromFileName()"
+                    class="btn btn-primary btn-sm">
+              Use filename
+            </button>
+
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-xs-2">
+            New URI:
+          </label>
+
+          <div class="col-xs-6">
+            <div class="uriText1">
+              {{cfg.orront.rest}}/<span ng-if="vm.selectedOwner" ng-bind="vm.selectedOwner.id"
+                                        style="font-weight: bold;text-decoration: underline"
+            ></span><span ng-if="!vm.selectedOwner"
+                          style="color: darkred"
+            >owner</span>/<span ng-if="vm.newShortName" ng-bind="vm.newShortName"
+                                style="font-weight: bold;text-decoration: underline"
+            ></span><span ng-if="!vm.newShortName"
+                          style="color: darkred"
+            >newShortName</span>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="inputName" class="control-label col-xs-2">
+            Ontology label:
+          </label>
+
+          <div class="col-xs-4">
+            <!--<i ng-show="myForm.name.$error.required">*</i>-->
+
+            <ui-select id="inputName" ng-model="vm.name">
+              <ui-select-match placeholder="A short description of the ontology">
+                <span ng-bind="$select.selected"></span>
+              </ui-select-match>
+              <ui-select-choices repeat="item in getPossibleOntologyLabels($select.search) | filter: $select.search">
+                <span ng-bind="item"></span>
+              </ui-select-choices>
+            </ui-select>
+
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-group">
+            <label class="col-xs-2"> </label>
+            <button ng-disabled="!okToRegisterFullyHosted()"
+                    ng-click="doRegisterFullyHosted()"
+                    class="btn btn-primary btn-sm">
+              Complete registration
+            </button>
+          </div>
+        </div>
+
+      </form>
 
     </div>
   </div>
