@@ -137,7 +137,7 @@
       })
 
       .when('/rx', {
-        templateUrl: 'js/upload/views/upload.tpl.html',
+        templateUrl: 'js/upload/views/sequence.tpl.html',
         controller: 'UploadController'
       })
 

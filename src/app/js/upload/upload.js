@@ -3,51 +3,64 @@
 
   angular.module('orrportal.upload', ['ngFileUpload'])
     .controller('UploadController', UploadController)
+    .directive('orrportalUploadOntology', function() {
+      return {
+        restrict:    'E',
+        templateUrl: 'js/upload/views/0-upload.tpl.html'
+      }
+    })
   ;
 
-  UploadController.$inject = ['$rootScope', '$scope', '$location', 'Upload', 'service'];
+  var formatOptions = [
+    { id: 'rdf',    name: 'RDF/XML'},
+    { id: 'owl',    name: 'OWL/XML'},
+    { id: 'n3',     name: 'N3'},
+    { id: 'nt',     name: 'N-TRIPLE'},
+    { id: 'turtle', name: 'TURTLE'}
+  ];
 
-  function UploadController($rootScope, $scope, $location, Upload, service) {
+  UploadController.$inject = ['$rootScope', '$scope', '$timeout', '$location', 'Upload', 'service'];
+
+  function UploadController($rootScope, $scope, $timeout, $location, Upload, service) {
     if (appUtil.debug) console.log("++UploadController++");
 
-    if (!$rootScope.userLoggedIn()) {
-      $location.url("/");
-      return;
+    var userName, vm;
+
+    if (!$rootScope.userLoggedIn()) {  // wait for a bit
+      $timeout(function() {
+        if (!$rootScope.userLoggedIn()) {
+          $location.url("/");
+        }
+        else enableController();
+      }, 2000);
     }
+    else enableController();
 
-    $rootScope.vm.curView = 'rx';
+    function enableController() {
+      $rootScope.vm.curView = 'rx';
 
-    var userName = $rootScope.masterAuth.loggedInInfo.uid;
+      userName = $rootScope.masterAuth.loggedInInfo.uid;
 
-    var vm = $scope.vm = {
-      name:     '',
-      uri:      '',
+      vm = $scope.vm = {
+        name:     '',
+        uri:      '',
 
-      formatOptions: [
-        { id: 'rdf',    name: 'RDF/XML'},
-        { id: 'owl',    name: 'OWL/XML'},
-        { id: 'n3',     name: 'N3'},
-        { id: 'nt',     name: 'N-TRIPLE'},
-        { id: 'turtle', name: 'TURTLE'}
-      ],
-      selectedFormat: undefined,
+        formatOptions: formatOptions,
+        selectedFormat: undefined,
 
-      // TODO properly handle distinction between userName OR organization (this also involves orr-ont)
-      ownerOptions: [{
-        id:    userName,
-        name: 'User: ' + userName + ": " + $rootScope.masterAuth.loggedInInfo.displayName
-      }],
-      selectedOwner: undefined
-  };
+        // TODO properly handle distinction between userName OR organization (this also involves orr-ont)
+        ownerOptions: [{
+          id:    userName,
+          name: 'User: ' + userName + ": " + $rootScope.masterAuth.loggedInInfo.displayName
+        }],
+        selectedOwner: undefined
+      };
 
-    // add user's organizations:
-    service.refreshUser(userName, function(error, user) {
-      if (error) {
-        console.error("error getting user:", error);
-      }
-      else {
-        console.log("refreshUser: got=", user);
-        if (user.organizations) {
+      // add user's organizations:
+      service.refreshUser(userName, function(error, user) {
+        if (error) { console.error("error getting user:", error); }
+        else {
+          //console.log("refreshUser: got=", user);
           _.each(user.organizations, function(o) {
             vm.ownerOptions.push({
               id: o.orgName,
@@ -55,8 +68,8 @@
             });
           })
         }
-      }
-    });
+      });
+    }
 
     $scope.doUpload = function (file) {
       vm.uri = vm.name = '';

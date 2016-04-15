@@ -1,6 +1,7 @@
 ## change log ##
 
-* 2016-04-14: 0.3.1:
+* 2016-04-14/15: 0.3.1:
+  - directives to modularize upload sequence
   - start using ui-select
 
 * 2016-04-12: 0.3.1:
