@@ -77,15 +77,35 @@
       Upload.upload({
         url: url,
         data: data
-      }).then(function (resp) {
-        console.log('Success ' + resp.config.data.file.name + ' uploaded. resp.data:', resp.data);
-        vm.uploadResponse = resp.data;
-      }, function (resp) {
-        console.log('Error:', resp.status);
-      }, function (evt) {
-        vm.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-        //console.log('progress: ' + vm.progressPercentage + '% ' + evt.config.data.file.name);
-      });
+      }).then(gotUploadResponse,
+        function(resp) { console.log('Error:', resp.status);
+      },
+        function(evt) { vm.progressPercentage = parseInt(100.0 * evt.loaded / evt.total); }
+      );
+    };
+
+    function gotUploadResponse(resp) {
+      console.log('gotUploadResponse:', resp.config.data.file.name, 'uploaded. resp.data:', resp.data);
+      vm.uploadResponse = resp.data;
+      $scope.possibleOntologyUris = _.uniq(_.map(vm.uploadResponse.possibleOntologies, "uri")) || [];
+      $scope.possibleOntologyLabels = _.uniq(_.map(vm.uploadResponse.possibleOntologies, "label")) || [];
+      console.log('possibleOntologyUris=', $scope.possibleOntologyUris);
+      console.log('possibleOntologyLabels=', $scope.possibleOntologyLabels);
+    }
+
+    $scope.getPossibleOntologyUris = function(search) {  // http://stackoverflow.com/a/32914532/830737
+      var newList = $scope.possibleOntologyUris.slice();
+      if (search && newList.indexOf(search) === -1) {
+        newList.unshift(search);
+      }
+      return newList;
+    };
+    $scope.getPossibleOntologyLabels = function(search) {
+      var newList = $scope.possibleOntologyLabels.slice();
+      if (search && newList.indexOf(search) === -1) {
+        newList.unshift(search);
+      }
+      return newList;
     };
 
     $scope.okToRegister = function() {

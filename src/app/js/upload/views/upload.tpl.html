@@ -50,7 +50,7 @@
           </label>
           <div class="col-xs-2">
             <ui-select ng-model="vm.selectedFormat" id="inputFormat">
-              <ui-select-match placeholder="Select format...">
+              <ui-select-match placeholder="Select format">
                 <span ng-bind="$select.selected.name"></span>
               </ui-select-match>
               <ui-select-choices repeat="item in (vm.formatOptions | filter: $select.search) track by item.id">
@@ -196,13 +196,13 @@
 
         <div class="form-group">
           <label for="inputOrgName" class="control-label col-xs-2">
-            Select owner:
+            Owner:
           </label>
 
           <div class="col-xs-4">
 
             <ui-select ng-model="vm.selectedOwner" id="inputOrgName">
-              <ui-select-match placeholder="Select owner...">
+              <ui-select-match placeholder="Select owner">
                 <span ng-bind="$select.selected.name"></span>
               </ui-select-match>
               <ui-select-choices repeat="item in (vm.ownerOptions | filter: $select.search) track by item.id">
@@ -218,29 +218,38 @@
             Ontology URI:
           </label>
 
-          <div class="col-xs-6">
+          <div class="col-xs-4">
             <!--<i ng-show="myForm.name.$error.required">*</i>-->
-            <input id="inputUri"
-                   type="text"
-                   class="form-control"
-                   name="uri"
-                   ng-model="vm.uri">
+
+            <ui-select id="inputUri" ng-model="vm.uri">
+              <ui-select-match placeholder="Indicate URI of the ontology">
+                <span ng-bind="$select.selected"></span>
+              </ui-select-match>
+              <ui-select-choices repeat="item in getPossibleOntologyUris($select.search) | filter: $select.search">
+                <span ng-bind="item"></span>
+              </ui-select-choices>
+            </ui-select>
+
           </div>
         </div>
 
         <div class="form-group">
           <label for="inputName" class="control-label col-xs-2">
-            Ontology name:
+            Ontology label:
           </label>
 
-          <div class="col-xs-6">
+          <div class="col-xs-4">
             <!--<i ng-show="myForm.name.$error.required">*</i>-->
-            <input id="inputName"
-                   type="text"
-                   class="form-control"
-                   name="name"
-                   placeholder="A short sentence about the ontology"
-                   ng-model="vm.name">
+
+            <ui-select id="inputName" ng-model="vm.name">
+              <ui-select-match placeholder="A short description of the ontology">
+                <span ng-bind="$select.selected"></span>
+              </ui-select-match>
+              <ui-select-choices repeat="item in getPossibleOntologyLabels($select.search) | filter: $select.search">
+                <span ng-bind="item"></span>
+              </ui-select-choices>
+            </ui-select>
+
           </div>
         </div>
 
