@@ -54,19 +54,18 @@
           </label>
 
           <div class="col-xs-2">
-
             <input id="inputNewShortName"
                    type="text"
                    class="form-control"
-                   ng-model="vm.newShortName"
+                   ng-model="vm.newShortNameEntered"
                    name="newShortName"
                    required>
-
+          </div>
+          <div class="col-xs-1">
             <button ng-click="shortNameFromFileName()"
-                    class="btn btn-primary btn-sm">
+                    class="btn btn-info btn-xs">
               Use filename
             </button>
-
           </div>
         </div>
 

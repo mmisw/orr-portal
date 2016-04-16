@@ -141,6 +141,12 @@
       return newList;
     };
 
+    $scope.uploadAnotherFile = function() {
+      vm.uploadResponse = vm.originalUri = undefined;
+      vm.selectedOwner = vm.newShortNameEntered = vm.newShortName = undefined;
+      vm.name = undefined;
+    };
+
     $scope.okToRegisterRehosted = function() {
       return vm.selectedOwner && validUri(vm.originalUri) && vm.name;
 
@@ -177,13 +183,29 @@
 
 
     $scope.shortNameFromFileName = function() {
-      vm.newShortName = vm.uploadResponse.origFilename;
-      var dotIdx = vm.newShortName.lastIndexOf('.');
-      if (dotIdx >= 0) vm.newShortName = vm.newShortName.substring(0, dotIdx);
+      vm.newShortNameEntered = removeExt(vm.uploadResponse.origFilename);
     };
 
+    $scope.$watch("vm.newShortNameEntered", function(val) {
+      if (val) {
+        val = removeExt(val);
+        val = val.replace(/[^a-z0-9-_]/g, '_');
+        vm.newShortName = val;
+      }
+    });
+
+    function removeExt(val) {
+      if (val) {
+        var idx = val.indexOf('.');
+        if (idx >= 0) val = val.substring(0, idx);
+      }
+      return val;
+    }
+
     $scope.okToRegisterFullyHosted = function() {
-      return vm.selectedOwner && vm.newShortName && vm.name;
+      return vm.selectedOwner
+        && vm.newShortName && vm.newShortName.match(/^[a-z0-9-_]+$/i)
+        && vm.name && vm.name.indexOf('<') < 0
     };
 
     $scope.doRegisterFullyHosted = function() {
