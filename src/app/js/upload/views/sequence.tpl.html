@@ -2,12 +2,12 @@
 
   <h3>New ontology registration</h3>
 
-  <div class="center uriText0" ng-if="vm.originalUri">
+  <div class="center" ng-if="vm.originalUri">
     <span class="uriText0" ng-bind="vm.originalUri" uib-tooltip="Original URI"></span>
 
     <div ng-if="vm.page === 2 && vm.registrationType === 'fully-hosted'">
-      ->
-      <span uib-tooltip="Original URI">
+      <i class="fa fa-arrow-right" aria-hidden="true"></i>
+      <span class="uriText0" uib-tooltip="New URI">
         {{cfg.orront.rest}}/<span ng-if="vm.selectedOwner" ng-bind="vm.selectedOwner.id"
                                   style="font-weight: bold;text-decoration: underline"
         ></span><span ng-if="!vm.selectedOwner"

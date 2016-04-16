@@ -280,9 +280,17 @@ a:link {
   font-family: 'Inconsolata', monospace;
   margin-bottom: 12px;
 }
+.uriText0:hover {
+  background-color: #eaf8ff;
+  border-radius:6px;
+}
 .uriText1 {
   font-size: large;
   font-family: 'Inconsolata', monospace;
+}
+.uriText1:hover {
+  background-color: #eaf8ff;
+  border-radius:6px;
 }
 .uriText {
   font-size: x-large;
