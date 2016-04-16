@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2016-04-16: 0.3.1:
+  - fully-hosted registration: if URI already exists, then a new version of
+    the existing ontology is registered; otherwise, a brand new entry.
+
 * 2016-04-14/15: 0.3.1:
   - directives to modularize upload sequence
   - start using ui-select

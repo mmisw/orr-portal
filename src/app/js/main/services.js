@@ -272,16 +272,16 @@
         })
     }
 
-    function registerOntology(params, cb) {
+    function registerOntology(brandNew, params, cb) {
       putJwtIfAvailable(params);
 
       doHttp("registerOntology", {
-        method: 'POST',
+        method: brandNew ? 'POST' : 'PUT',
         url:    appConfig.orront.rest + "/api/v0/ont",
         params: params
       }, cb)
         .success(function (data) {
-          console.log(appUtil.logTs() + ": registerOntology: data=", data);
+          console.log(appUtil.logTs() + ": registerOntology(brandNew=" +brandNew+ "): data=", data);
           cb(null, data);
         })
     }
@@ -338,11 +338,9 @@
     }
 
     function doHttp(operationName, config, cb) {
-      console.log(appUtil.logTs()
-        + ": " +operationName
-        + ": " + config.method+ " " + config.url
-        + " params=", config.params
-        + " data=", config.data
+      console.log(appUtil.logTs() + ": " +operationName + ": " + config.method+ " " + config.url,
+        "params=", config.params,
+        "data=", config.data
       );
 
       var http = $http(config);

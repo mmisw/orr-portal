@@ -42,7 +42,7 @@
   function UploadController($rootScope, $scope, $timeout, $location, Upload, cfg, service) {
     if (appUtil.debug) console.log("++UploadController++");
 
-    var userName, vm;
+    var userName, vm = {};
 
     if (!$rootScope.userLoggedIn()) {  // wait for a bit
       $timeout(function() {
@@ -144,7 +144,9 @@
     $scope.uploadAnotherFile = function() {
       vm.uploadResponse = vm.originalUri = undefined;
       vm.selectedOwner = vm.newShortNameEntered = vm.newShortName = undefined;
+      vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = undefined;
       vm.name = undefined;
+      vm.newUri = undefined;
     };
 
     $scope.okToRegisterRehosted = function() {
@@ -165,7 +167,9 @@
         uploadedFormat:   vm.uploadResponse.data.format
       };
 
-      service.registerOntology(params, cb);
+      // TODO check pre-existence of uri ...
+      var brandNew = true;
+      service.registerOntology(brandNew, params, cb);
 
       function cb(error, data) {
         if (error) {
@@ -192,6 +196,11 @@
         val = val.replace(/[^a-z0-9-_]/g, '_');
         vm.newShortName = val;
       }
+      else vm.newShortName = '';
+      vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = false;
+    });
+    $scope.$watch("vm.selectedOwner", function() {
+      vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = false;
     });
 
     function removeExt(val) {
@@ -202,15 +211,39 @@
       return val;
     }
 
-    $scope.okToRegisterFullyHosted = function() {
+    $scope.okToCheckNewUriIsAvailable = function() {
       return vm.selectedOwner
         && vm.newShortName && vm.newShortName.match(/^[a-z0-9-_]+$/i)
+    };
+
+    $scope.checkNewUriIsAvailable = function() {
+      vm.newUri = cfg.orront.rest+ "/" + vm.selectedOwner.id + "/" + vm.newShortName;
+
+      // TODO use more specific endpoint API to do this check
+      service.refreshOntology(vm.newUri, gotOntology);
+
+      function gotOntology(error, ontology) {
+        vm.checkedNewUriIsAvailable = true;
+        if (error) {
+          console.log("error getting ontology:", error);
+          vm.newUriIsAvailable = true;
+        }
+        else {
+          console.log("got ontology:", ontology);
+          vm.name = ontology.name;
+          vm.newUriIsAvailable = false;
+        }
+      }
+    };
+
+    $scope.okToRegisterFullyHosted = function() {
+      return vm.checkedNewUriIsAvailable
         && vm.name && vm.name.indexOf('<') < 0
     };
 
     $scope.doRegisterFullyHosted = function() {
       var params = {
-        uri:      vm.originalUri,
+        uri:      vm.newUri,
         name:     vm.name,
         orgName:  vm.selectedOwner.id,
         userName: userName,
@@ -218,7 +251,8 @@
         uploadedFormat:   vm.uploadResponse.data.format
       };
 
-      service.registerOntology(params, cb);
+      var brandNew = vm.newUriIsAvailable;
+      service.registerOntology(brandNew, params, cb);
 
       function cb(error, data) {
         if (error) {
@@ -226,6 +260,9 @@
         }
         else {
           console.log("registerOntology: success data=", data);
+          // TODO open dialog about successful registration
+          // and with links to go to the new ontology page
+          // or the main ORR page
         }
       }
     };
