@@ -97,17 +97,34 @@
           </label>
 
           <div class="col-xs-4">
-            <!--<i ng-show="myForm.name.$error.required">*</i>-->
+            <input id="inputName"
+                   type="text"
+                   class="form-control"
+                   ng-model="vm.name"
+                   name="name"
+                   placeholder="A short description of the ontology"
+                   required>
+          </div>
+        </div>
 
-            <ui-select id="inputName" ng-model="vm.name">
-              <ui-select-match placeholder="A short description of the ontology">
-                <span ng-bind="$select.selected"></span>
-              </ui-select-match>
-              <ui-select-choices repeat="item in getPossibleOntologyLabels($select.search) | filter: $select.search">
-                <span ng-bind="item"></span>
-              </ui-select-choices>
-            </ui-select>
+        <div class="form-group" ng-if="possibleOntologyLabels">
+          <label class="col-xs-2"> </label>
 
+          <div class="col-xs-6">
+            <label>
+              Label(s) found in the contents of the file:
+            </label>
+
+            <ul>
+              <li ng-repeat="e in possibleOntologyLabels">
+                <span ng-bind="e" style="font-weight: bold">
+                </span>
+                <button ng-click="vm.name = e" uib-tooltip="Select this label"
+                        class="btn btn-info btn-xs">
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
 
