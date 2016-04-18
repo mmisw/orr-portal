@@ -126,8 +126,8 @@
       vm.possibleOntologyUris = _.groupBy(vm.possibleOntologies, "uri");
       //console.log('possibleOntologyUris=', vm.possibleOntologyUris);
 
-      $scope.possibleOntologyLabels = uniqValues("label");
-      //console.log('possibleOntologyLabels=', $scope.possibleOntologyLabels);
+      vm.possibleOntologyLabels = uniqValues("label");
+      //console.log('possibleOntologyLabels=', vm.possibleOntologyLabels);
 
       function uniqValues(attrName) {
         return _.chain(vm.possibleOntologies || [])
@@ -139,7 +139,7 @@
     }
 
     $scope.getPossibleOntologyLabels = function(search) {
-      var newList = $scope.possibleOntologyLabels.slice();
+      var newList = vm.possibleOntologyLabels.slice();
       if (search && newList.indexOf(search) === -1) {
         newList.unshift(search);
       }
