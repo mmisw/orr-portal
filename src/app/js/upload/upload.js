@@ -120,11 +120,17 @@
         origFilename: resp.config.data.file.name,
         data:         resp.data
       };
+
+      vm.possibleOntologies = vm.uploadResponse.data.possibleOntologies || [];
+
+      vm.possibleOntologyUris = _.groupBy(vm.possibleOntologies, "uri");
+      //console.log('possibleOntologyUris=', vm.possibleOntologyUris);
+
       $scope.possibleOntologyLabels = uniqValues("label");
       //console.log('possibleOntologyLabels=', $scope.possibleOntologyLabels);
 
       function uniqValues(attrName) {
-        return _.chain(vm.uploadResponse.data.possibleOntologies || [])
+        return _.chain(vm.possibleOntologies || [])
           .map(attrName)
           .filter(function(v) { return v && v.length > 0 })
           .uniq()

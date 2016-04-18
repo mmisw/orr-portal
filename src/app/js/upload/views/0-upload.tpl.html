@@ -114,27 +114,31 @@
           </div>
         </div>
 
-        <div class="form-group" ng-if="vm.uploadResponse.data.possibleOntologies">
+        <div class="form-group" >
           <label class="col-xs-2"> </label>
 
           <div class="col-xs-6">
             <label>
               The following
-              {{vm.uploadResponse.data.possibleOntologies.length > 1 ? 'were' : 'was'}}
+              {{vm.possibleOntologyUris.length > 1 ? 'were' : 'was'}}
               detected in the contents of the file:
             </label>
 
             <ul>
-              <li ng-repeat="e in vm.uploadResponse.data.possibleOntologies">
-                <span ng-bind="e.uri" style="font-weight: bold">
-                </span>
-                <button ng-click="vm.originalUri = e.uri" uib-tooltip="Select this URI as the original"
-                        class="btn btn-default btn-xs">
-                  <i class="fa fa-check" aria-hidden="true"></i>
+              <li ng-repeat="(uri, explanations) in vm.possibleOntologyUris">
+                <button class="btn btn-default btn-xs"
+                        ng-bind="uri"
+                        ng-click="vm.originalUri = uri"
+                        uib-tooltip="Click to select this as the original URI for this ontology"
+                >
                 </button>
+                <ul>
+                  <li ng-repeat="e in explanations"
+                      ng-bind="e.explanation"
+                      style="color:gray; font-weight: 200">
+                  </li>
+                </ul>
 
-                <div ng-if="e.explanation" ng-bind="e.explanation" style="color:gray; font-weight: 200">
-                </div>
               </li>
 
             </ul>
@@ -146,3 +150,5 @@
     </form>
   </div>
 </div>
+
+<pre ng-if="debug">{{vm | json}}</pre>
