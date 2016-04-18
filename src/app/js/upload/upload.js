@@ -120,19 +120,18 @@
         origFilename: resp.config.data.file.name,
         data:         resp.data
       };
-      $scope.possibleOntologyUris = _.uniq(_.map(vm.uploadResponse.data.possibleOntologies, "uri")) || [];
-      $scope.possibleOntologyLabels = _.uniq(_.map(vm.uploadResponse.data.possibleOntologies, "label")) || [];
-      //console.log('possibleOntologyUris=', $scope.possibleOntologyUris);
+      $scope.possibleOntologyLabels = uniqValues("label");
       //console.log('possibleOntologyLabels=', $scope.possibleOntologyLabels);
+
+      function uniqValues(attrName) {
+        return _.chain(vm.uploadResponse.data.possibleOntologies || [])
+          .map(attrName)
+          .filter(function(v) { return v && v.length > 0 })
+          .uniq()
+          .value()
+      }
     }
 
-    $scope.getPossibleOntologyUris = function(search) {  // http://stackoverflow.com/a/32914532/830737
-      var newList = $scope.possibleOntologyUris.slice();
-      if (search && newList.indexOf(search) === -1) {
-        newList.unshift(search);
-      }
-      return newList;
-    };
     $scope.getPossibleOntologyLabels = function(search) {
       var newList = $scope.possibleOntologyLabels.slice();
       if (search && newList.indexOf(search) === -1) {
