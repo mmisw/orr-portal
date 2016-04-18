@@ -143,13 +143,16 @@
     $scope.uploadAnotherFile = function() {
       vm.uploadResponse = vm.originalUri = undefined;
       vm.selectedOwner = vm.newShortNameEntered = vm.newShortName = undefined;
+      vm.knownOwner = undefined;
       vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = undefined;
       vm.name = undefined;
       vm.newUri = undefined;
     };
 
     $scope.okToRegisterRehosted = function() {
-      return vm.selectedOwner && validUri(vm.originalUri) && vm.name;
+      return (vm.knownOwner || vm.selectedOwner)
+          && validUri(vm.originalUri)
+        && vm.name;
 
       function validUri(uri) {
         return uri;  // TODO URI validation
@@ -160,14 +163,13 @@
       var params = {
         uri:      vm.originalUri,
         name:     vm.name,
-        orgName:  vm.selectedOwner.id,
+        orgName:  vm.knownOwner || vm.selectedOwner.id,
         userName: userName,
         uploadedFilename: vm.uploadResponse.data.filename,
         uploadedFormat:   vm.uploadResponse.data.format
       };
 
-      // TODO check pre-existence of uri ...
-      var brandNew = true;
+      var brandNew = !vm.knownOwner;
       service.registerOntology(brandNew, params, cb);
 
       function cb(error, data) {
@@ -210,13 +212,35 @@
       return val;
     }
 
+    $scope.nextPage = function(page) {
+      vm.page = page;
+
+      if (vm.page === 2) {
+        if (vm.registrationType === 're-hosted') {
+          $scope.checkNewUriIsAvailable();
+        }
+      }
+    };
+
+    $scope.backPage = function(page) {
+      vm.page = page;
+    };
+
     $scope.okToCheckNewUriIsAvailable = function() {
-      return vm.selectedOwner
-        && vm.newShortName && vm.newShortName.match(/^[a-z0-9-_]+$/i)
+      if (vm.registrationType === 'fully-hosted') {
+        return vm.selectedOwner
+          && vm.newShortName && vm.newShortName.match(/^[a-z0-9-_]+$/i)
+      }
+      else return true;
     };
 
     $scope.checkNewUriIsAvailable = function() {
-      vm.newUri = cfg.orront.rest+ "/" + vm.selectedOwner.id + "/" + vm.newShortName;
+      if (vm.registrationType === 'fully-hosted') {
+        vm.newUri = cfg.orront.rest + "/" + vm.selectedOwner.id + "/" + vm.newShortName;
+      }
+      else vm.newUri = vm.originalUri;
+
+      vm.knownOwner = undefined;
 
       // TODO use more specific endpoint API to do this check
       service.refreshOntology(vm.newUri, gotOntology);
@@ -231,6 +255,8 @@
           console.log("got ontology:", ontology);
           vm.name = ontology.name;
           vm.newUriIsAvailable = false;
+
+          vm.knownOwner = ontology.orgName;
         }
       }
     };

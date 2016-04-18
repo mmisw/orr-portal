@@ -1,5 +1,10 @@
 ## change log ##
 
+* 2016-04-178: 0.3.1:
+  - re-hosted registration: if URI already exists, then the known
+    owner is used and, as in the fully-hosted case below, a new version
+    of the existing ontology is registered; otherwise, a brand new entry.
+
 * 2016-04-16: 0.3.1:
   - fully-hosted registration: if URI already exists, then a new version of
     the existing ontology is registered; otherwise, a brand new entry.
