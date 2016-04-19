@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+
+  <div class="panel-heading">
+    <div>
+      <div style="float: left; font-weight: bold">
+        Ontology metadata
+      </div>
+
+      <div style="float: right">
+
+        <button ng-click="backPage(0)"
+                class="btn btn-primary btn-sm">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+        </button>
+
+        <button ng-click="nextPage(1)"
+                class="btn btn-primary btn-sm">
+          Next <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </button>
+
+      </div>
+
+      <div style="clear:both;"></div>
+    </div>
+  </div>
+
+  <div class="panel-body">
+
+    <form name="myForm" class="form-horizontal" style="padding-left: 20px">
+
+        <div class="form-group">
+          <div class="col-xs-12">
+            <div ng-repeat="(propUri, propValues) in vm.possibleOntologyUris[vm.originalUri].metadata">
+              <label ng-bind="propUri"></label>
+              <ul>
+                <li ng-repeat="propValue in propValues">
+                  <span ng-bind="propValue"></span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+    </form>
+  </div>
+</div>

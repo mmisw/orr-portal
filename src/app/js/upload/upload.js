@@ -9,6 +9,12 @@
         templateUrl: 'js/upload/views/0-upload.tpl.html'
       }
     })
+    .directive('orrportalUploadUriConfirmed', function() {
+      return {
+        restrict:    'E',
+        templateUrl: 'js/upload/views/uri-confirmed.tpl.html'
+      }
+    })
     .directive('orrportalSelectRegistrationType', function() {
       return {
         restrict:    'E',
@@ -35,6 +41,14 @@
     { id: 'n3',     name: 'N3'},
     { id: 'nt',     name: 'N-TRIPLE'},
     { id: 'turtle', name: 'TURTLE'}
+  ];
+
+  var possibleNamePropertyUris = [
+    "http://www.w3.org/2000/01/rdf-schema#label",
+    "http://omv.ontoware.org/2005/05/ontology#name",
+    "http://purl.org/dc/terms/title",
+    "http://purl.org/dc/elements/1.1/title",
+    "http://purl.org/dc/elements/1.0/title"
   ];
 
   UploadController.$inject = ['$rootScope', '$scope', '$timeout', '$location', 'Upload', 'cfg', 'service'];
@@ -122,21 +136,25 @@
       };
 
       vm.possibleOntologyUris = vm.uploadResponse.data.possibleOntologyUris || {};
-      //console.log('possibleOntologyUris=', vm.possibleOntologyUris);
+      console.log('possibleOntologyUris=', vm.possibleOntologyUris);
 
       vm.possibleOntologyNames = possibleOntNames();
       //console.log('possibleOntologyNames=', vm.possibleOntologyNames);
 
       function possibleOntNames() {
         var possibleNames = {};  // propertyValue -> [propertyUri's...]
-        var infos = _.values(vm.possibleOntologyUris);
-        _.each(infos, function(info) {
-          _.each(info.names, function (name) {
-            var propertyValue = name.propertyValue;
-            if (possibleNames[propertyValue] === undefined) {
-              possibleNames[propertyValue] = [];
-            }
-            possibleNames[propertyValue].push(name.propertyUri);
+
+        // TODO should only be for the selected ontology URI
+        // for now, collecting from all possible ontologies:
+        _.each(vm.possibleOntologyUris, function(info, possibleOntologyUri) {
+          _.each(possibleNamePropertyUris, function(namePropUri) {
+            var nameValues = info.metadata[namePropUri];
+            _.each(nameValues, function (propertyValue) {
+              if (possibleNames[propertyValue] === undefined) {
+                possibleNames[propertyValue] = [];
+              }
+              possibleNames[propertyValue].push(namePropUri);
+            });
           });
         });
         return possibleNames;

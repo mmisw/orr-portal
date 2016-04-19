@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-04-19: 0.3.1:
+  - upload: display all ontology metadata for confirmed URI
+
 * 2016-04-18: 0.3.1:
   - adjustments related with possible ontology URIs and associated names
     upon file upload

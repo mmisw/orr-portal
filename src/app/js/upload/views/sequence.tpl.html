@@ -27,6 +27,10 @@
     <orrportal-upload-ontology></orrportal-upload-ontology>
   </div>
 
+  <div ng-if="vm.page === 'uri-confirmed'">
+    <orrportal-upload-uri-confirmed></orrportal-upload-uri-confirmed>
+  </div>
+
   <div ng-if="vm.page === 1">
     <orrportal-select-registration-type></orrportal-select-registration-type>
   </div>

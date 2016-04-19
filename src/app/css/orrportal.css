@@ -303,6 +303,12 @@ a:link {
   background-color: #eaf8ff;
   border-radius:6px;
 }
+.uriTextSimple {
+  font-family: 'Inconsolata', monospace;
+}
+.uriTextSimple:hover {
+  background-color: #eaf8ff;
+}
 
 .xsmall {
   font-size: x-small !important;
