@@ -5,10 +5,10 @@
   <div class="center" ng-if="vm.originalUri">
     <span class="uriText0" ng-bind="vm.originalUri" uib-tooltip="Original URI"></span>
 
-    <div ng-if="vm.page === 2 && vm.registrationType === 'fully-hosted'">
+    <div ng-if="vm.page === 'regtype-selected' && vm.registrationType === 'fully-hosted'">
       <i class="fa fa-arrow-down" aria-hidden="true"></i>
       <br>
-      <span class="uriText0" uib-tooltip="New URI">
+      <span class="uriText0" uib-tooltip="Target URI">
         {{cfg.orront.rest}}/<span ng-if="vm.selectedOwner" ng-bind="vm.selectedOwner.id"
                                   style="font-weight: bold;text-decoration: underline"
         ></span><span ng-if="!vm.selectedOwner"
@@ -23,7 +23,7 @@
 
   </div>
 
-  <div ng-if="!vm.page">
+  <div ng-if="!vm.page || vm.page === 'upload'">
     <orrportal-upload-ontology></orrportal-upload-ontology>
   </div>
 
@@ -31,15 +31,15 @@
     <orrportal-upload-uri-confirmed></orrportal-upload-uri-confirmed>
   </div>
 
-  <div ng-if="vm.page === 1">
+  <div ng-if="vm.page === 'select-regtype'">
     <orrportal-select-registration-type></orrportal-select-registration-type>
   </div>
 
-  <div ng-if="vm.page === 2 && vm.registrationType === 're-hosted'">
+  <div ng-if="vm.page === 'regtype-selected' && vm.registrationType === 're-hosted'">
     <orrportal-upload-rehosted></orrportal-upload-rehosted>
   </div>
 
-  <div ng-if="vm.page === 2 && vm.registrationType === 'fully-hosted'">
+  <div ng-if="vm.page === 'regtype-selected' && vm.registrationType === 'fully-hosted'">
     <orrportal-upload-fully-hosted></orrportal-upload-fully-hosted>
   </div>
 

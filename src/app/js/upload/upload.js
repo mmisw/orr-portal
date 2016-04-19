@@ -6,7 +6,7 @@
     .directive('orrportalUploadOntology', function() {
       return {
         restrict:    'E',
-        templateUrl: 'js/upload/views/0-upload.tpl.html'
+        templateUrl: 'js/upload/views/upload.tpl.html'
       }
     })
     .directive('orrportalUploadUriConfirmed', function() {
@@ -18,19 +18,19 @@
     .directive('orrportalSelectRegistrationType', function() {
       return {
         restrict:    'E',
-        templateUrl: 'js/upload/views/1-regtype.tpl.html'
+        templateUrl: 'js/upload/views/regtype.tpl.html'
       }
     })
     .directive('orrportalUploadRehosted', function() {
       return {
         restrict:    'E',
-        templateUrl: 'js/upload/views/2-rehosted.tpl.html'
+        templateUrl: 'js/upload/views/rehosted.tpl.html'
       }
     })
     .directive('orrportalUploadFullyHosted', function() {
       return {
         restrict:    'E',
-        templateUrl: 'js/upload/views/2-fullyhosted.tpl.html'
+        templateUrl: 'js/upload/views/fullyhosted.tpl.html'
       }
     })
   ;
@@ -236,7 +236,7 @@
     $scope.nextPage = function(page) {
       vm.page = page;
 
-      if (vm.page === 2) {
+      if (vm.page === 'regtype-selected') {
         if (vm.registrationType === 're-hosted') {
           $scope.checkNewUriIsAvailable();
         }
