@@ -338,3 +338,16 @@ a:link {
   font-weight:bold;
 }
 
+.regtype {
+  padding: 5px;
+  border-radius:6px
+}
+.regtype:hover {
+  background-color: #dddddd;
+}
+.regtype-selected {
+  background-color: #beddd9;
+}
+.regtype-selected:hover {
+  background-color: #a4d6dd;
+}

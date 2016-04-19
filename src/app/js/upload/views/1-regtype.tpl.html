@@ -35,8 +35,7 @@
 
     <div style="margin-left: 40px">
 
-      <label ng-style="{'background-color': vm.registrationType==='re-hosted' ? '#cccccc' : ''}"
-             style="padding: 5px; border-radius:6px">
+      <label class="regtype {{vm.registrationType==='re-hosted' ? 'regtype-selected' : ''}}">
         <input type="radio" ng-model="vm.registrationType" value="re-hosted">
         Re-hosted ontology
       </label>
@@ -46,8 +45,7 @@
 
       <br><br>
 
-      <label ng-style="{'background-color': vm.registrationType==='fully-hosted' ? '#cccccc' : ''}"
-             style="padding: 5px; border-radius:6px">
+      <label class="regtype {{vm.registrationType==='fully-hosted' ? 'regtype-selected' : ''}}">
         <input type="radio" ng-model="vm.registrationType" value="fully-hosted">
         Fully hosted ontology
       </label>
