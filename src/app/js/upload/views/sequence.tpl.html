@@ -6,16 +6,17 @@
     <span class="uriText0" ng-bind="vm.originalUri" uib-tooltip="Original URI"></span>
 
     <div ng-if="vm.page === 2 && vm.registrationType === 'fully-hosted'">
-      <i class="fa fa-arrow-right" aria-hidden="true"></i>
+      <i class="fa fa-arrow-down" aria-hidden="true"></i>
+      <br>
       <span class="uriText0" uib-tooltip="New URI">
         {{cfg.orront.rest}}/<span ng-if="vm.selectedOwner" ng-bind="vm.selectedOwner.id"
                                   style="font-weight: bold;text-decoration: underline"
         ></span><span ng-if="!vm.selectedOwner"
-                      style="color: darkred"
+                      style="color: red"
         >owner</span>/<span ng-if="vm.newShortName" ng-bind="vm.newShortName"
                             style="font-weight: bold;text-decoration: underline"
         ></span><span ng-if="!vm.newShortName"
-                      style="color: darkred"
+                      style="color: red"
         >short-name</span>
       </span>
     </div>
