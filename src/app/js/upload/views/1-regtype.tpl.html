@@ -35,7 +35,8 @@
 
     <div style="margin-left: 40px">
 
-      <label>
+      <label ng-style="{'background-color': vm.registrationType==='re-hosted' ? '#cccccc' : ''}"
+             style="padding: 5px; border-radius:6px">
         <input type="radio" ng-model="vm.registrationType" value="re-hosted">
         Re-hosted ontology
       </label>
@@ -45,12 +46,13 @@
 
       <br><br>
 
-      <label>
+      <label ng-style="{'background-color': vm.registrationType==='fully-hosted' ? '#cccccc' : ''}"
+             style="padding: 5px; border-radius:6px">
         <input type="radio" ng-model="vm.registrationType" value="fully-hosted">
         Fully hosted ontology
       </label>
       <span style="color: gray">
-        - Ontology and associated terms are moved to an ORR-based namespace
+        - Ontology and associated term URIs are moved to an ORR-based namespace
       </span>
     </div>
 
