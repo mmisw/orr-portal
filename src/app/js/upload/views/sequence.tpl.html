@@ -2,25 +2,41 @@
 
   <h3>Ontology registration</h3>
 
-  <div class="center" ng-if="vm.originalUri">
-    <span class="uriText0" ng-bind="vm.originalUri" uib-tooltip="Original URI"></span>
+  <div ng-if="vm.originalUri" style="margin-left: 4em">
+    <table>
+      <tr>
+        <td class="uriLabel">Original URI:
+        </td>
+        <td>
+          <span class="uriText0" ng-bind="vm.originalUri" uib-tooltip="Original URI"></span>
+        </td>
+      </tr>
 
-    <div ng-if="vm.page === 'regtype-selected' && vm.registrationType === 'fully-hosted'">
-      <i class="fa fa-arrow-down" aria-hidden="true"></i>
-      <br>
-      <span class="uriText0" uib-tooltip="Target URI">
-        {{cfg.orront.rest}}/<span ng-if="vm.selectedOwner" ng-bind="vm.selectedOwner.id"
-                                  style="font-weight: bold;text-decoration: underline"
-        ></span><span ng-if="!vm.selectedOwner"
-                      style="color: red"
-        >owner</span>/<span ng-if="vm.newShortName" ng-bind="vm.newShortName"
-                            style="font-weight: bold;text-decoration: underline"
-        ></span><span ng-if="!vm.newShortName"
-                      style="color: red"
-        >short-name</span>
-      </span>
-    </div>
+      <tr ng-if="vm.page === 'regtype-selected' && vm.registrationType === 'fully-hosted'">
+        <td colspan="2" style="text-align: center">
+          <i class="fa fa-arrow-down" aria-hidden="true"></i>
+        </td>
+      </tr>
 
+      <tr ng-if="vm.page === 'regtype-selected' && vm.registrationType === 'fully-hosted'">
+        <td class="uriLabel">Target URI:
+        </td>
+        <td>
+          <span class="uriText0" uib-tooltip="Target URI">
+            {{cfg.orront.rest}}/<span ng-if="vm.selectedOwner" ng-bind="vm.selectedOwner.id"
+                                      style="font-weight: bold;text-decoration: underline"
+            ></span><span ng-if="!vm.selectedOwner"
+                          style="color: red"
+            >owner</span>/<span ng-if="vm.newShortName" ng-bind="vm.newShortName"
+                                style="font-weight: bold;text-decoration: underline"
+            ></span><span ng-if="!vm.newShortName"
+                          style="color: red"
+            >short-name</span>
+          </span>
+
+        </td>
+      </tr>
+    </table>
   </div>
 
   <div ng-if="!vm.page || vm.page === 'upload'">

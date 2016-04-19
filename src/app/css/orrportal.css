@@ -276,7 +276,7 @@ a:link {
   text-align: center;
 }
 .uriText0 {
-  font-size: x-large;
+  font-size: large;
   font-family: 'Inconsolata', monospace;
   margin-bottom: 12px;
 }
@@ -356,4 +356,11 @@ a:link {
 }
 .regtype-selected:hover {
   background-color: #a4d6dd;
+}
+
+.uriLabel {
+  color: gray;
+  text-align: right;
+  padding-right: 1em;
+  vertical-align: middle
 }
