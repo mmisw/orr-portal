@@ -121,30 +121,27 @@
         data:         resp.data
       };
 
-      vm.possibleOntologies = vm.uploadResponse.data.possibleOntologies || [];
-
-      vm.possibleOntologyUris = _.groupBy(vm.possibleOntologies, "uri");
+      vm.possibleOntologyUris = vm.uploadResponse.data.possibleOntologyUris || {};
       //console.log('possibleOntologyUris=', vm.possibleOntologyUris);
 
-      vm.possibleOntologyLabels = uniqValues("label");
-      //console.log('possibleOntologyLabels=', vm.possibleOntologyLabels);
+      vm.possibleOntologyNames = possibleOntNames();
+      //console.log('possibleOntologyNames=', vm.possibleOntologyNames);
 
-      function uniqValues(attrName) {
-        return _.chain(vm.possibleOntologies || [])
-          .map(attrName)
-          .filter(function(v) { return v && v.length > 0 })
-          .uniq()
-          .value()
+      function possibleOntNames() {
+        var possibleNames = {};  // propertyValue -> [propertyUri's...]
+        var infos = _.values(vm.possibleOntologyUris);
+        _.each(infos, function(info) {
+          _.each(info.names, function (name) {
+            var propertyValue = name.propertyValue;
+            if (possibleNames[propertyValue] === undefined) {
+              possibleNames[propertyValue] = [];
+            }
+            possibleNames[propertyValue].push(name.propertyUri);
+          });
+        });
+        return possibleNames;
       }
     }
-
-    $scope.getPossibleOntologyLabels = function(search) {
-      var newList = vm.possibleOntologyLabels.slice();
-      if (search && newList.indexOf(search) === -1) {
-        newList.unshift(search);
-      }
-      return newList;
-    };
 
     $scope.uploadAnotherFile = function() {
       vm.uploadResponse = vm.originalUri = undefined;

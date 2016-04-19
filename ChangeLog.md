@@ -1,6 +1,8 @@
 ## change log ##
 
-* 2016-04-178: 0.3.1:
+* 2016-04-18: 0.3.1:
+  - adjustments related with possible ontology URIs and associated names
+    upon file upload
   - re-hosted registration: if URI already exists, then the known
     owner is used and, as in the fully-hosted case below, a new version
     of the existing ontology is registered; otherwise, a brand new entry.

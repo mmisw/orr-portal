@@ -117,25 +117,29 @@
         <div class="form-group" >
           <label class="col-xs-2"> </label>
 
-          <div class="col-xs-6">
-            <label>
-              The following
-              {{vm.possibleOntologyUris.length > 1 ? 'were' : 'was'}}
+          <div class="col-xs-6" ng-if="vm.possibleOntologyUris">
+            <div>
+              The following possible
+              URI{{_.keys(vm.possibleOntologyUris).length > 1 ? 's were' : ' was'}}
               detected in the contents of the file:
-            </label>
+            </div>
 
             <ul>
-              <li ng-repeat="(uri, explanations) in vm.possibleOntologyUris">
-                <button class="btn btn-default btn-xs"
+              <li ng-repeat="(uri, info) in vm.possibleOntologyUris">
+                <button class="btn btn-default btn-sm"
                         ng-bind="uri"
                         ng-click="vm.originalUri = uri"
                         uib-tooltip="Click to select this as the original URI for this ontology"
+                        tooltip-placement="left"
                 >
                 </button>
                 <ul>
-                  <li ng-repeat="e in explanations"
-                      ng-bind="e.explanation"
-                      style="color:gray; font-weight: 200">
+                  <li ng-repeat="e in info.explanations">
+                    <span ng-bind="e"
+                          style="color:gray; font-weight: 200"
+                          uib-tooltip="Origin of the URI above"
+                          tooltip-placement="left"
+                    ></span>
                   </li>
                 </ul>
 
@@ -143,8 +147,14 @@
 
             </ul>
           </div>
-        </div>
 
+          <div class="col-xs-6" ng-if="!vm.possibleOntologyUris">
+            <label>
+              No URIs were detected in the contents of the file.
+            </label>
+          </div>
+
+        </div>
       </div>
 
     </form>
