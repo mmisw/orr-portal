@@ -15,6 +15,8 @@ var appUtil = (function(window) {
 
     setPolyfills();
 
+    expandOrrOntRest();
+
     return {
         windowLocationSearch: windowLocationSearch,
         uri:            uri,
@@ -39,7 +41,7 @@ var appUtil = (function(window) {
 
     function mklink4uriWithSelfHostPrefix(uri) {
       uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
-      if (uri.startsWith(windowHref())) {
+      if (uri.startsWith(getWindowHref())) {
         // it's self-resolvable:
         return '<a href="' + uri + '">' + uri + '</a>';
       }
@@ -230,10 +232,18 @@ var appUtil = (function(window) {
         return params;
     }
 
+    function expandOrrOntRest() {
+      var original = appConfig.orront.rest;
+      if (original.startsWith("/")) {
+        appConfig.orront.rest = getWindowHref() + original.replace(/^\/+/, '');
+        console.log("orront.rest expanded to=" + appConfig.orront.rest);
+      }
+    }
+
     /**
      * Returns window.location.href without trailing hash part.
      */
-    function windowHref() {
+    function getWindowHref() {
       var href = window.location.href;
       if (href.endsWith(window.location.hash)) {
         href = href.substring(0, href.length - window.location.hash.length);
@@ -242,12 +252,12 @@ var appUtil = (function(window) {
     }
 
     /**
-     * Returns windowHref if it has appConfig.orront.rest as a proper prefix (modulo trailing slash).
+     * Returns getWindowHref if it has appConfig.orront.rest as a proper prefix (modulo trailing slash).
      * The returned string can be interpreted as a particular URI request as opposed
      * to a request to the main ontology list page. Otherwise, returns undefined.
      */
     function uriFromWindowLocation() {
-      var href = windowHref();
+      var href = getWindowHref();
       var orrOntRest = appConfig.orront.rest;
       console.log("orrOntRest=" +orrOntRest + " href=" +href);
       if (href.startsWith(orrOntRest) && href.length > orrOntRest.length && orrOntRest+"/" !== href) {
