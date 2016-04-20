@@ -3,7 +3,7 @@
 This user interface is against a
 [orr-ont](https://github.com/mmisw/orr-ont)-based endpoint.
 
-### development
+### Development
 
 ```shell
 $ npm install
@@ -22,19 +22,30 @@ Create installable zip archive under `dist/`:
 $ gulp dist
 ```
 
-Install under the `orr-ont` service:
+Install under a running `orr-ont` service:
 
 ```shell
 $ gulp install --base=/orr-ont/ --dest=/opt/tomcat/webapps/orr-ont/
 ```
 
-### test deployments
+Install under the `orr-ont` codebase for subsequent packaging:
+
+Adjust `src/app/js/local.config.js` as needed and then:
+
+```shell
+$ gulp install --localConfig --base=/orr-ont/ --dest=/path/to/orr-ont/src/main/webapp/
+```
+
+### Test deployments
+
+Most testing is local so the following deployments are only
+occasionally updated at this point.
 
 https://mmisw.org/experimental/orrportal/
 
 https://mmisw.org/orr-ont/
 
 
-### status
+### Status
 
 alpha
