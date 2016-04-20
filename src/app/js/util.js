@@ -234,8 +234,8 @@ var appUtil = (function(window) {
 
     function expandOrrOntRest() {
       var original = appConfig.orront.rest;
-      if (original.startsWith("/")) {
-        appConfig.orront.rest = getWindowHref() + original.replace(/^\/+/, '');
+      if (!original || original.startsWith("/")) {
+        appConfig.orront.rest = getWindowHref() + original.replace(/^\/*/, '');
         console.log("orront.rest expanded to=" + appConfig.orront.rest);
       }
     }

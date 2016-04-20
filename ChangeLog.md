@@ -2,7 +2,7 @@
 
 * 2016-04-19: 0.3.1:
   - to handle case in which orront.rest is given with respect to UI
-    location, eg.: `appConfig.orront.rest = "/orr-ont"`,
+    location, eg.: `appConfig.orront.rest` is empty or "/",
     expand it to have window.location.href as a prefix.
     This in particular to properly create new URI in fully-hosted submission.
   - introduce expandedOrrOntRestUrl
