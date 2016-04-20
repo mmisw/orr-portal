@@ -1,6 +1,8 @@
 var appUtil = (function(window) {
     'use strict';
 
+    var windowHref = getWindowHref();
+    expandOrrOntRest();
     var windowLocationSearch = parseWindowLocationSearch();
     var uri = windowLocationSearch.uri || uriFromWindowLocation();
 
@@ -15,7 +17,6 @@ var appUtil = (function(window) {
 
     setPolyfills();
 
-    expandOrrOntRest();
 
     return {
         windowLocationSearch: windowLocationSearch,
@@ -41,7 +42,7 @@ var appUtil = (function(window) {
 
     function mklink4uriWithSelfHostPrefix(uri) {
       uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
-      if (uri.startsWith(getWindowHref())) {
+      if (uri.startsWith(windowHref)) {
         // it's self-resolvable:
         return '<a href="' + uri + '">' + uri + '</a>';
       }
@@ -234,8 +235,9 @@ var appUtil = (function(window) {
 
     function expandOrrOntRest() {
       var original = appConfig.orront.rest;
-      if (!original || original.startsWith("/")) {
-        appConfig.orront.rest = getWindowHref() + original.replace(/^\/*/, '');
+      if (original.startsWith("/")) {
+        var l = window.location;
+        appConfig.orront.rest = l.protocol + "//" + l.host + original;
         console.log("orront.rest expanded to=" + appConfig.orront.rest);
       }
     }
@@ -252,17 +254,16 @@ var appUtil = (function(window) {
     }
 
     /**
-     * Returns getWindowHref if it has appConfig.orront.rest as a proper prefix (modulo trailing slash).
+     * Returns windowHref if it has appConfig.orront.rest as a proper prefix (modulo trailing slash).
      * The returned string can be interpreted as a particular URI request as opposed
      * to a request to the main ontology list page. Otherwise, returns undefined.
      */
     function uriFromWindowLocation() {
-      var href = getWindowHref();
       var orrOntRest = appConfig.orront.rest;
-      console.log("orrOntRest=" +orrOntRest + " href=" +href);
-      if (href.startsWith(orrOntRest) && href.length > orrOntRest.length && orrOntRest+"/" !== href) {
-        console.log(orrOntRest + " is proper orrOntRest of href=" +href);
-        var uri = href;
+      console.log("orrOntRest=" +orrOntRest + " windowHref=" +windowHref);
+      if (windowHref.startsWith(orrOntRest) && windowHref.length > orrOntRest.length && orrOntRest+"/" !== windowHref) {
+        console.log(orrOntRest + " is proper orrOntRest of windowHref=" +windowHref);
+        var uri = windowHref;
       }
       return uri;
     }

@@ -1,11 +1,9 @@
 ## change log ##
 
 * 2016-04-19: 0.3.1:
-  - to handle case in which orront.rest is given with respect to UI
-    location, eg.: `appConfig.orront.rest` is empty or "/",
-    expand it to have window.location.href as a prefix.
+  - prefix `appConfig.orront.rest` with window.location's protocol and
+    host when it starts with "/".
     This in particular to properly create new URI in fully-hosted submission.
-  - introduce expandedOrrOntRestUrl
   - upload: display all ontology metadata for confirmed URI
 
 * 2016-04-18: 0.3.1:
