@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2016-04-20: 0.3.1:
+  - adjust and document base config.js
+    (start using /ont as the default path to the orr-ont endpoint)
+
 * 2016-04-19: 0.3.1:
   - prefix `appConfig.orront.rest` with window.location's protocol and
     host when it starts with "/".
