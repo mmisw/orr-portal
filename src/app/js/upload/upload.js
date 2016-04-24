@@ -134,12 +134,16 @@
         origFilename: resp.config.data.file.name,
         data:         resp.data
       };
+      console.log('possibleOntologyUris=', vm.uploadResponse.data.possibleOntologyUris);
 
-      vm.possibleOntologyUris = vm.uploadResponse.data.possibleOntologyUris || {};
-      console.log('possibleOntologyUris=', vm.possibleOntologyUris);
+      vm.possibleOntologyUris = undefined;
+      vm.possibleOntologyNames = undefined;
 
-      vm.possibleOntologyNames = possibleOntNames();
-      //console.log('possibleOntologyNames=', vm.possibleOntologyNames);
+      if (!_.isEmpty(vm.uploadResponse.data.possibleOntologyUris)) {
+        vm.possibleOntologyUris = vm.uploadResponse.data.possibleOntologyUris;
+        vm.possibleOntologyNames = possibleOntNames();
+        //console.log('possibleOntologyNames=', vm.possibleOntologyNames);
+      }
 
       function possibleOntNames() {
         var possibleNames = {};  // propertyValue -> [propertyUri's...]

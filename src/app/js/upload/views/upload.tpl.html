@@ -117,7 +117,7 @@
         <div class="form-group" >
           <label class="col-xs-2"> </label>
 
-          <div class="col-xs-6" ng-if="vm.possibleOntologyUris && vm.possibleOntologyUris.length">
+          <div class="col-xs-6" ng-if="vm.possibleOntologyUris">
             <div>
               The following possible
               URI{{_.keys(vm.possibleOntologyUris).length > 1 ? 's were' : ' was'}}
@@ -148,7 +148,7 @@
             </ul>
           </div>
 
-          <div class="col-xs-6" ng-if="!vm.possibleOntologyUris || !vm.possibleOntologyUris.length">
+          <div class="col-xs-6" ng-if="!vm.possibleOntologyUris">
             <label>
               No URIs were detected in the contents of the file.
             </label>
