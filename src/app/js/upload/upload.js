@@ -293,10 +293,11 @@
 
     $scope.doRegisterFullyHosted = function() {
       var params = {
-        uri:      vm.newUri,
-        name:     vm.name,
-        orgName:  vm.selectedOwner.id,
-        userName: userName,
+        uri:              vm.newUri,
+        originalUri:      vm.originalUri,
+        name:             vm.name,
+        orgName:          vm.selectedOwner.id,
+        userName:         userName,
         uploadedFilename: vm.uploadResponse.data.filename,
         uploadedFormat:   vm.uploadResponse.data.format
       };

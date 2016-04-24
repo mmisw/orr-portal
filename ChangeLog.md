@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2016-04-24: 0.3.1:
+  - pass `originalUri` in fully-hosted registration request, which is
+    now used by orr-ont to perform the associated "namespace transfer"
+
 * 2016-04-20: 0.3.1:
   - adjust and document base config.js
     (start using /ont as the default path to the orr-ont endpoint)
