@@ -69,9 +69,9 @@
     else enableController();
 
     function enableController() {
-      $rootScope.vm.curView = 'rx';
+      $rootScope.rvm.curView = 'rx';
 
-      userName = $rootScope.masterAuth.loggedInInfo.uid;
+      userName = $rootScope.rvm.masterAuth.loggedInInfo.uid;
 
       vm = $scope.vm = {
         name:     '',
@@ -82,7 +82,7 @@
         // TODO properly handle distinction between userName OR organization (this also involves orr-ont)
         ownerOptions: [{
           id:    userName,
-          name: 'User: ' + userName + ": " + $rootScope.masterAuth.loggedInInfo.displayName
+          name: 'User: ' + userName + ": " + $rootScope.rvm.masterAuth.loggedInInfo.displayName
         }],
         selectedOwner: undefined
       };
@@ -111,9 +111,9 @@
         format:   vm.selectedFormat.id
       };
 
-      if ($rootScope.masterAuth.authData && $rootScope.masterAuth.authData.token) {
+      if ($rootScope.rvm.masterAuth.authData && $rootScope.rvm.masterAuth.authData.token) {
         console.log("INCLUDING jwt token");
-        data.jwt = $rootScope.masterAuth.authData.token;
+        data.jwt = $rootScope.rvm.masterAuth.authData.token;
       }
 
       console.log("upload:", "url=", url, "data=", data);

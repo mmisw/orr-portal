@@ -11,7 +11,7 @@
   function MainController($rootScope, $scope, service) {
     if (appUtil.debug) console.log("++MainController++");
 
-    $rootScope.vm.curView = '';
+    $rootScope.rvm.curView = '';
 
     $scope.$on('evtRefresh', function() {
       console.log(appUtil.logTs() + ": on gotOntologies");

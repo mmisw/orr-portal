@@ -10,7 +10,7 @@
   function KeywordSearchController($rootScope, $scope, $routeParams, $location, $http) {
     if (appUtil.debug) console.log("++KeywordSearchController++");
 
-    $rootScope.vm.curView = 'kw';
+    $rootScope.rvm.curView = 'kw';
 
     var vm = {};
     vm.kw = $routeParams.kw ? $routeParams.kw.replace(/\s*,\s*/g, ", ") : '';

@@ -11,7 +11,7 @@
     if (appUtil.debug) console.log("++UriController++");
 
     var vm = $scope.vm = {};
-    vm.uri = $rootScope.rUri || $routeParams.uri;
+    vm.uri = $rootScope.rvm.rUri || $routeParams.uri;
     vm.ontology = undefined;
     vm.error = undefined;
 

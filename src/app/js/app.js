@@ -27,47 +27,45 @@
 
   init.$inject = ['$rootScope', '$location', 'rUri', 'cfg'];
 
-  function init(scope, $location, rUri, cfg) {
+  function init($rootScope, $location, rUri, cfg) {
     if (appUtil.debug) console.log("++INIT++");
 
-    scope.debug = appUtil.debug;
+    $rootScope.debug = appUtil.debug;
+    $rootScope.cfg = cfg;
 
-    scope.rUri = rUri;
+    var rvm = $rootScope.rvm = {
+      masterAuth: {},
+      rUri:       rUri
+    };
 
     if (appUtil.debug) {
       appUtil.debug.collapsed = true;
       appUtil.debug.model = {};
     }
 
-    scope.cfg = cfg;
 
-    scope.masterAuth = {};
-
-    // TODO unify elements under vm
-    scope.vm = {};
-
-    scope.refresh = function() {
-      scope.$broadcast('evtRefresh');
+    $rootScope.refresh = function() {
+      $rootScope.$broadcast('evtRefresh');
     };
 
-    scope.$on('evtRefreshing', function(event, b) {
-      scope.refreshing = b;
+    $rootScope.$on('evtRefreshing', function(event, b) {
+      $rootScope.refreshing = b;
     });
 
 
     // TODO use popup dialog for uploadOntology??
-    scope.uploadOntology = function() {
+    $rootScope.uploadOntology = function() {
       $location.url("rx");
     };
 
     // TODO use popup dialog for createOrg??
-    scope.createOrg = function() {
+    $rootScope.createOrg = function() {
       $location.url("neworg");
     };
 
-    scope.userLoggedIn = function() {
-      return scope.masterAuth && scope.masterAuth.loggedInInfo
-        && scope.masterAuth.loggedInInfo.uid;
+    $rootScope.userLoggedIn = function() {
+      return rvm.masterAuth && rvm.masterAuth.loggedInInfo
+        && rvm.masterAuth.loggedInInfo.uid;
     };
   }
 

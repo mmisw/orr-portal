@@ -18,7 +18,7 @@
     if (appUtil.debug) console.log("++VocController++");
 
     var vm = $scope.vm = {};
-    vm.uri = $rootScope.rUri || $routeParams.uri;
+    vm.uri = $rootScope.rvm.rUri || $routeParams.uri;
 
     service.getOntologyFormat(vm.uri, "rj", gotOntology);
 

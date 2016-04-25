@@ -326,14 +326,14 @@
     }
 
     function addJwtIfAvailable(params) {
-      //console.log("refreshOrg: masterAuth.authData=", $rootScope.masterAuth.authData);
-      if ($rootScope.masterAuth.authData && $rootScope.masterAuth.authData.token) {
-        params.push("jwt=" + $rootScope.masterAuth.authData.token);
+      //console.log("refreshOrg: masterAuth.authData=", $rootScope.rvm.masterAuth.authData);
+      if ($rootScope.rvm.masterAuth.authData && $rootScope.rvm.masterAuth.authData.token) {
+        params.push("jwt=" + $rootScope.rvm.masterAuth.authData.token);
       }
     }
     function putJwtIfAvailable(params) {
-      if ($rootScope.masterAuth.authData && $rootScope.masterAuth.authData.token) {
-        params.jwt = $rootScope.masterAuth.authData.token;
+      if ($rootScope.rvm.masterAuth.authData && $rootScope.rvm.masterAuth.authData.token) {
+        params.jwt = $rootScope.rvm.masterAuth.authData.token;
       }
     }
 

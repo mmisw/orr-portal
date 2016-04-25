@@ -10,7 +10,7 @@
   function SearchTermsController($rootScope, $scope, $routeParams, $location, $http) {
     if (appUtil.debug) console.log("++SearchTermsController++");
 
-    $rootScope.vm.curView = 'st';
+    $rootScope.rvm.curView = 'st';
 
     var vm = {st: $routeParams.st};
     $scope.vm = vm;

@@ -29,7 +29,7 @@
   function fireAuth($rootScope, $location, $route, $firebaseAuth, fireData, service, cfg) {
     var ref = new Firebase(cfg.firebase.url);
     var auth = $firebaseAuth(ref);
-    var masterAuth = $rootScope.masterAuth;
+    var masterAuth = $rootScope.rvm.masterAuth;
 
     auth.$onAuth(authenticateStateChanged);
 
@@ -542,7 +542,7 @@
       var url = cfg.orront.rest + "/api/v0/user/" + vm.username;
 
       var params = [];
-      addJwtIfAvailable($rootScope, params);
+      addJwtIfAvailable($rootScope.rvm, params);
       if (params.length > 0) { url += "?" + params.join('&'); }
 
       var body = {
@@ -628,7 +628,7 @@
       var url = cfg.orront.rest + "/api/v0/user/" + vm.username;
 
       var params = [];
-      addJwtIfAvailable($rootScope, params);
+      addJwtIfAvailable($rootScope.rvm, params);
       if (params.length > 0) { url += "?" + params.join('&'); }
 
       var body = {
@@ -664,10 +664,10 @@
   }
 
   // TODO copied from services for the moment
-  function addJwtIfAvailable($rootScope, params) {
-    //console.log("refreshOrg: masterAuth.authData=", $rootScope.masterAuth.authData);
-    if ($rootScope.masterAuth.authData && $rootScope.masterAuth.authData.token) {
-      params.push("jwt=" + $rootScope.masterAuth.authData.token);
+  function addJwtIfAvailable(rvm, params) {
+    //console.log("refreshOrg: masterAuth.authData=", rvm.masterAuth.authData);
+    if (rvm.masterAuth.authData && rvm.masterAuth.authData.token) {
+      params.push("jwt=" + rvm.masterAuth.authData.token);
     }
   }
 

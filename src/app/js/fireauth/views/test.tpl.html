@@ -2,24 +2,24 @@
 
   <div style="background-color: #eeeeee; padding: 7px">
 
-    <span ng-if="masterAuth.loggedInInfo.uid" title="{{masterAuth.loggedInInfo.uid}}">
+    <span ng-if="rvm.masterAuth.loggedInInfo.uid" title="{{rvm.masterAuth.loggedInInfo.uid}}">
       Welcome
       <span style="font-weight: bold">
-        {{masterAuth.loggedInInfo.displayName}}
+        {{rvm.masterAuth.loggedInInfo.displayName}}
       </span>
 
-      <span ng-if="masterAuth.loggedInInfo.email">
-        {{masterAuth.loggedInInfo.email}}
+      <span ng-if="rvm.masterAuth.loggedInInfo.email">
+        {{rvm.masterAuth.loggedInInfo.email}}
       </span>
 
-      <i class="fa fa-{{masterAuth.loggedInInfo.provider}}"></i>
+      <i class="fa fa-{{rvm.masterAuth.loggedInInfo.provider}}"></i>
 
       <button class="btn btn-default btn-xs" title="Sign out"
               ng-click="logout()"><i class="fa fa-sign-out"></i>
       </button>
     </span>
 
-    <span ng-if="!masterAuth.loggedInInfo.uid">
+    <span ng-if="!rvm.masterAuth.loggedInInfo.uid">
       Sign-in:
       <button class="btn btn-info btn-xs" ng-click="openCustomLogin()">custom</button>
       <button class="btn btn-info btn-xs" ng-click="openFireLogin()">firebase</button>
@@ -35,12 +35,9 @@
 
   <div style="margin: 21px">
 
-    <span ng-if="masterAuth.loggedInInfo.uid">
+    <span ng-if="rvm.masterAuth.loggedInInfo.uid">
       You are logged in.
     </span>
-
-    <div style="margin-top: 21px"><pre>masterAuth = {{masterAuth | json}}</pre>
-    </div>
 
   </div>
 </div>
