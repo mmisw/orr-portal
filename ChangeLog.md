@@ -4,7 +4,7 @@
   - verify user can submit new version according to URI owner
   - new org option available only for user with admin role
   - verify user with backend upon firebase login
-    For now, only capturing role from backend
+    For now, only capturing role snd organizations from backend
     TODO get general user info from backend (only use fb for auth per se)
 
   - pass `originalUri` in fully-hosted registration request, which is
