@@ -48,6 +48,10 @@
       members: ''
     };
 
+    $scope.$watch("vm.orgName", function(val) {
+      vm.orgName = val.replace(/^[_\.-]+/, "").replace(/[^a-z0-9_\.-]/gi, "").toLowerCase();
+    });
+
     $scope.okToCreateOrg = function() {
       return vm.orgName && vm.name && vm.members;
     };

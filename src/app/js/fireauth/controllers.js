@@ -432,6 +432,10 @@
       created: false
     };
 
+    $scope.$watch("vm.username", function(val) {
+      vm.username = val.replace(/^[_\.-]+/, "").replace(/[^a-z0-9_\.-]/gi, "").toLowerCase();
+    });
+
     vm.error = undefined;
 
     $scope.isValid = function() {
