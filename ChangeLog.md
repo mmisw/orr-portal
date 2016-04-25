@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-04-24: 0.3.1:
+  - verify user can submit new version according to URI owner
   - new org option available only for user with admin role
   - verify user with backend upon firebase login
     For now, only capturing role from backend

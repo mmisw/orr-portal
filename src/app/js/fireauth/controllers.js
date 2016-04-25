@@ -72,6 +72,7 @@
           else {
             console.log("got backend user info upon login " +userName+ ":", user);
             masterAuth.role = user.role;
+            masterAuth.organizations = user.organizations;
             updateFirebase();
             updateUI();
           }

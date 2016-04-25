@@ -169,6 +169,7 @@
       vm.uploadResponse = vm.originalUri = undefined;
       vm.selectedOwner = vm.newShortNameEntered = vm.newShortName = undefined;
       vm.knownOwner = undefined;
+      vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
       vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = undefined;
       vm.name = undefined;
       vm.newUri = undefined;
@@ -266,6 +267,7 @@
       else vm.newUri = vm.originalUri;
 
       vm.knownOwner = undefined;
+      vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
 
       // TODO use more specific endpoint API to do this check
       service.refreshOntology(vm.newUri, gotOntology);
@@ -282,9 +284,21 @@
           vm.newUriIsAvailable = false;
 
           vm.knownOwner = ontology.orgName;
+          vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
         }
       }
     };
+
+    function getUserCanRegisterNewVersion() {
+      if (!vm.knownOwner) {
+        return true;
+      }
+      if ($rootScope.rvm.masterAuth.loggedInInfo.uid === vm.knownOwner) {
+        return true;
+      }
+      var organizations = $rootScope.rvm.masterAuth.organizations;
+      return organizations && _.contains(_.map(organizations, "name"), vm.knownOwner);
+    }
 
     $scope.okToRegisterFullyHosted = function() {
       return vm.checkedNewUriIsAvailable
