@@ -49,15 +49,38 @@
         });
       },
 
-      logout: auth.$unauth
+      logout: logout
     };
+
+    function logout() {
+      auth.$unauth();
+    }
 
     function authenticateStateChanged(authData) {
       console.log(appUtil.logTs() + ": authenticateStateChanged: authData=", authData);
 
       updateMasterAuth(authData);
-      updateFirebase();
-      updateUI();
+
+      if (authData) {
+        // get actual user info from backend based on userName
+        var userName = authData.uid;
+        service.refreshUser(userName, function gotUser(error, user) {
+          if (error) {
+            console.log("error getting backend user info for " +userName+ ":", error);
+            logout();  // which will trigger a call to authenticateStateChanged(undefined)
+          }
+          else {
+            console.log("got backend user info upon login " +userName+ ":", user);
+            masterAuth.role = user.role;
+            updateFirebase();
+            updateUI();
+          }
+        });
+      }
+      else {
+        updateFirebase();
+        updateUI();
+      }
 
       function updateMasterAuth(authData) {
         //console.log("authData=", authData);

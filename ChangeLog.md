@@ -1,6 +1,10 @@
 ## change log ##
 
 * 2016-04-24: 0.3.1:
+  - verify user with backend upon firebase login
+    For now, only capturing role from backend
+    TODO get general user info from backend (only use fb for auth per se)
+
   - pass `originalUri` in fully-hosted registration request, which is
     now used by orr-ont to perform the associated "namespace transfer"
 
