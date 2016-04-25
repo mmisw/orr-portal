@@ -32,10 +32,15 @@
     }
   }
 
-  CreateOrgController.$inject = ['$scope', '$location', '$timeout', 'service'];
+  CreateOrgController.$inject = ['$rootScope', '$scope', '$location', '$timeout', 'service'];
 
-  function CreateOrgController($scope, $location, $timeout, service) {
+  function CreateOrgController($rootScope, $scope, $location, $timeout, service) {
     if (appUtil.debug) console.log("++CreateOrgController++");
+
+    if (!$rootScope.userLoggedInIsAdmin()) {
+      $location.url("/");
+      return;
+    }
 
     var vm = $scope.vm = {
       orgName: '',

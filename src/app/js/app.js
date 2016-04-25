@@ -67,6 +67,10 @@
       return rvm.masterAuth && rvm.masterAuth.loggedInInfo
         && rvm.masterAuth.loggedInInfo.uid;
     };
+
+    $rootScope.userLoggedInIsAdmin = function() {
+      return $rootScope.userLoggedIn() && rvm.masterAuth.role === "admin";
+    }
   }
 
   routes.$inject = ['$routeProvider', 'rUri'];

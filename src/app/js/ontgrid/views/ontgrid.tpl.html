@@ -46,7 +46,7 @@
                         </button>
                       </td>
 
-                      <td> <!-- TODO ng-if="userLoggedInIsAdmin()" -->
+                      <td ng-if="userLoggedInIsAdmin()">
                         <button class="btn btn-default btn-sm" ng-click="createOrg()">
                           <span class="fa fa-group"></span>
                           New organization
