@@ -4,6 +4,7 @@
   - validations via immediate filtering in the associated fields:
     - create organization and user: orgName and username only composed of
       `[a-z0-1_\.-]` and not starting with `[_\.-]`
+    - some filtering for fields: originalUri, name, short-name
 
 * 2016-04-24: 0.3.1:
   - verify user can submit new version according to URI owner

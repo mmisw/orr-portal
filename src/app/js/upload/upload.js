@@ -102,6 +102,17 @@
       });
     }
 
+    $scope.$watch("vm.originalUri", function(val) {  // avoid pipe character
+      if (val) {
+        $scope.vm.originalUri = val.replace(/\|/g, "");
+      }
+    });
+    $scope.$watch("vm.name", function(val) {
+      if (val) {
+        $scope.vm.name = val.replace(/(<|>)/g, "");
+      }
+    });
+
     $scope.doUpload = function (file) {
       vm.name = '';
 
@@ -167,7 +178,7 @@
 
     $scope.uploadAnotherFile = function() {
       vm.uploadResponse = vm.originalUri = undefined;
-      vm.selectedOwner = vm.newShortNameEntered = vm.newShortName = undefined;
+      vm.selectedOwner = vm.newShortName = undefined;
       vm.knownOwner = undefined;
       vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
       vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = undefined;
@@ -214,14 +225,12 @@
 
 
     $scope.shortNameFromFileName = function() {
-      vm.newShortNameEntered = removeExt(vm.uploadResponse.origFilename);
+      vm.newShortName = cleanShortName(vm.uploadResponse.origFilename);
     };
 
-    $scope.$watch("vm.newShortNameEntered", function(val) {
+    $scope.$watch("vm.newShortName", function(val) {
       if (val) {
-        val = removeExt(val);
-        val = val.replace(/[^a-z0-9-_]/g, '_');
-        vm.newShortName = val;
+        vm.newShortName = cleanShortName(val);
       }
       else vm.newShortName = '';
       vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = false;
@@ -230,10 +239,13 @@
       vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = false;
     });
 
-    function removeExt(val) {
-      if (val) {
+    function cleanShortName(val) {
+      function removeExt(val) {
         var idx = val.indexOf('.');
-        if (idx >= 0) val = val.substring(0, idx);
+        return idx >= 0 ? val.substring(0, idx) : val;
+      }
+      if (val) {
+        val = removeExt(val).replace(/^[^a-z0-9]+/i, "").replace(/[^a-z0-9_-]/gi, "");
       }
       return val;
     }
@@ -254,8 +266,7 @@
 
     $scope.okToCheckNewUriIsAvailable = function() {
       if (vm.registrationType === 'fully-hosted') {
-        return vm.selectedOwner
-          && vm.newShortName && vm.newShortName.match(/^[a-z0-9-_]+$/i)
+        return vm.selectedOwner && vm.newShortName;
       }
       else return true;
     };
