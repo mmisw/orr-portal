@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-04-25: 0.3.1:
+  - shown message dialog upon successful registration with link to
+    the submitted ontology, and going to that link if user closes the dialog
   - add util/util.js module
   - validations via immediate filtering in the associated fields:
     - create organization and user: orgName and username only composed of

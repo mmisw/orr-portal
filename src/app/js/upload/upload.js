@@ -51,9 +51,9 @@
     "http://purl.org/dc/elements/1.0/title"
   ];
 
-  UploadController.$inject = ['$rootScope', '$scope', '$timeout', '$location', 'Upload', 'cfg', 'service'];
+  UploadController.$inject = ['$rootScope', '$scope', '$timeout', '$location', '$window', 'Upload', 'cfg', 'service', 'utl'];
 
-  function UploadController($rootScope, $scope, $timeout, $location, Upload, cfg, service) {
+  function UploadController($rootScope, $scope, $timeout, $location, $window, Upload, cfg, service, utl) {
     if (appUtil.debug) console.log("++UploadController++");
 
     var userName, vm = {};
@@ -207,16 +207,7 @@
       };
 
       var brandNew = !vm.knownOwner;
-      service.registerOntology(brandNew, params, cb);
-
-      function cb(error, data) {
-        if (error) {
-          console.error(error)
-        }
-        else {
-          console.log("registerOntology: success data=", data);
-        }
-      }
+      service.registerOntology(brandNew, params, registrationCallback(params.uri));
     };
 
     ////////////////////
@@ -328,20 +319,33 @@
       };
 
       var brandNew = vm.newUriIsAvailable;
-      service.registerOntology(brandNew, params, cb);
+      service.registerOntology(brandNew, params, registrationCallback(params.uri));
+    };
 
-      function cb(error, data) {
+    function registrationCallback(uri) {
+      return function cb(error, data) {
         if (error) {
-          console.error(error)
+          console.error(error);
+          utl.error({
+            errorPRE: error
+          });
         }
         else {
           console.log("registerOntology: success data=", data);
-          // TODO open dialog about successful registration
-          // and with links to go to the new ontology page
-          // or the main ORR page
+          utl.message({
+            title:   "Successful registration",
+            message: '<div class="center">' +
+            'Ontology URI:' +
+            '<br>' +
+            appUtil.mklink4uriWithSelfHostPrefix(uri) +
+            '</div>',
+            ok: function() {
+              $window.location.href = appUtil.getHref4uriWithSelfHostPrefix(uri);
+            }
+          });
         }
       }
-    };
+    }
   }
 
 })();

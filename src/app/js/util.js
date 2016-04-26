@@ -23,7 +23,8 @@ var appUtil = (function(window) {
         uri:            uri,
         debug:          debug,
 
-        mklink4uriWithSelfHostPrefix: mklink4uriWithSelfHostPrefix,
+        getHref4uriWithSelfHostPrefix: getHref4uriWithSelfHostPrefix,
+        mklink4uriWithSelfHostPrefix:  mklink4uriWithSelfHostPrefix,
 
         mklinks4text:   mklinks4text,
 
@@ -40,19 +41,23 @@ var appUtil = (function(window) {
         logTs: function() { return moment().local().format(); }
     };
 
-    function mklink4uriWithSelfHostPrefix(uri) {
+    function getHref4uriWithSelfHostPrefix(uri) {
       uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
       if (uri.startsWith(windowHref)) {
         // it's self-resolvable:
-        return '<a href="' + uri + '">' + uri + '</a>';
+        return uri;
       }
       else {
         // use "uri" parameter:
         var url4link = uri.replace(/#/g, "%23");
         var orrOntRest = appConfig.orront.rest + "/";
-        var href = orrOntRest + "?uri=" + url4link;
-        return '<a href="' + href + '">' + uri + '</a>';
+        return orrOntRest + "?uri=" + url4link;
       }
+    }
+
+    function mklink4uriWithSelfHostPrefix(uri) {
+      var href = getHref4uriWithSelfHostPrefix(uri);
+      return '<a href="' + href + '">' + uri + '</a>';
     }
 
     function htmlifyUri(uri) {
