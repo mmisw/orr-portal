@@ -1,0 +1,12 @@
+<div>
+  <div class="modal-header">
+    <span class="modalTitle" ng-bind="info.title"></span>
+  </div>
+  <div class="modal-body">
+    <div ng-bind-html="info.message"> </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary btn-sm" ng-click="ok()">OK</button>
+    <button class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
+  </div>
+</div>

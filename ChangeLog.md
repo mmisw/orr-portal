@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-04-25: 0.3.1:
+  - add util/util.js module
   - validations via immediate filtering in the associated fields:
     - create organization and user: orgName and username only composed of
       `[a-z0-1_\.-]` and not starting with `[_\.-]`

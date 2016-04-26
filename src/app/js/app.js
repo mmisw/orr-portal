@@ -18,6 +18,7 @@
     ,'orrportal.voc'
     ,'orrportal.firebase'
     ,'orrportal.upload'
+    ,'orrportal.util'
   ])
     .constant("rUri", appUtil.uri)
     .constant("cfg", appConfig)
