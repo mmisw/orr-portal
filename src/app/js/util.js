@@ -25,6 +25,7 @@ var appUtil = (function(window) {
 
         getHref4uriWithSelfHostPrefix: getHref4uriWithSelfHostPrefix,
         mklink4uriWithSelfHostPrefix:  mklink4uriWithSelfHostPrefix,
+        mklink4uriAlwaysUriParameter:  mklink4uriAlwaysUriParameter,
 
         mklinks4text:   mklinks4text,
 
@@ -57,6 +58,13 @@ var appUtil = (function(window) {
 
     function mklink4uriWithSelfHostPrefix(uri) {
       var href = getHref4uriWithSelfHostPrefix(uri);
+      return '<a href="' + href + '">' + uri + '</a>';
+    }
+
+    function mklink4uriAlwaysUriParameter(uri) {
+      uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
+      var url4link = uri.replace(/#/g, "%23");
+      var href = "?uri=" + url4link;
       return '<a href="' + href + '">' + uri + '</a>';
     }
 

@@ -9,6 +9,12 @@
       }
     }])
 
+    .filter('mklink4uriAlwaysUriParameter', [function() {
+      return function(text) {
+        return appUtil.mklink4uriAlwaysUriParameter(text);
+      }
+    }])
+
     .filter('mklinks', [function() {
       return function(text) {
         return appUtil.mklinks4text(text);

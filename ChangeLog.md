@@ -1,5 +1,11 @@
 ## change log ##
 
+* 2016-04-27: 0.3.1:
+  - new mklink4uriAlwaysUriParameter filter to always just make a link with
+    `?uri=<the-uri>` -- helps with development specially when running the
+    UI against orr-ont elsewhere, and not focusing on self-resolution.
+    Used in voc.tpl.html, which is just in very preliminary stages.
+
 * 2016-04-25: 0.3.1:
   - shown message dialog upon successful registration with link to
     the submitted ontology, and going to that link if user closes the dialog
