@@ -265,9 +265,9 @@ var appUtil = (function(window) {
      */
     function uriFromWindowLocation() {
       var orrOntRest = appConfig.orront.rest;
-      console.log("orrOntRest=" +orrOntRest + " windowHref=" +windowHref);
+      console.log("orrOntRest=[" +orrOntRest+ "] windowHref=[" +windowHref+ "]");
       if (windowHref.startsWith(orrOntRest) && windowHref.length > orrOntRest.length && orrOntRest+"/" !== windowHref) {
-        console.log(orrOntRest + " is proper orrOntRest of windowHref=" +windowHref);
+        console.log("orrOntRest=[" +orrOntRest+ "] is proper orrOntRest of windowHref=[" +windowHref+ "]");
         var uri = windowHref;
       }
       return uri;
