@@ -15,6 +15,7 @@
     ,'orrportal.user'
     ,'orrportal.st'
     ,'orrportal.kw'
+    ,'orrportal.v2r'
     ,'orrportal.voc'
     ,'orrportal.firebase'
     ,'orrportal.upload'

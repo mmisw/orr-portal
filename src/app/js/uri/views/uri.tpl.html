@@ -138,6 +138,11 @@
 
     <div uib-collapse="contentsCollapsed" style="margin-left: 20px">
 
+      <div ng-if="vm.ontology.format === 'v2r'">
+        <h3> V2R Vocabulary </h3>
+        <orrportal-v2r></orrportal-v2r>
+      </div>
+
       <div ng-if="vm.ontology.ontologyType === 'vocabulary'">
         <h3> Vocabulary </h3>
         <voc></voc>

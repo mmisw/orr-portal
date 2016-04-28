@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-04-27: 0.3.1:
+  - sketching new v2r UI
+
   - new mklink4uriAlwaysUriParameter filter to always just make a link with
     `?uri=<the-uri>` -- helps with development specially when running the
     UI against orr-ont elsewhere, and not focusing on self-resolution.
