@@ -2,14 +2,15 @@
 
   <uib-tabset style="width: 100%">
 
-    <uib-tab ng-repeat="vocab in vm.data.vocabs" style="cursor: pointer">
+    <uib-tab ng-repeat="vocab in vm.v2r.vocabs" style="cursor: pointer">
 
-      <script type="text/ng-template" id="classTabPopup.html">
+      <script type="text/ng-template" id="v2rClassTabPopup.html">
         <span>
           Class:
           <a target="_blank"
-             ng-href="{{vocab.class.uri}}"
-             ng-bind="vocab.class.name || vocab.class.uri"
+             ng-href="{{getUri(vocab.class)}}"
+             ng-bind="getUri(vocab.class)"
+             ng-click="openLink(getUri(vocab.class))"
              ng-mouseleave="vocab.showPopup=false"
           >
           </a>
@@ -18,11 +19,11 @@
 
       <tab-heading ng-mouseenter="vocab.showPopup=true" ng-mouseleave="vocab.showPopup=false">
 
-        <div uib-popover-template="'classTabPopup.html'"
+        <div uib-popover-template="'v2rClassTabPopup.html'"
              popover-placement="right"
              popover-is-open="vocab.showPopup"
         >
-          {{vocab.class.name}}
+          {{getName(vocab.class)}}
         </div>
 
       </tab-heading>
@@ -34,7 +35,8 @@
 
           <th>ID</th>
 
-          <th ng-repeat="p in vocab.properties" ng-bind="p.name || p.uri">
+          <th ng-repeat="p in vocab.properties"
+              ng-bind="getName(p)">
           </th>
         </tr>
         </thead>
@@ -42,13 +44,15 @@
         <tbody>
         <tr ng-repeat="t in vocab.terms">
 
-          <td ng-bind-html="(t.uri || t.name) | mklink4uriAlwaysUriParameter"></td>
+          <td ng-bind-html="getUri(t) | mklink4uriAlwaysUriParameter"></td>
 
           <td ng-repeat="a in t.attributes">
-            <span ng-if="singleAttrValue(a)" ng-bind="singleAttrValue(a) | mklinksOnlyExternal"></span>
+            <span ng-if="singleAttrValue(a)"
+                  ng-bind="singleAttrValue(a) | mklinksOnlyExternal"></span>
 
             <ul ng-if="multipleAttrValues(a)">
-              <li ng-repeat="b in multipleAttrValues(a)" ng-bind="b | mklinksOnlyExternal">
+              <li ng-repeat="b in multipleAttrValues(a)"
+                  ng-bind="b | mklinksOnlyExternal">
               </li>
             </ul>
           </td>

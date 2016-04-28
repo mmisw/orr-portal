@@ -7,9 +7,9 @@
   ;
 
 
-  V2RController.$inject = ['$rootScope', '$scope', '$routeParams', 'service'];
+  V2RController.$inject = ['$rootScope', '$scope', '$routeParams', '$window', 'service'];
 
-  function V2RController($rootScope, $scope, $routeParams, service) {
+  function V2RController($rootScope, $scope, $routeParams, $window, service) {
     if (appUtil.debug) console.log("++V2RController++");
 
     var vm = $scope.vm = {};
@@ -24,8 +24,19 @@
       }
 
       console.log("gotOntology: data=", data);
-      vm.data = data;
+      vm.v2r = data;
     }
+
+    $scope.getUri = function(e) {
+      if (e.uri)   return e.uri;
+      if (!vm.uri) return undefined;
+      return vm.uri + "/" + e.name;
+    };
+
+    $scope.getName = function(e) {
+      if (e.name)   return e.name;
+      if (e.uri)    return e.uri;
+    };
 
     $scope.singleAttrValue = function(a) {
       if (angular.isString(a))                 return a;
@@ -34,6 +45,12 @@
 
     $scope.multipleAttrValues = function(a) {
       if (angular.isArray(a) && a.length > 1) return a;
+    };
+
+    // mainly a workaround as the ng-href link in the "text/ng-template"
+    // doesn't work for some reason
+    $scope.openLink = function(href) {
+      $window.open(href, "_blank");
     }
   }
 
