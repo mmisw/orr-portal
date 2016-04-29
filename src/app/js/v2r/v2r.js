@@ -26,7 +26,8 @@
     if (appUtil.debug) console.log("++V2RController++");
 
     var vm = $scope.vm = {
-      editMode: false
+      editMode: false,
+      someCellBeingEdited: false
     };
     vm.uri = $rootScope.rvm.rUri || $routeParams.uri;
 
@@ -43,15 +44,16 @@
     }
 
     $scope.reloadV2r = function() {
+      vm.someCellBeingEdited = false;
       vm.editMode = false; //TODO
       service.getOntologyFormat(vm.uri, "v2r", gotOntology);
     };
 
-    $scope.canEdit = function() {
+    $scope.canEditV2r = function() {
       return true; //TODO
     };
 
-    $scope.startEditMode = function() {
+    $scope.startEditModeV2r = function() {
       vm.editMode = true; //TODO
     };
 
@@ -111,6 +113,13 @@
     //////////////////////////////////////
     // Value cell editing
 
+    $scope.enterCellEditing = function(tableform) {
+      if (!vm.someCellBeingEdited) {
+        vm.someCellBeingEdited = true;
+        tableform.$show()
+      }
+    };
+
     $scope.getAttrEditModel = function(a) {
       var array = angular.isArray(a) ? a : [a];
       var em = [];
@@ -147,6 +156,7 @@
 
     // cancel all changes
     $scope.cancelCell = function(em) {
+      vm.someCellBeingEdited = false;
       for (var i = em.length; i--;) {
         var valueEntry = em[i];
         // undelete
@@ -162,6 +172,7 @@
 
     // transfer the changes to the model
     $scope.applyCellChanges = function(attributes, a_index, em) {
+      vm.someCellBeingEdited = false;
       var result = [];
 
       for (var i = em.length; i--;) {

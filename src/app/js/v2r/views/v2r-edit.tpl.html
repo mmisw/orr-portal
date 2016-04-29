@@ -47,7 +47,8 @@
       <tr ng-repeat="t in vocab.terms track by $index" ng-init="t_index = $index">
 
         <td style="width: 10px">
-          <button type="button" ng-disabled="tableform.$waiting"
+          <button type="button"
+                  ng-disabled="vm.someCellBeingEdited || tableform.$waiting"
                   ng-click="removeTerm(vocab, t_index)"
                   class="btn btn-danger btn-xs"
                   uib-tooltip="Remove this term"
@@ -71,7 +72,7 @@
                     oncancel="cancelCell(em)">
 
                 <table class="table table-hover table-condensed"
-                       ng-click="tableform.$show()"
+                       ng-click="enterCellEditing(tableform)"
                        uib-tooltip="{{!tableform.$visible ? 'Click to edit the value(s) for this property' : ''}}"
                 >
                   <tr ng-repeat="valueEntry in em | filter:filterValue track by $index">
@@ -132,7 +133,8 @@
 
       <tr>
         <td style="text-align: center">
-          <button type="button" ng-disabled="tableform.$waiting"
+          <button type="button"
+                  ng-disabled="vm.someCellBeingEdited || tableform.$waiting"
                   ng-click="addTerm(vocab)"
                   class="btn btn-default btn-xs"
                   uib-tooltip="Add term"
