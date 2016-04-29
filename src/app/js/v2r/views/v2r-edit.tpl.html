@@ -60,8 +60,9 @@
         <td style="width: 5%"
             ng-bind-html="getUri(t) | mklink4uriAlwaysUriParameter"></td>
 
-        <td ng-repeat="a in t.attributes track by $index" ng-init="a_index = $index">
-
+        <td ng-repeat="a in t.attributes track by $index" ng-init="a_index = $index"
+            ng-style="tableform.$visible ? {'background-color': '#fbeacb'} : {}"
+        >
           <div ng-init="em = getAttrEditModel(a)">
 
             <div>
