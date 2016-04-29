@@ -194,6 +194,12 @@
         attributes[a_index] = result[0];
       else
         attributes[a_index] = null;
+
+      // don't let the cell edit model (array) get empty, so
+      // user can later still click cell to edit and add a value
+      if (em.length === 0) {
+        em.push({id: 0, value: null});
+      }
     };
   }
 

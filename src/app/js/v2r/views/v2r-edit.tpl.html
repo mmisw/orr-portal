@@ -80,9 +80,10 @@
                       <span editable-textarea="valueEntry.value"
                             e-rows="2"
                             e-form="tableform"
-                            ng-bind="valueEntry.value !== null ? valueEntry.value : 'empty'"
+                            ng-bind="valueEntry.value || 'empty'"
                       >
                       </span>
+                      <!--<pre ng-bind="'valueEntry=' +(valueEntry|json)"></pre>-->
                     </td>
                     <td ng-show="tableform.$visible" style="width: 10px">
                       <button type="button" ng-click="deleteValue(em, valueEntry.id)"
@@ -106,6 +107,8 @@
                     </td>
                   </tr>
                 </table>
+
+                <!--<pre ng-bind="em | json"></pre>-->
 
                 <div class="btn-form" ng-show="tableform.$visible">
                   <button type="submit" ng-disabled="tableform.$waiting"
