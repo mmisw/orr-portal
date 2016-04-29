@@ -180,6 +180,7 @@
         if (valueEntry.isDeleted) {
           em.splice(i, 1);
         }
+        // note: empty string "" is regarded as absent value
         else if (valueEntry.value) {
           result.push(valueEntry.value);
         }
