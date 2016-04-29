@@ -17,12 +17,13 @@
     })
 
     .controller('V2RController', V2RController)
+    .controller('V2rEditIdController', V2rEditIdController)
   ;
 
 
-  V2RController.$inject = ['$rootScope', '$scope', '$routeParams', '$window', '$filter', 'service'];
+  V2RController.$inject = ['$rootScope', '$scope', '$routeParams', '$window', '$filter', '$uibModal', 'service'];
 
-  function V2RController($rootScope, $scope, $routeParams, $window, $filter, service) {
+  function V2RController($rootScope, $scope, $routeParams, $window, $filter, $uibModal, service) {
     if (appUtil.debug) console.log("++V2RController++");
 
     var vm = $scope.vm = {
@@ -109,6 +110,38 @@
       $window.open(href, "_blank");
     };
 
+
+    //////////////////////////////////////
+    // Class and property editing
+
+    $scope.editVocabClass = function(idModel) {
+      editIdModel("Vocabulary class ID", idModel);
+    };
+
+    $scope.editVocabProperty = function(idModel) {
+      editIdModel("Vocabulary property ID", idModel);
+    };
+
+    function editIdModel(title, idModel) {
+      console.log("editId': title=", title, "idModel=", idModel);
+      var modalInstance = $uibModal.open({
+        templateUrl: 'js/v2r/views/v2r-edit-id.tpl.html',
+        controller:  'V2rEditIdController',
+        backdrop:    'static',
+        resolve: {
+          info: function () {
+            return {
+              title:     title,
+              namespace: vm.uri,
+              idModel:   idModel
+            };
+          }
+        }
+      });
+      //modalInstance.result.then(function() {
+      //  console.log('editIdModel dialog accepted: idModel=', idModel);
+      //});
+    }
 
     //////////////////////////////////////
     // Value cell editing
@@ -201,6 +234,40 @@
       if (em.length === 0) {
         em.push({id: 0, value: null});
       }
+    };
+  }
+
+  V2rEditIdController.$inject = ['$scope', '$uibModalInstance', 'info'];
+  function V2rEditIdController($scope, $uibModalInstance, info) {
+    console.log("V2rEditIdController: info=", info);
+
+    var vm = $scope.vm = {
+      title:      info.title,
+      namespace:  info.namespace,
+      lname:      info.idModel.name,
+      uri:        info.idModel.uri,
+      idType:     info.idModel.name ? "lname" : "uri"
+    };
+
+    $scope.idEditFormOk = function() {
+      return vm.idType === 'lname' && vm.lname
+          || vm.idType === 'uri' && vm.uri;
+    };
+
+    $scope.doneEditId = function() {
+      if (vm.idType === 'lname') {
+        info.idModel.name = vm.lname;
+        delete info.idModel.uri;
+      }
+      else {
+        info.idModel.uri = vm.uri;
+        delete info.idModel.name;
+      }
+      $uibModalInstance.close();
+    };
+
+    $scope.cancelEditId = function() {
+      $uibModalInstance.dismiss();
     };
   }
 

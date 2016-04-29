@@ -1,0 +1,79 @@
+<div style="display: inline-block; vertical-align: top; width:95%; margin: 10px; margin-top: 20px">
+  <div class="panel panel-default">
+
+    <div class="panel-heading" ng-bind="vm.title">
+    </div>
+
+    <div class="panel-body">
+
+      <form class="form-horizontal">
+
+        <div class="form-group">
+          <input class="col-xs-1" type="radio"
+                 ng-model="vm.idType" value="lname">
+
+          <label for="inputLocalName" class="control-label col-xs-2">
+            Local&nbsp;name:
+          </label>
+
+          <div class="col-xs-4">
+            <input id="inputLocalName"
+                   ng-disabled="vm.idType !== 'lname'"
+                   type="text"
+                   class="form-control"
+                   ng-model="vm.lname"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-xs-3">
+          </label>
+
+          <div class="col-xs-4">
+            <span ng-if="vm.idType === 'lname'">
+              {{vm.namespace}}/{{vm.lname}}
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input class="col-xs-1" type="radio"
+                 ng-model="vm.idType" value="uri">
+
+          <label for="inputUri" class="control-label col-xs-2">
+            Complete URI:
+          </label>
+
+          <div class="col-xs-8">
+            <input id="inputUri"
+                   ng-disabled="vm.idType !== 'uri'"
+                   type="url"
+                   class="form-control"
+                   ng-model="vm.uri"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+
+          <label class="col-xs-3"> </label>
+          <button class="btn btn-primary btn-sm"
+                  ng-disabled="!idEditFormOk()"
+                  ng-click="doneEditId()"
+          >OK
+          </button>
+
+          <label class="col-xs-1"> </label>
+          <button class="btn btn-default btn-sm"
+                  ng-click="cancelEditId()"
+                  ng-disabled="vm.working"
+          >Cancel
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

@@ -3,26 +3,12 @@
   <uib-tab ng-repeat="vocab in vm.v2r.vocabs" ng-init="uiStuff={}"
            style="cursor: pointer">
 
-    <script type="text/ng-template" id="v2rClassTabPopup.html">
-      <span>
-        Class: {{getLabel(vocab.class)}}
-        <a target="_blank"
-           ng-href="{{getUri(vocab.class)}}"
-           ng-bind="getUri(vocab.class)"
-           ng-click="openLink(getUri(vocab.class))"
-           ng-mouseleave="uiStuff.showPopup=false"
-        >
-        </a>
-      </span>
-    </script>
-
     <tab-heading ng-mouseenter="uiStuff.showPopup=true" ng-mouseleave="uiStuff.showPopup=false">
 
-      <div uib-popover-template="'v2rClassTabPopup.html'"
-           popover-placement="right"
-           popover-is-open="uiStuff.showPopup"
-      >
-        {{getName(vocab.class)}}
+      <div>
+        <button ng-click="editVocabClass(vocab.class)" class="btn btn-link">
+          {{getName(vocab.class)}} <i class="fa fa-edit" aria-hidden="true"></i>
+        </button>
       </div>
 
     </tab-heading>
@@ -35,10 +21,12 @@
         <th style="width: 10px">
         </th>
 
-        <th style="width: 5%">ID</th>
+        <th style="width: 5%; vertical-align: middle">ID</th>
 
-        <th ng-repeat="p in vocab.properties"
-            ng-bind="getLabel(p)">
+        <th ng-repeat="p in vocab.properties">
+          <button ng-click="editVocabProperty(p)" class="btn btn-link">
+            {{getLabel(p)}} <i class="fa fa-edit" aria-hidden="true"></i>
+          </button>
         </th>
       </tr>
       </thead>

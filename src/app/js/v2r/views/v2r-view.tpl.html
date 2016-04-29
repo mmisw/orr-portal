@@ -9,17 +9,17 @@
            ng-href="{{getUri(vocab.class)}}"
            ng-bind="getUri(vocab.class)"
            ng-click="openLink(getUri(vocab.class))"
-           ng-mouseleave="vocab.showPopup=false"
+           ng-mouseleave="showPopup=false"
         >
         </a>
       </span>
     </script>
 
-    <tab-heading ng-mouseenter="vocab.showPopup=true" ng-mouseleave="vocab.showPopup=false">
+    <tab-heading ng-mouseenter="showPopup=true" ng-mouseleave="showPopup=false">
 
       <div uib-popover-template="'v2rClassTabPopup.html'"
            popover-placement="right"
-           popover-is-open="vocab.showPopup"
+           popover-is-open="showPopup"
       >
         {{getName(vocab.class)}}
       </div>
@@ -34,7 +34,7 @@
         <th style="width: 5%">ID</th>
 
         <th ng-repeat="p in vocab.properties"
-            ng-mouseenter="p.showPopup=true" ng-mouseleave="p.showPopup=false"
+            ng-mouseenter="showPopup=true" ng-mouseleave="showPopup=false"
         >
           <script type="text/ng-template" id="v2rTermPropertyPopup.html">
             <span>
@@ -44,7 +44,7 @@
                  ng-href="{{getUri(p)}}"
                  ng-bind="getUri(p)"
                  ng-click="openLink(getUri(p))"
-                 ng-mouseleave="p.showPopup=false"
+                 ng-mouseleave="showPopup=false"
               >
               </a>
             </span>
@@ -53,7 +53,7 @@
           <div>
             <span uib-popover-template="'v2rTermPropertyPopup.html'"
                   popover-placement="top"
-                  popover-is-open="p.showPopup">
+                  popover-is-open="showPopup">
               {{getLabel(p)}}
             </span>
           </div>
@@ -75,7 +75,7 @@
           </span>
 
           <table ng-if="multipleAttrValues(a)"
-                 class="table table-condensed">
+                 class="table table-condensed table-hover">
             <tr ng-repeat="b in multipleAttrValues(a) track by $index">
               <td ng-bind-html="b | mklinksOnlyExternal">
               </td>
