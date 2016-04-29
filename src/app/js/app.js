@@ -6,6 +6,7 @@
     'ngSanitize',
     'ui.bootstrap'
     ,'ui.select'
+    ,'xeditable'
     ,'angular-clipboard'
     ,'orrportal.main'
     ,'orrportal.facet'
@@ -24,6 +25,7 @@
     .constant("rUri", appUtil.uri)
     .constant("cfg", appConfig)
     .run(init)
+    .run(xeditable)
     .config(routes)
   ;
 
@@ -73,6 +75,12 @@
     $rootScope.userLoggedInIsAdmin = function() {
       return $rootScope.userLoggedIn() && rvm.masterAuth.role === "admin";
     }
+  }
+
+  xeditable.$inject = ['editableOptions'];
+
+  function xeditable(editableOptions) {
+    editableOptions.theme = 'bs3';
   }
 
   routes.$inject = ['$routeProvider', 'rUri'];

@@ -364,3 +364,8 @@ a:link {
   padding-right: 1em;
   vertical-align: middle
 }
+
+
+.editable-textarea {
+  width: 100% !important;
+}

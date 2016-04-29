@@ -1,0 +1,69 @@
+<uib-tabset style="width: 100%">
+
+  <uib-tab ng-repeat="vocab in vm.v2r.vocabs" style="cursor: pointer">
+
+    <script type="text/ng-template" id="v2rClassTabPopup.html">
+      <span>
+        Class: {{getLabel(vocab.class)}}
+        <a target="_blank"
+           ng-href="{{getUri(vocab.class)}}"
+           ng-bind="getUri(vocab.class)"
+           ng-click="openLink(getUri(vocab.class))"
+           ng-mouseleave="vocab.showPopup=false"
+        >
+        </a>
+      </span>
+    </script>
+
+    <tab-heading ng-mouseenter="vocab.showPopup=true" ng-mouseleave="vocab.showPopup=false">
+
+      <div uib-popover-template="'v2rClassTabPopup.html'"
+           popover-placement="right"
+           popover-is-open="vocab.showPopup"
+      >
+        {{getName(vocab.class)}}
+      </div>
+
+    </tab-heading>
+
+
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+
+        <th style="width: 5%">ID</th>
+
+        <th ng-repeat="p in vocab.properties"
+            ng-bind="getLabel(p)">
+        </th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr ng-repeat="t in vocab.terms">
+
+        <td style="width: 5%"
+            ng-bind-html="getUri(t) | mklink4uriAlwaysUriParameter">
+        </td>
+
+        <td ng-repeat="a in t.attributes track by $index">
+          <span ng-if="singleAttrValue(a)"
+                ng-bind-html="singleAttrValue(a) | mklinksOnlyExternal">
+          </span>
+
+          <table ng-if="multipleAttrValues(a)"
+                 class="table table-condensed">
+            <tr ng-repeat="b in multipleAttrValues(a) track by $index">
+              <td ng-bind-html="b | mklinksOnlyExternal">
+              </td>
+            </tr>
+          </table>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+
+  </uib-tab>
+
+</uib-tabset>

@@ -1,7 +1,7 @@
 ## change log ##
 
-* 2016-04-27: 0.3.1:
-  - sketching new v2r UI
+* 2016-04-28: 0.3.1:
+  - preliminaries of v2r editing using x-editable
 
   - new mklink4uriAlwaysUriParameter filter to always just make a link with
     `?uri=<the-uri>` -- helps with development specially when running the
