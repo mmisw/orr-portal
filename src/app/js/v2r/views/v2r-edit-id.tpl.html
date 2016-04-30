@@ -32,7 +32,8 @@
 
           <div class="col-xs-4">
             <span ng-if="vm.idType === 'lname'">
-              {{vm.namespace}}/{{vm.lname}}
+              uri:&nbsp;{{vm.namespace}}/<span ng-if="vm.lname" ng-bind="vm.lname"
+              ></span><span ng-if="!vm.lname" style="color: red">?</span>
             </span>
           </div>
         </div>
