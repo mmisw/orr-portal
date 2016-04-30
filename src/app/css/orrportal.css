@@ -369,3 +369,11 @@ a:link {
 .editable-textarea {
   width: 100% !important;
 }
+
+.v2rTermName {
+  font-family: 'Inconsolata', monospace;
+  cursor: pointer;
+}
+.v2rTermName:hover {
+  background-color: #eaf8ff;
+}

@@ -66,7 +66,29 @@
       <tr ng-repeat="t in vocab.terms">
 
         <td style="width: 5%"
-            ng-bind-html="getUri(t) | mklink4uriAlwaysUriParameter">
+            ng-mouseenter="t._showPopup=true" ng-mouseleave="t._showPopup=undefined">
+
+          <script type="text/ng-template" id="v2rTermUriPopup.html">
+            <span>
+              Term: {{getName(t)}}
+              <br>
+              <a target="_blank"
+                 ng-href="{{getUri(t)}}"
+                 ng-bind="getUri(t)"
+                 ng-click="openLink(getUri(t))"
+                 ng-mouseleave="t._showPopup=undefined"
+              >
+              </a>
+            </span>
+          </script>
+
+          <span uib-popover-template="'v2rTermUriPopup.html'"
+                popover-placement="right"
+                popover-is-open="t._showPopup"
+                class="v2rTermName">
+            {{getName(t)}}
+          </span>
+
         </td>
 
         <td ng-repeat="a in t.attributes track by $index">
