@@ -144,6 +144,17 @@
     }
 
     //////////////////////////////////////
+    // Term ID editing
+
+    // basic validation
+    $scope.checkTermId = function(val) {
+      if (!val) return "missing";
+
+      if (val.match(/.*[\s/|?&!,;'\\]+.*/))
+        return "invalid characters"
+    };
+
+    //////////////////////////////////////
     // Value cell editing
 
     $scope.enterCellEditing = function(tableform) {

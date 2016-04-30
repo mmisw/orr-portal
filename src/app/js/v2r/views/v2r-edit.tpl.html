@@ -1,9 +1,9 @@
 <uib-tabset style="width: 100%">
 
-  <uib-tab ng-repeat="vocab in vm.v2r.vocabs" ng-init="uiStuff={}"
+  <uib-tab ng-repeat="vocab in vm.v2r.vocabs"
            style="cursor: pointer">
 
-    <tab-heading ng-mouseenter="uiStuff.showPopup=true" ng-mouseleave="uiStuff.showPopup=false">
+    <tab-heading>
 
       <div>
         <button ng-click="editVocabClass(vocab.class)" class="btn btn-link"
@@ -48,8 +48,12 @@
           </button>
         </td>
 
-        <td style="width: 5%"
-            ng-bind-html="getUri(t) | mklink4uriAlwaysUriParameter"></td>
+        <td style="width: 5%">
+          <span editable-text="t.name" buttons="no" onbeforesave="checkTermId($data)"
+                ng-bind="t.name || 'empty'"
+          >
+          </span>
+        </td>
 
         <td ng-repeat="a in t.attributes track by $index" ng-init="a_index = $index"
             ng-style="attrTableform.$visible ? {'background-color': '#fbeacb'} : {}"

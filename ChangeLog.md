@@ -1,6 +1,7 @@
 ## change log ##
 
-* 2016-04-28: 0.3.1:
+* 2016-04-30: 0.3.1:
+  - note: v2r term ID editing only handles local name for now
   - preliminaries of v2r editing using x-editable
 
   - new mklink4uriAlwaysUriParameter filter to always just make a link with
