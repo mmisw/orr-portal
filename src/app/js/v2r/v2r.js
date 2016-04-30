@@ -251,7 +251,7 @@
 
     $scope.$watch("vm.lname", function(val) {
       // TODO review; this uses some most obvious symbols to avoid
-      vm.lname = val.replace(/[\s/|?&!,;'\\]/gi, "");
+      if (val) vm.lname = val.replace(/[\s/|?&!,;'\\]/gi, "");
     });
 
     $scope.idEditFormOk = function() {

@@ -7,7 +7,7 @@
 
       <div>
         <button ng-click="editVocabClass(vocab.class)" class="btn btn-link"
-                ng-disabled="vm.someCellBeingEdited || tableform.$waiting">
+                ng-disabled="vm.someCellBeingEdited || attrTableform.$waiting">
           {{getName(vocab.class)}} <i class="fa fa-edit" aria-hidden="true"></i>
         </button>
       </div>
@@ -26,7 +26,7 @@
 
         <th ng-repeat="p in vocab.properties">
           <button ng-click="editVocabProperty(p)" class="btn btn-link"
-                  ng-disabled="vm.someCellBeingEdited || tableform.$waiting">
+                  ng-disabled="vm.someCellBeingEdited || attrTableform.$waiting">
             {{getLabel(p)}} <i class="fa fa-edit" aria-hidden="true"></i>
           </button>
         </th>
@@ -38,7 +38,7 @@
 
         <td style="width: 10px">
           <button type="button"
-                  ng-disabled="vm.someCellBeingEdited || tableform.$waiting"
+                  ng-disabled="vm.someCellBeingEdited || attrTableform.$waiting"
                   ng-click="removeTerm(vocab, t_index)"
                   class="btn btn-danger btn-xs"
                   uib-tooltip="Remove this term"
@@ -52,30 +52,30 @@
             ng-bind-html="getUri(t) | mklink4uriAlwaysUriParameter"></td>
 
         <td ng-repeat="a in t.attributes track by $index" ng-init="a_index = $index"
-            ng-style="tableform.$visible ? {'background-color': '#fbeacb'} : {}"
+            ng-style="attrTableform.$visible ? {'background-color': '#fbeacb'} : {}"
         >
           <div ng-init="em = getAttrEditModel(a)">
 
             <div>
-              <form editable-form name="tableform"
+              <form editable-form name="attrTableform"
                     onaftersave="applyCellChanges(t.attributes, a_index, em)"
                     oncancel="cancelCell(em)">
 
                 <table class="table table-hover table-condensed"
-                       ng-click="enterCellEditing(tableform)"
-                       uib-tooltip="{{!tableform.$visible && !vm.someCellBeingEdited ? 'Click to edit the value(s) for this property' : ''}}"
+                       ng-click="enterCellEditing(attrTableform)"
+                       uib-tooltip="{{!attrTableform.$visible && !vm.someCellBeingEdited ? 'Click to edit the value(s) for this property' : ''}}"
                 >
                   <tr ng-repeat="valueEntry in em | filter:filterValue track by $index">
                     <td>
                       <span editable-textarea="valueEntry.value"
                             e-rows="2"
-                            e-form="tableform"
+                            e-form="attrTableform"
                             ng-bind="valueEntry.value || 'empty'"
                       >
                       </span>
                       <!--<pre ng-bind="'valueEntry=' +(valueEntry|json)"></pre>-->
                     </td>
-                    <td ng-show="tableform.$visible" style="width: 10px">
+                    <td ng-show="attrTableform.$visible" style="width: 10px">
                       <button type="button" ng-click="deleteValue(em, valueEntry.id)"
                               class="btn btn-danger btn-xs pull-right"
                               uib-tooltip="Remove this value"
@@ -85,9 +85,9 @@
                       </button>
                     </td>
                   </tr>
-                  <tr ng-show="tableform.$visible">
+                  <tr ng-show="attrTableform.$visible">
                     <td style="text-align: center" colspan="2">
-                      <button type="button" ng-disabled="tableform.$waiting"
+                      <button type="button" ng-disabled="attrTableform.$waiting"
                               ng-click="addValue(em)"
                               class="btn btn-default btn-xs"
                       >
@@ -100,15 +100,15 @@
 
                 <!--<pre ng-bind="em | json"></pre>-->
 
-                <div class="btn-form" ng-show="tableform.$visible">
-                  <button type="submit" ng-disabled="tableform.$waiting"
+                <div class="btn-form" ng-show="attrTableform.$visible">
+                  <button type="submit" ng-disabled="attrTableform.$waiting"
                           class="btn btn-default btn-xs"
                           uib-tooltip="Apply all changes in this cell">
                     <i class="fa fa-check" aria-hidden="true"></i> Apply
                   </button>
-                  <button type="button" ng-disabled="tableform.$waiting"
+                  <button type="button" ng-disabled="attrTableform.$waiting"
                           class="btn btn-default btn-xs pull-right"
-                          ng-click="tableform.$cancel()"
+                          ng-click="attrTableform.$cancel()"
                           uib-tooltip="Cancel all changes to this cell"
                           tooltip-placement="left"
                   >
@@ -127,7 +127,7 @@
       <tr>
         <td style="text-align: center">
           <button type="button"
-                  ng-disabled="vm.someCellBeingEdited || tableform.$waiting"
+                  ng-disabled="vm.someCellBeingEdited || attrTableform.$waiting"
                   ng-click="addTerm(vocab)"
                   class="btn btn-default btn-xs"
                   uib-tooltip="Add term"
