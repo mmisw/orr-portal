@@ -370,6 +370,13 @@ a:link {
   width: 100% !important;
 }
 
+.bold {
+  font-weight: bold !important;
+}
+.regularFont {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
 .v2rTermName {
   font-family: 'Inconsolata', monospace;
   cursor: pointer;

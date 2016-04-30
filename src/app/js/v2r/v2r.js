@@ -115,11 +115,11 @@
     // Class and property editing
 
     $scope.editVocabClass = function(idModel) {
-      editIdModel("Vocabulary class ID", idModel);
+      editIdModel("Vocabulary class", idModel);
     };
 
     $scope.editVocabProperty = function(idModel) {
-      editIdModel("Vocabulary property ID", idModel);
+      editIdModel("Vocabulary property", idModel);
     };
 
     function editIdModel(title, idModel) {

@@ -21,7 +21,7 @@
            popover-placement="right"
            popover-is-open="vocab._showPopup"
       >
-        {{getName(vocab.class)}}
+        <span class="regularFont bold" ng-bind="getName(vocab.class)"></span>
       </div>
 
     </tab-heading>
@@ -70,21 +70,20 @@
 
           <script type="text/ng-template" id="v2rTermUriPopup.html">
             <span>
-              Term: {{getName(t)}}
+              Term&nbsp;URI:
               <br>
               <a target="_blank"
                  ng-href="{{getUri(t)}}"
                  ng-bind="getUri(t)"
                  ng-click="openLink(getUri(t))"
                  ng-mouseleave="t._showPopup=undefined"
-              >
-              </a>
+              ></a>
             </span>
           </script>
 
           <span uib-popover-template="'v2rTermUriPopup.html'"
-                popover-placement="right"
                 popover-is-open="t._showPopup"
+                popover-placement="right"
                 class="v2rTermName">
             {{getName(t)}}
           </span>
