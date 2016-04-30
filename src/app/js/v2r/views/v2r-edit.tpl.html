@@ -6,7 +6,8 @@
     <tab-heading ng-mouseenter="uiStuff.showPopup=true" ng-mouseleave="uiStuff.showPopup=false">
 
       <div>
-        <button ng-click="editVocabClass(vocab.class)" class="btn btn-link">
+        <button ng-click="editVocabClass(vocab.class)" class="btn btn-link"
+                ng-disabled="vm.someCellBeingEdited || tableform.$waiting">
           {{getName(vocab.class)}} <i class="fa fa-edit" aria-hidden="true"></i>
         </button>
       </div>
@@ -24,7 +25,8 @@
         <th style="width: 5%; vertical-align: middle">ID</th>
 
         <th ng-repeat="p in vocab.properties">
-          <button ng-click="editVocabProperty(p)" class="btn btn-link">
+          <button ng-click="editVocabProperty(p)" class="btn btn-link"
+                  ng-disabled="vm.someCellBeingEdited || tableform.$waiting">
             {{getLabel(p)}} <i class="fa fa-edit" aria-hidden="true"></i>
           </button>
         </th>
