@@ -1,0 +1,12 @@
+<span ng-if="vm.ontology.versions">
+    <div class="btn-group" uib-dropdown>
+      <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle>
+        Versions <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="version in vm.ontology.versions">
+          <a ng-href="#/uri/{{uri}}&version={{version}}">{{version}}</a>
+        </li>
+      </ul>
+    </div>
+</span>

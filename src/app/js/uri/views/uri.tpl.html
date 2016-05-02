@@ -4,67 +4,18 @@
 
   <div class="effect1">
 
-    <span class="uriText">
-        {{vm.uri}}
-    </span>
-    <button type="button" class="btn btn-default btn-xs"
-           uib-popover-html="uriClipboard.getTooltip()"
-           popover-trigger="mouseenter" popover-placement="top"
-           clipboard text="vm.uri" on-copied="uriClipboard.success()" on-error="uriClipboard.fail(err)"
-      >
-      <i class="fa fa-clipboard"></i>
-    </button>
+    <orrportal-uri-title></orrportal-uri-title>
 
     &nbsp;
-    <span ng-if="viewAsOptions">
-        <div class="btn-group" uib-dropdown>
-          <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle>
-            View/download as <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="vao in viewAsOptions">
-              <a target="_blank" ng-href="{{vao.url}}" ng-bind="vao.label"></a>
-            </li>
-          </ul>
-        </div>
-    </span>
 
-    <span ng-if="vm.ontology.versions">
-        <div class="btn-group" uib-dropdown>
-          <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle>
-            Versions <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="version in vm.ontology.versions">
-              <a ng-href="#/uri/{{uri}}&version={{version}}">{{version}}</a>
-            </li>
-          </ul>
-        </div>
-    </span>
+    <orrportal-uri-view-as-options></orrportal-uri-view-as-options>
+
+    <orrportal-uri-versions></orrportal-uri-versions>
+
   </div>
 
   <div ng-if="vm.ontology">
-    <span class="urititle" ng-bind-html="vm.ontology.name | mklinks">
-    </span>
-
-    <span style="color: gray">
-      <span ng-if="vm.ontology.version">
-          Version: {{vm.ontology.version}}
-      </span>
-
-      <span ng-if="vm.ontology.author">
-          - Author: {{vm.ontology.author}}
-      </span>
-      <!--
-          <span ng-if="vm.ontology.orgName">
-              Organization: {{vm.ontology.orgName}}
-          </span>
-      -->
-      <span ng-if="vm.ontology.submitter">
-          - Registered by:
-          <a href="#/user/{{vm.ontology.submitter}}">{{vm.ontology.submitter}}</a>
-      </span>
-    </span>
+    <orrportal-uri-ont-title></orrportal-uri-ont-title>
 
     <!--<pre>{{vm.ontology | json}}</pre>-->
 
@@ -83,7 +34,7 @@
 
       <div uib-collapse="mdCollapsed" style="margin-left: 20px">
 
-        <orrportal-metadata></orrportal-metadata>
+        <orrportal-uri-metadata></orrportal-uri-metadata>
 
       </div>
 
@@ -102,25 +53,8 @@
 
     <div uib-collapse="contentsCollapsed" style="margin-left: 20px">
 
-      <div ng-if="vm.ontology.format === 'v2r'">
-        <orrportal-v2r></orrportal-v2r>
-      </div>
+      <orrportal-uri-contents></orrportal-uri-contents>
 
-      <div ng-if="vm.ontology.ontologyType === 'vocabulary'">
-        <h3> Vocabulary </h3>
-        <voc></voc>
-      </div>
-
-      <div ng-if="vm.ontology.ontologyType === 'mapping'">
-        <h3> Mapping </h3>
-        todo
-      </div>
-
-      <div ng-if="vm.ontology.ontologyType !== 'vocabulary' && vm.ontology.ontologyType !== 'mapping'
-                  && vm.ontology.format !== 'v2r'">
-        <h3> Other </h3>
-        todo
-      </div>
     </div>
 
   </div>

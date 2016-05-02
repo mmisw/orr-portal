@@ -1,0 +1,23 @@
+<span ng-if="vm.ontology">
+  <span class="urititle" ng-bind-html="vm.ontology.name | mklinks">
+  </span>
+
+  <span style="color: gray">
+    <span ng-if="vm.ontology.version">
+        Version: {{vm.ontology.version}}
+    </span>
+
+    <span ng-if="vm.ontology.author">
+        - Author: {{vm.ontology.author}}
+    </span>
+    <!--
+        <span ng-if="vm.ontology.orgName">
+            Organization: {{vm.ontology.orgName}}
+        </span>
+    -->
+    <span ng-if="vm.ontology.submitter">
+        - Registered by:
+        <a href="#/user/{{vm.ontology.submitter}}">{{vm.ontology.submitter}}</a>
+    </span>
+  </span>
+</span>
