@@ -368,7 +368,8 @@
         setRefreshing(false);
         $rootScope.$broadcast('evtRefreshCompleteError', error);
         if (cb) {
-          cb(data.error || data);
+          // data is null upon net::ERR_CONNECTION_REFUSED
+          cb(data ? (data.error || data) : {status: status});
         }
       };
     }
