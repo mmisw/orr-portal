@@ -33,7 +33,6 @@
     if (appUtil.debug) console.log("++V2RController++");
 
     var vm = $scope.vm = {
-      editMode: false,
       someCellBeingEdited: false
     };
     vm.uri = $rootScope.rvm.rUri || $routeParams.uri;
@@ -49,24 +48,6 @@
       console.log("gotOntology: data=", data);
       vm.v2r = data;
     }
-
-    $scope.reloadV2r = function() {
-      vm.someCellBeingEdited = false;
-      vm.editMode = false; //TODO
-      service.getOntologyFormat(vm.uri, "v2r", gotOntology);
-    };
-
-    $scope.canEditV2r = function() {
-      return true; //TODO
-    };
-
-    $scope.startEditModeV2r = function() {
-      vm.editMode = true; //TODO
-    };
-
-    $scope.saveV2r = function() {
-      vm.editMode = false; //TODO
-    };
 
     $scope.removeTerm = function(vocab, index) {
       vocab.terms.splice(index, 1);

@@ -34,6 +34,26 @@
       }
     };
 
+
+    $scope.canEditNewVersion = function() {
+      return true; //TODO
+    };
+
+    $scope.startEditMode = function() {
+      $scope.editMode = true; //TODO
+    };
+
+    $scope.cancelNewVersion = function() {
+      $scope.editMode = false;
+      refreshOntology(vm.uri);
+    };
+
+    $scope.registerNewVersion = function() {
+      $scope.editMode = false; //TODO
+    };
+
+
+
     $scope.metadataSections = initMetadataSections();
 
     /** gets the props to be displayed for a metadata section */

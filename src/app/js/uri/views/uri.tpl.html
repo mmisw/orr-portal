@@ -12,6 +12,28 @@
 
     <orrportal-uri-versions></orrportal-uri-versions>
 
+    <span>
+      <button ng-if="!editMode && canEditNewVersion()"
+              ng-click="startEditMode()"
+              type="button" class="btn btn-primary btn-xs">
+        Edit new version
+      </button>
+
+    </span>
+
+    <span ng-if="editMode">
+
+      <button ng-click="registerNewVersion()"
+              class="btn btn-info btn-xs">
+        Save
+      </button>
+
+      <button ng-click="cancelNewVersion()"
+              class="btn btn-info btn-xs">
+        Cancel
+      </button>
+    </span>
+
   </div>
 
   <div ng-if="vm.ontology">
