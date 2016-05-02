@@ -1,0 +1,43 @@
+<uib-tabset style="width: 100%">
+
+  <uib-tab ng-repeat="section in metadataSections" style="cursor: pointer">
+    <tab-heading uib-popover="{{section.tooltip}}" popover-trigger="mouseenter" popover-placement="right">
+      {{section.label}}
+    </tab-heading>
+
+    <form class="form-horizontal uriBody">
+
+      <table class="table table-bordered">
+        <tbody>
+
+        <tr ng-repeat="prop in getProps(section.propNames)">
+          <td class="mdLabel">
+            <span ng-bind-html="prop.label"
+                  uib-tooltip="{{prop.predicate}}"
+                  tooltip-placement="right"
+                  >
+            </span>
+          </td>
+
+          <td class="ontContent">
+            <div ng-if="prop.value.length === 1"
+                 ng-bind-html="prop.value[0]">
+            </div>
+            <table ng-if="prop.value.length > 1" class="table table-condensed">
+              <tr ng-repeat="v in prop.value track by $index">
+                <td ng-bind-html="v">
+                </td>
+              </tr>
+            </table>
+          </td>
+
+        </tr>
+
+        </tbody>
+      </table>
+
+    </form>
+
+  </uib-tab>
+
+</uib-tabset>

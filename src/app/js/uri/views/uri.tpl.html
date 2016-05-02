@@ -66,7 +66,9 @@
       </span>
     </span>
 
-    <div ng-if="vm.ontology.metadataSections">
+    <!--<pre>{{vm.ontology | json}}</pre>-->
+
+    <div ng-if="metadataSections">
 
       <div class="ont-DisclosurePanel-header"
            ng-init="mdCollapsed = false"
@@ -81,46 +83,8 @@
 
       <div uib-collapse="mdCollapsed" style="margin-left: 20px">
 
-        <uib-tabset style="width: 100%">
+        <orrportal-metadata></orrportal-metadata>
 
-          <uib-tab ng-repeat="section in vm.ontology.metadataSections" style="cursor: pointer">
-            <tab-heading uib-popover="{{section.tooltip}}" popover-trigger="mouseenter" popover-placement="right">
-              {{section.label}}
-            </tab-heading>
-
-            <form class="form-horizontal uriBody">
-
-              <table class="table table-bordered">
-                <tbody>
-
-                <tr ng-repeat="prop in getProps(section.propNames)">
-                  <td class="mdLabel">
-                  <span title="{{prop.predicate}}" ng-bind-html="prop.label">
-                  </span>
-                  </td>
-
-                  <td class="ontContent">
-                    <div ng-if="prop.value.length === 1"
-                         ng-bind-html="prop.value">
-                    </div>
-                    <ul ng-if="prop.value.length > 1" style="padding-left: 10px">
-                      <li ng-repeat="v in prop.value" style="padding-left: 0">
-                      <span ng-bind-html="v">
-                      </span>
-                      </li>
-                    </ul>
-                  </td>
-
-                </tr>
-
-                </tbody>
-              </table>
-
-            </form>
-
-          </uib-tab>
-
-        </uib-tabset>
       </div>
 
     </div>

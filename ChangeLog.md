@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2016-05-02: 0.3.1:
+  - use new metadata reported from backend as part of "!md" response
+    (sparql-based mechanism not used anymore)
+
 * 2016-04-30: 0.3.1:
   - note: v2r term ID editing only handles local name for now
   - preliminaries of v2r editing using x-editable

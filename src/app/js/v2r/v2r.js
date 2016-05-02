@@ -3,6 +3,12 @@
 
   angular.module('orrportal.v2r', ['ui.grid', 'ui.grid.edit', 'ui.grid.cellNav'])
 
+    .directive('orrportalV2rContents', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/v2r/views/v2r-contents.tpl.html'
+      }
+    })
     .directive('orrportalV2rView', function() {
       return {
         restrict:     'E',

@@ -2,6 +2,12 @@
   'use strict';
 
   angular.module('orrportal.uri', [])
+    .directive('orrportalMetadata', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/uri/views/uri-metadata.tpl.html'
+      }
+    })
     .controller('UriController', UriController)
   ;
 
@@ -34,11 +40,13 @@
       }
     };
 
+    $scope.metadataSections = initMetadataSections();
+
     /** gets the props to be displayed for a metadata section */
     $scope.getProps = function(propNames) {
       var props = [];
       _.each(propNames, function(name) {
-        var prop = vm.ontology[name];
+        var prop = vm.mdByName[name];
         //console.log("     getProps : name=", name, "prop=", prop);
         if (prop !== undefined && (prop.value || !prop.omitIfUndef)) {
           props.push(prop);
@@ -60,7 +68,7 @@
         else {
           $scope.vm.ontology = ontology;
           setViewAsOptions(uri);
-          refreshOntologyMetadata(uri)
+          prepareMetadata()
         }
       }
     }
@@ -101,36 +109,21 @@
       }
     }
 
-    function refreshOntologyMetadata(uri) {
-      service.refreshOntologyMetadata(uri, gotOntologyMetadata);
+    function prepareMetadata() {
+      var receivedPredicates = vm.ontology.metadata;
 
-      function gotOntologyMetadata(error, predicates) {
-        if (error) {
-          console.log("error getting ontology metadata:", error);
-          $scope.error = error;
-        }
-        else {
-          var receivedPredicates = {}; // only to remove any explicit double quotes in string value
-          _.each(predicates, function(values, predicate) {
-            receivedPredicates[predicate] = _.map(values, function(value) {
-              return value.replace(/^"(.*)"$/, '$1');
-            });
-          });
+      $scope.vm.mdByName = {};
 
-          var handledPredicates = getHandledPredicates();
-          _.each(handledPredicates, function(pred) {
-            var values = receivedPredicates[pred.predicate];
-            setPredicateAndValues(pred, values);
-          });
+      var handledPredicates = getHandledPredicates();
+      _.each(handledPredicates, function(pred) {
+        var values = receivedPredicates[pred.predicate];
+        setPredicateAndValues(pred, values);
+      });
 
-          $scope.vm.ontology.metadataSections = initMetadataSections();
-
-          var otherMdSection = getOtherMetadataSection(receivedPredicates, handledPredicates);
-          //console.log("otherMdSection=", otherMdSection);
-          if (otherMdSection) {
-            $scope.vm.ontology.metadataSections.push(otherMdSection);
-          }
-        }
+      var otherMdSection = getOtherMetadataSection(receivedPredicates, handledPredicates);
+      //console.log("otherMdSection=", otherMdSection);
+      if (otherMdSection) {
+        $scope.metadataSections.push(otherMdSection);
       }
 
       function setPredicateAndValues(pred, values) {
@@ -158,52 +151,12 @@
           resValue = undefined;
         }
 
-        if (name !== undefined) {
-          $scope.vm.ontology[pred.name] = {
-            predicate:   pred.predicate,
-            label:       pred.label,
-            omitIfUndef: pred.omitIfUndef,
-            value:       resValue
-          };
-        }
-      }
-
-      function initMetadataSections() {
-        return [
-          {
-            label: "General",
-            propNames: [
-              "resourceType",
-              "contentCreator",
-              "ontologyCreator",
-              "description",
-              "keywords",
-              "origVocUri",
-              "origMaintainerCode",
-              "contributor",
-              "reference"
-            ]
-          }, {
-            label: "Usage/License/Permissions",
-            propNames: [
-              "origVocManager",
-              "contact",
-              "contactRole",
-              "temporaryMmiRole",
-              "creditRequired",
-              "creditCitation"
-            ]
-          }, {
-            label: "Original source",
-            propNames: [
-              "origVocDocumentationUri",
-              "origVocDescriptiveName",
-              "origVocVersionId",
-              "origVocKeywords",
-              "origVocSyntaxFormat"
-            ]
-          }
-        ];
+        $scope.vm.mdByName[pred.name] = {
+          predicate:   pred.predicate,
+          label:       pred.label,
+          omitIfUndef: pred.omitIfUndef,
+          value:       resValue
+        };
       }
 
       function getOtherMetadataSection(receivedPredicates, handledPredicates) {
@@ -254,93 +207,131 @@
     }
   }
 
+  function initMetadataSections() {
+    return [
+      {
+        label: "General",
+        propNames: [
+          "resourceType",
+          "contentCreator",
+          "ontologyCreator",
+          "description",
+          "keywords",
+          "origVocUri",
+          "origMaintainerCode",
+          "contributor",
+          "reference"
+        ]
+      }, {
+        label: "Usage/License/Permissions",
+        propNames: [
+          "origVocManager",
+          "contact",
+          "contactRole",
+          "temporaryMmiRole",
+          "creditRequired",
+          "creditCitation"
+        ]
+      }, {
+        label: "Original source",
+        propNames: [
+          "origVocDocumentationUri",
+          "origVocDescriptiveName",
+          "origVocVersionId",
+          "origVocKeywords",
+          "origVocSyntaxFormat"
+        ]
+      }
+    ];
+  }
+
   /** Used in the traditional sections 'General', 'Usage..', 'Original source' */
   function getHandledPredicates() {
     return [
       {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/hasResourceType>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/hasResourceType",
         name: "resourceType",
         label: "Resource type"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/hasContentCreator>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/hasContentCreator",
         name: "contentCreator",
         label: "Content Creator"
       }, {
-        predicate: "<http://omv.ontoware.org/2005/05/ontology#hasCreator>",
+        predicate: "http://omv.ontoware.org/2005/05/ontology#hasCreator",
         name: "ontologyCreator",
         label: "Ontology Creator"
       }, {
-        predicate: "<http://omv.ontoware.org/2005/05/ontology#description>",
+        predicate: "http://omv.ontoware.org/2005/05/ontology#description",
         name: "description",
         label: "Description"
       }, {
-        predicate: "<http://omv.ontoware.org/2005/05/ontology#keywords>",
+        predicate: "http://omv.ontoware.org/2005/05/ontology#keywords",
         name: "keywords",
         label: "Keywords",
         omitIfUndef: true
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocUri>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocUri",
         name: "origVocUri",
         label: "Original vocabulary",
         omitIfUndef: true
       }, {
-        predicate: "<http://omv.ontoware.org/2005/05/ontology#documentation>",
+        predicate: "http://omv.ontoware.org/2005/05/ontology#documentation",
         name: "documentation",
         label: "Documentation"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origMaintainerCode>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origMaintainerCode",
         name: "origMaintainerCode",
         label: "Organization"
       }, {
-        predicate: "<http://omv.ontoware.org/2005/05/ontology#hasContributor>",
+        predicate: "http://omv.ontoware.org/2005/05/ontology#hasContributor",
         name: "contributor",
         label: "Contributor"
       }, {
-        predicate: "<http://omv.ontoware.org/2005/05/ontology#reference>",
+        predicate: "http://omv.ontoware.org/2005/05/ontology#reference",
         name: "reference",
         label: "Reference"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocManager>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocManager",
         name: "origVocManager",
         label: "Manager of source vocabulary"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/contact>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/contact",
         name: "contact",
         label: "Contact/Responsible Party"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/contactRole>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/contactRole",
         name: "contactRole",
         label: "Contact role"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/temporaryMmiRole>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/temporaryMmiRole",
         name: "temporaryMmiRole",
         label: "Temporary MMI role"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/creditRequired>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/creditRequired",
         name: "creditRequired",
         label: "Author credit required"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/creditCitation>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/creditCitation",
         name: "creditCitation",
         label: "Citation string"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocDocumentationUri>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocDocumentationUri",
         name: "origVocDocumentationUri",
         label: "Documentation"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocDescriptiveName>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocDescriptiveName",
         name: "origVocDescriptiveName",
         label: "Descriptive name"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocVersionId>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocVersionId",
         name: "origVocVersionId",
         label: "Version"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocKeywords>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocKeywords",
         name: "origVocKeywords",
         label: "Keywords"
       }, {
-        predicate: "<http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocSyntaxFormat>",
+        predicate: "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/origVocSyntaxFormat",
         name: "origVocSyntaxFormat",
         label: "Syntax format"
       }

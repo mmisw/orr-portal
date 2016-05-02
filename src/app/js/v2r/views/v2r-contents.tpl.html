@@ -1,0 +1,34 @@
+<div style="width: 100%">
+
+  <button ng-if="!vm.editMode && canEditV2r()"
+          ng-click="startEditModeV2r()"
+          class="btn btn-default btn-sm">
+    Edit
+  </button>
+
+  <div ng-if="vm.editMode">
+
+    <button ng-if="vm.editMode"
+            ng-click="saveV2r()"
+            class="btn btn-info btn-sm">
+      Save
+    </button>
+
+    <button ng-if="vm.editMode"
+            ng-click="reloadV2r()"
+            class="btn btn-info btn-sm">
+      Cancel
+    </button>
+  </div>
+
+  <div ng-if="!vm.editMode">
+    <orrportal-v2r-view></orrportal-v2r-view>
+  </div>
+
+  <div ng-if="vm.editMode">
+    <orrportal-v2r-edit></orrportal-v2r-edit>
+  </div>
+
+  <pre ng-if="debug" ng-bind="vm | json"></pre>
+
+</div>
