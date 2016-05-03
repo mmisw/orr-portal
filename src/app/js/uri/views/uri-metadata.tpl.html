@@ -20,15 +20,24 @@
           </td>
 
           <td class="ontContent">
-            <div ng-if="prop.value.length === 1"
-                 ng-bind-html="prop.value[0]">
+
+            <div ng-if="!editMode">
+              <div ng-if="prop.value.length === 1"
+                   ng-bind-html="prop.value[0]">
+              </div>
+              <table ng-if="prop.value.length > 1" class="table table-condensed">
+                <tr ng-repeat="v in prop.value track by $index">
+                  <td ng-bind-html="v">
+                  </td>
+                </tr>
+              </table>
             </div>
-            <table ng-if="prop.value.length > 1" class="table table-condensed">
-              <tr ng-repeat="v in prop.value track by $index">
-                <td ng-bind-html="v">
-                </td>
-              </tr>
-            </table>
+
+            <div ng-if="editMode">
+              <orp-multivalue-edit prop-value="prop.value"
+              ></orp-multivalue-edit>
+            </div>
+
           </td>
 
         </tr>

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('orrportal.uri', ['orrportal.uri.directives'])
+  angular.module('orrportal.uri', ['orrportal.uri.directives', 'orrportal.multivalueedit'])
     .controller('UriController', UriController)
   ;
 

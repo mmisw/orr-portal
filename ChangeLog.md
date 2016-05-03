@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-05-02: 0.3.1:
+  - basis for a `<orp-multivalue-edit>` directive
   - reorganizing for general ontology page dispatch
   - use new metadata reported from backend as part of "!md" response
     (sparql-based mechanism not used anymore)
