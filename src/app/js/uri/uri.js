@@ -154,26 +154,38 @@
         var otherSection = _.find($scope.metadataSections, {label: "Other"});
         if (!otherSection) throw Error("unexpected: no 'other' section");
 
-        if (!otherPredicates.length) {
-          otherSection.propNames = undefined;
-          return;
-        }
-
-        otherSection.propNames = [];
+        var propNames = [];
 
         _.each(otherPredicates, function(predicate) {
           //var match = /^<?.*(\/|#)(.*)>?$/.exec(predicate);
           //var name = match ? match[2] : predicate;
-          var name = predicate;
-          var pred = {
-            predicate: predicate,
-            name: name,
-            label: name
-          };
-          otherSection.propNames.push(name);
 
-          setPredicateAndValues(pred, receivedPredicates[predicate]);
+          var values = receivedPredicates[predicate];
+
+          // do not show rdf:type owl:Ontology
+          if (predicate === vocabulary.rdf.type.uri) {
+            values = _.filter(values, function(v) {
+              return v !== vocabulary.owl.Ontology.uri;
+            });
+          }
+
+          if (values.length) {
+            var name = predicate;
+            var pred = {
+              predicate: predicate,
+              name: name,
+              label: name
+            };
+            propNames.push(name);
+
+            setPredicateAndValues(pred, values);
+          }
         });
+
+        if (propNames.length) {
+          otherSection.propNames = propNames;
+        }
+        else otherSection.propNames = undefined;
       }
     }
   }
