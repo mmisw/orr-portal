@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-05-03: 0.3.1:
+  - startEditMode: full edit for v2r (and m2r, later on); and either metadata
+    of file upload for anything else
   - add rules for canEditNewVersion.  Basically, besides an admin, the
     logged in user can edit if member of the ontology's organization
 

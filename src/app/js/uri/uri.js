@@ -5,9 +5,9 @@
     .controller('UriController', UriController)
   ;
 
-  UriController.$inject = ['$rootScope', '$scope', '$routeParams', '$timeout', 'service'];
+  UriController.$inject = ['$rootScope', '$scope', '$routeParams', '$timeout', 'service', 'utl'];
 
-  function UriController($rootScope, $scope, $routeParams, $timeout, service) {
+  function UriController($rootScope, $scope, $routeParams, $timeout, service, utl) {
     if (appUtil.debug) console.log("++UriController++");
 
     var rvm = $rootScope.rvm;
@@ -48,12 +48,40 @@
     };
 
     $scope.startEditMode = function() {
-      $scope.editMode = true; //TODO
+      if (vm.ontology.format === 'v2r' || vm.ontology.format === 'm2r') {
+        // v2r and m2r always edited in the UI (both metadata and data)
+        $scope.editMode = true;
+      }
+      else {
+        var options = ["Edit metadata", "Upload file"];
+        utl.select({
+          title:   "Select option to create new version",
+          message: '<p>' +
+          'You can either edit the metadata' +
+          ' or upload a file for the new version.' +
+          '</p>',
+          options: options,
+          selected: function(index) {
+            if (index === 0) {
+              $scope.editMode = true;
+            }
+            else console.error("not implemented yet: " + options[index]);
+          }
+        });
+      }
     };
 
     $scope.cancelNewVersion = function() {
-      $scope.editMode = false;
-      refreshOntology(vm.uri);
+      utl.confirm({
+        title:   "Cancel?",
+        message: '<div class="center">' +
+        'Any changes will be lost' +
+        '</div>',
+        ok: function() {
+          $scope.editMode = false;
+          refreshOntology(vm.uri);
+        }
+      });
     };
 
     $scope.registerNewVersion = function() {
