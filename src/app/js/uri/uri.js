@@ -10,6 +10,8 @@
   function UriController($rootScope, $scope, $routeParams, $timeout, service) {
     if (appUtil.debug) console.log("++UriController++");
 
+    var rvm = $rootScope.rvm;
+
     var vm = $scope.vm = {};
     vm.uri = $rootScope.rvm.rUri || $routeParams.uri;
     vm.ontology = undefined;
@@ -36,7 +38,13 @@
 
 
     $scope.canEditNewVersion = function() {
-      return true; //TODO
+      if (!vm.ontology)                     return false;
+      if ($rootScope.userLoggedInIsAdmin()) return true;
+      if (!$rootScope.userLoggedIn())       return false;
+      if (!rvm.masterAuth.organizations)    return false;
+
+      var userOrgs = _.map(rvm.masterAuth.organizations, "orgName");
+      return _.contains(userOrgs, vm.ontology.orgName);
     };
 
     $scope.startEditMode = function() {
@@ -76,11 +84,12 @@
 
       function gotOntology(error, ontology) {
         if (error) {
-          console.log("error getting ontology:", error);
+          console.error("error getting ontology:", error);
           $scope.error = error;
         }
         else {
-          $scope.vm.ontology = ontology;
+          //console.log("got ontology:", ontology);
+          vm.ontology = ontology;
           setViewAsOptions(uri);
           prepareMetadata()
         }

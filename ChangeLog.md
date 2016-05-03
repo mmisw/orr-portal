@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2016-05-03: 0.3.1:
+  - add rules for canEditNewVersion.  Basically, besides an admin, the
+    logged in user can edit if member of the ontology's organization
+
 * 2016-05-02: 0.3.1:
   - basis for a `<orp-multivalue-edit>` directive
   - reorganizing for general ontology page dispatch
