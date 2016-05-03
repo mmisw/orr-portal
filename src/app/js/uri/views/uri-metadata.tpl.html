@@ -1,6 +1,9 @@
 <uib-tabset style="width: 100%">
 
-  <uib-tab ng-repeat="section in metadataSections" style="cursor: pointer">
+  <uib-tab ng-repeat="section in metadataSections"
+           ng-if="section.propNames"
+           style="cursor: pointer">
+
     <tab-heading uib-popover="{{section.tooltip}}" popover-trigger="mouseenter" popover-placement="right">
       {{section.label}}
     </tab-heading>

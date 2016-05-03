@@ -134,11 +134,7 @@
         setPredicateAndValues(pred, values);
       });
 
-      var otherMdSection = getOtherMetadataSection(receivedPredicates, handledPredicates);
-      //console.log("otherMdSection=", otherMdSection);
-      if (otherMdSection) {
-        $scope.metadataSections.push(otherMdSection);
-      }
+      setOtherMetadataSection(receivedPredicates, handledPredicates);
 
       function setPredicateAndValues(pred, values) {
         $scope.vm.mdByName[pred.name] = {
@@ -149,36 +145,35 @@
         };
       }
 
-      function getOtherMetadataSection(receivedPredicates, handledPredicates) {
+      function setOtherMetadataSection(receivedPredicates, handledPredicates) {
         var allPredicates = _.keys(receivedPredicates);
         var usedPredicates = _.map(handledPredicates, "predicate");
         var otherPredicates = _.difference(allPredicates, usedPredicates);
         //console.log('otherPredicates=', otherPredicates);
 
-        if (otherPredicates.length) {
-          var label = "Other";
-          var propNames = [];
+        var otherSection = _.find($scope.metadataSections, {label: "Other"});
+        if (!otherSection) throw Error("unexpected: no 'other' section");
 
-          _.each(otherPredicates, function(predicate) {
-            //var match = /^<?.*(\/|#)(.*)>?$/.exec(predicate);
-            //var name = match ? match[2] : predicate;
-            var name = predicate;
-            var pred = {
-              predicate: predicate,
-              name: name,
-              label: name
-            };
-            propNames.push(name);
-
-            setPredicateAndValues(pred, receivedPredicates[predicate]);
-          });
-
-          return {
-            label: label,
-            propNames: propNames
-            ,tooltip: 'Ontology metadata properties not classified/aggregated in other sections (TODO)'
-          }
+        if (!otherPredicates.length) {
+          otherSection.propNames = undefined;
+          return;
         }
+
+        otherSection.propNames = [];
+
+        _.each(otherPredicates, function(predicate) {
+          //var match = /^<?.*(\/|#)(.*)>?$/.exec(predicate);
+          //var name = match ? match[2] : predicate;
+          var name = predicate;
+          var pred = {
+            predicate: predicate,
+            name: name,
+            label: name
+          };
+          otherSection.propNames.push(name);
+
+          setPredicateAndValues(pred, receivedPredicates[predicate]);
+        });
       }
     }
   }
@@ -217,6 +212,9 @@
           "origVocKeywords",
           "origVocSyntaxFormat"
         ]
+      }, {
+        label: "Other",
+        tooltip: 'Ontology metadata properties not classified/aggregated in other sections (TODO)',
       }
     ];
   }
