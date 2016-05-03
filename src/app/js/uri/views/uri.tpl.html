@@ -62,21 +62,24 @@
 
     </div>
 
-    <div class="ont-DisclosurePanel-header"
-        ng-init="contentsCollapsed = false"
-        ng-click="contentsCollapsed = !contentsCollapsed"
-      >
-      <a>
-        <i ng-if="contentsCollapsed" class="fa fa-caret-right"></i>
-        <i ng-if="!contentsCollapsed" class="fa fa-caret-down"></i>
-        Contents
-      </a>
-    </div>
+    <div ng-if="!editMode || vm.ontology.format === 'v2r' || vm.ontology.format === 'm2r'">
 
-    <div uib-collapse="contentsCollapsed" style="margin-left: 20px">
+      <div class="ont-DisclosurePanel-header"
+          ng-init="contentsCollapsed = false"
+          ng-click="contentsCollapsed = !contentsCollapsed"
+        >
+        <a>
+          <i ng-if="contentsCollapsed" class="fa fa-caret-right"></i>
+          <i ng-if="!contentsCollapsed" class="fa fa-caret-down"></i>
+          Contents
+        </a>
+      </div>
 
-      <orrportal-uri-contents></orrportal-uri-contents>
+      <div uib-collapse="contentsCollapsed" style="margin-left: 20px">
 
+        <orrportal-uri-contents></orrportal-uri-contents>
+
+      </div>
     </div>
 
   </div>

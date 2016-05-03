@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-05-03: 0.3.1:
+  - do not show data section if editing ontology that is not v2r or m2r
   - startEditMode: full edit for v2r (and m2r, later on); and either metadata
     of file upload for anything else
   - add rules for canEditNewVersion.  Basically, besides an admin, the
