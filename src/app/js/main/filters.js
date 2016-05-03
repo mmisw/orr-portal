@@ -28,6 +28,34 @@
       }
     }])
 
+    .filter('propValueFilter', [function() {
+      return function(value, prop) {
+        if (vocabulary.omv.keywords.uri === prop.predicate) {
+          return prepareKeywords(value);
+        }
+        if (vocabulary.omvmmi.origMaintainerCode.uri === prop.predicate) {
+          if (value) {
+            return '<a href="#/org/' +value+ '">'+ value+ '</a>';
+          }
+        }
+        else return appUtil.mklinks4text(value, true);
+
+        function prepareKeywords(keywords) {
+          if (keywords) {
+            keywords = keywords.replace(/"/g, ''); // ignore any double quotes
+            var list = keywords.split(/,|;/);
+            //console.log("prepareKeywords: keywords=", keywords, "list=", list);
+            var prepared = _.map(list, function(word) {
+              word = word.trim();
+              var a = '<a href="#/kw/' +word+ '">'+ word+ '</a>';
+              return'<span class="btn btn-default btn-link badge">' + a + '</span>'
+            });
+            return prepared.join("&nbsp;&nbsp;");
+          }
+        }
+      }
+    }])
+
     .filter('mkMarks', [function() {
       return function(entity) {
         var prefix = '';

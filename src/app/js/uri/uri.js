@@ -141,35 +141,11 @@
       }
 
       function setPredicateAndValues(pred, values) {
-        var resValue = undefined;
-        if (values) {
-          resValue = [];
-          _.each(values, function(value) {
-            if (pred.name === "keywords") {
-              resValue.push(prepareKeywords(value));
-            }
-            else if (pred.name === "origMaintainerCode") {
-              if (value) {
-                value = value.replace(/"/g, ''); // ignore any double quotes
-                if (value) {
-                  resValue.push('<a href="#/org/' +value+ '">'+ value+ '</a>');
-                }
-              }
-            }
-            else if (value) {
-              resValue.push(appUtil.htmlifyObject(value, true));
-            }
-          })
-        }
-        if (resValue && resValue.length === 0) {
-          resValue = undefined;
-        }
-
         $scope.vm.mdByName[pred.name] = {
           predicate:   pred.predicate,
           label:       pred.label,
           omitIfUndef: pred.omitIfUndef,
-          value:       resValue
+          value:       values
         };
       }
 
@@ -190,7 +166,7 @@
             var pred = {
               predicate: predicate,
               name: name,
-              label: appUtil.htmlifyObject(name, true)
+              label: name
             };
             propNames.push(name);
 
@@ -202,20 +178,6 @@
             propNames: propNames
             ,tooltip: 'Ontology metadata properties not classified/aggregated in other sections (TODO)'
           }
-        }
-      }
-
-      function prepareKeywords(keywords) {
-        if (keywords) {
-          keywords = keywords.replace(/"/g, ''); // ignore any double quotes
-          var list = keywords.split(/,|;/);
-          //console.log("prepareKeywords: keywords=", keywords, "list=", list);
-          var prepared = _.map(list, function(word) {
-            word = word.trim();
-            var a = '<a href="#/kw/' +word+ '">'+ word+ '</a>';
-            return'<span class="btn btn-default btn-link badge">' + a + '</span>'
-          });
-          return prepared.join("&nbsp;&nbsp;");
         }
       }
     }

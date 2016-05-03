@@ -12,7 +12,7 @@
 
         <tr ng-repeat="prop in getProps(section.propNames)">
           <td class="mdLabel">
-            <span ng-bind-html="prop.label"
+            <span ng-bind-html="prop.label | mklinksOnlyExternal"
                   uib-tooltip="{{prop.predicate}}"
                   tooltip-placement="right"
                   >
@@ -23,11 +23,11 @@
 
             <div ng-if="!editMode">
               <div ng-if="prop.value.length === 1"
-                   ng-bind-html="prop.value[0]">
+                   ng-bind-html="prop.value[0] | propValueFilter:prop">
               </div>
               <table ng-if="prop.value.length > 1" class="table table-condensed">
                 <tr ng-repeat="v in prop.value track by $index">
-                  <td ng-bind-html="v">
+                  <td ng-bind-html="v | propValueFilter:prop">
                   </td>
                 </tr>
               </table>
