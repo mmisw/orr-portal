@@ -55,6 +55,26 @@
       });
     });
 
+    $scope.$on('evtSelect', function (event, info) {
+      $scope.info = info;
+      var modalInstance = $uibModal.open({
+        templateUrl: 'js/util/select.tpl.html',
+        controller:  'MessageInstanceCtrl',
+        //size:        'sm',
+        backdrop:    'static',
+        resolve: {
+          info: function () {
+            return $scope.info;
+          }
+        }
+      });
+      modalInstance.result.then(function (index) {
+        if ($scope.info.selected) $scope.info.selected(index)
+      }, function () {
+        if ($scope.info.cancel) $scope.info.cancel();
+      });
+    });
+
     $scope.$on('evtError', function (event, info) {
       $scope.info = info;
       if (!info.title) info.title = "Error";
@@ -87,6 +107,10 @@
       $uibModalInstance.close();
     };
 
+    $scope.select = function(index) {
+      $uibModalInstance.close(index);
+    };
+
     $scope.cancel = function () {
       $uibModalInstance.dismiss('cancel');
     };
@@ -100,6 +124,9 @@
       },
       message: function (info) {
         $rootScope.$broadcast('evtMessage', info);
+      },
+      select: function (info) {
+        $rootScope.$broadcast('evtSelect', info);
       },
       error: function (info) {
         $rootScope.$broadcast('evtError', info);
