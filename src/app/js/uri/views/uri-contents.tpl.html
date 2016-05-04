@@ -1,7 +1,19 @@
 <div>
 
   <div ng-if="vm.ontology.format === 'v2r'">
-    <orrportal-v2r></orrportal-v2r>
+    <div style="width: 100%" ng-controller="V2RController">
+
+      <div ng-if="!editMode">
+        <orrportal-v2r-view></orrportal-v2r-view>
+      </div>
+
+      <div ng-if="editMode">
+        <orrportal-v2r-edit edit-in-progress="setDataEditInProgress(inProgress)"
+        ></orrportal-v2r-edit>
+      </div>
+
+    </div>
+
   </div>
 
   <div ng-if="vm.ontology.ontologyType === 'vocabulary'">

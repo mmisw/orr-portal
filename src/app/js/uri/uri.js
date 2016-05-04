@@ -37,6 +37,11 @@
     };
 
 
+    $scope.setDataEditInProgress = function(inProgress) {
+      //console.log("dataEditInProgress: inProgress=", inProgress);
+      $scope.dataEditInProgress = inProgress;
+    };
+
     $scope.canEditNewVersion = function() {
       if (!vm.ontology)                     return false;
       if ($rootScope.userLoggedInIsAdmin()) return true;
@@ -129,7 +134,7 @@
             });
           }
           else {
-            $scope.editMode = false; // although we are going to reload the page anyway
+            $scope.editMode = false;
 
             console.log("registerOntology: success data=", data);
             utl.message({

@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-05-03: 0.3.1:
+  - add editInProgress scope parameter in orrportalV2rEdit directive to notify
+    UriController when there's a change in cell editing status
   - initial working version with registering new version with metadata edits
     (NOTE: this only for non v2r/m2r ontologies)
 

@@ -3,12 +3,6 @@
 
   angular.module('orrportal.v2r', ['ui.grid', 'ui.grid.edit', 'ui.grid.cellNav'])
 
-    .directive('orrportalV2rContents', function() {
-      return {
-        restrict:     'E',
-        templateUrl:  'js/v2r/views/v2r-contents.tpl.html'
-      }
-    })
     .directive('orrportalV2rView', function() {
       return {
         restrict:     'E',
@@ -18,7 +12,11 @@
     .directive('orrportalV2rEdit', function() {
       return {
         restrict:     'E',
-        templateUrl:  'js/v2r/views/v2r-edit.tpl.html'
+        templateUrl:  'js/v2r/views/v2r-edit.tpl.html',
+        scope: {
+          editInProgress: '&'
+        },
+        controller:    V2RController  // TODO proper controller for editing
       }
     })
 
@@ -30,7 +28,7 @@
   V2RController.$inject = ['$rootScope', '$scope', '$routeParams', '$window', '$filter', '$uibModal', 'service'];
 
   function V2RController($rootScope, $scope, $routeParams, $window, $filter, $uibModal, service) {
-    if (appUtil.debug) console.log("++V2RController++");
+    if (appUtil.debug) console.log("++V2RController++ $scope=", $scope);
 
     var vm = $scope.vm = {
       someCellBeingEdited: false
@@ -146,7 +144,9 @@
 
     $scope.enterCellEditing = function(tableform) {
       if (!vm.someCellBeingEdited) {
+        console.log("enterCellEditing");
         vm.someCellBeingEdited = true;
+        $scope.editInProgress({inProgress: true});
         tableform.$show()
       }
     };
@@ -188,6 +188,7 @@
     // cancel all changes
     $scope.cancelCell = function(em) {
       vm.someCellBeingEdited = false;
+      $scope.editInProgress({inProgress: false});
       for (var i = em.length; i--;) {
         var valueEntry = em[i];
         // undelete
@@ -204,6 +205,7 @@
     // transfer the changes to the model
     $scope.applyCellChanges = function(attributes, a_index, em) {
       vm.someCellBeingEdited = false;
+      $scope.editInProgress({inProgress: false});
       var result = [];
 
       for (var i = em.length; i--;) {

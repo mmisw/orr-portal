@@ -23,9 +23,10 @@
 
     <span ng-if="editMode">
 
-      <button ng-click="registerNewVersion()"
+      <button ng-disabled="dataEditInProgress"
+              ng-click="registerNewVersion()"
               class="btn btn-info btn-xs">
-        Save
+        Register
       </button>
 
       <button ng-click="cancelNewVersion()"
