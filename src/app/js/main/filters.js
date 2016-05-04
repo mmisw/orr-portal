@@ -30,10 +30,12 @@
 
     .filter('propValueFilter', [function() {
       return function(value, prop) {
-        if (vocabulary.omv.keywords.uri === prop.predicate) {
+        var predicate = prop.predicate ? prop.predicate : prop;
+
+        if (vocabulary.omv.keywords.uri === predicate) {
           return prepareKeywords(value);
         }
-        if (vocabulary.omvmmi.origMaintainerCode.uri === prop.predicate) {
+        if (vocabulary.omvmmi.origMaintainerCode.uri === predicate) {
           if (value) {
             return '<a href="#/org/' +value+ '">'+ value+ '</a>';
           }

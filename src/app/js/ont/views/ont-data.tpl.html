@@ -12,9 +12,13 @@
 
   <div uib-collapse="dataCollapsed" style="margin-left: 20px">
 
-    <div ng-if="debug">
-      <pre style="border-color: purple">ont-data data = {{data | json}}</pre>
+    <div ng-if="debug" class="debug">
+      <pre>editMode = {{editMode | json}}</pre>
+      <pre>data = {{data | json}}</pre>
     </div>
+
+    <pre ng-bind="data | json"></pre>
+    <pre ng-bind="data | json"></pre>
 
   </div>
 

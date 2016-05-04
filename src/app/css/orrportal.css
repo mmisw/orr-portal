@@ -388,3 +388,9 @@ a:link {
 .editable-controls {
   margin: 0 !important;
 }
+
+div.debug {
+  background-color: #f1d085;
+  border-radius: 5px;
+  padding: 3px;
+}

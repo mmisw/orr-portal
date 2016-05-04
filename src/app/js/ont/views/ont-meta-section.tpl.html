@@ -1,0 +1,52 @@
+<div>
+
+  <div ng-if="debug" class="debug">
+    <pre>meta = {{meta | json}}</pre>
+    <pre>predicates = {{predicates | json}}</pre>
+  </div>
+
+  <form class="form-horizontal uriBody">
+
+    <table class="table table-bordered">
+      <tbody>
+
+      <tr ng-repeat="p in predicates">
+        <td class="mdLabel">
+            <span ng-bind-html="p | mklinksOnlyExternal"
+            >
+            </span>
+        </td>
+
+        <td>
+          <div ng-if="!editMode">
+            <div ng-if="meta[p].length === 1"
+                 ng-bind-html="meta[p][0] | propValueFilter:p">
+            </div>
+            <table ng-if="meta[p].length > 1" class="table table-condensed">
+              <tr ng-repeat="v in meta[p] track by $index">
+                <td ng-bind-html="v | propValueFilter:p">
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div ng-if="editMode">
+            <orp-multivalue-edit prop-value="meta[p]"
+                                 disable-edit-if="metadataEditInProgress || dataEditInProgress"
+                                 edit-in-progress="setMetadataEditInProgress(inProgress)"
+            ></orp-multivalue-edit>
+
+            <pre ng-if="debug">meta[{{p}}] = {{meta[p] | json}}</pre>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+      </tbody>
+    </table>
+
+  </form>
+
+</div>

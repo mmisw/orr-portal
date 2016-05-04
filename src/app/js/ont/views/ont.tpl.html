@@ -2,5 +2,19 @@
   <pre style="border-color: red">{{error | json}}</pre>
 </div>
 
-<ont-contents ontology="vm.ontology" data="vm.data"
+<button class="btn btn-default"
+        ng-disabled="editMode"
+        ng-click="editMode = true"
+>Edit</button>
+
+<button class="btn btn-default"
+        ng-disabled="!editMode"
+        ng-click="editMode = false"
+>Cancel</button>
+
+<pre>editMode = {{editMode}}</pre>
+
+<ont-contents ontology="vm.ontology"
+              data="vm.data"
+              edit-mode="editMode"
 ></ont-contents>

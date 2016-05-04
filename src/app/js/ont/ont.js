@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var debug = true;//appUtil.debug;
+  var debug = appUtil.debug;
 
   angular.module('orrportal.ont', ['orrportal.ont.contents'])
     .directive('orrOnt',  OntDirective)

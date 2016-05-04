@@ -12,9 +12,28 @@
 
   <div uib-collapse="metaCollapsed" style="margin-left: 20px">
 
-    <div ng-if="debug">
-      <pre style="border-color: purple">ont-meta meta = {{meta | json}}</pre>
+    <div ng-if="debug" class="debug">
+      <pre>editMode = {{editMode | json}}</pre>
+      <pre>sections = {{sections | json}}</pre>
+      <pre>meta = {{meta | json}}</pre>
     </div>
+
+    <uib-tabset style="width: 100%">
+      <uib-tab ng-repeat="section in sections"
+               style="cursor: pointer">
+
+        <tab-heading uib-popover="{{section.tooltip}}" popover-trigger="mouseenter" popover-placement="right">
+          {{section.header}}
+        </tab-heading>
+
+        <ont-meta-section meta="meta"
+                          predicates="section.predicates"
+                          edit-mode="editMode">
+        </ont-meta-section>
+
+      </uib-tab>
+
+    </uib-tabset>
 
   </div>
 
