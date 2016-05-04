@@ -50,7 +50,7 @@
 
         <tr ng-if="debug">
           <td colspan="2">
-            <pre ng-bind="props | json"></pre>
+            <pre ng-bind="'props = ' + (props | json)"></pre>
           </td>
         </tr>
 
@@ -64,7 +64,7 @@
 </uib-tabset>
 
 <div ng-if="debug">
-  <pre>vm.ontology.metadata = {{vm.ontology.metadata | json}}
+  <pre>vm.ontology = {{vm.ontology | json}}
   </pre>
 
   <pre ng-if="debug_newMetadata">newMetadata = {{debug_newMetadata | json}}
