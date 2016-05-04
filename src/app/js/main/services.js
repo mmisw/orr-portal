@@ -40,7 +40,7 @@
      * With true, allows to force a refresh of the ontology list if that page is visited.
      */
     function setDoRefreshOntologies(b) {
-      console.log(appUtil.logTs() + ": setDoRefreshOntologies: " + b);
+      if (appUtil.debug) console.log(appUtil.logTs() + ": setDoRefreshOntologies: " + b);
       doRefreshOntologies = b;
     }
 
@@ -305,11 +305,11 @@
         url += "?" + params.join('&');
       }
 
-      console.log(appUtil.logTs() + ": GET " + url);
+      if (appUtil.debug) console.log(appUtil.logTs() + ": GET " + url);
       $http.get(url)
         .success(function(res, status, headers, config) {
           setRefreshing(false);
-          console.log(appUtil.logTs() + ": gotUser: ", res);
+          if (appUtil.debug) console.log(appUtil.logTs() + ": gotUser: ", res);
           if (res.error) {
             gotUser(res);
           }

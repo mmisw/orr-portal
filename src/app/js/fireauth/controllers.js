@@ -57,7 +57,7 @@
     }
 
     function authenticateStateChanged(authData) {
-      console.log(appUtil.logTs() + ": authenticateStateChanged: authData=", authData);
+      if (appUtil.debug) console.log(appUtil.logTs() + ": authenticateStateChanged: authData=", authData);
 
       updateMasterAuth(authData);
 
@@ -70,7 +70,7 @@
             logout();  // which will trigger a call to authenticateStateChanged(undefined)
           }
           else {
-            console.log("got backend user info upon login " +userName+ ":", user);
+            if (appUtil.debug) console.log("got backend user info upon login " +userName+ ":", user);
             masterAuth.role = user.role;
             masterAuth.organizations = user.organizations;
             updateFirebase();
@@ -117,13 +117,13 @@
       function updateFirebase() {
         if(masterAuth.loggedInInfo && masterAuth.loggedInInfo.uid) {
           var uid = masterAuth.loggedInInfo.uid;
-          console.log("userHasLoggedIn uid=", uid);
+          if (appUtil.debug) console.log("userHasLoggedIn uid=", uid);
           var obj = _.omit(masterAuth.loggedInInfo, 'uid');
           // update users:
           fireData.users.$loaded().then(function() {
             fireData.users[uid] = obj;
             fireData.users.$save().then(function() {
-              console.log("saved logged in user", masterAuth.loggedInInfo);
+              if (appUtil.debug) console.log("saved logged in user", masterAuth.loggedInInfo);
               //$uibModalInstance.dismiss();
             }).catch(function(error) {
               console.error("error saving logged in user", error);
@@ -141,7 +141,7 @@
           fireData.logins.$loaded().then(function() {
             fireData.logins[uid] = {lastLogin: lastLogin};
             fireData.logins.$save().then(function() {
-              console.log("saved login", masterAuth.loggedInInfo)
+              if (appUtil.debug) console.log("saved login", masterAuth.loggedInInfo)
             }).catch(function(error) {
               console.error("error saving login", error)
             });
