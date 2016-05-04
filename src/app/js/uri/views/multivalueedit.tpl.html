@@ -5,7 +5,7 @@
 
     <table class="table table-hover table-condensed"
            ng-click="enterCellEditing(attrTableform)"
-           uib-tooltip="{{!attrTableform.$visible ? 'Click to edit the value(s) for this property' : ''}}"
+           uib-tooltip="{{!attrTableform.$visible && !disableEditIf ? 'Click to edit the value(s) for this property' : ''}}"
     >
       <tr ng-repeat="valueEntry in em | filter:filterValue track by $index">
         <td>

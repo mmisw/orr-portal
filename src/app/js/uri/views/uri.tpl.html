@@ -23,7 +23,7 @@
 
     <span ng-if="editMode">
 
-      <button ng-disabled="dataEditInProgress"
+      <button ng-disabled="metadataEditInProgress || dataEditInProgress"
               ng-click="registerNewVersion()"
               class="btn btn-info btn-xs">
         Register

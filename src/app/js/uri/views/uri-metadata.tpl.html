@@ -23,7 +23,7 @@
             </span>
           </td>
 
-          <td class="ontContent">
+          <td>
 
             <div ng-if="!editMode">
               <div ng-if="prop.value.length === 1"
@@ -39,6 +39,8 @@
 
             <div ng-if="editMode">
               <orp-multivalue-edit prop-value="prop.value"
+                                   disable-edit-if="metadataEditInProgress || dataEditInProgress"
+                                   edit-in-progress="setMetadataEditInProgress(inProgress)"
               ></orp-multivalue-edit>
             </div>
 

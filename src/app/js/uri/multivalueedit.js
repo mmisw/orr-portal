@@ -6,7 +6,9 @@
       return {
         restrict:     'E',
         scope:        {
-          propValue: '='
+          propValue:      '=',
+          disableEditIf:  '=',
+          editInProgress: '&'
         },
         controller:   MveController,
         templateUrl:  'js/uri/views/multivalueedit.tpl.html'
@@ -17,7 +19,7 @@
   MveController.$inject = ['$scope', '$filter'];
 
   function MveController($scope, $filter) {
-    //console.log("++MveController++ propValue=", $scope.propValue);
+    //console.log("++MveController++ propValue=", $scope.propValue, "disableEditIf=", $scope.disableEditIf);
 
     var em = $scope.em = [];
     _.each($scope.propValue, function(val) {
@@ -33,8 +35,15 @@
       });
     }
 
+    $scope.$watch("attrTableform.$visible", function(vis) {
+      //console.log("$watch attrTableform.$visible", vis);
+      $scope.editInProgress({inProgress: vis});
+    });
+
     $scope.enterCellEditing = function(tableForm) {
-      tableForm.$show()
+      if (!$scope.disableEditIf) {
+        tableForm.$show()
+      }
     };
 
     // filter values to show

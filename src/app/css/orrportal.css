@@ -384,3 +384,7 @@ a:link {
 .v2rTermName:hover {
   background-color: #eaf8ff;
 }
+
+.editable-controls {
+  margin: 0 !important;
+}

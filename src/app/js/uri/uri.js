@@ -37,6 +37,11 @@
     };
 
 
+    $scope.setMetadataEditInProgress = function(inProgress) {
+      //console.log("setMetadataEditInProgress: inProgress=", inProgress);
+      $scope.metadataEditInProgress = inProgress;
+    };
+
     $scope.setDataEditInProgress = function(inProgress) {
       //console.log("dataEditInProgress: inProgress=", inProgress);
       $scope.dataEditInProgress = inProgress;
