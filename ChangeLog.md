@@ -1,6 +1,9 @@
 ## change log ##
 
 * 2016-05-03: 0.3.1:
+  - initial working version with registering new version with metadata edits
+    (NOTE: this only for non v2r/m2r ontologies)
+
   - do not show data section if editing ontology that is not v2r or m2r
   - startEditMode: full edit for v2r (and m2r, later on); and either metadata
     of file upload for anything else

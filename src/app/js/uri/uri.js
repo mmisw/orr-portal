@@ -5,9 +5,9 @@
     .controller('UriController', UriController)
   ;
 
-  UriController.$inject = ['$rootScope', '$scope', '$routeParams', '$timeout', 'service', 'utl'];
+  UriController.$inject = ['$rootScope', '$scope', '$routeParams', '$timeout', '$window', 'service', 'utl'];
 
-  function UriController($rootScope, $scope, $routeParams, $timeout, service, utl) {
+  function UriController($rootScope, $scope, $routeParams, $timeout, $window, service, utl) {
     if (appUtil.debug) console.log("++UriController++");
 
     var rvm = $rootScope.rvm;
@@ -85,24 +85,82 @@
     };
 
     $scope.registerNewVersion = function() {
-      $scope.editMode = false; //TODO
+      var newMetadata = [];
+      _.each($scope.metadataSections, function (section) {
+        _.each(section.props, function (prop) {
+          var values = _.filter(prop.value, function (v) { return v; }); // only defined values
+          if (values.length) {
+            newMetadata.push({
+              uri: prop.predicate,
+              value: values.length === 1 ? values[0] : values
+            });
+          }
+        });
+      });
+
+      $scope.debug_newMetadata = newMetadata;
+
+      var userName = $rootScope.userLoggedIn().uid;
+
+      // used for 'name' in the ontology entry in the backend
+      var omv_descriptions = _.filter(newMetadata, {uri: 'http://omv.ontoware.org/2005/05/ontology#description'});
+      //console.log("omv_descriptions=", omv_descriptions);
+      if (omv_descriptions.length) {
+        var name = _.map(omv_descriptions, "value").join("; ");
+      }
+
+      var params = {
+        uri:        vm.uri,
+        name:       name,
+        userName:   userName,
+        metadata:   angular.toJson(newMetadata)
+      };
+
+      var brandNew = false;
+      service.registerOntology(brandNew, params, registrationCallback(params.uri));
+
+      // registrationCallback: verbatim copy from upload.js  TODO move to a common place
+      function registrationCallback(uri) {
+        return function cb(error, data) {
+          if (error) {
+            console.error(error);
+            utl.error({
+              errorPRE: error
+            });
+          }
+          else {
+            $scope.editMode = false; // although we are going to reload the page anyway
+
+            console.log("registerOntology: success data=", data);
+            utl.message({
+              title:   "Successful registration",
+              message: '<div class="center">' +
+              'Ontology URI:' +
+              '<br>' +
+              appUtil.mklink4uriWithSelfHostPrefix(uri) +
+              '</div>',
+              ok: function() {
+                $window.location.href = appUtil.getHref4uriWithSelfHostPrefix(uri);
+              }
+            });
+          }
+        }
+      }
     };
 
-
-
-    $scope.metadataSections = initMetadataSections();
+    initMetadataSections();
 
     /** gets the props to be displayed for a metadata section */
-    $scope.getProps = function(propNames) {
-      var props = [];
-      _.each(propNames, function(name) {
+    $scope.getProps = function(section) {
+      section.props = [];
+      _.each(section.propNames, function(name) {
         var prop = vm.mdByName[name];
         //console.log("     getProps : name=", name, "prop=", prop);
         if (prop !== undefined && (prop.value || !prop.omitIfUndef)) {
-          props.push(prop);
+          section.props.push(prop);
         }
       });
-      return props;
+      return section.props;
     };
 
     refreshOntology(vm.uri);
@@ -188,8 +246,7 @@
         var otherPredicates = _.difference(allPredicates, usedPredicates);
         //console.log('otherPredicates=', otherPredicates);
 
-        var otherSection = _.find($scope.metadataSections, {label: "Other"});
-        if (!otherSection) throw Error("unexpected: no 'other' section");
+        var otherSection = $scope.metadataSections.other;
 
         var propNames = [];
 
@@ -225,47 +282,51 @@
         else otherSection.propNames = undefined;
       }
     }
-  }
 
-  function initMetadataSections() {
-    return [
-      {
-        label: "General",
-        propNames: [
-          "resourceType",
-          "contentCreator",
-          "ontologyCreator",
-          "description",
-          "keywords",
-          "origVocUri",
-          "origMaintainerCode",
-          "contributor",
-          "reference"
-        ]
-      }, {
-        label: "Usage/License/Permissions",
-        propNames: [
-          "origVocManager",
-          "contact",
-          "contactRole",
-          "temporaryMmiRole",
-          "creditRequired",
-          "creditCitation"
-        ]
-      }, {
-        label: "Original source",
-        propNames: [
-          "origVocDocumentationUri",
-          "origVocDescriptiveName",
-          "origVocVersionId",
-          "origVocKeywords",
-          "origVocSyntaxFormat"
-        ]
-      }, {
-        label: "Other",
-        tooltip: 'Ontology metadata properties not classified/aggregated in other sections (TODO)',
-      }
-    ];
+    function initMetadataSections() {
+      $scope.metadataSectionKeys = ["general", "usage", "source", "other"];
+      $scope.metadataSections = {
+        general: {
+          label: "General",
+          propNames: [
+            "resourceType",
+            "contentCreator",
+            "ontologyCreator",
+            "description",
+            "keywords",
+            "origVocUri",
+            "origMaintainerCode",
+            "contributor",
+            "reference"
+          ]
+        },
+        usage: {
+          label: "Usage/License/Permissions",
+          propNames: [
+            "origVocManager",
+            "contact",
+            "contactRole",
+            "temporaryMmiRole",
+            "creditRequired",
+            "creditCitation"
+          ]
+        },
+        source: {
+          label: "Original source",
+          propNames: [
+            "origVocDocumentationUri",
+            "origVocDescriptiveName",
+            "origVocVersionId",
+            "origVocKeywords",
+            "origVocSyntaxFormat"
+          ]
+        },
+        other: {
+          label: "Other",
+          tooltip: 'Ontology metadata properties not classified/aggregated in other sections (TODO)'
+        }
+      };
+    }
   }
 
   /** Used in the traditional sections 'General', 'Usage..', 'Original source' */

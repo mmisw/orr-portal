@@ -1,7 +1,8 @@
 <uib-tabset style="width: 100%">
 
-  <uib-tab ng-repeat="section in metadataSections"
-           ng-if="section.propNames"
+  <uib-tab ng-repeat="sectionKey in metadataSectionKeys"
+           ng-if="metadataSections[sectionKey].propNames"
+           ng-init="section = metadataSections[sectionKey]"
            style="cursor: pointer">
 
     <tab-heading uib-popover="{{section.tooltip}}" popover-trigger="mouseenter" popover-placement="right">
@@ -11,9 +12,9 @@
     <form class="form-horizontal uriBody">
 
       <table class="table table-bordered">
-        <tbody>
+        <tbody ng-init="props = getProps(section)">
 
-        <tr ng-repeat="prop in getProps(section.propNames)">
+        <tr ng-repeat="prop in props">
           <td class="mdLabel">
             <span ng-bind-html="prop.label | mklinksOnlyExternal"
                   uib-tooltip="{{prop.predicate}}"
@@ -45,6 +46,12 @@
 
         </tr>
 
+        <tr ng-if="debug">
+          <td colspan="2">
+            <pre ng-bind="props | json"></pre>
+          </td>
+        </tr>
+
         </tbody>
       </table>
 
@@ -53,3 +60,12 @@
   </uib-tab>
 
 </uib-tabset>
+
+<div ng-if="debug">
+  <pre>vm.ontology.metadata = {{vm.ontology.metadata | json}}
+  </pre>
+
+  <pre ng-if="debug_newMetadata">newMetadata = {{debug_newMetadata | json}}
+  </pre>
+
+</div>
