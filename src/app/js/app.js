@@ -68,8 +68,9 @@
     };
 
     $rootScope.userLoggedIn = function() {
-      return rvm.masterAuth && rvm.masterAuth.loggedInInfo
-        && rvm.masterAuth.loggedInInfo.uid;
+      if (rvm.masterAuth && rvm.masterAuth.loggedInInfo && rvm.masterAuth.loggedInInfo.uid) {
+        return rvm.masterAuth.loggedInInfo;
+      }
     };
 
     $rootScope.userLoggedInIsAdmin = function() {

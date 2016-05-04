@@ -17,7 +17,7 @@
   MveController.$inject = ['$scope', '$filter'];
 
   function MveController($scope, $filter) {
-    console.log("++MveController++ propValue=", $scope.propValue);
+    //console.log("++MveController++ propValue=", $scope.propValue);
 
     var em = $scope.em = [];
     _.each($scope.propValue, function(val) {
