@@ -12,6 +12,7 @@
     ,'orrportal.facet'
     ,'orrportal.ontgrid'
     ,'orrportal.org'
+    ,'orrportal.ont'
     ,'orrportal.uri'
     ,'orrportal.user'
     ,'orrportal.st'
@@ -92,8 +93,10 @@
       // root "/" route set depending on whether we have a URI to dispatch:
       .when('/', rUri
         ? {
-          templateUrl: 'js/uri/views/uri.tpl.html',
-          controller: 'UriController'}
+          //templateUrl: 'js/uri/views/uri.tpl.html',
+          //controller: 'UriController'
+          template: '<orr-ont></orr-ont>'
+          }
         : {
           templateUrl: 'js/main/views/main.tpl.html',
           controller: 'MainController'}

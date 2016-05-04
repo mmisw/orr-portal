@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-05-04: 0.3.1:
+  - new orrportal.ont module toward reorganizing Ont dispatch
+
 * 2016-05-03: 0.3.1:
   - add editInProgress scope parameter in orrportalV2rEdit directive to notify
     UriController when there's a change in cell editing status

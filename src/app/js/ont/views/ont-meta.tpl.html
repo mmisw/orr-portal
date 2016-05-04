@@ -1,0 +1,21 @@
+<div>
+  <div class="ont-DisclosurePanel-header"
+       ng-init="metaCollapsed = false"
+       ng-click="metaCollapsed = !metaCollapsed"
+  >
+    <a style="font-size: large">
+      <i ng-if="metaCollapsed" class="fa fa-caret-right"></i>
+      <i ng-if="!metaCollapsed" class="fa fa-caret-down"></i>
+      Metadata
+    </a>
+  </div>
+
+  <div uib-collapse="metaCollapsed" style="margin-left: 20px">
+
+    <div ng-if="debug">
+      <pre style="border-color: purple">ont-meta meta = {{meta | json}}</pre>
+    </div>
+
+  </div>
+
+</div>
