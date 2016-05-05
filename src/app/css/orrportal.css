@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Merriweather:400,300);
-@import url(https://fonts.googleapis.com/css?family=Inconsolata);
+@import url(https://fonts.googleapis.com/css?family=Inconsolata:700,400);
+
 
 html, body {
     height: 100%;
@@ -379,6 +380,7 @@ a:link {
 
 .v2rTermName {
   font-family: 'Inconsolata', monospace;
+  font-weight: bold;
   cursor: pointer;
 }
 .v2rTermName:hover {

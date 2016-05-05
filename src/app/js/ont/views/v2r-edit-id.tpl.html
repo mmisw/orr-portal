@@ -7,18 +7,30 @@
     <div class="panel-body">
 
       <form class="form-horizontal">
+        <p style="color: gray">
+          To construct the URI of this entity either specify a "local name"
+          (relative to the URI of this ontology),
+          or a full URI.
+        </p>
+        <br>
 
         <div class="form-group">
-          <input class="col-xs-1" type="radio"
-                 ng-model="vm.idType" value="lname">
+          <div class="col-xs-12 center">
+            <label class="btn btn-default" ng-model="vm.idType" uib-btn-radio="'lname'">Local&nbsp;name</label>
+            &nbsp;
+            <label class="btn btn-default" ng-model="vm.idType" uib-btn-radio="'uri'">Full&nbsp;URI</label>
+          </div>
+        </div>
 
+        <br>
+
+        <div class="form-group" ng-if="vm.idType === 'lname'">
           <label for="inputLocalName" class="control-label col-xs-2">
             Local&nbsp;name:
           </label>
 
           <div class="col-xs-4">
             <input id="inputLocalName"
-                   ng-disabled="vm.idType !== 'lname'"
                    type="text"
                    class="form-control"
                    ng-model="vm.lname"
@@ -26,29 +38,27 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="control-label col-xs-3">
-          </label>
+        <div class="form-group" ng-if="vm.idType === 'lname'">
+          <label class="control-label col-xs-1"></label>
 
-          <div class="col-xs-4">
-            <span ng-if="vm.idType === 'lname'">
-              uri:&nbsp;{{vm.namespace}}/<span ng-if="vm.lname" ng-bind="vm.lname"
-              ></span><span ng-if="!vm.lname" style="color: red">?</span>
+          <div class="col-xs-7">
+            <span>
+              URI:&nbsp;<span class="uriTextSimple"
+              >{{vm.namespace}}/<span ng-if="vm.lname" ng-bind="vm.lname" style="text-decoration: underline"
+                ></span><span ng-if="!vm.lname" style="color: red">?</span>
+              </span>
             </span>
           </div>
         </div>
 
-        <div class="form-group">
-          <input class="col-xs-1" type="radio"
-                 ng-model="vm.idType" value="uri">
+        <div class="form-group" ng-if="vm.idType === 'uri'">
 
           <label for="inputUri" class="control-label col-xs-2">
-            Complete URI:
+            Full&nbsp;URI:
           </label>
 
           <div class="col-xs-8">
             <input id="inputUri"
-                   ng-disabled="vm.idType !== 'uri'"
                    type="url"
                    class="form-control"
                    ng-model="vm.uri"
