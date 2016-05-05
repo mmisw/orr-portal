@@ -68,7 +68,24 @@
 
     $scope.$watch("meta", function(meta) {
       if (debug) console.log("watch meta=", meta);
-      $scope.sections[0].predicates = _.keys(meta);
+      if (!meta) return;
+
+      var predicates = _.keys(meta);
+
+      // do not show rdf:type owl:Ontology
+      var types = meta[vocabulary.rdf.type.uri];
+      if (types) {
+        types = _.filter(types, function(v) {
+          return v !== vocabulary.owl.Ontology.uri;
+        });
+        if (types.length === 0) {
+          predicates = _.filter(predicates, function(p) {
+            return p !== vocabulary.rdf.type.uri;
+          });
+        }
+      }
+      //console.log("predicates=", predicates);
+      $scope.sections[0].predicates = predicates;
     });
 
   }

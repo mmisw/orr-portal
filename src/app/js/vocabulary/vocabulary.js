@@ -11,6 +11,10 @@ var vocabulary = (function() {
     keywords: {
       uri: omvNS + "keywords",
       label: "Keywords"
+    },
+    description: {
+      uri: omvNS + "description",
+      label: "Description"
     }
   };
 
