@@ -124,6 +124,17 @@
         return "invalid characters"
     };
 
+    $scope.removeTerm = function(vocab, index) {
+      vocab.terms.splice(index, 1);
+    };
+
+    $scope.addTerm = function(vocab) {
+      vocab.terms.push({
+        value:      "",
+        attributes: _.map(vocab.properties, function() { return null })
+      });
+    };
+
     //////////////////////////////////////
     // Value cell editing
 
