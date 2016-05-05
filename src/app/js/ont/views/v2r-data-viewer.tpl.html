@@ -1,4 +1,9 @@
-<uib-tabset style="width: 100%">
+<div ng-if="vocabs.length === 0"
+>
+  No vocabularies are defined.
+</div>
+
+<uib-tabset ng-if="vocabs.length" style="width: 100%">
 
   <uib-tab ng-repeat="vocab in vocabs track by $index" style="cursor: pointer">
 

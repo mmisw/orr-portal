@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var debug = appUtil.debug;
+  var debug = true;//appUtil.debug;
 
   angular.module('orrportal.v2r', [])
     .directive('v2rDataViewer',  V2rDataViewerDirective)
@@ -69,8 +69,8 @@
     };
   }
 
-  V2rDataEditorController.$inject = ['$scope', '$uibModal', '$filter'];
-  function V2rDataEditorController($scope, $uibModal, $filter) {
+  V2rDataEditorController.$inject = ['$scope', '$uibModal', '$filter', '$timeout', 'utl'];
+  function V2rDataEditorController($scope, $uibModal, $filter, $timeout, utl) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++V2rDataEditorController++ $scope=", $scope);
@@ -93,7 +93,7 @@
     };
 
     function editIdModel(title, idModel) {
-      console.log("editId': title=", title, "idModel=", idModel);
+      //console.log("editId': title=", title, "idModel=", idModel);
       return $uibModal.open({
         templateUrl: 'js/ont/views/v2r-edit-id.tpl.html',
         controller:   V2rEditIdController,
@@ -110,10 +110,58 @@
       });
     }
 
+    (function prepareVocabMenu() {
+      var INS_LEFT  = 'Insert vocabulary (to the left)';
+      var INS_RIGHT = 'Insert vocabulary (to the right)';
+      var DEL_COL   = 'Delete this vocabulary';
+      $scope.vocabMenu = [INS_LEFT, INS_RIGHT, DEL_COL];
+
+      $scope.addVocab = function() {
+        insertVocab($scope.vocabs.length);
+      };
+
+      $scope.vocabOptionSelected = function(v_index, opt) {
+        var vocab = $scope.vocabs[v_index];
+        //console.log("vocabOptionSelected: vocab=", vocab, "opt=", opt);
+        if (opt === INS_LEFT)  insertVocab(v_index);
+        if (opt === INS_RIGHT) insertVocab(v_index + 1);
+        if (opt === DEL_COL)   deleteVocab(v_index);
+      };
+
+      function insertVocab(v_index) {
+        //console.log("insertVocab: inserting at ", v_index);
+        var idModel = {name: '?'};
+        $scope.editVocabClass(idModel).result.then(function() {
+          console.log('editIdModel dialog accepted: idModel=', idModel);
+          var newVocab = {
+            'class': idModel,
+            properties: [],
+            terms: []
+          };
+          $scope.vocabs.splice(v_index, 0, newVocab);
+        });
+      }
+
+      function deleteVocab(v_index) {
+        utl.confirm({
+          message: '<div class="center">' +
+          'Are you sure you want to remove this vocabulary?' +
+          '<br><br>(the associated class, properties and terms will be removed)' +
+          '</div>',
+          ok: function() {
+            $timeout(function() {
+              //console.log("deleteVocab: deleting at ", v_index);
+              $scope.vocabs.splice(v_index, 1);
+            });
+          }
+        });
+      }
+    })();
+
     (function prepareColumnMenu() {
-      var INS_LEFT  = 'Insert 1 left';
-      var INS_RIGHT = 'Insert 1 right';
-      var DEL_COL   = 'Delete column';
+      var INS_LEFT  = 'Insert property (to the left)';
+      var INS_RIGHT = 'Insert property (to the right)';
+      var DEL_COL   = 'Delete this property';
       $scope.columnMenu = [INS_LEFT, INS_RIGHT, DEL_COL];
 
       $scope.addProperty = function(vocab) {
@@ -122,31 +170,41 @@
 
       $scope.columnOptionSelected = function(vocab, p_index, opt) {
         var property = vocab.properties[p_index];
-        console.log("columnOptionSelected: property=", property, "opt=", opt);
+        //console.log("columnOptionSelected: property=", property, "opt=", opt);
         if (opt === INS_LEFT)  insertProp(vocab, p_index);
         if (opt === INS_RIGHT) insertProp(vocab, p_index + 1);
         if (opt === DEL_COL)   deleteProp(vocab, p_index);
       };
 
       function insertProp(vocab, p_index) {
-        console.log("columnOptionSelected: inserting at ", p_index);
+        //console.log("columnOptionSelected: inserting at ", p_index);
         var idModel = {name: '?'};
         $scope.editVocabProperty(idModel).result.then(function() {
-          console.log('editIdModel dialog accepted: idModel=', idModel);
+          //console.log('editIdModel dialog accepted: idModel=', idModel);
           vocab.properties.splice(p_index, 0, idModel);
           _.each(vocab.terms, function(term) {
             term.attributes.splice(p_index, 0, null);
-            term._ems.splice(      p_index, 0, getAttrEditModel(null));
+            setAttrModelsForTerm(term);
           });
         });
       }
 
       function deleteProp(vocab, p_index) {
-        console.log("columnOptionSelected: deleting at ", p_index);
-        vocab.properties.splice(p_index, 1);
-        _.each(vocab.terms, function(term) {
-          term.attributes.splice(p_index, 1);
-          term._ems.splice(      p_index, 1);
+        utl.confirm({
+          message: '<div class="center">' +
+          'Are you sure you want to remove this property?' +
+          '<br><br>(the complete column will be removed)' +
+          '</div>',
+          ok: function() {
+            $timeout(function() {
+              //console.log("columnOptionSelected: deleting at ", p_index);
+              vocab.properties.splice(p_index, 1);
+              _.each(vocab.terms, function(term) {
+                term.attributes.splice(p_index, 1);
+                term._ems.splice(      p_index, 1);
+              });
+            });
+          }
         });
       }
     })();
@@ -167,10 +225,12 @@
     };
 
     $scope.addTerm = function(vocab) {
-      vocab.terms.push({
+      var term = {
         name:      "",
         attributes: _.map(vocab.properties, function() { return null })
-      });
+      };
+      setAttrModelsForTerm(term);
+      vocab.terms.push(term);
     };
 
     //////////////////////////////////////
@@ -184,16 +244,17 @@
       }
     };
 
+    function setAttrModelsForTerm(term) {
+      term._ems = [];
+      _.each(term.attributes, function(attr) {
+        term._ems.push(getAttrEditModel(attr));
+      });
+    }
+
     (function prepareAttrModels() {
       _.each($scope.vocabs, function(vocab) {
-        _.each(vocab.terms, function(term) {
-          term._ems = [];
-          _.each(term.attributes, function(attr) {
-            term._ems.push(getAttrEditModel(attr));
-          });
-        });
+        _.each(vocab.terms, setAttrModelsForTerm);
       });
-
     })();
 
     function getAttrEditModel(a) {
