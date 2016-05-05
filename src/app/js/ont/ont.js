@@ -169,34 +169,45 @@
     };
 
     $scope.registerNewVersion = function() {
-      var newMetadata = [];
-      _.each(vm.ontology.metadata, function (values, predicate) {
-        values = _.filter(values, function (v) { return v; }); // only defined values
-        if (values.length) {
-          newMetadata.push({
-            uri:   predicate,
-            value: values.length === 1 ? values[0] : values
-          });
-        }
-      });
-
-      $scope.debug_newMetadata = newMetadata;
-
-      var userName = $rootScope.userLoggedIn().uid;
-
-      // used for 'name' in the ontology entry in the backend
-      var omv_descriptions = _.filter(newMetadata, {uri: vocabulary.omv.description.uri});
-      //console.log("omv_descriptions=", omv_descriptions);
-      if (omv_descriptions.length) {
-        var name = _.map(omv_descriptions, "value").join("; ");
-      }
 
       var params = {
         uri:        vm.uri,
-        name:       name,
-        userName:   userName,
-        metadata:   angular.toJson(newMetadata)
+        userName:   $rootScope.userLoggedIn().uid
       };
+
+      if (vm.ontology.format === 'v2r') {
+        // Whole contents submission case.
+        params.format = 'v2r';
+        params.contents = {
+          metadata: vm.ontology.metadata,
+          vocabs:   vm.data
+        };
+        //console.log("TO submit V2R = ", params.contents);
+      }
+      else {
+        // Only metadata submission case.
+        var newMetadata = [];
+        _.each(vm.ontology.metadata, function (values, predicate) {
+          values = _.filter(values, function (v) { return v; }); // only defined values
+          if (values.length) {
+            newMetadata.push({
+              uri:   predicate,
+              value: values.length === 1 ? values[0] : values
+            });
+          }
+        });
+
+        $scope.debug_newMetadata = newMetadata;
+
+        // used for 'name' in the ontology entry in the backend
+        var omv_descriptions = _.filter(newMetadata, {uri: vocabulary.omv.description.uri});
+        //console.log("omv_descriptions=", omv_descriptions);
+        if (omv_descriptions.length) {
+          params.name = _.map(omv_descriptions, "value").join("; ");
+        }
+
+        params.metadata = angular.toJson(newMetadata);
+      }
 
       var brandNew = false;
       service.registerOntology(brandNew, params, registrationCallback(params.uri));

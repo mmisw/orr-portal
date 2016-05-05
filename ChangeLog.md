@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-05-04: 0.3.1:
+  - both only metadata (non-v2r cases), and v2r case -ie., complete
+    contents (metadata + data)-- are now handled for registration of new version.
   - overall review and improvements for ont dispatch, including much better coordination with v2r
   - new orrportal.ont module toward reorganizing Ont dispatch.
 
