@@ -11,15 +11,6 @@
            uib-tooltip="{{!attrTableform.$visible && !disableEditIf ? 'Click to edit the value(s) for this property' : ''}}"
     >
       <tr ng-repeat="valueEntry in em | filter:filterValue track by $index">
-        <td>
-          <span editable-textarea="valueEntry.value"
-                e-rows="2"
-                e-form="attrTableform"
-                ng-bind="valueEntry.value || 'empty'"
-          >
-          </span>
-          <!--<pre ng-bind="'valueEntry=' +(valueEntry|json)"></pre>-->
-        </td>
         <td ng-show="attrTableform.$visible" style="width: 10px">
           <button type="button" ng-click="deleteValue(em, valueEntry.id)"
                   class="btn btn-danger btn-xs pull-right"
@@ -28,6 +19,15 @@
           >
             <i class="fa fa-times" aria-hidden="true"></i>
           </button>
+        </td>
+        <td>
+          <span editable-textarea="valueEntry.value"
+                e-rows="2"
+                e-form="attrTableform"
+                ng-bind="valueEntry.value || 'empty'"
+          >
+          </span>
+          <!--<pre ng-bind="'valueEntry=' +(valueEntry|json)"></pre>-->
         </td>
       </tr>
     </table>
