@@ -19,24 +19,49 @@
       <thead>
       <tr class="effect1">
 
-        <th style="width: 10px">
+        <th style="width: 5px">
         </th>
 
-        <th style="width: 5%; vertical-align: middle">ID</th>
+        <th style="vertical-align: middle">ID</th>
 
-        <th ng-repeat="p in vocab.properties">
+        <th ng-repeat="p in vocab.properties track by $index" ng-init="p_index=$index">
           <button ng-click="editVocabProperty(p)" class="btn btn-link"
                   ng-disabled="someEditInProgress() || attrTableform.$waiting">
             {{getLabel(p)}} <i class="fa fa-edit" aria-hidden="true"></i>
           </button>
+
+          <div class="btn-group" uib-dropdown>
+            <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="opt in columnMenu">
+                <a href ng-bind="opt" ng-click="columnOptionSelected(vocab, p_index, opt)"></a>
+              </li>
+            </ul>
+          </div>
+
         </th>
+
+        <td style="width: 5px">
+          <button type="button"
+                  ng-disabled="someEditInProgress() || attrTableform.$waiting"
+                  ng-click="addProperty(vocab)"
+                  class="btn btn-default btn-xs"
+                  uib-tooltip="Add property"
+                  tooltip-placement="left"
+          >
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
+
+        </td>
       </tr>
       </thead>
 
       <tbody>
       <tr ng-repeat="term in vocab.terms track by $index" ng-init="t_index = $index">
 
-        <td style="width: 10px">
+        <td style="width: 5px">
           <button type="button"
                   ng-disabled="someEditInProgress() || attrTableform.$waiting"
                   ng-click="removeTerm(vocab, t_index)"
@@ -48,7 +73,7 @@
           </button>
         </td>
 
-        <td style="width: 5%">
+        <td >
           <span ng-if="someEditInProgress() || attrTableform.$waiting"
                 ng-bind="term.name"
           ></span>
@@ -76,7 +101,7 @@
                 >
                   <tr ng-repeat="valueEntry in em | filter:filterValue track by $index">
 
-                    <td ng-show="attrTableform.$visible" style="width: 10px">
+                    <td ng-show="attrTableform.$visible" style="width: 5px">
                       <button type="button" ng-click="deleteValue(em, valueEntry.id)"
                               class="btn btn-danger btn-xs"
                               uib-tooltip="Remove this value"

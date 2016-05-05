@@ -85,16 +85,16 @@
     // Class and property editing
 
     $scope.editVocabClass = function(idModel) {
-      editIdModel("Vocabulary class", idModel);
+      return editIdModel("Vocabulary class", idModel);
     };
 
     $scope.editVocabProperty = function(idModel) {
-      editIdModel("Vocabulary property", idModel);
+      return editIdModel("Vocabulary property", idModel);
     };
 
     function editIdModel(title, idModel) {
       console.log("editId': title=", title, "idModel=", idModel);
-      var modalInstance = $uibModal.open({
+      return $uibModal.open({
         templateUrl: 'js/ont/views/v2r-edit-id.tpl.html',
         controller:   V2rEditIdController,
         backdrop:    'static',
@@ -108,10 +108,49 @@
           }
         }
       });
-      //modalInstance.result.then(function() {
-      //  console.log('editIdModel dialog accepted: idModel=', idModel);
-      //});
     }
+
+    (function prepareColumnMenu() {
+      var INS_LEFT  = 'Insert 1 left';
+      var INS_RIGHT = 'Insert 1 right';
+      var DEL_COL   = 'Delete column';
+      $scope.columnMenu = [INS_LEFT, INS_RIGHT, DEL_COL];
+
+      $scope.addProperty = function(vocab) {
+        insertProp(vocab, vocab.properties.length);
+      };
+
+      $scope.columnOptionSelected = function(vocab, p_index, opt) {
+        var property = vocab.properties[p_index];
+        console.log("columnOptionSelected: property=", property, "opt=", opt);
+
+        if (opt === INS_LEFT)  insertProp(vocab, p_index);
+        if (opt === INS_RIGHT) insertProp(vocab, p_index + 1);
+        if (opt === DEL_COL)   deleteProp(vocab, p_index);
+
+      };
+
+      function insertProp(vocab, p_index) {
+        console.log("columnOptionSelected: inserting at ", p_index);
+        var idModel = {name: '?'};
+        $scope.editVocabProperty(idModel).result.then(function() {
+          console.log('editIdModel dialog accepted: idModel=', idModel);
+          vocab.properties.splice(p_index, 0, idModel);
+          _.each(vocab.terms, function(term) {
+            term.attributes.splice(p_index, 0, null);
+          });
+        });
+      }
+
+      function deleteProp(vocab, p_index) {
+        console.log("columnOptionSelected: deleting at ", p_index);
+        vocab.properties.splice(p_index, 1);
+        _.each(vocab.terms, function(term) {
+          term.attributes.splice(p_index, 1);
+        });
+      }
+
+    })();
 
     //////////////////////////////////////
     // Term ID editing
