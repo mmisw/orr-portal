@@ -123,11 +123,9 @@
       $scope.columnOptionSelected = function(vocab, p_index, opt) {
         var property = vocab.properties[p_index];
         console.log("columnOptionSelected: property=", property, "opt=", opt);
-
         if (opt === INS_LEFT)  insertProp(vocab, p_index);
         if (opt === INS_RIGHT) insertProp(vocab, p_index + 1);
         if (opt === DEL_COL)   deleteProp(vocab, p_index);
-
       };
 
       function insertProp(vocab, p_index) {
@@ -138,6 +136,7 @@
           vocab.properties.splice(p_index, 0, idModel);
           _.each(vocab.terms, function(term) {
             term.attributes.splice(p_index, 0, null);
+            term._ems.splice(      p_index, 0, getAttrEditModel(null));
           });
         });
       }
@@ -147,9 +146,9 @@
         vocab.properties.splice(p_index, 1);
         _.each(vocab.terms, function(term) {
           term.attributes.splice(p_index, 1);
+          term._ems.splice(      p_index, 1);
         });
       }
-
     })();
 
     //////////////////////////////////////
@@ -185,7 +184,19 @@
       }
     };
 
-    $scope.getAttrEditModel = function(a) {
+    (function prepareAttrModels() {
+      _.each($scope.vocabs, function(vocab) {
+        _.each(vocab.terms, function(term) {
+          term._ems = [];
+          _.each(term.attributes, function(attr) {
+            term._ems.push(getAttrEditModel(attr));
+          });
+        });
+      });
+
+    })();
+
+    function getAttrEditModel(a) {
       var array = angular.isArray(a) ? a : [a];
       var em = [];
       _.each(array, function(value, i) {
@@ -195,7 +206,7 @@
         });
       });
       return em;
-    };
+    }
 
     // filter values to show
     $scope.filterValue = function(valueEntry) {

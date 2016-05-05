@@ -84,25 +84,25 @@
           </span>
         </td>
 
-        <td ng-repeat="a in term.attributes track by $index" ng-init="a_index = $index"
+        <td ng-repeat="attr in term.attributes track by $index" ng-init="a_index = $index"
             ng-class="{'cell-editing': attrTableform.$visible}"
         >
-          <div ng-init="em = getAttrEditModel(a)">
+          <div>
 
             <div>
               <form editable-form name="attrTableform"
-                    onaftersave="applyCellChanges(term, a_index, em)"
-                    oncancel="cancelCell(em)">
+                    onaftersave="applyCellChanges(term, a_index, term._ems[a_index])"
+                    oncancel="cancelCell(term._ems[a_index])">
 
                 <table class="table table-condensed"
                        ng-class="{'table-hover': !attrTableform.$visible, 'transparent': attrTableform.$visible}"
                        ng-click="enterCellEditing(attrTableform)"
                        uib-tooltip="{{!attrTableform.$visible && !someEditInProgress() ? 'Click to edit the value(s) for this property' : ''}}"
                 >
-                  <tr ng-repeat="valueEntry in em | filter:filterValue track by $index">
+                  <tr ng-repeat="valueEntry in term._ems[a_index] | filter:filterValue track by $index">
 
                     <td ng-show="attrTableform.$visible" style="width: 5px">
-                      <button type="button" ng-click="deleteValue(em, valueEntry.id)"
+                      <button type="button" ng-click="deleteValue(term._ems[a_index], valueEntry.id)"
                               class="btn btn-danger btn-xs"
                               uib-tooltip="Remove this value"
                               tooltip-placement="left"
@@ -125,7 +125,7 @@
 
                 <span ng-show="attrTableform.$visible">
                     <button type="button" ng-disabled="attrTableform.$waiting"
-                            ng-click="addValue(em)"
+                            ng-click="addValue(term._ems[a_index])"
                             class="btn btn-default btn-xs"
                     >
                       <i class="fa fa-plus" aria-hidden="true"></i> Add value
@@ -151,7 +151,7 @@
             </div>
 
           </div>
-          <pre ng-if="debug">em={{em|json}}</pre>
+          <pre ng-if="debug">em={{term._ems[a_index]|json}}</pre>
         </td>
 
       </tr>
