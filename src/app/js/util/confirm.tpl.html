@@ -6,7 +6,7 @@
     <div ng-bind-html="info.message"> </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary btn-sm" ng-click="ok()">OK</button>
-    <button class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary btn-sm" ng-click="ok()">{{info.okLabel || 'OK'}}</button>
+    <button class="btn btn-default btn-sm" ng-click="cancel()">{{info.cancelLabel || 'Cancel'}}</button>
   </div>
 </div>

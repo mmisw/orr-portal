@@ -157,10 +157,10 @@
 
     $scope.cancelNewVersion = function() {
       utl.confirm({
-        title:   "Cancel?",
         message: '<div class="center">' +
-        'Any changes will be lost' +
+        'Any changes made will be lost' +
         '</div>',
+        cancelLabel: 'Back to editing',
         ok: function() {
           $scope.editMode = false;
           refreshOntology(vm.uri);
