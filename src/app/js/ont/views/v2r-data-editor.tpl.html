@@ -17,9 +17,10 @@
     <tab-heading>
 
       <div>
+        {{getName(vocab.class)}}
         <button ng-click="editVocabClass(vocab.class)" class="btn btn-link"
                 ng-disabled="someEditInProgress() || attrTableform.$waiting">
-          {{getName(vocab.class)}} <i class="fa fa-edit" aria-hidden="true"></i>
+          <i class="fa fa-edit" aria-hidden="true"></i>
         </button>
 
         <div class="btn-group" uib-dropdown>
@@ -49,9 +50,10 @@
         <th style="vertical-align: middle">ID</th>
 
         <th ng-repeat="p in vocab.properties track by $index" ng-init="p_index=$index">
+          {{getLabel(p)}}
           <button ng-click="editVocabProperty(p)" class="btn btn-link"
                   ng-disabled="someEditInProgress() || attrTableform.$waiting">
-            {{getLabel(p)}} <i class="fa fa-edit" aria-hidden="true"></i>
+            <i class="fa fa-edit" aria-hidden="true"></i>
           </button>
 
           <div class="btn-group" uib-dropdown>
