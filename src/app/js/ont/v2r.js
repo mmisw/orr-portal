@@ -111,10 +111,12 @@
     }
 
     (function prepareVocabMenu() {
+      var MOV_LEFT  = 'Move vocabulary to the left';
+      var MOV_RIGTH = 'Move vocabulary to the right';
       var INS_LEFT  = 'Insert vocabulary (to the left)';
       var INS_RIGHT = 'Insert vocabulary (to the right)';
       var DEL_COL   = 'Delete this vocabulary';
-      $scope.vocabMenu = [INS_LEFT, INS_RIGHT, DEL_COL];
+      $scope.vocabMenu = [MOV_LEFT, MOV_RIGTH, INS_LEFT, INS_RIGHT, DEL_COL];
 
       $scope.addVocab = function() {
         insertVocab($scope.vocabs.length);
@@ -123,10 +125,25 @@
       $scope.vocabOptionSelected = function(v_index, opt) {
         var vocab = $scope.vocabs[v_index];
         //console.log("vocabOptionSelected: vocab=", vocab, "opt=", opt);
+        if (opt === MOV_LEFT)  moveVocab(v_index, v_index - 1);
+        if (opt === MOV_RIGTH) moveVocab(v_index, v_index + 1);
         if (opt === INS_LEFT)  insertVocab(v_index);
         if (opt === INS_RIGHT) insertVocab(v_index + 1);
         if (opt === DEL_COL)   deleteVocab(v_index);
       };
+
+      function moveVocab(from_index, to_index) {
+        console.log("moveVocab: from_index=" ,from_index, "to_index=", to_index);
+        if (from_index < 0 || from_index >= $scope.vocabs.length) return;
+        if (to_index   < 0 || to_index   >= $scope.vocabs.length) return;
+
+        var vocab = $scope.vocabs[from_index];
+        $scope.vocabs.splice(from_index, 1);
+        if (from_index < to_index) {
+          to_index += 1;
+        }
+        $scope.vocabs.splice(to_index, 0, vocab);
+      }
 
       function insertVocab(v_index) {
         //console.log("insertVocab: inserting at ", v_index);
