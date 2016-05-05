@@ -95,7 +95,7 @@
     function editIdModel(title, idModel) {
       console.log("editId': title=", title, "idModel=", idModel);
       var modalInstance = $uibModal.open({
-        templateUrl: 'js/v2r/views/v2r-edit-id.tpl.html',
+        templateUrl: 'js/ont/views/v2r-edit-id.tpl.html',
         controller:   V2rEditIdController,
         backdrop:    'static',
         resolve: {

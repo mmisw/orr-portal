@@ -42,14 +42,6 @@ angular.module('orrportal.directives', [])
         }
     })
 
-    .directive('orrportalV2r', function() {
-        return {
-            restrict:     'E',
-            templateUrl:  'js/v2r/views/v2r.tpl.html',
-            controller:   'V2RController'
-        }
-    })
-
     .directive('voc', function() {
         return {
             restrict:     'E',
