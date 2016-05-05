@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var debug = appUtil.debug;
+  var debug = true;//appUtil.debug;
 
   angular.module('orrportal.v2r', [])
     .directive('v2rDataViewer',  V2rDataViewerDirective)
@@ -130,7 +130,7 @@
 
     $scope.addTerm = function(vocab) {
       vocab.terms.push({
-        value:      "",
+        name:      "",
         attributes: _.map(vocab.properties, function() { return null })
       });
     };
@@ -197,7 +197,7 @@
     };
 
     // transfer the changes to the model
-    $scope.applyCellChanges = function(attributes, a_index, em) {
+    $scope.applyCellChanges = function(term, a_index, em) {
       $scope.setEditInProgress(false);
       var result = [];
 
@@ -216,17 +216,18 @@
       }
 
       if (result.length > 1)
-        attributes[a_index] = result;
+        term.attributes[a_index] = result;
       else if (result.length == 1)
-        attributes[a_index] = result[0];
+        term.attributes[a_index] = result[0];
       else
-        attributes[a_index] = null;
+        term.attributes[a_index] = null;
 
       // don't let the cell edit model (array) get empty, so
       // user can later still click cell to edit and add a value
       if (em.length === 0) {
         em.push({id: 0, value: null});
       }
+      //console.log("applyCellChanges: attributes=", term.attributes, "a_index=", a_index, "em=", em);
     };
 
   }

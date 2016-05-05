@@ -34,7 +34,7 @@
       </thead>
 
       <tbody>
-      <tr ng-repeat="t in vocab.terms track by $index" ng-init="t_index = $index">
+      <tr ng-repeat="term in vocab.terms track by $index" ng-init="t_index = $index">
 
         <td style="width: 10px">
           <button type="button"
@@ -50,23 +50,23 @@
 
         <td style="width: 5%">
           <span ng-if="someEditInProgress() || attrTableform.$waiting"
-                ng-bind="t.name"
+                ng-bind="term.name"
           ></span>
           <span ng-if="!(someEditInProgress() || attrTableform.$waiting)"
-                editable-text="t.name" buttons="no" onbeforesave="checkTermId($data)"
-                ng-bind="t.name || 'empty'"
+                editable-text="term.name" buttons="no" onbeforesave="checkTermId($data)"
+                ng-bind="term.name || 'empty'"
           >
           </span>
         </td>
 
-        <td ng-repeat="a in t.attributes track by $index" ng-init="a_index = $index"
+        <td ng-repeat="a in term.attributes track by $index" ng-init="a_index = $index"
             ng-class="{'cell-editing': attrTableform.$visible}"
         >
           <div ng-init="em = getAttrEditModel(a)">
 
             <div>
               <form editable-form name="attrTableform"
-                    onaftersave="applyCellChanges(t.attributes, a_index, em)"
+                    onaftersave="applyCellChanges(term, a_index, em)"
                     oncancel="cancelCell(em)">
 
                 <table class="table table-condensed"
@@ -75,15 +75,17 @@
                        uib-tooltip="{{!attrTableform.$visible && !someEditInProgress() ? 'Click to edit the value(s) for this property' : ''}}"
                 >
                   <tr ng-repeat="valueEntry in em | filter:filterValue track by $index">
+
                     <td ng-show="attrTableform.$visible" style="width: 10px">
                       <button type="button" ng-click="deleteValue(em, valueEntry.id)"
-                              class="btn btn-danger btn-xs pull-right"
+                              class="btn btn-danger btn-xs"
                               uib-tooltip="Remove this value"
                               tooltip-placement="left"
                       >
                         <i class="fa fa-times" aria-hidden="true"></i>
                       </button>
                     </td>
+
                     <td>
                       <span editable-textarea="valueEntry.value"
                             e-rows="2"
@@ -106,7 +108,8 @@
 
                     <button type="submit" ng-disabled="attrTableform.$waiting"
                             class="btn btn-default btn-xs"
-                            uib-tooltip="Apply all changes in this cell">
+                            uib-tooltip="Apply all changes in this cell"
+                    >
                       <i class="fa fa-check" aria-hidden="true"></i> Apply
                     </button>
 
@@ -123,6 +126,7 @@
             </div>
 
           </div>
+          <pre ng-if="debug">em={{em|json}}</pre>
         </td>
 
       </tr>
@@ -143,6 +147,10 @@
 
       </tbody>
     </table>
+
+    <div ng-if="debug" class="debug">
+      <pre>vocab = {{vocab | json}}</pre>
+    </div>
 
   </uib-tab>
 
