@@ -32,8 +32,8 @@
 
           <div ng-if="editMode">
             <orp-multivalue-edit prop-value="meta[p]"
-                                 disable-edit-if="metadataEditInProgress || dataEditInProgress"
-                                 edit-in-progress="setMetadataEditInProgress(inProgress)"
+                                 disable-edit-if="someEditInProgress()"
+                                 edit-in-progress="setEditInProgress(inProgress)"
             ></orp-multivalue-edit>
 
             <pre ng-if="debug">meta[{{p}}] = {{meta[p] | json}}</pre>

@@ -12,7 +12,11 @@
         ng-click="editMode = false"
 >Cancel</button>
 
-<pre>editMode = {{editMode}}</pre>
+<div class="debug">editMode = {{editMode}};
+metaEditInProgress = {{vm.metaEditInProgress}};
+dataEditInProgress = {{vm.dataEditInProgress}};
+someEditInProgress = {{vm.someEditInProgress}}
+</div>
 
 <ont-contents ontology="vm.ontology"
               data="vm.data"

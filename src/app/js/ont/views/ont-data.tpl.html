@@ -17,8 +17,18 @@
       <pre>data = {{data | json}}</pre>
     </div>
 
-    <pre ng-bind="data | json"></pre>
-    <pre ng-bind="data | json"></pre>
+    <div ng-if="format === 'v2r'">
+      <v2r-data-viewer ng-if="!editMode" vocabs="data" uri="uri"
+      ></v2r-data-viewer>
+
+      <v2r-data-editor ng-if="editMode" vocabs="data" uri="uri"
+      ></v2r-data-editor>
+    </div>
+
+    <div ng-if="format !== 'v2r'">
+      <h3>Format '{{format}}' no handled yet</h3>
+      <pre>data = {{data | json}}</pre>
+    </div>
 
   </div>
 

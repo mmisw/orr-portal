@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var debug = appUtil.debug
+  var debug = appUtil.debug;
 
   angular.module('orrportal.ont.contents', [])
     .directive('ontContents', OntContentsDirective)
@@ -78,11 +78,22 @@
   OntMetaSectionDirective.$inject = [];
   function OntMetaSectionDirective() {
     if (debug) console.log("++OntMetaSectionDirective++");
+
+    function link(scope, el, attrs, orrOnt) {
+      scope.setEditInProgress = function(inProgress) {
+        orrOnt.setMetaEditInProgress(inProgress);
+      };
+      scope.someEditInProgress = function() {
+        return orrOnt.someEditInProgress();
+      };
+    }
+
     return {
       restrict:  'E',
-      require:   '^ontMeta',
+      require:   '^orrOnt',
       templateUrl: 'js/ont/views/ont-meta-section.tpl.html',
       controller: OntMetaSectionController,
+      link: link,
       scope: {
         meta:       '=',
         predicates: '=',
@@ -110,8 +121,10 @@
       templateUrl: 'js/ont/views/ont-data.tpl.html',
       controller: OntDataController,
       scope: {
-        data: '=',
-        editMode:   '='
+        uri:      '=',
+        format:   '=',
+        data:     '=',
+        editMode: '='
       }
     }
   }

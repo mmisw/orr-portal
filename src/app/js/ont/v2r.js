@@ -1,100 +1,85 @@
 (function() {
   'use strict';
 
-  angular.module('orrportal.v2r', ['ui.grid', 'ui.grid.edit', 'ui.grid.cellNav'])
+  var debug = appUtil.debug;
 
-    .directive('orrportalV2rView', function() {
-      return {
-        restrict:     'E',
-        templateUrl:  'js/v2r/views/v2r-view.tpl.html'
-      }
-    })
-    .directive('orrportalV2rEdit', function() {
-      return {
-        restrict:     'E',
-        templateUrl:  'js/v2r/views/v2r-edit.tpl.html',
-        scope: {
-          editInProgress: '&'
-        },
-        controller:    V2RController  // TODO proper controller for editing
-      }
-    })
-
-    .controller('V2RController', V2RController)
-    .controller('V2rEditIdController', V2rEditIdController)
+  angular.module('orrportal.v2r', [])
+    .directive('v2rDataViewer',  V2rDataViewerDirective)
+    .directive('v2rDataEditor',  V2rDataEditorDirective)
   ;
 
+  V2rDataViewerDirective.$inject = [];
+  function V2rDataViewerDirective() {
+    if (debug) console.log("++V2rDataViewerDirective++");
+    return {
+      restrict: 'E',
+      templateUrl: 'js/ont/views/v2r-data-viewer.tpl.html',
+      controller: V2rDataViewerController,
+      scope: {
+        uri:    '=',
+        vocabs: '='
+      }
+    }
+  }
 
-  V2RController.$inject = ['$rootScope', '$scope', '$routeParams', '$window', '$filter', '$uibModal', 'service'];
-
-  function V2RController($rootScope, $scope, $routeParams, $window, $filter, $uibModal, service) {
-    if (appUtil.debug) console.log("++V2RController++ $scope=", $scope);
+  V2rDataViewerController.$inject = ['$scope', '$window'];
+  function V2rDataViewerController($scope, $window) {
+    debug = debug || $scope.debug;
+    $scope.debug = debug;
+    if (debug) console.log("++V2rDataViewerController++ $scope=", $scope);
 
     var vm = $scope.vm = {
-      someCellBeingEdited: false
-    };
-    vm.uri = $rootScope.rvm.rUri || $routeParams.uri;
-
-    service.getOntologyFormat(vm.uri, "v2r", gotOntology);
-
-    function gotOntology(error, data) {
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      console.log("gotOntology: data=", data);
-      vm.v2r = data;
-    }
-
-    $scope.removeTerm = function(vocab, index) {
-      vocab.terms.splice(index, 1);
+      uri: $scope.uri
     };
 
-    $scope.addTerm = function(vocab) {
-      vocab.terms.push({
-        value:      "",
-        attributes: _.map(vocab.properties, function() { return null })
-      });
-    };
-
-    $scope.getUri = function(e) {
-      if (e.uri)   return e.uri;
-      if (!vm.uri) return undefined;
-      return vm.uri + "/" + e.name;
-    };
-
-    $scope.getName = function(e) {
-      if (e.name)   return e.name;
-      if (e.uri)    return e.uri;
-    };
-
-    $scope.getLabel = function(e) {
-      if (e.label)  return e.label;
-      if (e.name)   return capitalizeFirstLetter(e.name);
-      return e.uri;
-    };
-
-    function capitalizeFirstLetter(s) {
-      if (s) s = s.substr(0, 1).toUpperCase() + s.substr(1);
-      return s;
-    }
-
-    $scope.singleAttrValue = function(a) {
-      if (angular.isString(a))                 return a;
-      if (angular.isArray(a) && a.length == 1) return a[0];
-    };
-
-    $scope.multipleAttrValues = function(a) {
-      if (angular.isArray(a) && a.length > 1) return a;
-    };
+    setCommonMethods($scope, vm);
 
     // mainly a workaround as the ng-href link in the "text/ng-template"
     // doesn't work for some reason
     $scope.openLink = function(href) {
       $window.open(href, "_blank");
     };
+  }
 
+  ///////////////////////////////////////////////////////
+
+  V2rDataEditorDirective.$inject = [];
+  function V2rDataEditorDirective() {
+    if (debug) console.log("++V2rDataEditorDirective++");
+
+    function link(scope, el, attrs, orrOnt) {
+      scope.setEditInProgress = function(inProgress) {
+        orrOnt.setDataEditInProgress(inProgress);
+      };
+      scope.someEditInProgress = function() {
+        return orrOnt.someEditInProgress();
+      };
+    }
+
+    return {
+      restrict: 'E',
+      require:  '^orrOnt',
+      templateUrl: 'js/ont/views/v2r-data-editor.tpl.html',
+      controller: V2rDataEditorController,
+      link: link,
+      scope: {
+        uri:    '=',
+        vocabs: '='
+      }
+    };
+  }
+
+  V2rDataEditorController.$inject = ['$scope', '$uibModal'];
+  function V2rDataEditorController($scope, $uibModal) {
+    debug = debug || $scope.debug;
+    $scope.debug = debug;
+    if (debug) console.log("++V2rDataEditorController++ $scope=", $scope);
+
+    var vm = $scope.vm = {
+      uri: $scope.uri
+    };
+
+    setCommonMethods($scope, vm);
 
     //////////////////////////////////////
     // Class and property editing
@@ -111,7 +96,7 @@
       console.log("editId': title=", title, "idModel=", idModel);
       var modalInstance = $uibModal.open({
         templateUrl: 'js/v2r/views/v2r-edit-id.tpl.html',
-        controller:  'V2rEditIdController',
+        controller:   V2rEditIdController,
         backdrop:    'static',
         resolve: {
           info: function () {
@@ -143,10 +128,9 @@
     // Value cell editing
 
     $scope.enterCellEditing = function(tableform) {
-      if (!vm.someCellBeingEdited) {
+      if (!$scope.someEditInProgress()) {
         console.log("enterCellEditing");
-        vm.someCellBeingEdited = true;
-        $scope.editInProgress({inProgress: true});
+        $scope.setEditInProgress(true);
         tableform.$show()
       }
     };
@@ -187,8 +171,7 @@
 
     // cancel all changes
     $scope.cancelCell = function(em) {
-      vm.someCellBeingEdited = false;
-      $scope.editInProgress({inProgress: false});
+      $scope.setEditInProgress(false);
       for (var i = em.length; i--;) {
         var valueEntry = em[i];
         // undelete
@@ -204,8 +187,7 @@
 
     // transfer the changes to the model
     $scope.applyCellChanges = function(attributes, a_index, em) {
-      vm.someCellBeingEdited = false;
-      $scope.editInProgress({inProgress: false});
+      $scope.setEditInProgress(false);
       var result = [];
 
       for (var i = em.length; i--;) {
@@ -235,6 +217,7 @@
         em.push({id: 0, value: null});
       }
     };
+
   }
 
   V2rEditIdController.$inject = ['$scope', '$uibModalInstance', 'info'];
@@ -256,7 +239,7 @@
 
     $scope.idEditFormOk = function() {
       return vm.idType === 'lname' && vm.lname
-          || vm.idType === 'uri' && vm.uri;
+        || vm.idType === 'uri' && vm.uri;
     };
 
     $scope.doneEditId = function() {
@@ -274,6 +257,39 @@
     $scope.cancelEditId = function() {
       $uibModalInstance.dismiss();
     };
+  }
+
+  function setCommonMethods($scope, vm) {
+    $scope.getUri = function(e) {
+      if (e.uri)   return e.uri;
+      if (!vm.uri) return undefined;
+      return vm.uri + "/" + e.name;
+    };
+
+    $scope.getName = function(e) {
+      if (e.name)   return e.name;
+      if (e.uri)    return e.uri;
+    };
+
+    $scope.getLabel = function(e) {
+      if (e.label)  return e.label;
+      if (e.name)   return capitalizeFirstLetter(e.name);
+      return e.uri;
+    };
+
+    $scope.singleAttrValue = function(a) {
+      if (angular.isString(a))                 return a;
+      if (angular.isArray(a) && a.length == 1) return a[0];
+    };
+
+    $scope.multipleAttrValues = function(a) {
+      if (angular.isArray(a) && a.length > 1) return a;
+    };
+  }
+
+  function capitalizeFirstLetter(s) {
+    if (s) s = s.substr(0, 1).toUpperCase() + s.substr(1);
+    return s;
   }
 
 })();
