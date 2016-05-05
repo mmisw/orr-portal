@@ -394,3 +394,14 @@ div.debug {
   border-radius: 5px;
   padding: 3px;
 }
+
+.cell-editing {
+  background-color: #fbeacb !important;
+}
+.transparent {
+  background-color: transparent !important;
+}
+
+.table {
+  margin-bottom: 0 !important;
+}

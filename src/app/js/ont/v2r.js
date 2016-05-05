@@ -69,8 +69,8 @@
     };
   }
 
-  V2rDataEditorController.$inject = ['$scope', '$uibModal'];
-  function V2rDataEditorController($scope, $uibModal) {
+  V2rDataEditorController.$inject = ['$scope', '$uibModal', '$filter'];
+  function V2rDataEditorController($scope, $uibModal, $filter) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++V2rDataEditorController++ $scope=", $scope);
