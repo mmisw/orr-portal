@@ -2,6 +2,8 @@
 
 * 2016-05-05: 0.3.1:
   - v2r: add property column drop-down menus
+  - ont/v2r: at contents submission, omit keys starting with '_',
+    which are used only for UI purposes
 
 * 2016-05-04: 0.3.1:
   - both only metadata (non-v2r cases), and v2r case -ie., complete

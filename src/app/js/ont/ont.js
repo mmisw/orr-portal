@@ -178,11 +178,11 @@
       if (vm.ontology.format === 'v2r') {
         // Whole contents submission case.
         params.format = 'v2r';
-        params.contents = {
+        params.contents = omitSpecialFields({
           metadata: vm.ontology.metadata,
           vocabs:   vm.data
-        };
-        //console.log("TO submit V2R = ", params.contents);
+        });
+        console.log("TO submit V2R = ", params.contents);
       }
       else {
         // Only metadata submission case.
@@ -238,6 +238,12 @@
             });
           }
         }
+      }
+
+      function omitSpecialFields(obj) {
+        return appUtil.filterKeys(obj, function(key) {
+          return !key.startsWith('_');
+        });
       }
     };
 
