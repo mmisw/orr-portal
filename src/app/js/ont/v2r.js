@@ -123,8 +123,6 @@
       };
 
       $scope.vocabOptionSelected = function(v_index, opt) {
-        var vocab = $scope.vocabs[v_index];
-        //console.log("vocabOptionSelected: vocab=", vocab, "opt=", opt);
         if (opt === MOV_LEFT)  moveVocab(v_index, v_index - 1);
         if (opt === MOV_RIGTH) moveVocab(v_index, v_index + 1);
         if (opt === INS_LEFT)  insertVocab(v_index);
@@ -133,20 +131,10 @@
       };
 
       function moveVocab(from_index, to_index) {
-        console.log("moveVocab: from_index=" ,from_index, "to_index=", to_index);
-        if (from_index < 0 || from_index >= $scope.vocabs.length) return;
-        if (to_index   < 0 || to_index   >= $scope.vocabs.length) return;
-
-        var vocab = $scope.vocabs[from_index];
-        $scope.vocabs.splice(from_index, 1);
-        if (from_index < to_index) {
-          to_index += 1;
-        }
-        $scope.vocabs.splice(to_index, 0, vocab);
+        moveArrayElement($scope.vocabs, from_index, to_index);
       }
 
       function insertVocab(v_index) {
-        //console.log("insertVocab: inserting at ", v_index);
         var idModel = {name: '?'};
         $scope.editVocabClass(idModel).result.then(function() {
           console.log('editIdModel dialog accepted: idModel=', idModel);
@@ -167,7 +155,6 @@
           '</div>',
           ok: function() {
             $timeout(function() {
-              //console.log("deleteVocab: deleting at ", v_index);
               $scope.vocabs.splice(v_index, 1);
             });
           }
@@ -176,25 +163,34 @@
     })();
 
     (function prepareColumnMenu() {
+      var MOV_LEFT  = 'Move property to the left';
+      var MOV_RIGTH = 'Move property to the right';
       var INS_LEFT  = 'Insert property (to the left)';
       var INS_RIGHT = 'Insert property (to the right)';
       var DEL_COL   = 'Delete this property';
-      $scope.columnMenu = [INS_LEFT, INS_RIGHT, DEL_COL];
+      $scope.columnMenu = [MOV_LEFT, MOV_RIGTH, INS_LEFT, INS_RIGHT, DEL_COL];
 
       $scope.addProperty = function(vocab) {
         insertProp(vocab, vocab.properties.length);
       };
 
       $scope.columnOptionSelected = function(vocab, p_index, opt) {
-        var property = vocab.properties[p_index];
-        //console.log("columnOptionSelected: property=", property, "opt=", opt);
+        if (opt === MOV_LEFT)  moveProp(vocab, p_index, p_index - 1);
+        if (opt === MOV_RIGTH) moveProp(vocab, p_index, p_index + 1);
         if (opt === INS_LEFT)  insertProp(vocab, p_index);
         if (opt === INS_RIGHT) insertProp(vocab, p_index + 1);
         if (opt === DEL_COL)   deleteProp(vocab, p_index);
       };
 
+      function moveProp(vocab, from_index, to_index) {
+        moveArrayElement(vocab.properties, from_index, to_index);
+        _.each(vocab.terms, function(term) {
+          moveArrayElement(term.attributes, from_index, to_index);
+          moveArrayElement(term._ems,       from_index, to_index);
+        });
+      }
+
       function insertProp(vocab, p_index) {
-        //console.log("columnOptionSelected: inserting at ", p_index);
         var idModel = {name: '?'};
         $scope.editVocabProperty(idModel).result.then(function() {
           //console.log('editIdModel dialog accepted: idModel=', idModel);
@@ -430,6 +426,16 @@
   function capitalizeFirstLetter(s) {
     if (s) s = s.substr(0, 1).toUpperCase() + s.substr(1);
     return s;
+  }
+
+  function moveArrayElement(array, from_index, to_index) {
+    if (from_index < 0 || from_index >= array.length) return;
+    if (to_index   < 0 || to_index   >= array.length) return;
+
+    var element = array[from_index];
+    array.splice(from_index, 1);
+    if (from_index < to_index) to_index += 1;
+    array.splice(to_index, 0, element);
   }
 
 })();
