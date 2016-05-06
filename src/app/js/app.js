@@ -102,6 +102,9 @@
           controller: 'MainController'}
       )
 
+      .when('/newvoc/', {
+          template: '<orr-ont></orr-ont>'})
+
       .when('/so/:so*', {
         templateUrl: 'js/main/views/main.tpl.html',
         controller: 'MainController'})

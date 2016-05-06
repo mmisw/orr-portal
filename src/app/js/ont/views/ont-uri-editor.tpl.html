@@ -1,0 +1,110 @@
+<div ng-if="debug" class="debug">
+  <pre>vm = {{vm | json}}</pre>
+</div>
+
+
+<div style="display: inline-block; vertical-align: top; width:95%; margin: 10px; margin-top: 20px">
+  <div class="panel panel-default">
+
+    <div class="panel-heading" ng-bind="vm.title">
+    </div>
+
+    <div class="panel-body">
+
+      <form class="form-horizontal">
+        <p style="color: gray">
+          You can either specify the full URI for the resulting ontology
+          or select the "full hosted" mode in which you will only need
+          to specify the owner and a short name.
+        </p>
+        <br>
+
+        <div class="form-group">
+          <div class="col-xs-12 center">
+            <label class="btn btn-default" ng-model="vm.uriType" uib-btn-radio="'fully-hosted'">Fully&nbsp;hosted</label>
+            &nbsp;
+            <label class="btn btn-default" ng-model="vm.uriType" uib-btn-radio="'re-hosted'">Re-hosted</label>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="form-group" ng-if="vm.uriType === 'fully-hosted'">
+          <label for="inputLocalName" class="control-label col-xs-2">
+            Owner:
+          </label>
+
+          <div class="col-xs-4">
+            <input id="inputLocalName"
+                   type="text"
+                   class="form-control"
+                   ng-model="vm.owner"
+            >
+          </div>
+        </div>
+
+        <div class="form-group" ng-if="vm.uriType === 'fully-hosted'">
+          <label for="inputShortName" class="control-label col-xs-2">
+            Short&nbsp;name:
+          </label>
+
+          <div class="col-xs-4">
+            <input id="inputShortName"
+                   type="text"
+                   class="form-control"
+                   ng-model="vm.shortName"
+            >
+          </div>
+        </div>
+
+        <div class="form-group" ng-if="vm.uriType === 'fully-hosted'">
+          <label class="control-label col-xs-1"></label>
+
+          <div class="col-xs-7">
+            <span>
+              URI:
+              <span class="uriTextSimple">{{vm.base}}/{{vm.owner||'?'}}/{{vm.shortName||'?'}}
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group" ng-if="vm.uriType === 're-hosted'">
+
+          <label for="inputUri" class="control-label col-xs-2">
+            Full&nbsp;URI:
+          </label>
+
+          <div class="col-xs-8">
+            <input id="inputUri"
+                   type="url"
+                   class="form-control"
+                   ng-model="vm.uri"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+
+          <label class="col-xs-3"> </label>
+          <button class="btn btn-primary btn-sm"
+                  ng-disabled="!uriEditFormOk()"
+                  ng-click="doneUriEdit()"
+          >OK
+          </button>
+
+          <label class="col-xs-1"> </label>
+          <button class="btn btn-default btn-sm"
+                  ng-click="cancelUriEdit()"
+                  ng-disabled="vm.working"
+          >Cancel
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+

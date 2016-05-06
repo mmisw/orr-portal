@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var debug = appUtil.debug;
+  var debug = true;//appUtil.debug;
 
   angular.module('orrportal.ont', ['orrportal.ont.contents'])
     .directive('orrOnt',  OntDirective)
@@ -33,11 +33,13 @@
     return this.scope.vm.someEditInProgress;
   };
 
-  OntController.$inject = ['$rootScope', '$scope', '$routeParams', '$timeout', '$window', 'service', 'utl'];
-  function OntController($rootScope, $scope, $routeParams, $timeout, $window, service, utl) {
+
+  OntController.$inject = ['$rootScope', '$scope', '$routeParams', '$timeout', '$window', '$location', '$uibModal', 'service', 'utl'];
+  function OntController($rootScope, $scope, $routeParams, $timeout, $window, $location, $uibModal, service, utl) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++OntController++ $scope=", $scope);
+
 
     this.scope = $scope;
 
@@ -66,7 +68,53 @@
     };
 
 
-    refreshOntology(vm.uri);
+    if (vm.uri) {
+      refreshOntology(vm.uri);
+    }
+    else {
+      //if (canCreateBrandNew()) {
+      //  startBrandNew();
+      //}
+      //else {
+        $timeout(function() {
+          if (canCreateBrandNew()) {
+            startBrandNew();
+          }
+          else {
+            $location.url("/");
+          }
+        }, 2000);
+      //}
+    }
+
+    function canCreateBrandNew() {
+      return $rootScope.userLoggedIn();
+    }
+
+    function startBrandNew() {
+      vm.ontology = {
+        "metadata": {
+        },
+        "versions": [
+        ],
+        "format": "v2r"
+      };
+      vm.data = [];
+
+      console.log('rvm.masterAuth=', rvm.masterAuth);
+      $timeout(function() {
+        var info = {
+          base:      appConfig.orront.rest,
+          userOrgs:  rvm.masterAuth.organizations
+        };
+        editOntUri(info).result.then(function(res) {
+          console.log('editOntUri dialog accepted: res=', res);
+          vm.ontology.uri = vm.uri = res.uri;
+          vm.ontology.orgName = res.owner;
+        });
+      });
+
+    }
 
     function refreshOntology(uri) {
       service.refreshOntology(vm.uri, gotOntology);
@@ -272,6 +320,56 @@
 
     }
 
+    function editOntUri(info) {
+      console.log("editOntUri': info=", info);
+      return $uibModal.open({
+        templateUrl: 'js/ont/views/ont-uri-editor.tpl.html',
+        controller:   OntUriEditorController,
+        backdrop:    'static',
+        resolve: {
+          info: function () {
+            return info;
+          }
+        }
+      });
+    }
+  }
+
+  OntUriEditorController.$inject = ['$scope', '$uibModalInstance', 'info'];
+  function OntUriEditorController($scope, $uibModalInstance, info) {
+    console.log("++OntUriEditorController++: info=", info);
+
+    var vm = $scope.vm = {
+      title:      'Ontology URI',
+      base:       info.base,
+      uriType:    'fully-hosted',
+      owner:      undefined,
+      shortName:  undefined
+    };
+
+    $scope.$watch("vm.shortName", function(val) {
+      if (val) vm.shortName = val.replace(/[\s/|?&!,;'\\]/gi, "");
+    });
+
+    $scope.uriEditFormOk = function() {
+      if (!vm.owner) return false;
+
+      if (vm.uriType === 'fully-hosted')
+        return vm.shortName;
+      else
+        return vm.uri;
+    };
+
+    $scope.doneUriEdit = function() {
+      if (vm.uriType === 'fully-hosted') {
+        vm.uri = vm.base + "/" + vm.owner + "/" + vm.shortName;
+      }
+      $uibModalInstance.close({uri: vm.uri, owner: vm.owner});
+    };
+
+    $scope.cancelUriEdit = function() {
+      $uibModalInstance.dismiss();
+    };
   }
 
 })();
