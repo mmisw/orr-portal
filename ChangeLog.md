@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-05-06: 0.3.1:
+  - switch to ui-router
+
 * 2016-05-05: 0.3.1:
   - v2r: add property column drop-down menus
   - ont/v2r: at contents submission, omit keys starting with '_',

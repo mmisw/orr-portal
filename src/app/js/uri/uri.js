@@ -5,15 +5,15 @@
     .controller('UriController', UriController)
   ;
 
-  UriController.$inject = ['$rootScope', '$scope', '$routeParams', '$timeout', '$window', 'service', 'utl'];
+  UriController.$inject = ['$rootScope', '$scope', '$stateParams', '$timeout', '$window', 'service', 'utl'];
 
-  function UriController($rootScope, $scope, $routeParams, $timeout, $window, service, utl) {
+  function UriController($rootScope, $scope, $stateParams, $timeout, $window, service, utl) {
     if (appUtil.debug) console.log("++UriController++");
 
     var rvm = $rootScope.rvm;
 
     var vm = $scope.vm = {};
-    vm.uri = $rootScope.rvm.rUri || $routeParams.uri;
+    vm.uri = $rootScope.rvm.rUri || $stateParams.uri;
     vm.ontology = undefined;
     vm.error = undefined;
 

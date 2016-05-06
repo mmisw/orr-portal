@@ -22,7 +22,7 @@
   <script src='vendor/angular-cookie/angular-cookie.js'></script>
   <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="vendor/angular-sanitize/angular-sanitize.js"></script>
-  <script src="vendor/angular-route/angular-route.js"></script>
+  <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="vendor/angular-clipboard/angular-clipboard.js"></script>
   <script src="vendor/lodash/dist/lodash.js"></script>
   <script src="vendor/moment/moment.js"></script>
@@ -65,6 +65,16 @@
 
 <body ng-controller="UtilCtrl">
 
+<pre ng-if="debug">
+  <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
+  $state = {{$state.current.name}}
+  $stateParams = {{$stateParams}}
+  $state full url = {{ $state.$current.url.source }}
+  <!-- $state.$current is not a public api, we are using it to
+       display the full url for learning purposes-->
+</pre>
+<hr>
+
 <orrportal-header></orrportal-header>
 
 <!--
@@ -76,7 +86,7 @@
 </div>
 -->
 
-<div ng-view></div>
+<div ui-view></div>
 
 <pre ng-if="debug" ng-bind="rvm | json"></pre>
 </body>

@@ -6,9 +6,9 @@ angular.module('orrportal.ontgrid', ['ui.grid'])
     .controller('OntGridController', OntGridController)
 ;
 
-OntGridController.$inject = ['$scope', '$routeParams', '$location', '$filter', 'uiGridConstants'];
+OntGridController.$inject = ['$scope', '$stateParams', '$location', '$filter', 'uiGridConstants'];
 
-function OntGridController($scope, $routeParams, $location, $filter, uiGridConstants) {
+function OntGridController($scope, $stateParams, $location, $filter, uiGridConstants) {
     if (appUtil.debug) console.log("++OntGridController++");
 
     $scope.ontItems = [];
@@ -88,7 +88,7 @@ function OntGridController($scope, $routeParams, $location, $filter, uiGridConst
         }
     };
 
-    parseRouteParams($scope, $routeParams);
+    parseRouteParams($scope, $stateParams);
 
     $scope.doSearch = function() {
         searchSettingsChanged($scope, $location);
@@ -112,8 +112,8 @@ function OntGridController($scope, $routeParams, $location, $filter, uiGridConst
 
 }
 
-function parseRouteParams($scope, $routeParams) {
-    $scope.tableOpts.globalFilter = $routeParams.so;
+function parseRouteParams($scope, $stateParams) {
+    $scope.tableOpts.globalFilter = $stateParams.so;
 }
 
 function searchSettingsChanged($scope, $location) {

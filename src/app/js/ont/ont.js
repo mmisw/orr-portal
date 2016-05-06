@@ -34,8 +34,8 @@
   };
 
 
-  OntController.$inject = ['$rootScope', '$scope', '$routeParams', '$timeout', '$window', '$location', '$uibModal', 'service', 'utl'];
-  function OntController($rootScope, $scope, $routeParams, $timeout, $window, $location, $uibModal, service, utl) {
+  OntController.$inject = ['$rootScope', '$scope', '$stateParams', '$timeout', '$window', '$location', '$uibModal', 'service', 'utl'];
+  function OntController($rootScope, $scope, $stateParams, $timeout, $window, $location, $uibModal, service, utl) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++OntController++ $scope=", $scope);
@@ -46,7 +46,7 @@
     var rvm = $rootScope.rvm;
 
     var vm = $scope.vm = {};
-    vm.uri = $rootScope.rvm.rUri || $routeParams.uri;
+    vm.uri = $rootScope.rvm.rUri || $stateParams.uri;
 
     $scope.uriClipboard = {
       result: '',
@@ -72,10 +72,10 @@
       refreshOntology(vm.uri);
     }
     else {
-      //if (canCreateBrandNew()) {
-      //  startBrandNew();
-      //}
-      //else {
+      if (canCreateBrandNew()) {
+        startBrandNew();
+      }
+      else {
         $timeout(function() {
           if (canCreateBrandNew()) {
             startBrandNew();
@@ -83,8 +83,8 @@
           else {
             $location.url("/");
           }
-        }, 2000);
-      //}
+        }, 1000);
+      }
     }
 
     function canCreateBrandNew() {

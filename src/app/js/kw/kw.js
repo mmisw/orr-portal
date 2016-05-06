@@ -5,15 +5,15 @@
     .controller('KeywordSearchController', KeywordSearchController)
   ;
 
-  KeywordSearchController.$inject = ['$rootScope', '$scope', '$routeParams', '$location', '$http'];
+  KeywordSearchController.$inject = ['$rootScope', '$scope', '$stateParams', '$location', '$http'];
 
-  function KeywordSearchController($rootScope, $scope, $routeParams, $location, $http) {
+  function KeywordSearchController($rootScope, $scope, $stateParams, $location, $http) {
     if (appUtil.debug) console.log("++KeywordSearchController++");
 
     $rootScope.rvm.curView = 'kw';
 
     var vm = {};
-    vm.kw = $routeParams.kw ? $routeParams.kw.replace(/\s*,\s*/g, ", ") : '';
+    vm.kw = $stateParams.kw ? $stateParams.kw.replace(/\s*,\s*/g, ", ") : '';
     $scope.vm = vm;
 
     doSearch();
@@ -34,7 +34,7 @@
     };
 
     $scope.searchSettingsChanged = function() {
-      var stParam = $routeParams.kw !== undefined ? $routeParams.kw.trim() : '';
+      var stParam = $stateParams.kw !== undefined ? $stateParams.kw.trim() : '';
       var searchText = vm.kw !== undefined ? vm.kw.trim() : '';
       if (stParam === searchText) {
         doSearch();

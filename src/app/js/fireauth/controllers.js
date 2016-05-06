@@ -25,8 +25,8 @@
     };
   }
 
-  fireAuth.$inject = ['$rootScope', '$location', '$route', '$firebaseAuth', 'fireData', 'service', 'cfg'];
-  function fireAuth($rootScope, $location, $route, $firebaseAuth, fireData, service, cfg) {
+  fireAuth.$inject = ['$rootScope', '$location', '$state', '$firebaseAuth', 'fireData', 'service', 'cfg'];
+  function fireAuth($rootScope, $location, $state, $firebaseAuth, fireData, service, cfg) {
     var ref = new Firebase(cfg.firebase.url);
     var auth = $firebaseAuth(ref);
     var masterAuth = $rootScope.rvm.masterAuth;
@@ -154,7 +154,8 @@
 
       function updateUI() {
         service.setDoRefreshOntologies(true);
-        $route.reload();
+        //$state.reload();
+        // TODO graceful update as this *reload* would cause controllers to be created twice
       }
     }
   }

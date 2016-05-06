@@ -6,12 +6,12 @@
     .controller('CreateOrgController', CreateOrgController)
   ;
 
-  OrgController.$inject = ['$scope', '$routeParams', 'service'];
+  OrgController.$inject = ['$scope', '$stateParams', 'service'];
 
-  function OrgController($scope, $routeParams, service) {
+  function OrgController($scope, $stateParams, service) {
     if (appUtil.debug) console.log("++OrgController++");
 
-    $scope.orgName = $routeParams.orgName;
+    $scope.orgName = $stateParams.orgName;
     $scope.org = undefined;
     $scope.error = undefined;
 
