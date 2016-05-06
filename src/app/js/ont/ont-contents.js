@@ -17,7 +17,6 @@
     if (debug) console.log("++OntContentsDirective++");
     return {
       restrict: 'E',
-      require:   '^orrOnt',
       templateUrl: 'js/ont/views/ont-contents.tpl.html',
       controller: OntContentsController,
       scope: {
@@ -42,7 +41,6 @@
     if (debug) console.log("++OntMetaDirective++");
     return {
       restrict:  'E',
-      require:   '^ontContents',
       templateUrl: 'js/ont/views/ont-meta.tpl.html',
       controller: OntMetaController,
       scope: {
@@ -134,7 +132,6 @@
     if (debug) console.log("++OntDataDirective++");
     return {
       restrict:  'E',
-      require:   '^ontContents',
       templateUrl: 'js/ont/views/ont-data.tpl.html',
       controller: OntDataController,
       scope: {
