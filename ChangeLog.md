@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-05-06: 0.3.1:
+  - brand-new v2r creation...
   - switch to ui-router
 
 * 2016-05-05: 0.3.1:

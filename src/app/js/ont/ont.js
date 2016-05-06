@@ -34,8 +34,8 @@
   };
 
 
-  OntController.$inject = ['$rootScope', '$scope', '$stateParams', '$timeout', '$window', '$location', '$uibModal', 'service', 'utl'];
-  function OntController($rootScope, $scope, $stateParams, $timeout, $window, $location, $uibModal, service, utl) {
+  OntController.$inject = ['$rootScope', '$scope', '$stateParams', '$state', '$timeout', '$window', '$location', '$uibModal', 'service', 'utl'];
+  function OntController($rootScope, $scope, $stateParams, $state, $timeout, $window, $location, $uibModal, service, utl) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++OntController++ $scope=", $scope);
@@ -101,17 +101,41 @@
       };
       vm.data = [];
 
-      console.log('rvm.masterAuth=', rvm.masterAuth);
-      $timeout(function() {
-        var info = {
-          base:      appConfig.orront.rest,
-          userOrgs:  rvm.masterAuth.organizations
-        };
-        editOntUri(info).result.then(function(res) {
-          console.log('editOntUri dialog accepted: res=', res);
-          vm.ontology.uri = vm.uri = res.uri;
-          vm.ontology.orgName = res.owner;
-        });
+      var userName = $rootScope.rvm.masterAuth.loggedInInfo.uid;
+
+      // TODO properly handle distinction between userName OR organization (this also involves orr-ont)
+      vm.ownerOptions = [{
+        id:    userName,
+        name: 'User: ' + userName + ": " + $rootScope.rvm.masterAuth.loggedInInfo.displayName
+      }];
+      vm.selectedOwner = undefined;
+      // add user's organizations:
+
+      // TODO clean up!! as the organization might be already known here
+      service.refreshUser(userName, function(error, user) {
+        if (error) { console.error("error getting user:", error); }
+        else {
+          console.log("refreshUser: got=", user);
+          _.each(user.organizations, function(o) {
+            vm.ownerOptions.push({
+              id: o.orgName,
+              name: 'Organization: ' + o.orgName + ": " + o.name
+            });
+          });
+
+          var info = {
+            base:          appConfig.orront.rest,
+            ownerOptions:  vm.ownerOptions
+          };
+          editOntUri(info).result.then(function(res) {
+            console.log('editOntUri dialog accepted: res=', res);
+            vm.ontology.uri = vm.uri = res.uri;
+            vm.ontology.orgName = res.owner;
+          }, function() {
+            $state.go("/");
+          });
+
+        }
       });
 
     }
@@ -340,28 +364,32 @@
     console.log("++OntUriEditorController++: info=", info);
 
     var vm = $scope.vm = {
-      title:      'Ontology URI',
+      title:      'Ontology owner and URI',
       base:       info.base,
-      uriType:    'fully-hosted',
+      ownerOptions: info.ownerOptions,
+      uriType:    'orrBasedUri',
       owner:      undefined,
       shortName:  undefined
     };
 
     $scope.$watch("vm.shortName", function(val) {
-      if (val) vm.shortName = val.replace(/[\s/|?&!,;'\\]/gi, "");
+      if (val) {
+        val = val.replace(/\s+/, "_");
+        vm.shortName = val.replace(/[\s/|?&!,;'\\]/gi, "");
+      }
     });
 
     $scope.uriEditFormOk = function() {
       if (!vm.owner) return false;
 
-      if (vm.uriType === 'fully-hosted')
+      if (vm.uriType === 'orrBasedUri')
         return vm.shortName;
       else
         return vm.uri;
     };
 
     $scope.doneUriEdit = function() {
-      if (vm.uriType === 'fully-hosted') {
+      if (vm.uriType === 'orrBasedUri') {
         vm.uri = vm.base + "/" + vm.owner + "/" + vm.shortName;
       }
       $uibModalInstance.close({uri: vm.uri, owner: vm.owner});
