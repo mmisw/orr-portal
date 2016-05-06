@@ -48,8 +48,12 @@
     var vm = $scope.vm = {};
     vm.uri = $rootScope.rvm.rUri || $stateParams.uri;
 
+    // todo move this to a directive or more general utility
     $scope.uriClipboard = {
       result: '',
+      getText: function() {
+        return vm.brandNew ? null : vm.uri;
+      },
       getTooltip: function() {
         return $scope.uriClipboard.result || 'Copy URI to clipboard';
       },
@@ -69,6 +73,7 @@
 
 
     if (vm.uri) {
+      vm.brandNew = false;
       refreshOntology(vm.uri);
     }
     else {
@@ -92,6 +97,7 @@
     }
 
     function startBrandNew() {
+      vm.brandNew = true;
       vm.ontology = {
         "metadata": {
         },
@@ -131,6 +137,7 @@
             console.log('editOntUri dialog accepted: res=', res);
             vm.ontology.uri = vm.uri = res.uri;
             vm.ontology.orgName = res.owner;
+            $scope.startEditMode();
           }, function() {
             $state.go("/");
           });
@@ -240,7 +247,7 @@
       });
     };
 
-    $scope.registerNewVersion = function() {
+    $scope.registerOntology = function() {
 
       var params = {
         uri:        vm.uri,
@@ -281,8 +288,7 @@
         params.metadata = angular.toJson(newMetadata);
       }
 
-      var brandNew = false;
-      service.registerOntology(brandNew, params, registrationCallback(params.uri));
+      service.registerOntology(vm.brandNew, params, registrationCallback(params.uri));
 
       // registrationCallback: verbatim copy from upload.js  TODO move to a common place
       function registrationCallback(uri) {
