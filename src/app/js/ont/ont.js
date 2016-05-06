@@ -374,7 +374,7 @@
 
     $scope.$watch("vm.shortName", function(val) {
       if (val) {
-        val = val.replace(/\s+/, "_");
+        val = val.replace(/\s+/g, "_");
         vm.shortName = val.replace(/[\s/|?&!,;'\\]/gi, "");
       }
     });
@@ -390,9 +390,9 @@
 
     $scope.doneUriEdit = function() {
       if (vm.uriType === 'orrBasedUri') {
-        vm.uri = vm.base + "/" + vm.owner + "/" + vm.shortName;
+        vm.uri = vm.base + "/" + vm.owner.id + "/" + vm.shortName;
       }
-      $uibModalInstance.close({uri: vm.uri, owner: vm.owner});
+      $uibModalInstance.close({uri: vm.uri, owner: vm.owner.id});
     };
 
     $scope.cancelUriEdit = function() {
