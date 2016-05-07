@@ -3,7 +3,9 @@
 
   var debug = appUtil.debug;
 
-  angular.module('orrportal.ont.contents', [])
+  angular.module('orrportal.ont.contents', [
+    'orrportal.metaUtil'
+  ])
     .directive('ontContents', OntContentsDirective)
     .directive('ontMeta',     OntMetaDirective)
     .directive('ontMetaSection', OntMetaSectionDirective)
@@ -50,42 +52,13 @@
     }
   }
 
-  OntMetaController.$inject = ['$scope'];
-  function OntMetaController($scope) {
+  OntMetaController.$inject = ['$scope', 'metaUtil'];
+  function OntMetaController($scope, metaUtil) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++OntMetaController++ $scope=", $scope);
 
-    $scope.sections = [
-      {
-        header: "Everything",
-        tooltip: "Aja!",
-        predicates: ["pred-1", "pred-2"]
-      }
-    ];
-
-    $scope.$watch("meta", function(meta) {
-      if (debug) console.log("watch meta=", meta);
-      if (!meta) return;
-
-      var predicates = _.keys(meta);
-
-      // do not show rdf:type owl:Ontology
-      var types = meta[vocabulary.rdf.type.uri];
-      if (types) {
-        types = _.filter(types, function(v) {
-          return v !== vocabulary.owl.Ontology.uri;
-        });
-        if (types.length === 0) {
-          predicates = _.filter(predicates, function(p) {
-            return p !== vocabulary.rdf.type.uri;
-          });
-        }
-      }
-      //console.log("predicates=", predicates);
-      $scope.sections[0].predicates = predicates;
-    });
-
+    $scope.sections = metaUtil.sections;
   }
 
   ///////////////////////////////////////////////////

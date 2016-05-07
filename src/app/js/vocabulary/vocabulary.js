@@ -1,55 +1,103 @@
-var vocabulary = (function() {
+(function(_) {
   'use strict';
 
-  var omvNS = "http://omv.ontoware.org/2005/05/ontology#";
-  var omv = {
-    NS: omvNS,
-    hasCreator: {
-      uri: omvNS + "hasCreator",
-      label: "Ontology Creator"
-    },
-    keywords: {
-      uri: omvNS + "keywords",
-      label: "Keywords"
-    },
-    description: {
-      uri: omvNS + "description",
-      label: "Description"
-    }
-  };
+  angular.module('orrportal.vocabulary', [])
+    .factory('vocabulary', vocabulary)
+  ;
 
-  var omvmmiNS = "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/";
-  var omvmmi = {
-    NS: omvmmiNS,
-    origMaintainerCode: {
-      uri: omvmmiNS + "origMaintainerCode",
-      label: "Organization"
-    }
-  };
+  function vocabulary() {
+    return {
+      rdf: setDetailsAndNS("http://www.w3.org/1999/02/22-rdf-syntax-ns#", {
+        type: {
+        }
+      }),
 
-  var rdfNS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-  var rdf = {
-    NS: rdfNS,
-    type: {
-      uri: rdfNS + "type",
-      label: "type"
-    }
-  };
+      owl: setDetailsAndNS("http://www.w3.org/2002/07/owl#", {
+        Ontology: {
+        }
+      }),
 
-  var owlNS = "http://www.w3.org/2002/07/owl#";
-  var owl = {
-    NS: owlNS,
-    Ontology: {
-      uri: owlNS + "Ontology",
-      label: "Ontology"
-    }
-  };
+      omv: setDetailsAndNS("http://omv.ontoware.org/2005/05/ontology#", {
+        hasCreator: {
+          label: "Ontology Creator"
+        },
+        keywords: {
+          label: "Keywords"
+        },
+        description: {
+          label: "Description"
+        },
+        origVocUri: {
+          label: "Original vocabulary"
+        },
+        documentation: {
+          label: "Documentation"
+        },
+        hasContributor: {
+          label: "Contributor"
+        },
+        reference: {
+          label: "Reference"
+        }
+      }),
 
-  return {
-    omv:     omv,
-    omvmmi:  omvmmi,
-    rdf:     rdf,
-    owl:     owl
+      omvmmi: setDetailsAndNS("http://mmisw.org/ont/mmi/20081020/ontologyMetadata/", {
+        hasResourceType: {
+          label: "Resource type"
+        },
+        hasContentCreator: {
+          label: "Content Creator"
+        },
+        origVocUri: {
+          label: "Original vocabulary"
+        },
+        origMaintainerCode: {
+          label: "Organization"
+        },
+        origVocManager: {
+          label: "Manager of source vocabulary"
+        },
+        contact: {
+          label: "Contact/Responsible Party"
+        },
+        contactRole: {
+          label: "Contact role"
+        },
+        temporaryMmiRole: {
+          label: "Temporary MMI role"
+        },
+        creditRequired: {
+          label: "Author credit required"
+        },
+        creditCitation: {
+          label: "Citation string"
+        },
+        origVocDocumentationUri: {
+          label: "Documentation"
+        },
+        origVocDescriptiveName: {
+          label: "Descriptive name"
+        },
+        origVocVersionId: {
+          label: "Version"
+        },
+        origVocKeywords: {
+          label: "Keywords"
+        },
+        origVocSyntaxFormat: {
+          label: "Syntax format"
+        }
+      })
+    };
+
+    function setDetailsAndNS(namespace, obj) {
+      _.each(obj, function(term, localName) {
+        term.uri = namespace + localName;
+        term.label = term.label || localName;
+      });
+      obj.NS = namespace;
+      return obj;
+    }
   }
 
-})();
+})(_);

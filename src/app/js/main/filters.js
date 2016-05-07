@@ -28,7 +28,7 @@
       }
     }])
 
-    .filter('propValueFilter', [function() {
+    .filter('propValueFilter', ['vocabulary', function(vocabulary) {
       return function(value, prop) {
         var predicate = prop.predicate ? prop.predicate : prop;
 

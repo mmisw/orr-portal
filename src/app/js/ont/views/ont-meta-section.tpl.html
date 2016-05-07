@@ -1,10 +1,5 @@
 <div>
 
-  <div ng-if="debug" class="debug">
-    <pre>meta = {{meta | json}}</pre>
-    <pre>predicates = {{predicates | json}}</pre>
-  </div>
-
   <form class="form-horizontal uriBody">
 
     <table class="table table-bordered">
@@ -12,31 +7,34 @@
 
       <tr ng-repeat="p in predicates">
         <td class="mdLabel">
-            <span ng-bind-html="p | mklinksOnlyExternal"
+            <label ng-bind-html="p.label | mklinksOnlyExternal"
+                  uib-popover="{{p.uri}}"
+                  popover-trigger="mouseenter"
+                  popover-placement="right"
             >
-            </span>
+            </label>
         </td>
 
         <td>
           <div ng-if="!editMode">
-            <div ng-if="meta[p].length === 1"
-                 ng-bind-html="meta[p][0] | propValueFilter:p">
+            <div ng-if="meta[p.uri].length === 1"
+                 ng-bind-html="meta[p.uri][0] | propValueFilter:p.uri">
             </div>
-            <table ng-if="meta[p].length > 1" class="table table-condensed">
-              <tr ng-repeat="v in meta[p] track by $index">
-                <td ng-bind-html="v | propValueFilter:p">
+            <table ng-if="meta[p.uri].length > 1" class="table table-condensed">
+              <tr ng-repeat="v in meta[p.uri] track by $index">
+                <td ng-bind-html="v | propValueFilter:p.uri">
                 </td>
               </tr>
             </table>
           </div>
 
           <div ng-if="editMode">
-            <orp-multivalue-edit prop-value="meta[p]"
+            <orp-multivalue-edit prop-value="meta[p.uri]"
                                  disable-edit-if="someEditInProgress()"
                                  edit-in-progress="setEditInProgress(inProgress)"
             ></orp-multivalue-edit>
 
-            <pre ng-if="debug">meta[{{p}}] = {{meta[p] | json}}</pre>
+            <pre ng-if="debug||true">meta[{{p.uri}}] = {{meta[p.uri] | json}}</pre>
 
           </div>
 
@@ -48,5 +46,10 @@
     </table>
 
   </form>
+
+  <div ng-if="debug" class="debug">
+    <pre>meta = {{meta | json}}</pre>
+    <pre>predicates = {{predicates | json}}</pre>
+  </div>
 
 </div>

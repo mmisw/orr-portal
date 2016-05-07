@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var debug = true;//appUtil.debug;
+  var debug = appUtil.debug;
 
   angular.module('orrportal.ont', ['orrportal.ont.contents'])
     .directive('orrOnt',  OntDirective)
@@ -34,8 +34,16 @@
   };
 
 
-  OntController.$inject = ['$rootScope', '$scope', '$stateParams', '$state', '$timeout', '$window', '$location', '$uibModal', 'service', 'utl'];
-  function OntController($rootScope, $scope, $stateParams, $state, $timeout, $window, $location, $uibModal, service, utl) {
+  // todo reorganize! (too many deps is a code smell ;)
+  OntController.$inject = [
+    '$rootScope', '$scope', '$stateParams', '$state', '$timeout', '$window', '$location', '$uibModal',
+    'service', 'utl', 'vocabulary'
+  ];
+  function OntController(
+    $rootScope, $scope, $stateParams, $state, $timeout, $window, $location, $uibModal,
+    service, utl, vocabulary
+  ) {
+
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++OntController++ $scope=", $scope);
@@ -261,6 +269,8 @@
           metadata: vm.ontology.metadata,
           vocabs:   vm.data
         });
+        params.orgName = vm.ontology.orgName;
+        params.name = getNameFromOmv(vm.ontology.metadata);
         console.log("TO submit V2R = ", params.contents);
       }
       else {
@@ -278,12 +288,7 @@
 
         $scope.debug_newMetadata = newMetadata;
 
-        // used for 'name' in the ontology entry in the backend
-        var omv_descriptions = _.filter(newMetadata, {uri: vocabulary.omv.description.uri});
-        //console.log("omv_descriptions=", omv_descriptions);
-        if (omv_descriptions.length) {
-          params.name = _.map(omv_descriptions, "value").join("; ");
-        }
+        params.name = getNameFromOmv(newMetadata);
 
         params.metadata = angular.toJson(newMetadata);
       }
@@ -322,6 +327,16 @@
         return appUtil.filterKeys(obj, function(key) {
           return !key.startsWith('_');
         });
+      }
+
+      // omv:description used for 'name' in the ontology entry in the backend
+      // TODO should actually be omv:name
+      function getNameFromOmv(meta) {
+        var omv_descriptions = meta[vocabulary.omv.description.uri];
+        console.log("omv_descriptions=", omv_descriptions);
+        if (omv_descriptions && omv_descriptions.length) {
+          return omv_descriptions.join("; ");
+        }
       }
     };
 

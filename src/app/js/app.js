@@ -11,6 +11,7 @@
     ,'orrportal.main'
     ,'orrportal.facet'
     ,'orrportal.ontgrid'
+    ,'orrportal.vocabulary'
     ,'orrportal.org'
     ,'orrportal.ont'
     ,'orrportal.uri'
