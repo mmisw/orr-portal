@@ -79,12 +79,17 @@
       }
     };
 
+    var newFormat = $stateParams.newFormat;
 
     if (vm.uri) {
+      if (newFormat) console.warn("expecting undefined newFormat when vm.uri is defined. newFormat=", newFormat);
+
       vm.brandNew = false;
       refreshOntology(vm.uri);
     }
     else {
+      if (!newFormat) console.warn("expecting defined newFormat when vm.uri is undefined");
+
       if (canCreateBrandNew()) {
         startBrandNew();
       }
@@ -111,7 +116,7 @@
         },
         "versions": [
         ],
-        "format": "v2r"
+        "format": newFormat
       };
       vm.data = [];
 

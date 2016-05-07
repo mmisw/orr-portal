@@ -37,9 +37,9 @@
     }])
   ;
 
-  init.$inject = ['$rootScope', '$location', 'rUri', 'cfg'];
+  init.$inject = ['$rootScope', 'rUri', 'cfg'];
 
-  function init($rootScope, $location, rUri, cfg) {
+  function init($rootScope, rUri, cfg) {
     if (appUtil.debug) console.log("++INIT++");
 
     $rootScope.debug = appUtil.debug;
@@ -63,17 +63,6 @@
     $rootScope.$on('evtRefreshing', function(event, b) {
       $rootScope.refreshing = b;
     });
-
-
-    // TODO use popup dialog for uploadOntology??
-    $rootScope.uploadOntology = function() {
-      $location.url("rx");
-    };
-
-    // TODO use popup dialog for createOrg??
-    $rootScope.createOrg = function() {
-      $location.url("neworg");
-    };
 
     $rootScope.userLoggedIn = function() {
       if (rvm.masterAuth && rvm.masterAuth.loggedInInfo && rvm.masterAuth.loggedInInfo.uid) {
@@ -106,8 +95,6 @@
           //templateUrl: 'js/uri/views/uri.tpl.html',
           //controller: 'UriController'
           template: '<orr-ont></orr-ont>'
-          //templateUrl: 'js/ont/views/ont.tpl.html',
-          //controller: 'OntController'
         }
           : {
           url: '/',
@@ -117,9 +104,13 @@
 
       .state('newvoc', {
         url: '/newvoc',
+        params: { newFormat: 'v2r' },
         template: '<orr-ont></orr-ont>'
-        //templateUrl: 'js/ont/views/ont.tpl.html',
-        //controller: 'OntController'
+      })
+      .state('newmap', {
+        url: '/newmap',
+        params: { newFormat: 'm2r' },
+        template: '<orr-ont></orr-ont>'
       })
 
       .state('rx', {
