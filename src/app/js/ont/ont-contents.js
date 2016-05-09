@@ -2,6 +2,7 @@
   'use strict';
 
   var debug = appUtil.debug;
+  //debug = true;
 
   angular.module('orrportal.ont.contents', [
     'orrportal.metaUtil'
@@ -19,6 +20,7 @@
       scope: {
         ontology: '=',
         data:     '=',
+        ontDataFormat: '=',
         editMode: '='
       }
     }

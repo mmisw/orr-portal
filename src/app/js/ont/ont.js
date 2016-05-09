@@ -360,7 +360,7 @@
         getOntologyDataV2r();
       }
       else {
-        vm.data = "(data dispatch not implemented yet for format=" + vm.ontology.format + ")"
+        getOntologyDataOtherFormat();
       }
     }
 
@@ -375,9 +375,25 @@
         else {
           console.log("gotOntologyV2r: data=", data);
           vm.data = data.vocabs;
+          vm.ontDataFormat = 'v2r';
         }
       }
+    }
 
+    function getOntologyDataOtherFormat() {
+      service.getOntologyFormat(vm.uri, 'rj', gotOntologyOtherFormat);
+
+      function gotOntologyOtherFormat(error, data) {
+        if (error) {
+          $scope.error = error;
+          console.error(error);
+        }
+        else {
+          console.log("gotOntologyOtherFormat: data=", data);
+          vm.data = data;
+          vm.ontDataFormat = 'rj';
+        }
+      }
     }
 
     function editOntUri(info) {

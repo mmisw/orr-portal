@@ -2,13 +2,14 @@
           edit-mode="editMode"
 ></ont-meta>
 
-<ont-data data="data"
-          uri="ontology.uri"
-          format="ontology.format"
+<ont-data uri="ontology.uri"
+          data="data"
+          ont-data-format="ontDataFormat"
           edit-mode="editMode"
 ></ont-data>
 
 <div ng-if="debug" class="debug">
   <pre>ontology = {{ontology | json}}</pre>
   <pre>editMode = {{editMode | json}}</pre>
+  <pre>ontDataFormat = {{ontDataFormat | json}}</pre>
 </div>

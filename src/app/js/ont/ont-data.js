@@ -16,8 +16,8 @@
       controller: OntDataController,
       scope: {
         uri:      '=',
-        format:   '=',
         data:     '=',
+        ontDataFormat: '=',
         editMode: '='
       }
     }
