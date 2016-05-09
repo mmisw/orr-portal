@@ -268,7 +268,7 @@ div.facetsubblock {
   font-weight: 300;
 }
 
-a:link {
+.uriLink {
   font-family: 'Inconsolata', monospace;
   font-weight: 200;
 }
