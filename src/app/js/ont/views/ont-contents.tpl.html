@@ -1,8 +1,9 @@
-<ont-meta meta="ontology.metadata"
+<ont-meta ont-meta="ontology.metadata"
           edit-mode="editMode"
 ></ont-meta>
 
-<ont-data uri="ontology.uri"
+<ont-data ng-if="!editMode || ontDataFormat==='v2r' || ontDataFormat==='m2r'"
+          uri="ontology.uri"
           ont-data="ontData"
           ont-data-format="ontDataFormat"
           edit-mode="editMode"

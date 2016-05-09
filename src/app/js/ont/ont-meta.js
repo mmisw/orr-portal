@@ -16,7 +16,7 @@
       templateUrl: 'js/ont/views/ont-meta.tpl.html',
       controller: OntMetaController,
       scope: {
-        meta:     '=',
+        ontMeta:  '=',
         editMode: '='
       }
     }
@@ -35,7 +35,7 @@
     setOtherMetadataSection();
 
     function setOtherMetadataSection() {
-      var receivedPredicateUris = _.keys($scope.meta);
+      var receivedPredicateUris = _.keys($scope.ontMeta);
       var otherPredicateUris = _.difference(receivedPredicateUris, metaUtil.handledPredicateUris);
       if (otherPredicateUris.length) {
         metaUtil.otherSection.predicates = _.map(otherPredicateUris, function(uri) {

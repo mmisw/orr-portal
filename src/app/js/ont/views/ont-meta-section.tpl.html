@@ -18,11 +18,11 @@
 
         <td>
           <div ng-if="!editMode">
-            <div ng-if="meta[p.uri].length === 1"
-                 ng-bind-html="meta[p.uri][0] | propValueFilter:p.uri">
+            <div ng-if="ontMeta[p.uri].length === 1"
+                 ng-bind-html="ontMeta[p.uri][0] | propValueFilter:p.uri">
             </div>
-            <table ng-if="meta[p.uri].length > 1" class="table table-condensed transparent">
-              <tr ng-repeat="v in meta[p.uri] track by $index">
+            <table ng-if="ontMeta[p.uri].length > 1" class="table table-condensed transparent">
+              <tr ng-repeat="v in ontMeta[p.uri] track by $index">
                 <td ng-bind-html="v | propValueFilter:p.uri">
                 </td>
               </tr>
@@ -30,12 +30,12 @@
           </div>
 
           <div ng-if="editMode">
-            <orp-multivalue-edit prop-value="meta[p.uri]"
+            <orp-multivalue-edit prop-value="ontMeta[p.uri]"
                                  disable-edit-if="someEditInProgress()"
                                  edit-in-progress="setEditInProgress(inProgress)"
             ></orp-multivalue-edit>
 
-            <pre ng-if="debug">meta[{{p.uri}}] = {{meta[p.uri] | json}}</pre>
+            <pre ng-if="debug">ontMeta[{{p.uri}}] = {{ontMeta[p.uri] | json}}</pre>
 
           </div>
 
@@ -49,7 +49,7 @@
   </form>
 
   <div ng-if="debug" class="debug">
-    <pre>meta = {{meta | json}}</pre>
+    <pre>ontMeta = {{ontMeta | json}}</pre>
     <pre>predicates = {{predicates | json}}</pre>
     <pre>visiblePredicates = {{visiblePredicates | json}}</pre>
   </div>

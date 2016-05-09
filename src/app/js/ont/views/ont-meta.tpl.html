@@ -16,7 +16,7 @@
       <pre>editMode = {{editMode | json}}</pre>
       <pre>sections = {{sections | json}}</pre>
       <pre>visibleSections = {{visibleSections | json}}</pre>
-      <pre>meta = {{meta | json}}</pre>
+      <pre>ontMeta = {{ontMeta | json}}</pre>
     </div>
 
     <uib-tabset ng-if="visibleSections && visibleSections.length > 1"
@@ -31,7 +31,7 @@
           {{section.header}}
         </tab-heading>
 
-        <ont-meta-section meta="meta"
+        <ont-meta-section ont-meta="ontMeta"
                           predicates="section.predicates"
                           edit-mode="editMode">
         </ont-meta-section>
@@ -41,7 +41,7 @@
     </uib-tabset>
 
     <div ng-if="visibleSections && visibleSections.length == 1">
-      <ont-meta-section meta="meta"
+      <ont-meta-section ont-meta="ontMeta"
                         predicates="visibleSections[0].predicates"
                         edit-mode="editMode">
       </ont-meta-section>

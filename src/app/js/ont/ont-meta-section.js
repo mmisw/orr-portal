@@ -28,7 +28,7 @@
       controller: OntMetaSectionController,
       link: link,
       scope: {
-        meta:       '=',
+        ontMeta:    '=',
         predicates: '=',
         editMode:   '='
       }
