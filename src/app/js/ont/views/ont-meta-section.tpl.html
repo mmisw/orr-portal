@@ -7,6 +7,7 @@
 
       <tr ng-repeat="p in predicates">
         <td class="mdLabel">
+            <span ng-if="p.required" style="color: red">*</span>
             <label ng-bind-html="p.label | mklinksOnlyExternal"
                   uib-popover="{{p.uri}}"
                   popover-trigger="mouseenter"

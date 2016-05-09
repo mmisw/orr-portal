@@ -54,7 +54,7 @@
     var rvm = $rootScope.rvm;
 
     var vm = $scope.vm = {};
-    vm.uri = $rootScope.rvm.rUri || $stateParams.uri;
+    vm.uri = rvm.rUri || $stateParams.uri;
 
     // todo move this to a directive or more general utility
     $scope.uriClipboard = {
@@ -120,12 +120,13 @@
       };
       vm.data = [];
 
-      var userName = $rootScope.rvm.masterAuth.loggedInInfo.uid;
+      var loggedInInfo = rvm.masterAuth.loggedInInfo;
+      var userName = loggedInInfo.uid;
 
       // TODO properly handle distinction between userName OR organization (this also involves orr-ont)
       vm.ownerOptions = [{
         id:    userName,
-        name: 'User: ' + userName + ": " + $rootScope.rvm.masterAuth.loggedInInfo.displayName
+        name: 'User: ' + userName + ": " + loggedInInfo.displayName
       }];
       vm.selectedOwner = undefined;
       // add user's organizations:
@@ -150,14 +151,23 @@
             console.log('editOntUri dialog accepted: res=', res);
             vm.ontology.uri = vm.uri = res.uri;
             vm.ontology.orgName = res.owner;
+            initMetaForBrandNew(res.owner);
             $scope.startEditMode();
           }, function() {
             $state.go("/");
           });
-
+        }
+        function initMetaForBrandNew(owner) {
+          var creator = loggedInInfo.displayName || userName || owner;
+          var meta = vm.ontology.metadata;
+          meta[vocabulary.omv.hasCreator.uri] = [creator];
         }
       });
+    }
 
+    function adjustMetaForBrandNew() {
+      var meta = vm.ontology.metadata;
+      meta[vocabulary.omvmmi.origMaintainerCode.uri] = [vm.ontology.orgName];
     }
 
     function refreshOntology(uri) {
@@ -275,6 +285,9 @@
           vocabs:   vm.data
         });
         params.orgName = vm.ontology.orgName;
+
+        if (vm.brandNew) adjustMetaForBrandNew();
+
         params.name = getNameFromOmv(vm.ontology.metadata);
         console.log("TO submit V2R = ", params.contents);
       }
@@ -334,13 +347,12 @@
         });
       }
 
-      // omv:description used for 'name' in the ontology entry in the backend
-      // TODO should actually be omv:name
+      // omv:name used for 'name' in the ontology entry in the backend
       function getNameFromOmv(meta) {
-        var omv_descriptions = meta[vocabulary.omv.description.uri];
-        console.log("omv_descriptions=", omv_descriptions);
-        if (omv_descriptions && omv_descriptions.length) {
-          return omv_descriptions.join("; ");
+        var omv_name = meta[vocabulary.omv.name.uri];
+        console.log("omv_name=", omv_name);
+        if (omv_name && omv_name.length) {
+          return omv_name.join("; ");
         }
       }
     };

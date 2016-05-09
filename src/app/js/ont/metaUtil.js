@@ -7,23 +7,24 @@
 
   metaUtil.$inject = ['vocabulary'];
   function metaUtil(vocabulary) {
+    var omv    = vocabulary.omv;
+    var omvmmi = vocabulary.omvmmi;
+
     return {
       sections: getSections()
     };
 
     function getSections() {
-      var omv    = vocabulary.omv;
-      var omvmmi = vocabulary.omvmmi;
-
       var sectionKeys = ["general", "usage", "source", "other"];
       var sectionObj = {
         general: {
           header: "General",
           predicates: [
+            omv.name,
+            omv.description,
             omvmmi.hasResourceType,
             omvmmi.hasContentCreator,
             omv.hasCreator,
-            omv.description,
             omv.keywords,
             omv.origVocUri,
             omvmmi.origMaintainerCode,

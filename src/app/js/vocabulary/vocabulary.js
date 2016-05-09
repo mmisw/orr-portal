@@ -18,14 +18,19 @@
       }),
 
       omv: setDetailsAndNS("http://omv.ontoware.org/2005/05/ontology#", {
+        name: {
+          label: "Name",
+          required: true
+        },
+        description: {
+          label: "Description",
+          required: true
+        },
         hasCreator: {
           label: "Ontology Creator"
         },
         keywords: {
           label: "Keywords"
-        },
-        description: {
-          label: "Description"
         },
         origVocUri: {
           label: "Original vocabulary"

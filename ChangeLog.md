@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-05-08: 0.3.1:
+  - some metadata initialization for brand new
+
 * 2016-05-06: 0.3.1:
   - introduce metaUtil (for sections handling); expand standard vocabularies
   - brand-new v2r creation...
