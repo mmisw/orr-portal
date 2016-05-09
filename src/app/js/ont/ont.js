@@ -20,13 +20,13 @@
   OntController.prototype.setMetaEditInProgress = function(inProgress) {
     var vm = this.scope.vm;
     vm.metaEditInProgress = inProgress;
-    vm.someEditInProgress = vm.metaEditInProgress || vm.dataEditInProgress;;
+    vm.someEditInProgress = vm.metaEditInProgress || vm.dataEditInProgress;
   };
 
   OntController.prototype.setDataEditInProgress = function(inProgress) {
     var vm = this.scope.vm;
     vm.dataEditInProgress = inProgress;
-    vm.someEditInProgress = vm.metaEditInProgress || vm.dataEditInProgress;;
+    vm.someEditInProgress = vm.metaEditInProgress || vm.dataEditInProgress;
   };
 
   OntController.prototype.someEditInProgress = function() {
@@ -34,7 +34,7 @@
   };
 
 
-  // todo reorganize! (too many deps is a code smell ;)
+  // todo reorganize! (too many deps)
   OntController.$inject = [
     '$rootScope', '$scope', '$stateParams', '$state', '$timeout', '$window', '$location', '$uibModal',
     'service', 'utl', 'vocabulary'

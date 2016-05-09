@@ -20,10 +20,10 @@
         general: {
           header: "General",
           predicates: [
-            omv.name,
-            omv.description,
+            required(omv.name),
+            required(omv.description),
             omvmmi.hasResourceType,
-            omvmmi.hasContentCreator,
+            hideForNew(omvmmi.hasContentCreator),
             omv.hasCreator,
             omv.keywords,
             omv.origVocUri,
@@ -68,6 +68,18 @@
           predicates: sectionObj[key].predicates
         };
       });
+
+      function required(predicate) {
+        return addAttrs(predicate, {required: true});
+      }
+
+      function hideForNew(predicate) {
+        return addAttrs(predicate, {hideForNew: true});
+      }
+
+      function addAttrs(predicate, attrs) {
+        return _.assign(_.cloneDeep(predicate), attrs);
+      }
     }
   }
 

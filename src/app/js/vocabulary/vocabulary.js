@@ -19,12 +19,10 @@
 
       omv: setDetailsAndNS("http://omv.ontoware.org/2005/05/ontology#", {
         name: {
-          label: "Name",
-          required: true
+          label: "Name"
         },
         description: {
-          label: "Description",
-          required: true
+          label: "Description"
         },
         hasCreator: {
           label: "Ontology Creator"
