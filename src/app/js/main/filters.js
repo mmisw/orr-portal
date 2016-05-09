@@ -50,9 +50,9 @@
             var prepared = _.map(list, function(word) {
               word = word.trim();
               var a = '<a href="#/kw/' +word+ '">'+ word+ '</a>';
-              return'<span class="btn btn-default btn-link badge">' + a + '</span>'
+              return'<span class="btn btn-link btn-sm badge kwLink">' + a + '</span>'
             });
-            return prepared.join("&nbsp;&nbsp;");
+            return prepared.join(" ");
           }
         }
       }

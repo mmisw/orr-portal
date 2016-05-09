@@ -407,3 +407,11 @@ div.debug {
 .table {
   margin-bottom: 0 !important;
 }
+
+.kwLink {
+  background-color: transparent;
+  text-decoration: underline;
+}
+.kwLink:hover {
+  border-color: darkgreen;
+}
