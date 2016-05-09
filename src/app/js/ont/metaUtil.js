@@ -19,6 +19,7 @@
       var sectionObj = {
         general: {
           header: "General",
+          tooltip: "General information about this ontology, who created it, and where it came from.",
           predicates: [
             required(omv.name),
             required(omv.description),
@@ -35,6 +36,7 @@
 
         usage: {
           header: "Usage/License/Permissions",
+          tooltip: "The Usage, License, and Permissions fields help keep track of how we obtained this vocabulary (and know it is OK to serve to others), and on what terms other people can use it.",
           predicates: [
             omvmmi.origVocManager,
             omvmmi.contact,
@@ -47,6 +49,7 @@
 
         source: {
           header: "Original source",
+          tooltip: "Specific metadata that was documented in the original vocabulary, so you can see how it was originally documented.",
           predicates: [
             omvmmi.origVocDocumentationUri,
             omvmmi.origVocDescriptiveName,
@@ -64,10 +67,7 @@
       };
 
       return _.map(sectionKeys, function(key) {
-        return {
-          header:     sectionObj[key].header,
-          predicates: sectionObj[key].predicates
-        };
+        return sectionObj[key];
       });
 
       function required(predicate) {

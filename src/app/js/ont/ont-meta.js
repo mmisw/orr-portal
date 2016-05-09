@@ -29,7 +29,7 @@
 
     $scope.sections = metaUtil.sections;
     $scope.visibleSections = _.filter($scope.sections, function(s) {
-      return !s.hideForNew && s.predicates && s.predicates.length;
+      return !$scope.editMode || (!s.hideForNew && s.predicates && s.predicates.length);
     });
   }
 
