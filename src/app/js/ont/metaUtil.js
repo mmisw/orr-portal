@@ -27,7 +27,7 @@
             omv.hasCreator,
             omv.keywords,
             omv.origVocUri,
-            omvmmi.origMaintainerCode,
+            hideForNew(omvmmi.origMaintainerCode),
             omv.hasContributor,
             omv.reference
           ]
@@ -39,7 +39,7 @@
             omvmmi.origVocManager,
             omvmmi.contact,
             omvmmi.contactRole,
-            omvmmi.temporaryMmiRole,
+            hideForNew(omvmmi.temporaryMmiRole),
             omvmmi.creditRequired,
             omvmmi.creditCitation
           ]
@@ -58,6 +58,7 @@
 
         other: {
           header: "Other",
+          hideForNew: true,
           tooltip: 'Ontology metadata properties not classified/aggregated in other sections (TODO)'
         }
       };

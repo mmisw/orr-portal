@@ -5,7 +5,7 @@
     <table class="table table-bordered">
       <tbody>
 
-      <tr ng-repeat="p in predicates">
+      <tr ng-repeat="p in visiblePredicates">
         <td class="mdLabel">
             <span ng-if="p.required" style="color: red">*</span>
             <label ng-bind-html="p.label | mklinksOnlyExternal"
@@ -51,6 +51,7 @@
   <div ng-if="debug" class="debug">
     <pre>meta = {{meta | json}}</pre>
     <pre>predicates = {{predicates | json}}</pre>
+    <pre>visiblePredicates = {{visiblePredicates | json}}</pre>
   </div>
 
 </div>

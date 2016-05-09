@@ -15,13 +15,14 @@
     <div ng-if="debug" class="debug">
       <pre>editMode = {{editMode | json}}</pre>
       <pre>sections = {{sections | json}}</pre>
+      <pre>visibleSections = {{visibleSections | json}}</pre>
       <pre>meta = {{meta | json}}</pre>
     </div>
 
-    <uib-tabset ng-if="sections && sections.length > 1"
+    <uib-tabset ng-if="visibleSections && visibleSections.length > 1"
                 style="width: 100%">
 
-      <uib-tab ng-repeat="section in sections"
+      <uib-tab ng-repeat="section in visibleSections"
                style="cursor: pointer">
 
         <tab-heading uib-popover="{{section.tooltip}}" popover-trigger="mouseenter" popover-placement="right">
@@ -37,9 +38,9 @@
 
     </uib-tabset>
 
-    <div ng-if="sections && sections.length == 1">
+    <div ng-if="visibleSections && visibleSections.length == 1">
       <ont-meta-section meta="meta"
-                        predicates="sections[0].predicates"
+                        predicates="visibleSections[0].predicates"
                         edit-mode="editMode">
       </ont-meta-section>
 

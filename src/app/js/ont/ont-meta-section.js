@@ -2,6 +2,7 @@
   'use strict';
 
   var debug = appUtil.debug;
+  //debug = true;
 
   angular.module('orrportal.ont.contents')
     .directive('ontMetaSection', OntMetaSectionDirective)
@@ -38,6 +39,8 @@
   function OntMetaSectionController($scope) {
     $scope.debug = debug = debug || $scope.debug;
     if (debug) console.log("++OntMetaSectionController++ $scope=", $scope);
+
+    $scope.visiblePredicates = _.filter($scope.predicates, function(p) { return !p.hideForNew });
 
   }
 
