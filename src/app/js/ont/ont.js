@@ -280,15 +280,14 @@
       if (vm.ontology.format === 'v2r') {
         // Whole contents submission case.
         params.format = 'v2r';
+        params.orgName = vm.ontology.orgName;
+        params.name = getNameFromOmv(vm.ontology.metadata);
+        if (vm.brandNew) adjustMetaForBrandNew();
+
         params.contents = omitSpecialFields({
           metadata: vm.ontology.metadata,
           vocabs:   vm.data
         });
-        params.orgName = vm.ontology.orgName;
-
-        if (vm.brandNew) adjustMetaForBrandNew();
-
-        params.name = getNameFromOmv(vm.ontology.metadata);
         console.log("TO submit V2R = ", params.contents);
       }
       else {

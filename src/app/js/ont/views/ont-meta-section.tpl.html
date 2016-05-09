@@ -7,7 +7,7 @@
 
       <tr ng-repeat="p in visiblePredicates">
         <td class="mdLabel">
-            <span ng-if="p.required" style="color: red">*</span>
+            <span ng-if="editMode && p.required" style="color: red">*</span>
             <label ng-bind-html="p.label | mklinksOnlyExternal"
                   uib-popover="{{p.uri}}"
                   popover-trigger="mouseenter"
@@ -21,7 +21,7 @@
             <div ng-if="meta[p.uri].length === 1"
                  ng-bind-html="meta[p.uri][0] | propValueFilter:p.uri">
             </div>
-            <table ng-if="meta[p.uri].length > 1" class="table table-condensed">
+            <table ng-if="meta[p.uri].length > 1" class="table table-condensed transparent">
               <tr ng-repeat="v in meta[p.uri] track by $index">
                 <td ng-bind-html="v | propValueFilter:p.uri">
                 </td>
