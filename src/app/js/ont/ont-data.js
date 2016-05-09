@@ -15,10 +15,10 @@
       templateUrl: 'js/ont/views/ont-data.tpl.html',
       controller: OntDataController,
       scope: {
-        uri:      '=',
-        data:     '=',
+        uri:           '=',
+        ontData:       '=',
         ontDataFormat: '=',
-        editMode: '='
+        editMode:      '='
       }
     }
   }

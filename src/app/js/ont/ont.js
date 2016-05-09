@@ -119,7 +119,7 @@
         ],
         "format": newFormat
       };
-      vm.data = [];
+      vm.ontData = [];
 
       var loggedInInfo = rvm.masterAuth.loggedInInfo;
       var userName = loggedInInfo.uid;
@@ -285,7 +285,7 @@
 
         params.contents = omitSpecialFields({
           metadata: vm.ontology.metadata,
-          vocabs:   vm.data
+          vocabs:   vm.ontData
         });
         console.log("TO submit V2R = ", params.contents);
       }
@@ -374,7 +374,7 @@
         }
         else {
           console.log("gotOntologyV2r: data=", data);
-          vm.data = data.vocabs;
+          vm.ontData = data.vocabs;
           vm.ontDataFormat = 'v2r';
         }
       }
@@ -390,7 +390,7 @@
         }
         else {
           console.log("gotOntologyOtherFormat: data=", data);
-          vm.data = data;
+          vm.ontData = data;
           vm.ontDataFormat = 'rj';
         }
       }

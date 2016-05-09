@@ -14,20 +14,20 @@
 
     <div ng-if="debug" class="debug">
       <pre>editMode = {{editMode | json}}</pre>
-      <pre>data = {{data | json}}</pre>
+      <pre>ontData = {{ontData | json}}</pre>
     </div>
 
     <div ng-if="ontDataFormat === 'v2r'">
-      <v2r-data-viewer ng-if="!editMode" vocabs="data" uri="uri"
+      <v2r-data-viewer ng-if="!editMode" vocabs="ontData" uri="uri"
       ></v2r-data-viewer>
 
-      <v2r-data-editor ng-if="editMode" vocabs="data" uri="uri"
+      <v2r-data-editor ng-if="editMode" vocabs="ontData" uri="uri"
       ></v2r-data-editor>
     </div>
 
     <div ng-if="ontDataFormat !== 'v2r'">
       <h3>ontDataFormat '{{ontDataFormat}}' no handled yet</h3>
-      <pre>data = {{data | json}}</pre>
+      <pre>ontData = {{ontData | json}}</pre>
     </div>
 
   </div>

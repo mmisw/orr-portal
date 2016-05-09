@@ -18,10 +18,10 @@
       templateUrl: 'js/ont/views/ont-contents.tpl.html',
       controller: OntContentsController,
       scope: {
-        ontology: '=',
-        data:     '=',
+        ontology:      '=',
+        ontData:       '=',
         ontDataFormat: '=',
-        editMode: '='
+        editMode:      '='
       }
     }
   }
