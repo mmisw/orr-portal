@@ -182,8 +182,6 @@
         else {
           vm.ontology = ontology;
           setViewAsOptions(vm.uri);
-          //prepareMetadata()
-
           getOntologyData();
         }
       }

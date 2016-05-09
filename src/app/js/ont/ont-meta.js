@@ -31,6 +31,23 @@
     $scope.visibleSections = _.filter($scope.sections, function(s) {
       return !$scope.editMode || (!s.hideForNew && s.predicates && s.predicates.length);
     });
+
+    setOtherMetadataSection();
+
+    function setOtherMetadataSection() {
+      var receivedPredicateUris = _.keys($scope.meta);
+      var otherPredicateUris = _.difference(receivedPredicateUris, metaUtil.handledPredicateUris);
+      if (otherPredicateUris.length) {
+        metaUtil.otherSection.predicates = _.map(otherPredicateUris, function(uri) {
+          return {
+            uri: uri,
+            label: uri  // TODO some abbreviated form?
+          };
+        });
+        //console.debug("otherPredicateUris=", otherPredicateUris, "otherSection=", otherSection);
+      }
+
+    }
   }
 
 })();
