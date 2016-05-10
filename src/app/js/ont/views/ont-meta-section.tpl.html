@@ -1,12 +1,12 @@
 <div>
 
-  <form class="form-horizontal uriBody">
+  <form class="effect2">
 
-    <table class="table">
+    <table class="table table-bordered borderTop0">
       <tbody>
 
       <tr ng-repeat="p in visiblePredicates">
-        <td class="mdLabel">
+        <td class="mdLabel borderTop0">
             <span ng-if="editMode && p.required" style="color: red">*</span>
             <label ng-bind-html="(p.label | mklinksOnlyExternal) + ':'"
                   uib-popover="{{p.uri}}"
@@ -16,7 +16,7 @@
             </label>
         </td>
 
-        <td>
+        <td class="borderTop0">
           <div ng-if="!editMode">
             <div ng-if="ontMeta[p.uri].length === 1"
                  ng-bind-html="ontMeta[p.uri][0] | propValueFilter:p.uri">
