@@ -310,13 +310,14 @@ var appUtil = (function(window) {
   }
 
   /**
-   * Helps perform updates to a view-model array with potential better UI responsiveness.
+   * Helps perform updates to a view-model array with potential better UI responsiveness
+   * and/or visual feedback.
    *
    * @param targetArray    Destination array.
    * @param sourceArray    Source array. It's assumed this array doesn't change during the transfer.
    * @param stepFn         stepFn(done) called at every chunk update, with
    *                       done indicating whether the update has been completed.
-   *                       If not complete, this function should return true to continue the updates.
+   *                       If not complete, this function should return true to stop the transfer.
    * @param chunkSize      the larger this value the less responsive the ui.
    */
   function updateModelArray(targetArray, sourceArray, stepFn, chunkSize) {
@@ -329,9 +330,9 @@ var appUtil = (function(window) {
         }
 
         var done = jj >= len;
-        var cont = stepFn(done);
+        var stop = stepFn(done);
 
-        if (!done && cont) {
+        if (!done && !stop) {
           setTimeout(processNext, 0);
         }
       }

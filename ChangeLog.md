@@ -1,7 +1,8 @@
 ## change log ##
 
 * 2016-05-09: 0.3.1:
-  - preliminary generic viz of non-v2r ontologies based on the 'rj' format
+  - preliminary generic viz of non-v2r ontologies based on ui-grid
+    with triples extracted from the 'rj' format
   - various adjustments and clean-up
 
 * 2016-05-08: 0.3.1:
