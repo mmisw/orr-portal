@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-05-10: 0.3.1:
+  - rj-viewer: enable filtering and optional grouping
   - meta handling: introduce hideIfUndefined attribute to be used in view mode.
     TODO: the proper selection of what meta properties to expose in general
   - openLink workaround only needed in template under <uib-tab>

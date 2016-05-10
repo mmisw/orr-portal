@@ -4,7 +4,7 @@
   var debug = appUtil.debug;
   debug = true;
 
-  angular.module('orrportal.rj-viewer', [])
+  angular.module('orrportal.rj-viewer', ['ui.grid.grouping'])
     .directive('rjDataViewer',  RjDataViewerDirective)
   ;
 
@@ -51,6 +51,28 @@
       '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
       + '</div>';
 
+    // http://ui-grid.info/docs/#/tutorial/209_grouping
+    var groupingCellTemplate =
+      '<div><div ng-if="!col.grouping ' +
+      '|| col.grouping.groupPriority === undefined ' +
+      '|| col.grouping.groupPriority === null ' +
+      '|| ( row.groupHeader && col.grouping.groupPriority === row.treeLevel )"' +
+      ' class="ui-grid-cell-contents"' +
+      ' title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}' +
+      '</div></div>';
+
+    var gridApi;
+
+    $scope.allowGrouping = false;
+    $scope.$watch("allowGrouping", function(allowGrouping) {
+      _.each($scope.gridOptions.columnDefs, function(cd) {
+        cd.cellTemplate = allowGrouping ? groupingCellTemplate : mklinksOnlyExternal;
+      });
+      if (allowGrouping && gridApi && gridApi.treeBase) {
+        gridApi.treeBase.toggleRowTreeState(gridApi.grid.renderContainers.body.visibleRowCache[0]);
+      }
+    });
+
     $scope.gridOptions = {
       data: [],
       columnDefs: [
@@ -58,6 +80,7 @@
           field: 'subjectUri',
           //width: '**',
           displayName: 'Subject',
+          grouping: { groupPriority: 0 },
           cellTemplate: mklinksOnlyExternal
         },
         {
@@ -76,10 +99,9 @@
       ,enableGridMenu: true
       ,showGridFooter: true
       ,enableFiltering: true
-      //, rowHeight: 40
-      //,onRegisterApi: function(api) {
-      //    gridApi = api;
-      //}
+      ,onRegisterApi: function(api) {
+        gridApi = api;
+      }
     };
 
     appUtil.updateModelArray($scope.gridOptions.data, triples,
