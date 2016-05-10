@@ -387,6 +387,11 @@ div.facetsubblock {
   background-color: #eaf8ff;
 }
 
+.v2rTermBg {
+  background-image: linear-gradient(to bottom, #fff 0%, #EAF3FC 100%);
+  background-repeat: repeat-x;
+}
+
 .editable-controls {
   margin: 0 !important;
 }

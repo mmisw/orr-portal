@@ -93,14 +93,13 @@
                   ng-disabled="someEditInProgress() || attrTableform.$waiting"
                   ng-click="removeTerm(vocab, t_index)"
                   class="btn btn-danger btn-xs"
-                  uib-tooltip="Remove this term"
-                  tooltip-placement="right"
+                  uib-tooltip="Remove term"
           >
             <i class="fa fa-remove" aria-hidden="true"></i>
           </button>
         </td>
 
-        <td >
+        <td style="width: 5px" class="v2rTermBg">
           <span ng-if="someEditInProgress() || attrTableform.$waiting"
                 ng-bind="term.name"
           ></span>
@@ -190,7 +189,6 @@
                   ng-click="addTerm(vocab)"
                   class="btn btn-default btn-xs"
                   uib-tooltip="Add term"
-                  tooltip-placement="right"
           >
             <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
