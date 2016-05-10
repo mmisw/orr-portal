@@ -32,8 +32,8 @@
           hideForNew(omvmmi.hasContentCreator),
           omv.hasCreator,
           omv.keywords,
-          omv.origVocUri,
-          hideForNew(omvmmi.origMaintainerCode),
+          hideIfUndefined(omv.origVocUri),
+          //hideForNew(omvmmi.origMaintainerCode),
           omv.hasContributor,
           omv.reference
         ]
@@ -80,6 +80,10 @@
 
       function hideForNew(predicate) {
         return addAttrs(predicate, {hideForNew: true});
+      }
+
+      function hideIfUndefined(predicate) {
+        return addAttrs(predicate, {hideIfUndefined: true});
       }
 
       function addAttrs(predicate, attrs) {
