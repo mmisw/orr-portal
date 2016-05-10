@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-05-10: 0.3.1:
+  - openLink workaround only needed in template under <uib-tab>
   - voc2rdf->v2r: missing values were not properly handled
 
 * 2016-05-09: 0.3.1:

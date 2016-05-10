@@ -11,7 +11,6 @@
       <span>
         Class: {{getLabel(vocab.class)}}
         <a target="_blank"
-           ng-href="{{getUri(vocab.class)}}"
            ng-bind="getUri(vocab.class)"
            ng-click="openLink(getUri(vocab.class))"
            ng-mouseleave="vocab._showPopup=undefined"
@@ -48,7 +47,6 @@
               <a target="_blank"
                  ng-href="{{getUri(p)}}"
                  ng-bind="getUri(p)"
-                 ng-click="openLink(getUri(p))"
                  ng-mouseleave="p._showPopup=undefined"
               >
               </a>
@@ -81,7 +79,6 @@
               <a target="_blank"
                  ng-href="{{getUri(t)}}"
                  ng-bind="getUri(t)"
-                 ng-click="openLink(getUri(t))"
                  ng-mouseleave="t._showPopup=undefined"
               ></a>
             </span>

@@ -34,8 +34,8 @@
 
     setCommonMethods($scope, vm);
 
-    // mainly a workaround as the ng-href link in the "text/ng-template"
-    // doesn't work for some reason
+    // mainly a workaround as the ng-href link in a "text/ng-template"
+    // used in <uib-tab> doesn't work for some reason
     $scope.openLink = function(href) {
       $window.open(href, "_blank");
     };
