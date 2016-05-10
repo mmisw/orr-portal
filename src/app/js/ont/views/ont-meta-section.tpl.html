@@ -6,14 +6,24 @@
       <tbody>
 
       <tr ng-repeat="p in visiblePredicates">
-        <td class="mdLabel borderTop0">
-            <span ng-if="editMode && p.required" style="color: red">*</span>
-            <label ng-bind-html="(p.label | mklinksOnlyExternal) + ':'"
-                  uib-popover="{{p.uri}}"
-                  popover-trigger="mouseenter"
-                  popover-placement="right"
-            >
-            </label>
+
+        <td class="mdLabel borderTop0"
+            ng-mouseenter="p._showPopup=true" ng-mouseleave="p._showPopup=undefined"
+        >
+          <span ng-if="editMode && p.required" style="color: red">*</span>
+
+          <script type="text/ng-template" id="metaPredicatePopup.html">
+            <div ng-bind-html="predicateTooltip(p)"
+                 ng-mouseleave="p._showPopup=undefined"
+            ></div>
+          </script>
+
+          <label uib-popover-template="'metaPredicatePopup.html'"
+               popover-placement="right"
+               popover-is-open="p._showPopup"
+               ng-bind-html="(p.label | mklinksOnlyExternal) + ':'"
+          > </label>
+
         </td>
 
         <td class="borderTop0">

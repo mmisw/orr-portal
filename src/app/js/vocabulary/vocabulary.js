@@ -19,40 +19,61 @@
 
       omv: setDetailsAndNS("http://omv.ontoware.org/2005/05/ontology#", {
         name: {
-          label: "Name"
+          label: "Name",
+          tooltip: "A one-line descriptive title (title case) for the ontology."
         },
         description: {
-          label: "Description"
+          label: "Description",
+          tooltip: "A textual description of the ontology. Completeness is welcome."
         },
         hasCreator: {
-          label: "Ontology Creator"
+          label: "Ontology Creator",
+          tooltip: "The name of the person that created the ontology representation."
         },
         keywords: {
-          label: "Keywords"
-        },
-        origVocUri: {
-          label: "Original vocabulary"
+          label: "Keywords",
+          tooltip: {
+            edit: "Enter a list of keywords separated by commas",
+            view: "Associated keywords"
+          }
         },
         documentation: {
-          label: "Documentation"
+          label: "Documentation",
+          tooltip: "URL of page or site describing the ontology."
         },
         hasContributor: {
-          label: "Contributor"
+          label: "Contributor",
+          tooltip: {
+            edit: "List of all the individuals and/or organizations that contributed materially to this vocabulary/ontology. " +
+                  "You may use comma-separated names or URIs. This is a free text field.",
+            view: "List of all the individuals and/or organizations that contributed materially to this vocabulary/ontology."
+          }
         },
         reference: {
-          label: "Reference"
+          label: "Reference",
+          tooltip: "Bibliographic references describing the ontology and its applications."
         }
       }),
 
       omvmmi: setDetailsAndNS("http://mmisw.org/ont/mmi/20081020/ontologyMetadata/", {
         hasResourceType: {
-          label: "Resource type"
+          label: "Resource type",
+          tooltip: {
+            edit: "The kind of resource represented by the ontology. You can choose from any of the existing terms in the list, or specify a new one.",
+            view: "The kind of resource represented by the ontology."
+          }
         },
         hasContentCreator: {
-          label: "Content Creator"
+          label: "Content Creator",
+          tooltip: "The name of the person that created the contents reflected in the ontology."
+
         },
         origVocUri: {
-          label: "Original vocabulary"
+          label: "Original vocabulary",
+          tooltip: {
+            edit: "If the original vocabulary is published on-line, put its URL here.",
+            view: "URL of original vocabulary."
+          }
         },
         origMaintainerCode: {
           label: "Organization"

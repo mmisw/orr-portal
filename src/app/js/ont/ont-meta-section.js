@@ -51,6 +51,27 @@
       return true;
     });
 
+    $scope.predicateTooltip = function(predicate) {
+      var text = "";
+      if (predicate.tooltip) {
+        if (predicate.tooltip.edit || predicate.tooltip.view) {
+          if (predicate.tooltip.edit && $scope.editMode) {
+            text = predicate.tooltip.edit;
+          }
+          else if (predicate.tooltip.view && !$scope.editMode) {
+            text = predicate.tooltip.view;
+          }
+        }
+        else {
+          text = predicate.tooltip;
+        }
+      }
+      var tooltip = "<span>" + (text ? text + "<br><br>" : "");
+      tooltip += '<span class="fs-smaller">' +
+        appUtil.mklinks4text(predicate.uri, true)+ '</span>';
+      tooltip += "</span>";
+      return tooltip;
+    }
   }
 
 })();

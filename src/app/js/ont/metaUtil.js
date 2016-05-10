@@ -28,12 +28,13 @@
         predicates: [
           required(omv.name),
           required(omv.description),
-          omvmmi.hasResourceType,
-          hideForNew(omvmmi.hasContentCreator),
+          hideIfUndefined(omvmmi.hasResourceType),
+          hideIfUndefined(hideForNew(omvmmi.hasContentCreator)),
           omv.hasCreator,
           omv.keywords,
-          hideIfUndefined(omv.origVocUri),
+          hideIfUndefined(omvmmi.origVocUri),
           //hideForNew(omvmmi.origMaintainerCode),
+          hideIfUndefined(omv.documentation),
           omv.hasContributor,
           omv.reference
         ]
@@ -46,7 +47,7 @@
           omvmmi.origVocManager,
           omvmmi.contact,
           omvmmi.contactRole,
-          hideForNew(omvmmi.temporaryMmiRole),
+          hideIfUndefined(hideForNew(omvmmi.temporaryMmiRole)),
           omvmmi.creditRequired,
           omvmmi.creditCitation
         ]
