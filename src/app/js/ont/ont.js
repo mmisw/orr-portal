@@ -560,6 +560,7 @@
                 var values = props[property.uri];
                 term.attributes.push(_.map(values, "value"));
               }
+              else term.attributes.push([]);
             });
             terms.push(term);
           }

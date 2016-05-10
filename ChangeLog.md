@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-05-10: 0.3.1:
+  - voc2rdf->v2r: missing values were not properly handled
+
 * 2016-05-09: 0.3.1:
   - adjust "POST/PUT /ont" requests to pass parameters in the body.
   - automatic conversion from "voc2rdf" to "v2r" to use new v2r
