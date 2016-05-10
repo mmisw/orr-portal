@@ -233,7 +233,7 @@
     };
 
     $scope.startEditMode = function() {
-      if (vm.ontology.format === 'v2r' || vm.ontology.format === 'm2r') {
+      if (vm.ontDataFormat === 'v2r' || vm.ontDataFormat === 'm2r') {
         // v2r and m2r always edited in the UI (both metadata and data)
         $scope.editMode = true;
       }
@@ -276,7 +276,7 @@
         userName:   $rootScope.userLoggedIn().uid
       };
 
-      if (vm.ontology.format === 'v2r') {
+      if (vm.ontDataFormat === 'v2r') {
         // Whole contents submission case.
         params.format = 'v2r';
         params.orgName = vm.ontology.orgName;
@@ -390,8 +390,15 @@
         }
         else {
           //console.log("gotOntologyOtherFormat: data=", data);
-          vm.ontData = data;
-          vm.ontDataFormat = 'rj';
+          var v2rVocabs = try_voc_2_v2r(vm.uri, data);
+          if (v2rVocabs) {
+            vm.ontData = v2rVocabs;
+            vm.ontDataFormat = 'v2r';
+          }
+          else {
+            vm.ontData = data;
+            vm.ontDataFormat = 'rj';
+          }
         }
       }
     }
@@ -450,6 +457,125 @@
     $scope.cancelUriEdit = function() {
       $uibModalInstance.dismiss();
     };
+  }
+
+  /**
+   * Obtains the 'v2r.vocabs' format of the given data if the metadata indicates
+   * the use of the voc2rdf tool.
+   * This is a helper to facilitate the creation of a new version
+   * of existing "voc2rdf" entries with the new 'v2r' format.
+   */
+  function try_voc_2_v2r(uri, data) {
+    var usedOntologyEngineeringToolPropertyUri = 'http://omv.ontoware.org/2005/05/ontology#usedOntologyEngineeringTool';
+    var voc2rdfPropertyUri = 'http://mmisw.org/ont/mmi/20081020/ontologyMetadata/voc2rdf';
+    var rdfsLabelUri = 'http://www.w3.org/2000/01/rdf-schema#label';
+    var owlClassUri = 'http://www.w3.org/2002/07/owl#Class';
+
+    var ontProps = data[uri];
+    if (!ontProps) {
+      return;
+    }
+
+    var usedOntologyEngineeringToolValue = ontProps[usedOntologyEngineeringToolPropertyUri];
+    if (!usedOntologyEngineeringToolValue) {
+      if (debug) console.debug("try_voc_2_v2r: property no included: ", usedOntologyEngineeringToolPropertyUri);
+      return;
+    }
+
+    var isVoc2Rdf = _.any(usedOntologyEngineeringToolValue, {value: voc2rdfPropertyUri});
+
+    if (!isVoc2Rdf) {
+      if (debug) console.debug("try_voc_2_v2r: Ontology not built with voc2rdf");
+      return;
+    }
+
+    if (debug) console.log("try_voc_2_v2r: Yes! voc2rdf");
+
+    // get classes:
+
+    var classUris = [];
+    _.forOwn(data, function(props, uri) {
+      var t = props['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'];
+      if (t && t.length && t[0].type === "uri" && t[0].value === owlClassUri) {
+        classUris.push(uri);
+      }
+    });
+
+    if (!classUris.length) {
+      console.error("try_voc_2_v2r: unexpected: no owl:Class found");
+      return;
+    }
+    if (debug) console.debug("try_voc_2_v2r: classUris=", classUris);
+
+    var vocabs = _.map(classUris, function(classUri) {
+      var classProps = data[classUri];
+      var classLabelPropsArray = classProps[rdfsLabelUri];
+      if (classLabelPropsArray && classLabelPropsArray.length) {
+        var classLabel = classLabelPropsArray[0].value;
+      }
+
+      var properties = getProperties(classUri, data);
+      var instances = getInstances(classUri, properties, data);
+
+      var clazz = {
+        label: classLabel
+      };
+      setUriAndName(clazz, classUri);
+      return {
+        'class': clazz,
+        properties: properties,
+        terms: instances
+      };
+
+      function getProperties(classUri, data) {
+        var properties = [];
+        _.each(data, function(props, propUri) {
+          //console.log("propUri=", propUri, "props=", props);
+          var domain = props['http://www.w3.org/2000/01/rdf-schema#domain'];
+          if (domain && domain.length && domain[0].value === classUri) {
+            var label = props['http://www.w3.org/2000/01/rdf-schema#label'];
+            var prop = {
+              label: label.length && label[0].value || propUri
+            };
+            setUriAndName(prop, propUri);
+            properties.push(prop);
+          }
+        });
+        return properties;
+      }
+
+      function getInstances(classUri, properties, data) {
+        var terms = [];
+        _.each(data, function(props, termUri) {
+          //console.log("termUri=", termUri, "props=", props);
+          var type = props['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'];
+          if (type && type.length && type[0].value === classUri) {
+            var term = {
+              attributes: []
+            };
+            setUriAndName(term, termUri);
+            _.each(properties, function(property) {
+              if (props[property.uri]) {
+                var values = props[property.uri];
+                term.attributes.push(_.map(values, "value"));
+              }
+            });
+            terms.push(term);
+          }
+
+        });
+        return terms;
+      }
+
+      function setUriAndName(obj, entityUri) {
+        obj.uri = entityUri;
+        if (entityUri.startsWith(uri + "/")) {
+          obj.name = entityUri.substring((uri + "/").length);
+        }
+      }
+    });
+    console.debug("try_voc_2_v2r: vocabs=", vocabs);
+    return vocabs;
   }
 
 })();

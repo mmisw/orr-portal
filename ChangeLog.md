@@ -1,6 +1,12 @@
 ## change log ##
 
 * 2016-05-09: 0.3.1:
+  - automatic conversion from "voc2rdf" to "v2r" to use new v2r
+    interface including the editing for a new version.
+  - this exposed the following backend limitation: embedded contents
+    can be too large to pass as regular parameters in the request
+    TODO: adjust requests when backend accepts parameters in the body.
+
   - preliminary generic viz of non-v2r ontologies based on ui-grid
     with triples extracted from the 'rj' format
   - various adjustments and clean-up
