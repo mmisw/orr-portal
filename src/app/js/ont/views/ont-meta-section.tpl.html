@@ -2,13 +2,13 @@
 
   <form class="form-horizontal uriBody">
 
-    <table class="table table-bordered">
+    <table class="table">
       <tbody>
 
       <tr ng-repeat="p in visiblePredicates">
         <td class="mdLabel">
             <span ng-if="editMode && p.required" style="color: red">*</span>
-            <label ng-bind-html="p.label | mklinksOnlyExternal"
+            <label ng-bind-html="(p.label | mklinksOnlyExternal) + ':'"
                   uib-popover="{{p.uri}}"
                   popover-trigger="mouseenter"
                   popover-placement="right"
