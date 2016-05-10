@@ -10,7 +10,7 @@
     <script type="text/ng-template" id="v2rClassTabPopup.html">
       <span>
         Class: {{getLabel(vocab.class)}}
-        <a target="_blank"
+        <a target="_blank" class="uriLink"
            ng-bind="getUri(vocab.class)"
            ng-click="openLink(getUri(vocab.class))"
            ng-mouseleave="vocab._showPopup=undefined"
@@ -44,7 +44,7 @@
             <span>
               Property: {{getLabel(p)}}
               <br>
-              <a target="_blank"
+              <a target="_blank" class="uriLink"
                  ng-href="{{getUri(p)}}"
                  ng-bind="getUri(p)"
                  ng-mouseleave="p._showPopup=undefined"
@@ -76,7 +76,7 @@
             <span>
               Term&nbsp;URI:
               <br>
-              <a target="_blank"
+              <a target="_blank" class="uriLink"
                  ng-href="{{getUri(t)}}"
                  ng-bind="getUri(t)"
                  ng-mouseleave="t._showPopup=undefined"
