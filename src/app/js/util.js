@@ -41,6 +41,8 @@ var appUtil = (function(window) {
 
     filterKeys:     filterKeys,
 
+    updateModelArray: updateModelArray,
+
     logTs: function() { return moment().local().format(); }
   };
 
@@ -305,6 +307,36 @@ var appUtil = (function(window) {
       }
       else return obj;
     }
+  }
+
+  /**
+   * Helps perform updates to a view-model array with potential better UI responsiveness.
+   *
+   * @param targetArray    Destination array.
+   * @param sourceArray    Source array. It's assumed this array doesn't change during the transfer.
+   * @param stepFn         stepFn(done) called at every chunk update, with
+   *                       done indicating whether the update has been completed.
+   *                       If not complete, this function should return true to continue the updates.
+   * @param chunkSize      the larger this value the less responsive the ui.
+   */
+  function updateModelArray(targetArray, sourceArray, stepFn, chunkSize) {
+    chunkSize = chunkSize || 5;
+    var jj = 0, len = sourceArray.length;
+    setTimeout(function () {
+      function processNext() {
+        for (var kk = 0; jj < len && kk < chunkSize; kk++, jj++) {
+          targetArray.push(sourceArray[jj]);
+        }
+
+        var done = jj >= len;
+        var cont = stepFn(done);
+
+        if (!done && cont) {
+          setTimeout(processNext, 0);
+        }
+      }
+      processNext();
+    }, 0);
   }
 
 })(window);
