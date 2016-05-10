@@ -120,6 +120,7 @@
         "format": newFormat
       };
       vm.ontData = [];
+      vm.ontDataFormat = 'v2r';
 
       var loggedInInfo = rvm.masterAuth.loggedInInfo;
       var userName = loggedInInfo.uid;
@@ -149,7 +150,7 @@
             ownerOptions:  vm.ownerOptions
           };
           editOntUri(info).result.then(function(res) {
-            console.log('editOntUri dialog accepted: res=', res);
+            if (debug) console.debug('editOntUri dialog accepted: res=', res);
             vm.ontology.uri = vm.uri = res.uri;
             vm.ontology.orgName = res.owner;
             initMetaForBrandNew(res.owner);
@@ -271,23 +272,23 @@
 
     $scope.registerOntology = function() {
 
-      var params = {
+      var body = {
         uri:        vm.uri,
         userName:   $rootScope.userLoggedIn().uid
       };
 
       if (vm.ontDataFormat === 'v2r') {
         // Whole contents submission case.
-        params.format = 'v2r';
-        params.orgName = vm.ontology.orgName;
-        params.name = getNameFromOmv(vm.ontology.metadata);
+        body.format = 'v2r';
+        body.orgName = vm.ontology.orgName;
+        body.name = getNameFromOmv(vm.ontology.metadata);
         if (vm.brandNew) adjustMetaForBrandNew();
 
-        params.contents = omitSpecialFields({
+        body.contents = angular.toJson(omitSpecialFields({
           metadata: vm.ontology.metadata,
           vocabs:   vm.ontData
-        });
-        console.log("TO submit V2R = ", params.contents);
+        }));
+        if (debug) console.debug("TO submit V2R = ", body.contents);
       }
       else {
         // Only metadata submission case.
@@ -304,12 +305,12 @@
 
         $scope.debug_newMetadata = newMetadata;
 
-        params.name = getNameFromOmv(newMetadata);
+        body.name = getNameFromOmv(newMetadata);
 
-        params.metadata = angular.toJson(newMetadata);
+        body.metadata = angular.toJson(newMetadata);
       }
 
-      service.registerOntology(vm.brandNew, params, registrationCallback(params.uri));
+      service.registerOntology(vm.brandNew, body, registrationCallback(body.uri));
 
       // registrationCallback: verbatim copy from upload.js  TODO move to a common place
       function registrationCallback(uri) {
@@ -323,7 +324,7 @@
           else {
             $scope.editMode = false;
 
-            console.log("registerOntology: success data=", data);
+            if (debug) console.debug("registerOntology: success data=", data);
             utl.message({
               title:   "Successful registration",
               message: '<div class="center">' +
@@ -348,7 +349,7 @@
       // omv:name used for 'name' in the ontology entry in the backend
       function getNameFromOmv(meta) {
         var omv_name = meta[vocabulary.omv.name.uri];
-        console.log("omv_name=", omv_name);
+        if (debug) console.debug("omv_name=", omv_name);
         if (omv_name && omv_name.length) {
           return omv_name.join("; ");
         }
@@ -420,7 +421,7 @@
 
   OntUriEditorController.$inject = ['$scope', '$uibModalInstance', 'info'];
   function OntUriEditorController($scope, $uibModalInstance, info) {
-    console.log("++OntUriEditorController++: info=", info);
+    if (debug) console.debug("++OntUriEditorController++: info=", info);
 
     var vm = $scope.vm = {
       title:      'Ontology owner and URI',

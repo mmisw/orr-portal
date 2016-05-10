@@ -272,13 +272,13 @@
         })
     }
 
-    function registerOntology(brandNew, params, cb) {
-      putJwtIfAvailable(params);
+    function registerOntology(brandNew, body, cb) {
+      putJwtIfAvailable(body);
 
       doHttp("registerOntology", {
         method: brandNew ? 'POST' : 'PUT',
         url:    appConfig.orront.rest + "/api/v0/ont",
-        params: params
+        data:   body
       }, cb)
         .success(function (data) {
           console.log(appUtil.logTs() + ": registerOntology(brandNew=" +brandNew+ "): data=", data);
