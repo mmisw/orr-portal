@@ -378,6 +378,18 @@ div.facetsubblock {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
 
+.v2rTable {
+  border-top-color: white !important;
+}
+.v2rHeaderRow {
+  background-image: linear-gradient(to bottom, #fff 0%, #EAF3FC 100%);
+  background-repeat: repeat-x;
+  border-color: white !important;
+}
+.v2rTermColHeaderCell {
+  background-color: white !important;
+}
+
 .v2rTermName {
   font-family: 'Inconsolata', monospace;
   font-weight: bold;
