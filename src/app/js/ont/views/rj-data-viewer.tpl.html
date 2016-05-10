@@ -1,0 +1,32 @@
+<ul style="padding-left: 0">
+  <li ng-repeat="subject in subjects"
+      style="margin-bottom: 20px"
+  >
+
+    <span ng-bind-html="subject.uri | mklinksOnlyExternal"></span>
+
+    <div style="margin-left: 30px">
+      <table class="table table-bordered">
+        <tbody>
+        <tr ng-repeat="(propUri, propValues) in subject.props">
+          <td style="width: 20%">
+            <span ng-bind-html="propUri | mklinksOnlyExternal"
+                  style="white-space: nowrap"
+            ></span>
+          </td>
+          <td>
+            <ul style="padding-left: 10px">
+              <li ng-repeat="value in propValues">
+                <span ng-bind-html="value.value | mklinksOnlyExternal"></span>
+              </li>
+            </ul>
+
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </li>
+</ul>

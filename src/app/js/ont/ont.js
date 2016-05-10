@@ -389,7 +389,7 @@
           console.error(error);
         }
         else {
-          console.log("gotOntologyOtherFormat: data=", data);
+          //console.log("gotOntologyOtherFormat: data=", data);
           vm.ontData = data;
           vm.ontDataFormat = 'rj';
         }

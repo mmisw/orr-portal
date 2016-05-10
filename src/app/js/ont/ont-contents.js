@@ -5,7 +5,7 @@
   //debug = true;
 
   angular.module('orrportal.ont.contents', [
-    'orrportal.metaUtil'
+    'orrportal.metaUtil', 'orrportal.rj-viewer'
   ])
     .directive('ontContents', OntContentsDirective)
   ;
