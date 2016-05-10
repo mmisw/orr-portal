@@ -75,7 +75,7 @@
       ]
       ,enableGridMenu: true
       ,showGridFooter: true
-      //,enableFiltering: true
+      ,enableFiltering: true
       //, rowHeight: 40
       //,onRegisterApi: function(api) {
       //    gridApi = api;
