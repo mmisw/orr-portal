@@ -1,0 +1,60 @@
+<div>
+  <form editable-form name="attrTableform"
+        onaftersave="applyCellChanges()"
+        oncancel="cancelCell(em)"
+        ng-class="{'cell-editing': attrTableform.$visible}"
+  >
+
+    <table class="table table-condensed"
+           ng-class="{'table-hover': !attrTableform.$visible, 'transparent': attrTableform.$visible}"
+           ng-click="enterCellEditing(attrTableform)"
+           uib-tooltip="{{!attrTableform.$visible && !disableEditIf ? 'Click to edit the value(s) for this property' : ''}}"
+    >
+      <tr ng-repeat="valueEntry in em | filter:filterValue track by $index">
+        <td ng-show="attrTableform.$visible" style="width: 10px">
+          <button type="button" ng-click="deleteValue(em, valueEntry.id)"
+                  class="btn btn-danger btn-xs pull-right"
+                  uib-tooltip="Remove this value"
+                  tooltip-placement="left"
+          >
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </button>
+        </td>
+        <td>
+          <span editable-textarea="valueEntry.value"
+                e-rows="2"
+                e-form="attrTableform"
+                ng-bind="valueEntry.value || 'empty'"
+          >
+          </span>
+          <!--<pre ng-bind="'valueEntry=' +(valueEntry|json)"></pre>-->
+        </td>
+      </tr>
+    </table>
+
+    <span ng-show="attrTableform.$visible">
+        <button type="button" ng-disabled="attrTableform.$waiting"
+                ng-click="addValue(em)"
+                class="btn btn-default btn-xs"
+        >
+          <i class="fa fa-plus" aria-hidden="true"></i> Add value
+        </button>
+
+        <button type="submit" ng-disabled="attrTableform.$waiting"
+                class="btn btn-default btn-xs"
+                uib-tooltip="Apply all changes in this cell">
+          <i class="fa fa-check" aria-hidden="true"></i> Apply
+        </button>
+
+        <button type="button" ng-disabled="attrTableform.$waiting"
+                class="btn btn-default btn-xs"
+                ng-click="attrTableform.$cancel()"
+                uib-tooltip="Cancel all changes to this cell"
+        >
+          Cancel
+        </button>
+    </span>
+
+  </form>
+</div>
+

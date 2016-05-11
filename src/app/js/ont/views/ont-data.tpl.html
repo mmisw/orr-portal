@@ -1,0 +1,39 @@
+<div>
+  <div class="ont-DisclosurePanel-header"
+       ng-init="dataCollapsed = false"
+       ng-click="dataCollapsed = !dataCollapsed"
+  >
+    <a style="font-size: large">
+      <i ng-if="dataCollapsed" class="fa fa-caret-right"></i>
+      <i ng-if="!dataCollapsed" class="fa fa-caret-down"></i>
+      Data
+    </a>
+  </div>
+
+  <div uib-collapse="dataCollapsed" style="margin-left: 20px">
+
+    <div ng-if="debug" class="debug">
+      <pre>editMode = {{editMode | json}}</pre>
+      <pre>ontData = {{ontData | json}}</pre>
+    </div>
+
+    <div ng-if="ontDataFormat === 'v2r'">
+      <v2r-data-viewer ng-if="!editMode" vocabs="ontData" uri="uri"
+      ></v2r-data-viewer>
+
+      <v2r-data-editor ng-if="editMode" vocabs="ontData" uri="uri"
+      ></v2r-data-editor>
+    </div>
+
+    <div ng-if="ontDataFormat === 'rj'">
+      <rj-data-viewer uri="uri" rj="ontData" ></rj-data-viewer>
+    </div>
+
+    <div ng-if="ontDataFormat !== 'v2r' && ontDataFormat !== 'rj'">
+      <h3>ontDataFormat '{{ontDataFormat}}' no handled yet</h3>
+      <pre>ontData = {{ontData | json}}</pre>
+    </div>
+
+  </div>
+
+</div>

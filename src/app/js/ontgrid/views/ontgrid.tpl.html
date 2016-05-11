@@ -40,17 +40,31 @@
                   <table>
                     <tr>
                       <td>
-                        <button class="btn btn-default btn-sm" ng-click="uploadOntology()">
-                          <span class="fa fa-upload"></span>
+                        <a ui-sref="rx" class="btn btn-default btn-sm">
+                          <i class="fa fa-upload" aria-hidden="true"></i>
                           Upload ontology
-                        </button>
+                        </a>
+                      </td>
+
+                      <td>
+                        <a ui-sref="newvoc({ newont: 'newvoc' })" class="btn btn-default btn-sm">
+                          <i class="fa fa-table" aria-hidden="true"></i>
+                          Create Vocabulary
+                        </a>
+                      </td>
+
+                      <td>
+                        <a ui-sref="newmap" class="btn btn-default btn-sm">
+                          <i class="fa fa-columns" aria-hidden="true"></i>
+                          Create Mapping
+                        </a>
                       </td>
 
                       <td ng-if="userLoggedInIsAdmin()">
-                        <button class="btn btn-default btn-sm" ng-click="createOrg()">
-                          <span class="fa fa-group"></span>
+                        <a ui-sref="neworg" class="btn btn-default btn-sm">
+                          <i class="fa fa-group" aria-hidden="true"></i>
                           New organization
-                        </button>
+                        </a>
                       </td>
                     </tr>
                   </table>

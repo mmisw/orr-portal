@@ -53,7 +53,7 @@
         <tbody>
         <tr ng-repeat="i in classInfo.instances">
 
-          <td ng-bind-html="i.uri | mklinksOnlyExternal"></td>
+          <td ng-bind-html="i.uri | mklink4uriAlwaysUriParameter"></td>
 
           <td ng-repeat="p in classInfo.properties"
               ng-bind-html="i[p.uri][0].value | mklinksOnlyExternal"

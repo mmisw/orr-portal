@@ -1,5 +1,67 @@
 ## change log ##
 
+* 2016-05-10: 0.3.1:
+  - rj-viewer: enable filtering and optional grouping
+  - meta handling: introduce hideIfUndefined attribute to be used in view mode.
+    TODO: the proper selection of what meta properties to expose in general
+  - openLink workaround only needed in template under <uib-tab>
+  - voc2rdf->v2r: missing values were not properly handled
+
+* 2016-05-09: 0.3.1:
+  - adjust "POST/PUT /ont" requests to pass parameters in the body.
+  - automatic conversion from "voc2rdf" to "v2r" to use new v2r
+    interface including the editing for a new version.
+
+  - preliminary generic viz of non-v2r ontologies based on ui-grid
+    with triples extracted from the 'rj' format
+  - various adjustments and clean-up
+
+* 2016-05-08: 0.3.1:
+  - some metadata initialization for brand new
+
+* 2016-05-06: 0.3.1:
+  - introduce metaUtil (for sections handling); expand standard vocabularies
+  - brand-new v2r creation...
+  - switch to ui-router
+
+* 2016-05-05: 0.3.1:
+  - v2r: add property column drop-down menus
+  - ont/v2r: at contents submission, omit keys starting with '_',
+    which are used only for UI purposes
+
+* 2016-05-04: 0.3.1:
+  - both only metadata (non-v2r cases), and v2r case -ie., complete
+    contents (metadata + data)-- are now handled for registration of new version.
+  - overall review and improvements for ont dispatch, including much better coordination with v2r
+  - new orrportal.ont module toward reorganizing Ont dispatch.
+
+* 2016-05-03: 0.3.1:
+  - add editInProgress scope parameter in orrportalV2rEdit directive to notify
+    UriController when there's a change in cell editing status
+  - initial working version with registering new version with metadata edits
+    (NOTE: this only for non v2r/m2r ontologies)
+
+  - do not show data section if editing ontology that is not v2r or m2r
+  - startEditMode: full edit for v2r (and m2r, later on); and either metadata
+    of file upload for anything else
+  - add rules for canEditNewVersion.  Basically, besides an admin, the
+    logged in user can edit if member of the ontology's organization
+
+* 2016-05-02: 0.3.1:
+  - basis for a `<orp-multivalue-edit>` directive
+  - reorganizing for general ontology page dispatch
+  - use new metadata reported from backend as part of "!md" response
+    (sparql-based mechanism not used anymore)
+
+* 2016-04-30: 0.3.1:
+  - note: v2r term ID editing only handles local name for now
+  - preliminaries of v2r editing using x-editable
+
+  - new mklink4uriAlwaysUriParameter filter to always just make a link with
+    `?uri=<the-uri>` -- helps with development specially when running the
+    UI against orr-ont elsewhere, and not focusing on self-resolution.
+    Used in voc.tpl.html, which is just in very preliminary stages.
+
 * 2016-04-25: 0.3.1:
   - shown message dialog upon successful registration with link to
     the submitted ontology, and going to that link if user closes the dialog

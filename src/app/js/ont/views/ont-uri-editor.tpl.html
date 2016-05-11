@@ -1,0 +1,121 @@
+<div ng-if="debug" class="debug">
+  <pre>vm = {{vm | json}}</pre>
+</div>
+
+<form class="form-horizontal">
+  <div style="display: inline-block; vertical-align: top; width:95%; margin: 10px; margin-top: 20px">
+    <div class="panel panel-default">
+
+      <div class="panel-heading" ng-bind="vm.title">
+      </div>
+
+      <div class="panel-body">
+
+          <p style="color: gray">
+            Who will own the ontology at the ORR?
+          </p>
+          <div class="form-group">
+            <div class="col-xs-11">
+              <ui-select id="inputOwner" ng-model="vm.owner">
+                <ui-select-match placeholder="Select owner">
+                  <span ng-bind="$select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices repeat="item in (vm.ownerOptions | filter: $select.search) track by item.id">
+                  <span ng-bind="item.name"></span>
+                </ui-select-choices>
+              </ui-select>
+
+            </div>
+          </div>
+          <br>
+
+          <p style="color: gray">
+            For the URI required for registering the ontology
+            you can either select the "ORR-based" option (so you will only need to indicate a short name),
+            or select "My URI" to indicate the full desired URI.
+          </p>
+          <br>
+
+          <div class="form-group">
+            <label for="inputShortName" class="control-label col-xs-4">
+              URI construction:
+            </label>
+            <div class="col-xs-6">
+              <label class="btn btn-default" ng-model="vm.uriType" uib-btn-radio="'orrBasedUri'">ORR-based</label>
+              &nbsp;
+              <label class="btn btn-default" ng-model="vm.uriType" uib-btn-radio="'myUri'">My URI</label>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="form-group" ng-if="vm.uriType === 'orrBasedUri'">
+            <label for="inputShortName" class="control-label col-xs-3">
+              Short name:
+            </label>
+
+            <div class="col-xs-5">
+              <input id="inputShortName"
+                     type="text"
+                     class="form-control"
+                     ng-model="vm.shortName"
+              >
+            </div>
+          </div>
+
+          <div class="form-group" ng-if="vm.uriType === 'orrBasedUri'">
+            <div class="control-label col-xs-2">URI:</div>
+
+            <div class="col-xs-9">
+              <div class="form-control uriTextSimple" style="color: gray"
+                   ng-bind="vm.base + '/' + (vm.owner.id||'?') + '/' + (vm.shortName||'?')"
+              ></div>
+            </div>
+          </div>
+
+
+          <div class="form-group" ng-if="vm.uriType === 'myUri'">
+            <label class="control-label col-xs-6">
+              &nbsp;
+            </label>
+          </div>
+
+          <div class="form-group" ng-if="vm.uriType === 'myUri'">
+
+            <label for="inputUri" class="control-label col-xs-2">URI:</label>
+
+            <div class="col-xs-9">
+              <input id="inputUri"
+                     type="url"
+                     class="form-control uriTextSimple"
+                     ng-model="vm.uri"
+                     placeholder="Enter the full desired URI"
+              >
+            </div>
+          </div>
+      </div>
+
+      <div class="panel-footer">
+        <div class="center">
+          <button type="submit"
+                  class="btn btn-primary btn-sm"
+                  ng-disabled="!uriEditFormOk()"
+                  ng-click="doneUriEdit()"
+          >OK
+          </button>
+
+          <button class="btn btn-default btn-sm"
+                  ng-click="cancelUriEdit()"
+                  ng-disabled="vm.working"
+          >Cancel
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+  </form>
+</div>
+
+

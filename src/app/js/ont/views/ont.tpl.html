@@ -1,0 +1,59 @@
+<div ng-if="error">
+  <pre style="border-color: red">{{error | json}}</pre>
+</div>
+
+<div ng-if="debug" class="debug">editMode = {{editMode}};
+  metaEditInProgress = {{vm.metaEditInProgress}};
+  dataEditInProgress = {{vm.dataEditInProgress}};
+  someEditInProgress = {{vm.someEditInProgress}}
+</div>
+
+<div class="effect1">
+
+  <orrportal-uri-title></orrportal-uri-title>
+
+  &nbsp;
+
+  <span ng-if="!editMode">
+    <orrportal-uri-view-as-options></orrportal-uri-view-as-options>
+
+    <orrportal-uri-versions></orrportal-uri-versions>
+  </span>
+
+    <span>
+      <button ng-if="!editMode && canEditNewVersion()"
+              ng-click="startEditMode()"
+              type="button" class="btn btn-default btn-xs">
+        Edit new version
+      </button>
+
+    </span>
+
+    <span ng-if="editMode">
+
+      <button ng-disabled="vm.someEditInProgress"
+              ng-click="registerOntology()"
+              class="btn btn-info btn-xs">
+        Register
+      </button>
+
+      <button ng-click="cancelNewVersion()"
+              class="btn btn-info btn-xs">
+        Cancel
+      </button>
+    </span>
+
+</div>
+
+<orrportal-uri-ont-title></orrportal-uri-ont-title>
+
+<ont-contents ontology="vm.ontology"
+              ont-data="vm.ontData"
+              ont-data-format="vm.ontDataFormat"
+              edit-mode="editMode"
+></ont-contents>
+
+<div ng-if="debug" class="debug">
+  <pre>vm = {{vm | json}}</pre>
+</div>
+

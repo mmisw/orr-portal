@@ -40,7 +40,7 @@
      * With true, allows to force a refresh of the ontology list if that page is visited.
      */
     function setDoRefreshOntologies(b) {
-      console.log(appUtil.logTs() + ": setDoRefreshOntologies: " + b);
+      if (appUtil.debug) console.log(appUtil.logTs() + ": setDoRefreshOntologies: " + b);
       doRefreshOntologies = b;
     }
 
@@ -272,13 +272,13 @@
         })
     }
 
-    function registerOntology(brandNew, params, cb) {
-      putJwtIfAvailable(params);
+    function registerOntology(brandNew, body, cb) {
+      putJwtIfAvailable(body);
 
       doHttp("registerOntology", {
         method: brandNew ? 'POST' : 'PUT',
         url:    appConfig.orront.rest + "/api/v0/ont",
-        params: params
+        data:   body
       }, cb)
         .success(function (data) {
           console.log(appUtil.logTs() + ": registerOntology(brandNew=" +brandNew+ "): data=", data);
@@ -305,11 +305,11 @@
         url += "?" + params.join('&');
       }
 
-      console.log(appUtil.logTs() + ": GET " + url);
+      if (appUtil.debug) console.log(appUtil.logTs() + ": GET " + url);
       $http.get(url)
         .success(function(res, status, headers, config) {
           setRefreshing(false);
-          console.log(appUtil.logTs() + ": gotUser: ", res);
+          if (appUtil.debug) console.log(appUtil.logTs() + ": gotUser: ", res);
           if (res.error) {
             gotUser(res);
           }
@@ -368,7 +368,8 @@
         setRefreshing(false);
         $rootScope.$broadcast('evtRefreshCompleteError', error);
         if (cb) {
-          cb(data.error || data);
+          // data is null upon net::ERR_CONNECTION_REFUSED
+          cb(data ? (data.error || data) : {status: status});
         }
       };
     }

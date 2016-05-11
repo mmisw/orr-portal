@@ -2,19 +2,23 @@
   'use strict';
 
   angular.module('orrportal', [
-    'ngRoute',
+    'ui.router',
     'ngSanitize',
     'ui.bootstrap'
     ,'ui.select'
+    ,'xeditable'
     ,'angular-clipboard'
     ,'orrportal.main'
     ,'orrportal.facet'
     ,'orrportal.ontgrid'
+    ,'orrportal.vocabulary'
     ,'orrportal.org'
+    ,'orrportal.ont'
     ,'orrportal.uri'
     ,'orrportal.user'
     ,'orrportal.st'
     ,'orrportal.kw'
+    ,'orrportal.v2r'
     ,'orrportal.voc'
     ,'orrportal.firebase'
     ,'orrportal.upload'
@@ -23,12 +27,19 @@
     .constant("rUri", appUtil.uri)
     .constant("cfg", appConfig)
     .run(init)
-    .config(routes)
+    .run(xeditable)
+    .config(uiRoutes)
+    .run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
+      if (appUtil.debug) {
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+      }
+    }])
   ;
 
-  init.$inject = ['$rootScope', '$location', 'rUri', 'cfg'];
+  init.$inject = ['$rootScope', 'rUri', 'cfg'];
 
-  function init($rootScope, $location, rUri, cfg) {
+  function init($rootScope, rUri, cfg) {
     if (appUtil.debug) console.log("++INIT++");
 
     $rootScope.debug = appUtil.debug;
@@ -53,20 +64,10 @@
       $rootScope.refreshing = b;
     });
 
-
-    // TODO use popup dialog for uploadOntology??
-    $rootScope.uploadOntology = function() {
-      $location.url("rx");
-    };
-
-    // TODO use popup dialog for createOrg??
-    $rootScope.createOrg = function() {
-      $location.url("neworg");
-    };
-
     $rootScope.userLoggedIn = function() {
-      return rvm.masterAuth && rvm.masterAuth.loggedInInfo
-        && rvm.masterAuth.loggedInInfo.uid;
+      if (rvm.masterAuth && rvm.masterAuth.loggedInInfo && rvm.masterAuth.loggedInInfo.uid) {
+        return rvm.masterAuth.loggedInInfo;
+      }
     };
 
     $rootScope.userLoggedInIsAdmin = function() {
@@ -74,77 +75,106 @@
     }
   }
 
-  routes.$inject = ['$routeProvider', 'rUri'];
+  xeditable.$inject = ['editableOptions'];
 
-  function routes($routeProvider, rUri) {
-    console.log("routes: rUri=", rUri);
-    $routeProvider
-      // root "/" route set depending on whether we have a URI to dispatch:
-      .when('/', rUri
-        ? {
-          templateUrl: 'js/uri/views/uri.tpl.html',
-          controller: 'UriController'}
-        : {
+  function xeditable(editableOptions) {
+    editableOptions.theme = 'bs3';
+  }
+
+  uiRoutes.$inject = ['$stateProvider', '$urlRouterProvider', 'rUri'];
+  function uiRoutes($stateProvider, $urlRouterProvider, rUri) {
+
+    console.debug("uiRoutes: rUri=", rUri);
+
+    $urlRouterProvider.otherwise("/");
+
+    $stateProvider
+      .state('/', rUri
+          ? {
+          url: '/',
+          //templateUrl: 'js/uri/views/uri.tpl.html',
+          //controller: 'UriController'
+          template: '<orr-ont></orr-ont>'
+        }
+          : {
+          url: '/',
           templateUrl: 'js/main/views/main.tpl.html',
           controller: 'MainController'}
       )
 
-      .when('/so/:so*', {
-        templateUrl: 'js/main/views/main.tpl.html',
-        controller: 'MainController'})
-
-      .when('/st/', {
-        templateUrl: 'js/st/views/st.tpl.html',
-        controller: 'SearchTermsController'})
-      .when('/st/:st*', {
-        templateUrl: 'js/st/views/st.tpl.html',
-        controller: 'SearchTermsController'})
-
-      .when('/kw/', {
-        templateUrl: 'js/kw/views/kw.tpl.html',
-        controller: 'KeywordSearchController'})
-      .when('/kw/:kw*', {
-        templateUrl: 'js/kw/views/kw.tpl.html',
-        controller: 'KeywordSearchController'})
-
-      .when('/uri/:uri*', {
-        templateUrl: 'js/uri/views/uri.tpl.html',
-        controller: 'UriController'
+      .state('newvoc', {
+        url: '/newvoc',
+        params: { newFormat: 'v2r' },
+        template: '<orr-ont></orr-ont>'
+      })
+      .state('newmap', {
+        url: '/newmap',
+        params: { newFormat: 'm2r' },
+        template: '<orr-ont></orr-ont>'
       })
 
-      .when('/org/:orgName*', {
-        templateUrl: 'js/org/views/org.tpl.html',
-        controller: 'OrgController'
-      })
-
-      .when('/neworg', {
-        templateUrl: 'js/org/views/createOrg.tpl.html',
-        controller: 'CreateOrgController'
-      })
-      .when('/user/:userName*', {
-        templateUrl: 'js/user/views/user.tpl.html',
-        controller: 'UserController'
-      })
-
-      .when('/signIn', {
-        templateUrl: 'js/auth/views/login.tpl.html',
-        controller: 'LoginController'
-      })
-      .when('/signIn/:redirect*', {
-        templateUrl: 'js/auth/views/login.tpl.html',
-        controller: 'LoginController'
-      })
-
-      .when('/fireauth-test', {  // TODO remove
-        templateUrl: 'js/fireauth/views/test.tpl.html'
-      })
-
-      .when('/rx', {
+      .state('rx', {
+        url: '/rx',
         templateUrl: 'js/upload/views/sequence.tpl.html',
         controller: 'UploadController'
       })
 
-      .otherwise({redirectTo: '/'});
+      .state('neworg', {
+        url: '/neworg',
+        templateUrl: 'js/org/views/createOrg.tpl.html',
+        controller: 'CreateOrgController'
+      })
+
+      .state('searchOnt', {
+        url: '/so/{so:.*}',
+        templateUrl: 'js/main/views/main.tpl.html',
+        controller: 'MainController'})
+
+      .state('searchTerm', {
+        url :'/st/{st:.*}',
+        templateUrl: 'js/st/views/st.tpl.html',
+        controller: 'SearchTermsController'})
+
+      .state('searchKw', {
+        url: '/kw/{kw:.*}',
+        templateUrl: 'js/kw/views/kw.tpl.html',
+        controller: 'KeywordSearchController'
+      })
+
+      .state('uri', {
+        url: '/uri/{uri:.*}',
+        templateUrl: 'js/uri/views/uri.tpl.html',
+        controller: 'UriController'
+      })
+
+      .state('org', {
+        url: '/org/{orgName:.*}',
+        templateUrl: 'js/org/views/org.tpl.html',
+        controller: 'OrgController'
+      })
+
+      .state('user', {
+        url: '/user/{userName:.*}',
+        templateUrl: 'js/user/views/user.tpl.html',
+        controller: 'UserController'
+      })
+
+      .state('signIn', {
+        url: '/signIn',
+        templateUrl: 'js/auth/views/login.tpl.html',
+        controller: 'LoginController'
+      })
+      .state('signInRedirect', {
+        url: '/signIn/{redirect:.*}',
+        templateUrl: 'js/auth/views/login.tpl.html',
+        controller: 'LoginController'
+      })
+
+      .state('fireauth-test', {  // TODO remove
+        url: '/fireauth-test',
+        templateUrl: 'js/fireauth/views/test.tpl.html'
+      })
+    ;
   }
 
-})();
+  })();

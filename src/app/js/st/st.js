@@ -5,14 +5,14 @@
     .controller('SearchTermsController', SearchTermsController)
   ;
 
-  SearchTermsController.$inject = ['$rootScope', '$scope', '$routeParams', '$location', '$http'];
+  SearchTermsController.$inject = ['$rootScope', '$scope', '$stateParams', '$location', '$http'];
 
-  function SearchTermsController($rootScope, $scope, $routeParams, $location, $http) {
+  function SearchTermsController($rootScope, $scope, $stateParams, $location, $http) {
     if (appUtil.debug) console.log("++SearchTermsController++");
 
     $rootScope.rvm.curView = 'st';
 
-    var vm = {st: $routeParams.st};
+    var vm = {st: $stateParams.st};
     $scope.vm = vm;
 
     doSearch();
@@ -33,7 +33,7 @@
     };
 
     $scope.searchSettingsChanged = function() {
-      var stParam = $routeParams.st !== undefined ? $routeParams.st.trim() : '';
+      var stParam = $stateParams.st !== undefined ? $stateParams.st.trim() : '';
       var searchText = vm.st !== undefined ? vm.st.trim() : '';
       if (stParam === searchText) {
         doSearch();

@@ -1,0 +1,67 @@
+<div>
+
+  <form class="effect2">
+
+    <table class="table table-bordered borderTop0">
+      <tbody>
+
+      <tr ng-repeat="p in visiblePredicates">
+
+        <td class="mdLabel borderTop0"
+            ng-mouseenter="p._showPopup=true" ng-mouseleave="p._showPopup=undefined"
+        >
+          <span ng-if="editMode && p.required" style="color: red">*</span>
+
+          <script type="text/ng-template" id="metaPredicatePopup.html">
+            <div ng-bind-html="predicateTooltip(p)"
+                 ng-mouseleave="p._showPopup=undefined"
+            ></div>
+          </script>
+
+          <label uib-popover-template="'metaPredicatePopup.html'"
+               popover-placement="right"
+               popover-is-open="p._showPopup"
+               ng-bind-html="(p.label | mklinksOnlyExternal) + ':'"
+          > </label>
+
+        </td>
+
+        <td class="borderTop0">
+          <div ng-if="!editMode">
+            <div ng-if="ontMeta[p.uri].length === 1"
+                 ng-bind-html="ontMeta[p.uri][0] | propValueFilter:p.uri">
+            </div>
+            <table ng-if="ontMeta[p.uri].length > 1" class="table table-condensed transparent">
+              <tr ng-repeat="v in ontMeta[p.uri] track by $index">
+                <td ng-bind-html="v | propValueFilter:p.uri">
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div ng-if="editMode">
+            <orp-multivalue-edit prop-value="ontMeta[p.uri]"
+                                 disable-edit-if="someEditInProgress()"
+                                 edit-in-progress="setEditInProgress(inProgress)"
+            ></orp-multivalue-edit>
+
+            <pre ng-if="debug">ontMeta[{{p.uri}}] = {{ontMeta[p.uri] | json}}</pre>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+      </tbody>
+    </table>
+
+  </form>
+
+  <div ng-if="debug" class="debug">
+    <pre>ontMeta = {{ontMeta | json}}</pre>
+    <pre>predicates = {{predicates | json}}</pre>
+    <pre>visiblePredicates = {{visiblePredicates | json}}</pre>
+  </div>
+
+</div>

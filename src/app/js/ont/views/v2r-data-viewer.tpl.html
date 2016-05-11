@@ -1,0 +1,116 @@
+<div ng-if="vocabs.length === 0"
+>
+  No vocabularies are defined.
+</div>
+
+<uib-tabset ng-if="vocabs.length" style="width: 100%">
+
+  <uib-tab ng-repeat="vocab in vocabs track by $index" style="cursor: pointer">
+
+    <script type="text/ng-template" id="v2rClassTabPopup.html">
+      <span>
+        Class: {{getLabel(vocab.class)}}
+        <a target="_blank" class="uriLink"
+           ng-bind="getUri(vocab.class)"
+           ng-click="openLink(getUri(vocab.class))"
+           ng-mouseleave="vocab._showPopup=undefined"
+        >
+        </a>
+      </span>
+    </script>
+
+    <tab-heading ng-mouseenter="vocab._showPopup=true" ng-mouseleave="vocab._showPopup=undefined">
+
+      <div uib-popover-template="'v2rClassTabPopup.html'"
+           popover-placement="right"
+           popover-is-open="vocab._showPopup"
+      >
+        <span class="regularFont bold" ng-bind="getName(vocab.class)"></span>
+      </div>
+
+    </tab-heading>
+
+
+    <table class="table table-bordered v2rTable">
+      <thead>
+      <tr class="v2rHeaderRow">
+
+        <th style="width: 5%;" class="v2rTermColHeaderCell"></th>
+
+        <th ng-repeat="p in vocab.properties"
+            ng-mouseenter="p._showPopup=true" ng-mouseleave="p._showPopup=undefined"
+        >
+          <script type="text/ng-template" id="v2rTermPropertyPopup.html">
+            <span>
+              Property: {{getLabel(p)}}
+              <br>
+              <a target="_blank" class="uriLink"
+                 ng-href="{{getUri(p)}}"
+                 ng-bind="getUri(p)"
+                 ng-mouseleave="p._showPopup=undefined"
+              >
+              </a>
+            </span>
+          </script>
+
+          <div>
+            <span uib-popover-template="'v2rTermPropertyPopup.html'"
+                  popover-placement="top"
+                  popover-is-open="p._showPopup">
+              {{getLabel(p)}}
+            </span>
+          </div>
+
+        </th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr ng-repeat="t in vocab.terms">
+
+        <td style="width: 5%"
+            class="v2rTermBg"
+            ng-mouseenter="t._showPopup=true" ng-mouseleave="t._showPopup=undefined">
+
+          <script type="text/ng-template" id="v2rTermUriPopup.html">
+            <span>
+              Term&nbsp;URI:
+              <br>
+              <a target="_blank" class="uriLink"
+                 ng-href="{{getUri(t)}}"
+                 ng-bind="getUri(t)"
+                 ng-mouseleave="t._showPopup=undefined"
+              ></a>
+            </span>
+          </script>
+
+          <span uib-popover-template="'v2rTermUriPopup.html'"
+                popover-is-open="t._showPopup"
+                popover-placement="right"
+                class="v2rTermName">
+            {{getName(t)}}
+          </span>
+
+        </td>
+
+        <td ng-repeat="a in t.attributes track by $index">
+          <span ng-if="singleAttrValue(a)"
+                ng-bind-html="singleAttrValue(a) | mklinksOnlyExternal">
+          </span>
+
+          <table ng-if="multipleAttrValues(a)"
+                 class="table table-condensed table-hover">
+            <tr ng-repeat="b in multipleAttrValues(a) track by $index">
+              <td ng-bind-html="b | mklinksOnlyExternal">
+              </td>
+            </tr>
+          </table>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+
+  </uib-tab>
+
+</uib-tabset>

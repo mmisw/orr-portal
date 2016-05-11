@@ -5,12 +5,12 @@ angular.module('orrportal.login', ['orrportal.auth'])
     .controller('LoginController', LoginController)
 ;
 
-LoginController.$inject = ['$scope', '$routeParams', '$location', 'service', 'authService'];
+LoginController.$inject = ['$scope', '$stateParams', '$location', 'service', 'authService'];
 
-function LoginController($scope, $routeParams, $location, service, authService) {
+function LoginController($scope, $stateParams, $location, service, authService) {
     if (appUtil.debug) console.log("++LoginController++");
 
-    $scope.redirect = $routeParams.redirect;
+    $scope.redirect = $stateParams.redirect;
 
     // already signed in?
     if ($scope.loginInfo && $scope.loginInfo.userName) {

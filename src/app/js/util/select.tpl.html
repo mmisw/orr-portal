@@ -1,0 +1,22 @@
+<div>
+  <div class="modal-header">
+    <span class="modalTitle" ng-bind="info.title"></span>
+  </div>
+  <div class="modal-body">
+    <div ng-if="info.message" ng-bind-html="info.message"></div>
+    <div style="text-align: center">
+      <div ng-repeat="option in info.options track by $index">
+        <button class="btn btn-default btn-sm"
+                style="margin-top: 10px"
+                ng-click="select($index)"
+                ng-bind="option"
+        ></button>
+      </div>
+    </div>
+    <div ng-if="info.error" ng-bind-html="info.error"></div>
+    <pre ng-if="info.errorPRE" ng-bind="info.errorPRE | json"></pre>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
+  </div>
+</div>

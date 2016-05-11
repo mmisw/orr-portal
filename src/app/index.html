@@ -11,6 +11,7 @@
 
   <link rel="stylesheet" href="vendor/angular-ui-grid/ui-grid.css">
   <link rel="stylesheet" href="vendor/ui-select/dist/select.css">
+  <link rel="stylesheet" href="vendor/angular-xeditable/dist/css/xeditable.css">
   <link rel='stylesheet' href='css/orrportal.css'>
 
   <!--[if lt IE 9]>
@@ -21,13 +22,14 @@
   <script src='vendor/angular-cookie/angular-cookie.js'></script>
   <script src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="vendor/angular-sanitize/angular-sanitize.js"></script>
-  <script src="vendor/angular-route/angular-route.js"></script>
+  <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="vendor/angular-clipboard/angular-clipboard.js"></script>
   <script src="vendor/lodash/dist/lodash.js"></script>
   <script src="vendor/moment/moment.js"></script>
   <script src='vendor/angular-ui-grid/ui-grid.js'></script>
   <script src='vendor/ng-file-upload/ng-file-upload.js'></script>
   <script src='vendor/ui-select/dist/select.js'></script>
+  <script src='vendor/angular-xeditable/dist/js/xeditable.js'></script>
 
   <script src="//cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
   <script src="//cdn.firebase.com/libs/angularfire/1.1.1/angularfire.min.js"></script>
@@ -45,6 +47,17 @@
   <script src='js/facet/directives.js'></script>
   <script src='js/ontgrid/ontgrid.js'></script>
   <script src='js/org/org.js'></script>
+  <script src='js/vocabulary/vocabulary.js'></script>
+  <script src='js/ont/metaUtil.js'></script>
+  <script src='js/ont/ont.js'></script>
+  <script src='js/ont/ont-contents.js'></script>
+  <script src='js/ont/ont-meta.js'></script>
+  <script src='js/ont/ont-meta-section.js'></script>
+  <script src='js/ont/ont-data.js'></script>
+  <script src='js/ont/v2r.js'></script>
+  <script src='js/ont/rj-viewer.js'></script>
+  <script src='js/uri/multivalueedit.js'></script>
+  <script src='js/uri/uri-directives.js'></script>
   <script src='js/uri/uri.js'></script>
   <script src='js/user/user.js'></script>
   <script src='js/st/st.js'></script>
@@ -57,6 +70,17 @@
 
 <body ng-controller="UtilCtrl">
 
+<div ng-if="debug" class="debug">
+  <pre>
+    <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
+    $state = {{$state.current.name}}
+    $stateParams = {{$stateParams}}
+    $state full url = {{ $state.$current.url.source }}
+    <!-- $state.$current is not a public api, we are using it to
+         display the full url for learning purposes-->
+  </pre>
+</div>
+
 <orrportal-header></orrportal-header>
 
 <!--
@@ -68,7 +92,7 @@
 </div>
 -->
 
-<div ng-view></div>
+<div ui-view></div>
 
 <pre ng-if="debug" ng-bind="rvm | json"></pre>
 </body>

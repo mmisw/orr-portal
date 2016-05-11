@@ -9,6 +9,12 @@
       }
     }])
 
+    .filter('mklink4uriAlwaysUriParameter', [function() {
+      return function(text) {
+        return appUtil.mklink4uriAlwaysUriParameter(text);
+      }
+    }])
+
     .filter('mklinks', [function() {
       return function(text) {
         return appUtil.mklinks4text(text);
@@ -19,6 +25,36 @@
     .filter('mklinksOnlyExternal', [function() {
       return function(text) {
         return appUtil.mklinks4text(text, true);
+      }
+    }])
+
+    .filter('propValueFilter', ['vocabulary', function(vocabulary) {
+      return function(value, prop) {
+        var predicate = prop.predicate ? prop.predicate : prop;
+
+        if (vocabulary.omv.keywords.uri === predicate) {
+          return prepareKeywords(value);
+        }
+        if (vocabulary.omvmmi.origMaintainerCode.uri === predicate) {
+          if (value) {
+            return '<a href="#/org/' +value+ '">'+ value+ '</a>';
+          }
+        }
+        else return appUtil.mklinks4text(value, true);
+
+        function prepareKeywords(keywords) {
+          if (keywords) {
+            keywords = keywords.replace(/"/g, ''); // ignore any double quotes
+            var list = keywords.split(/,|;/);
+            //console.log("prepareKeywords: keywords=", keywords, "list=", list);
+            var prepared = _.map(list, function(word) {
+              word = word.trim();
+              var a = '<a href="#/kw/' +word+ '">'+ word+ '</a>';
+              return'<span class="btn btn-link btn-sm badge kwLink">' + a + '</span>'
+            });
+            return prepared.join(" ");
+          }
+        }
       }
     }])
 

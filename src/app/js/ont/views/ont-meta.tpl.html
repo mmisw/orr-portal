@@ -1,0 +1,53 @@
+<div>
+  <div class="ont-DisclosurePanel-header"
+       ng-init="metaCollapsed = false"
+       ng-click="metaCollapsed = !metaCollapsed"
+  >
+    <a style="font-size: large">
+      <i ng-if="metaCollapsed" class="fa fa-caret-right"></i>
+      <i ng-if="!metaCollapsed" class="fa fa-caret-down"></i>
+      Metadata details
+    </a>
+  </div>
+
+  <div uib-collapse="metaCollapsed" style="margin-left: 20px">
+
+    <div ng-if="debug" class="debug">
+      <pre>editMode = {{editMode | json}}</pre>
+      <pre>sections = {{sections | json}}</pre>
+      <pre>visibleSections = {{visibleSections | json}}</pre>
+      <pre>ontMeta = {{ontMeta | json}}</pre>
+    </div>
+
+    <uib-tabset ng-if="visibleSections && visibleSections.length > 1"
+                style="width: 100%">
+
+      <uib-tab ng-repeat="section in visibleSections"
+               style="cursor: pointer">
+
+        <tab-heading uib-popover="{{section.tooltip}}"
+                     popover-trigger="mouseenter"
+                     popover-placement="bottom">
+          {{section.header}}
+        </tab-heading>
+
+        <ont-meta-section ont-meta="ontMeta"
+                          predicates="section.predicates"
+                          edit-mode="editMode">
+        </ont-meta-section>
+
+      </uib-tab>
+
+    </uib-tabset>
+
+    <div ng-if="visibleSections && visibleSections.length == 1">
+      <ont-meta-section ont-meta="ontMeta"
+                        predicates="visibleSections[0].predicates"
+                        edit-mode="editMode">
+      </ont-meta-section>
+
+    </div>
+
+  </div>
+
+</div>

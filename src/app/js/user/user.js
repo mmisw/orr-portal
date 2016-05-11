@@ -5,12 +5,12 @@ angular.module('orrportal.user', [])
     .controller('UserController', UserController)
 ;
 
-UserController.$inject = ['$scope', '$routeParams', 'service'];
+UserController.$inject = ['$scope', '$stateParams', 'service'];
 
-function UserController($scope, $routeParams, service) {
+function UserController($scope, $stateParams, service) {
     if (appUtil.debug) console.log("++UserController++");
 
-    $scope.userName = $routeParams.userName;
+    $scope.userName = $stateParams.userName;
     $scope.user = undefined;
     $scope.error = undefined;
 

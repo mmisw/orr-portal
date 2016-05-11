@@ -1,0 +1,17 @@
+<span>
+
+  <span class="uriText">
+    {{vm.uri}}
+  </span>
+
+  <button ng-if="uriClipboard.getText()"
+          type="button" class="btn btn-default btn-xs"
+          uib-popover-html="uriClipboard.getTooltip()"
+          popover-trigger="mouseenter" popover-placement="top"
+          clipboard text="uriClipboard.getText()"
+          on-copied="uriClipboard.success()" on-error="uriClipboard.fail(err)"
+  >
+    <i class="fa fa-clipboard"></i>
+  </button>
+
+</span>
