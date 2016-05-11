@@ -46,7 +46,7 @@
       }
       else if (p.hideIfUndefined) {
         //console.debug("hideIfUndefined p=", p, $scope.ontMeta[p.uri]);
-        return !!$scope.ontMeta[p.uri];
+        return $scope.ontMeta && $scope.ontMeta[p.uri];
       }
       return true;
     });
