@@ -2,10 +2,11 @@
         type="button"
         ng-disabled="someEditInProgress() || attrTableform.$waiting"
         ng-click="addVocab()"
-        class="btn btn-default btn-sm"
+        class="btn btn-primary btn-sm"
+        uib-tooltip="Add a vocabulary (a class and associated terms)"
         tooltip-placement="right"
 >
-  <i class="fa fa-plus" aria-hidden="true"></i> Add vocabulary
+  <i class="fa fa-plus" aria-hidden="true"></i>Vocabulary
 </button>
 
 <uib-tabset ng-if="vocabs.length" style="width: 100%">
@@ -44,7 +45,7 @@
       <thead>
       <tr class="v2rHeaderRow">
 
-        <th colspan="2" class="v2rTermColHeaderCell"></th>
+        <th colspan="2" class="v2rTermColHeaderCell" style="width: 10px"></th>
 
         <th ng-repeat="p in vocab.properties track by $index" ng-init="p_index=$index">
           {{getLabel(p)}}
@@ -67,25 +68,27 @@
 
         </th>
 
-        <td style="width: 5px">
+
+        <td style="width: 40px">
           <button type="button"
                   ng-disabled="someEditInProgress() || attrTableform.$waiting"
                   ng-click="addProperty(vocab)"
-                  class="btn btn-default btn-xs"
-                  uib-tooltip="Add property"
+                  class="btn btn-primary btn-xs"
+                  uib-tooltip="Add a property to this vocabulary"
                   tooltip-placement="left"
           >
-            <i class="fa fa-plus" aria-hidden="true"></i>
+            <i class="fa fa-plus" aria-hidden="true"></i>Property
           </button>
 
         </td>
+
       </tr>
       </thead>
 
       <tbody>
       <tr ng-repeat="term in vocab.terms track by $index" ng-init="t_index = $index">
 
-        <td style="width: 5px">
+        <td style="width: 40px;max-width: 40px">
           <button type="button"
                   ng-disabled="someEditInProgress() || attrTableform.$waiting"
                   ng-click="removeTerm(vocab, t_index)"
@@ -96,7 +99,7 @@
           </button>
         </td>
 
-        <td style="width: 5px" class="v2rTermBg">
+        <td class="v2rTermBg">
           <span ng-if="someEditInProgress() || attrTableform.$waiting"
                 ng-bind="term.name"
           ></span>
@@ -179,21 +182,19 @@
 
       </tr>
 
-      <tr>
-        <td style="text-align: center">
-          <button type="button"
-                  ng-disabled="someEditInProgress() || attrTableform.$waiting"
-                  ng-click="addTerm(vocab)"
-                  class="btn btn-default btn-xs"
-                  uib-tooltip="Add term"
-          >
-            <i class="fa fa-plus" aria-hidden="true"></i>
-          </button>
-        </td>
-      </tr>
-
       </tbody>
     </table>
+
+    <button type="button"
+            ng-disabled="someEditInProgress() || attrTableform.$waiting"
+            ng-click="addTerm(vocab)"
+            class="btn btn-primary btn-xs"
+            uib-tooltip="Add a term to this vocabulary"
+            tooltip-placement="right"
+    >
+      <i class="fa fa-plus" aria-hidden="true"></i>Term
+    </button>
+
 
     <div ng-if="debug" class="debug">
       <pre>vocab = {{vocab | json}}</pre>

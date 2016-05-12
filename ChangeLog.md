@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-05-12: 0.3.1:
+  - v2r: improve editing layout, specially for brand new table
   - metadata: add some properties; associate and show prefix
   - metadata: hide some "standard" properties to avoid duplicates in
     entries that the old system added as copies of omv/omvmmi property values)
