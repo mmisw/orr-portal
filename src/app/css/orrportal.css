@@ -413,8 +413,8 @@ div.facetsubblock {
 }
 
 .v2rTermBg {
-  background-image: linear-gradient(to bottom, #fff 0%, #EAF3FC 100%);
-  background-repeat: repeat-x;
+  background-image: linear-gradient(to left, #fff 0%, #EAF3FC 100%);
+  background-repeat: repeat-y;
 }
 
 .editable-controls {
