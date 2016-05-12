@@ -143,6 +143,7 @@
             properties: [],
             terms: []
           };
+          $scope.addTerm(newVocab);
           $scope.vocabs.splice(v_index, 0, newVocab);
         });
       }
