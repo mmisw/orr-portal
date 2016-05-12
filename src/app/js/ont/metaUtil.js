@@ -34,9 +34,9 @@
          * entries that the old system added as copies of omv/omvmmi property values)
          */
         predicates: [
-          hideIfUndefined(required(omv.name)),
+          required(omv.name),
           hideIfUndefined(hideForNew(dct.title)),
-          hideIfUndefined(required(omv.description)),
+          required(omv.description),
           hideIfUndefined(hideForNew(dct.description)),
           hideIfUndefined(hideForNew(owl.versionInfo)),
           hideIfUndefined(omvmmi.hasResourceType),
@@ -44,7 +44,7 @@
           hideIfUndefined(omv.hasCreator),
           //hideIfUndefined(hideForNew(dc.creator)),
           hideIfUndefined(hideForNew(dct.creator)),
-          omv.keywords,
+          hideIfUndefined(omv.keywords),
           hideIfUndefined(omvmmi.origVocUri),
           //hideForNew(omvmmi.origMaintainerCode),
           hideIfUndefined(omv.documentation),
