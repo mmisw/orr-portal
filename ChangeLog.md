@@ -2,6 +2,8 @@
 
 * 2016-05-12: 0.3.1:
   - metadata: add some properties; associate and show prefix
+  - metadata: hide some "standard" properties to avoid duplicates in
+    entries that the old system added as copies of omv/omvmmi property values)
 
 * 2016-05-10: 0.3.1:
   - rj-viewer: enable filtering and optional grouping

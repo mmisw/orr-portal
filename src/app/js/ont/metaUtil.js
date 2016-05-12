@@ -29,6 +29,10 @@
       sectionObj.general = {
         header: "General",
         tooltip: "General information about this ontology, who created it, and where it came from.",
+        /*
+         * TODO: review this, but for now hide some "standard" properties here to avoid duplicates in
+         * entries that the old system added as copies of omv/omvmmi property values)
+         */
         predicates: [
           hideIfUndefined(required(omv.name)),
           hideIfUndefined(hideForNew(dct.title)),
@@ -38,14 +42,14 @@
           hideIfUndefined(omvmmi.hasResourceType),
           hideIfUndefined(hideForNew(omvmmi.hasContentCreator)),
           hideIfUndefined(omv.hasCreator),
-          hideIfUndefined(hideForNew(dc.creator)),
+          //hideIfUndefined(hideForNew(dc.creator)),
           hideIfUndefined(hideForNew(dct.creator)),
           omv.keywords,
           hideIfUndefined(omvmmi.origVocUri),
           //hideForNew(omvmmi.origMaintainerCode),
           hideIfUndefined(omv.documentation),
           hideIfUndefined(omv.hasContributor),
-          hideIfUndefined(hideForNew(dc.contributor)),
+          //hideIfUndefined(hideForNew(dc.contributor)),
           hideIfUndefined(omv.reference),
           hideIfUndefined(rdfs.seeAlso)
         ]
