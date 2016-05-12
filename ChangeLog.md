@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-05-12: 0.3.1:
+  - metadata: add some properties; associate and show prefix
+
 * 2016-05-10: 0.3.1:
   - rj-viewer: enable filtering and optional grouping
   - meta handling: introduce hideIfUndefined attribute to be used in view mode.

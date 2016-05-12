@@ -7,6 +7,10 @@
 
   metaUtil.$inject = ['vocabulary'];
   function metaUtil(vocabulary) {
+    var dc     = vocabulary.dc;
+    var dct    = vocabulary.dct;
+    var rdfs   = vocabulary.rdfs;
+    var owl    = vocabulary.owl;
     var omv    = vocabulary.omv;
     var omvmmi = vocabulary.omvmmi;
 
@@ -26,17 +30,24 @@
         header: "General",
         tooltip: "General information about this ontology, who created it, and where it came from.",
         predicates: [
-          required(omv.name),
-          required(omv.description),
+          hideIfUndefined(required(omv.name)),
+          hideIfUndefined(hideForNew(dct.title)),
+          hideIfUndefined(required(omv.description)),
+          hideIfUndefined(hideForNew(dct.description)),
+          hideIfUndefined(hideForNew(owl.versionInfo)),
           hideIfUndefined(omvmmi.hasResourceType),
           hideIfUndefined(hideForNew(omvmmi.hasContentCreator)),
-          omv.hasCreator,
+          hideIfUndefined(omv.hasCreator),
+          hideIfUndefined(hideForNew(dc.creator)),
+          hideIfUndefined(hideForNew(dct.creator)),
           omv.keywords,
           hideIfUndefined(omvmmi.origVocUri),
           //hideForNew(omvmmi.origMaintainerCode),
           hideIfUndefined(omv.documentation),
-          omv.hasContributor,
-          omv.reference
+          hideIfUndefined(omv.hasContributor),
+          hideIfUndefined(hideForNew(dc.contributor)),
+          hideIfUndefined(omv.reference),
+          hideIfUndefined(rdfs.seeAlso)
         ]
       };
 
@@ -44,6 +55,8 @@
         header: "Usage/License/Permissions",
         tooltip: "The Usage, License, and Permissions fields help keep track of how we obtained this vocabulary (and know it is OK to serve to others), and on what terms other people can use it.",
         predicates: [
+          hideIfUndefined(hideForNew(dct.rights)),
+          hideIfUndefined(hideForNew(dct.license)),
           omvmmi.origVocManager,
           omvmmi.contact,
           omvmmi.contactRole,

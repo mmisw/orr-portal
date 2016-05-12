@@ -7,17 +7,60 @@
 
   function vocabulary() {
     return {
-      rdf: setDetailsAndNS("http://www.w3.org/1999/02/22-rdf-syntax-ns#", {
+      rdf: setDetails("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", {
         type: {
         }
       }),
 
-      owl: setDetailsAndNS("http://www.w3.org/2002/07/owl#", {
-        Ontology: {
+      rdfs: setDetails("rdfs", "http://www.w3.org/2000/01/rdf-schema#", {
+        seeAlso: {
+          tooltip: "Further information about the subject resource."
         }
       }),
 
-      omv: setDetailsAndNS("http://omv.ontoware.org/2005/05/ontology#", {
+      owl: setDetails("owl", "http://www.w3.org/2002/07/owl#", {
+        Ontology: {
+        },
+        versionInfo: {
+          tooltip: "The annotation property that provides version information for an ontology or another OWL construct."
+        }
+      }),
+
+      dc: setDetails("dc", "http://purl.org/dc/elements/1.1/", {
+        creator: {
+          label: "Creator",
+          tooltip: "An entity primarily responsible for making the resource."
+        },
+        contributor: {
+          label: "Contributor",
+          tooltip: "An entity responsible for making contributions to the resource."
+        }
+      }),
+
+      dct: setDetails("dct", "http://purl.org/dc/terms/", {
+        title: {
+          label: "Title",
+          tooltip: "A name given to the resource."
+        },
+        description: {
+          label: "Description",
+          tooltip: "An account of the resource."
+        },
+        creator: {
+          label: "Creator",
+          tooltip: "An entity primarily responsible for making the resource."
+        },
+        rights: {
+          label: "Rights",
+          tooltip: "Information about rights held in and over the resource."
+        },
+        license: {
+          label: "License",
+          tooltip: "A legal document giving official permission to do something with the resource."
+        }
+      }),
+
+      omv: setDetails("omv", "http://omv.ontoware.org/2005/05/ontology#", {
         name: {
           label: "Name",
           tooltip: "A one-line descriptive title (title case) for the ontology."
@@ -55,7 +98,7 @@
         }
       }),
 
-      omvmmi: setDetailsAndNS("http://mmisw.org/ont/mmi/20081020/ontologyMetadata/", {
+      omvmmi: setDetails("omvm", "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/", {
         hasResourceType: {
           label: "Resource type",
           tooltip: {
@@ -114,8 +157,9 @@
       })
     };
 
-    function setDetailsAndNS(namespace, obj) {
+    function setDetails(prefix, namespace, obj) {
       _.each(obj, function(term, localName) {
+        term.prefix = prefix;
         term.uri = namespace + localName;
         term.label = term.label || localName;
       });
