@@ -58,6 +58,7 @@
 
     var userName, vm = {};
 
+    // TODO use ui-router instead of the following hacky logic
     if (!$rootScope.userLoggedIn()) {  // wait for a bit
       $timeout(function() {
         if (!$rootScope.userLoggedIn()) {
@@ -200,11 +201,13 @@
       var params = {
         uri:      vm.originalUri,
         name:     vm.name,
-        orgName:  vm.knownOwner || vm.selectedOwner.id,
         userName: userName,
         uploadedFilename: vm.uploadResponse.data.filename,
         uploadedFormat:   vm.uploadResponse.data.format
       };
+      if (vm.knownOwner && !vm.knownOwner.startsWith("~")) {
+        params.orgName = vm.knownOwner;
+      }
 
       var brandNew = !vm.knownOwner;
       service.registerOntology(brandNew, params, registrationCallback(params.uri));
@@ -285,7 +288,7 @@
           vm.name = ontology.name;
           vm.newUriIsAvailable = false;
 
-          vm.knownOwner = ontology.orgName;
+          vm.knownOwner = ontology.ownerName;
           vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
         }
       }
@@ -295,11 +298,15 @@
       if (!vm.knownOwner) {
         return true;
       }
-      if ($rootScope.rvm.masterAuth.loggedInInfo.uid === vm.knownOwner) {
-        return true;
+      if (vm.knownOwner.startsWith("~")) {
+        console.debug("owned by user:", vm.knownOwner);
+        var userOntOwner = vm.knownOwner.substring(1);
+        return $rootScope.rvm.masterAuth.loggedInInfo.uid === userOntOwner;
       }
+      var orgOntOwner = vm.knownOwner;
+      console.debug("owned by org:", orgOntOwner);
       var organizations = $rootScope.rvm.masterAuth.organizations;
-      return organizations && _.contains(_.map(organizations, "name"), vm.knownOwner);
+      return organizations && _.contains(_.map(organizations, "name"), orgOntOwner);
     }
 
     $scope.okToRegisterFullyHosted = function() {

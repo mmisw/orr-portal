@@ -40,16 +40,24 @@
     $scope.debug = debug = debug || $scope.debug;
     if (debug) console.log("++OntMetaSectionController++ $scope=", $scope);
 
-    $scope.visiblePredicates = _.filter($scope.predicates, function(p) {
-      if ($scope.editMode) {
-        return !p.hideForNew;
-      }
-      else if (p.hideIfUndefined) {
-        //console.debug("hideIfUndefined p=", p, $scope.ontMeta[p.uri]);
-        return $scope.ontMeta && $scope.ontMeta[p.uri];
-      }
-      return true;
+    $scope.$watch("editMode", function(editMode) {
+      //console.debug("OntMetaSectionController: editMode=", editMode);
+      update();
     });
+
+    function update() {
+      $scope.visiblePredicates = _.filter($scope.predicates, function(p) {
+        if ($scope.editMode) {
+          return !p.hideForNew;
+        }
+        else if (p.hideIfUndefined) {
+          //console.debug("hideIfUndefined p=", p, $scope.ontMeta[p.uri]);
+          return $scope.ontMeta && $scope.ontMeta[p.uri];
+        }
+        return true;
+      });
+
+    }
 
     $scope.predicateTooltip = function(predicate) {
       var text = "";

@@ -14,17 +14,17 @@ function facetModelFactory($rootScope) {
     var ontologies = [];
     var dataHasSubmitter = false;
 
-    var mostRecentByOrg = false;
+    var mostRecentByOwner = false;
 
     // determines the desired display order
-    var facetKeys = ["org", "usr", "ontologyStatus", "resourceType", "ontologyType", "hosting"];
+    var facetKeys = ["owner", "usr", "ontologyStatus", "resourceType", "ontologyType", "hosting"];
 
     // facet definitions
     var facetDict = {
-        org: {
-            label: "Organization",
+        owner: {
+            label: "Owner",
             height: "120px",
-            fieldName: "orgName",
+            fieldName: "ownerName",
             list: [],
             selection: []
         },
@@ -71,11 +71,11 @@ function facetModelFactory($rootScope) {
     resetFacets();
 
     return {
-        getMostRecentByOrg: function() {
-            return mostRecentByOrg;
+        getMostRecentByOwner: function() {
+            return mostRecentByOwner;
         },
-        setMostRecentByOrg: function(mrbo) {
-            mostRecentByOrg = mrbo;
+        setMostRecentByOwner: function(mrbo) {
+          mostRecentByOwner = mrbo;
             refreshFacets();
         },
         getOntologies: function getOntologies() { return ontologies; },
@@ -134,9 +134,9 @@ function facetModelFactory($rootScope) {
         prepareFacetSelectionFromList(facetKey);
     }
     function prepareFacetSelectionFromList(facetKey) {
-        facets[facetKey].selection = _.map(facets[facetKey].list, function(org) {
+        facets[facetKey].selection = _.map(facets[facetKey].list, function(owner) {
             return {
-                label: org,
+                label: owner,
                 selected: false
             };
         });
@@ -149,11 +149,11 @@ function facetModelFactory($rootScope) {
     function applyFilters() {
         var selectedOnts = ontologies;
 
-        if (mostRecentByOrg) {
+        if (mostRecentByOwner) {
             selectedOnts = [];
-            var byOrg = _.groupBy(ontologies, "orgName");
-            _.each(byOrg, function(orgOnts) {
-                var mostRecentOnt = _.sortBy(orgOnts, "version")[orgOnts.length - 1];
+            var byOwner = _.groupBy(ontologies, "ownerName");
+            _.each(byOwner, function(ownerOnts) {
+                var mostRecentOnt = _.sortBy(ownerOnts, "version")[ownerOnts.length - 1];
                 selectedOnts.push(mostRecentOnt);
             })
         }

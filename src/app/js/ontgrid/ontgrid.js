@@ -30,9 +30,9 @@ function OntGridController($scope, $stateParams, $location, $filter, uiGridConst
         '<span ng-bind-html="row.entity | mkMarks"></span>'
         + '</div>';
 
-    var orgCellTemplate =
+    var ownerCellTemplate =
         '<div class="ui-grid-cell-contents">' +
-        '<span ng-bind-html="row.entity[col.field] | mkOrgLink"></span>'
+        '<span ng-bind-html="row.entity[col.field] | mkOwnerLink"></span>'
         + '</div>';
 
     var userCellTemplate =
@@ -58,7 +58,7 @@ function OntGridController($scope, $stateParams, $location, $filter, uiGridConst
             { field: 'uri',       width: '***', minWidth: 400, displayName: 'URI', enableHiding: false, cellTemplate: mkUriLinkCellTemplate },
             { field: 'name',      width: '*****', cellTemplate: markCellTemplate },
             { field: 'author',    width: '**'},
-            { field: 'orgName',   width: '*', displayName: 'Org', cellTemplate: orgCellTemplate},
+            { field: 'ownerName', width: '*', displayName: 'Owner', cellTemplate: ownerCellTemplate},
             { field: 'version',   width: '*', sort: { direction: uiGridConstants.DESC } }
         ];
     }

@@ -14,8 +14,8 @@ function FacetController($scope, facetModel) {
     $scope.anyFacetSelection   = facetModel.anyFacetSelection;
     $scope.clearFacetSelection = facetModel.clearFacetSelection;
 
-    // only most recent ontology per organization
-    $scope.todo = {mostRecentByOrg: facetModel.getMostRecentByOrg()};
+    // only most recent ontology per owner
+    $scope.todo = {mostRecentByOwner: facetModel.getMostRecentByOwner()};
 
     setScope();
     setWatchers();
@@ -33,8 +33,8 @@ function FacetController($scope, facetModel) {
             setScope();
         }, true);
 
-        $scope.$watch('todo.mostRecentByOrg', function() {
-            facetModel.setMostRecentByOrg($scope.todo.mostRecentByOrg);
+        $scope.$watch('todo.mostRecentByOwner', function() {
+            facetModel.setMostRecentByOwner($scope.todo.mostRecentByOwner);
             setScope();
         });
     }

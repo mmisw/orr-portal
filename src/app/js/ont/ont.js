@@ -125,9 +125,8 @@
       var loggedInInfo = rvm.masterAuth.loggedInInfo;
       var userName = loggedInInfo.uid;
 
-      // TODO properly handle distinction between userName OR organization (this also involves orr-ont)
       vm.ownerOptions = [{
-        id:    userName,
+        id:    "~" + userName,
         name: 'User: ' + userName + ": " + loggedInInfo.displayName
       }];
       vm.selectedOwner = undefined;
@@ -152,7 +151,7 @@
           editOntUri(info).result.then(function(res) {
             if (debug) console.debug('editOntUri dialog accepted: res=', res);
             vm.ontology.uri = vm.uri = res.uri;
-            vm.ontology.orgName = res.owner;
+            vm.ontology.ownerName = res.owner;
             initMetaForBrandNew(res.owner);
             $scope.startEditMode();
           }, function() {
@@ -169,7 +168,9 @@
 
     function adjustMetaForBrandNew() {
       var meta = vm.ontology.metadata;
-      meta[vocabulary.omvmmi.origMaintainerCode.uri] = [vm.ontology.orgName];
+      if (!vm.ontology.ownerName.startsWith("~")) {
+        meta[vocabulary.omvmmi.origMaintainerCode.uri] = [vm.ontology.ownerName];
+      }
     }
 
     function refreshOntology(uri) {
@@ -227,10 +228,19 @@
       if (!vm.ontology)                     return false;
       if ($rootScope.userLoggedInIsAdmin()) return true;
       if (!$rootScope.userLoggedIn())       return false;
-      if (!rvm.masterAuth.organizations)    return false;
 
-      var userOrgs = _.map(rvm.masterAuth.organizations, "orgName");
-      return _.contains(userOrgs, vm.ontology.orgName);
+      if (!vm.ontology.ownerName)           return true; // TODO review this
+
+      if (vm.ontology.ownerName.startsWith("~")) {
+        var userOntOwner = vm.ontology.ownerName.substring(1);
+        return userOntOwner === rvm.masterAuth.loggedInInfo.uid;
+      }
+      else {
+        if (!rvm.masterAuth.organizations) return false;
+        var orgOntOwner = vm.ontology.ownerName;
+        var userOrgs = _.map(rvm.masterAuth.organizations, "orgName");
+        return _.contains(userOrgs, orgOntOwner);
+      }
     };
 
     $scope.startEditMode = function() {
@@ -251,7 +261,10 @@
             if (index === 0) {
               $scope.editMode = true;
             }
-            else console.error("not implemented yet: " + options[index]);
+            else {
+              var e = "Not implemented yet: " + options[index];
+              utl.error({ title: "Sorry", error: e, size: '' });
+            }
           }
         });
       }
@@ -280,7 +293,11 @@
       if (vm.ontDataFormat === 'v2r') {
         // Whole contents submission case.
         body.format = 'v2r';
-        body.orgName = vm.ontology.orgName;
+
+        if (!vm.ontology.ownerName.startsWith("~")) {
+          body.orgName = vm.ontology.ownerName;
+        }
+
         body.name = getNameFromOmv(vm.ontology.metadata);
         if (vm.brandNew) adjustMetaForBrandNew();
 
