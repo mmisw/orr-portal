@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-05-13: 0.3.1:
+  - ontologies now with ownerName attribute (either an orgName or a ~userName)
+
 * 2016-05-12: 0.3.1:
   - v2r: improve editing layout, specially for brand new table
   - metadata: add some properties; associate and show prefix

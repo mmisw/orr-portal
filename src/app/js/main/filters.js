@@ -69,18 +69,32 @@
       }
     }])
 
+    .filter('mkOwnerLink', [function() {
+      return ownerLink;
+    }])
+
     .filter('mkOrgLink', [function() {
-      return function(orgName) {
-        return '<a href="#/org/' + orgName + '">' + orgName + '</a>';
-      }
+      return orgLink;
     }])
 
     .filter('mkUserLink', [function() {
-      return function(userName) {
-        return '<a href="#/user/' + userName + '">' + userName + '</a>';
-      }
+      return userLink;
     }])
-
   ;
+
+  function ownerLink(ownerName) {
+    if (ownerName.startsWith("~"))
+      return userLink(ownerName.substring(1));
+    else
+      return orgLink(ownerName);
+  }
+
+  function orgLink(orgName) {
+    return '<a href="#/org/' + orgName + '">' + orgName + '</a>';
+  }
+
+  function userLink(userName) {
+    return '<a href="#/user/' + userName + '">~' + userName + '</a>';
+  }
 
 })();

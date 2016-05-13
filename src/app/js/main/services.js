@@ -12,7 +12,6 @@
 
     var refreshing = false;
     var ontologies = undefined;
-    var orgs = undefined;
     var doRefreshOntologies = false;
 
     return {
@@ -27,7 +26,6 @@
 
       getOntologyFormat:   getOntologyFormat,
 
-      getOrgs:           getOrgs,
       refreshOrg:        refreshOrg,
       createOrg:         createOrg,
 
@@ -123,12 +121,22 @@
      * for the adjusted fields here.
      */
     function adjustOntology(ont) {
-      if (!ont.status) {
-        var orgName = ont.orgName || '';
-        if (orgName === "testing" || orgName === "mmitest" ||
-          orgName === "odm2test" ||
-          orgName.endsWith("_test") || orgName.startsWith("test_")) {
+      if (ont.status) {
+        return ont;
+      }
+
+      if (ont.ownerName) {
+        if (ont.ownerName.startsWith("~")) {
+          // TODO for now, let's associate "testing" status to any user-owned ontology
           ont.status = "testing";
+        }
+        else {
+          var orgName = ont.ownerName;
+          if (orgName === "testing" || orgName === "mmitest" ||
+            orgName === "odm2test" ||
+            orgName.endsWith("_test") || orgName.startsWith("test_")) {
+            ont.status = "testing";
+          }
         }
         //else: better leave blank here, as there should be way for users (at submission time)
         // or the admin (with whatever mechanism) to explicitly indicate "stable", "experimental", etc.
@@ -202,20 +210,6 @@
           }
         })
         .error(httpErrorHandler(gotOntology))
-    }
-
-    function getOrgs(gotOrgs) {
-      if (orgs) {
-        gotOrgs(null, orgs);
-      }
-      else if (ontologies) {
-        orgs = _.uniq(_.map(ontologies, "orgName"));
-        gotOrgs(null, orgs);
-      }
-      else {
-        // todo: more intelligent resolution
-        gotOrgs("get ontologies first");
-      }
     }
 
     function refreshOrg(orgName, gotOrg) {
@@ -326,7 +320,7 @@
     }
 
     function addJwtIfAvailable(params) {
-      //console.log("refreshOrg: masterAuth.authData=", $rootScope.rvm.masterAuth.authData);
+      //console.log("addJwtIfAvailable: masterAuth.authData=", $rootScope.rvm.masterAuth.authData);
       if ($rootScope.rvm.masterAuth.authData && $rootScope.rvm.masterAuth.authData.token) {
         params.push("jwt=" + $rootScope.rvm.masterAuth.authData.token);
       }

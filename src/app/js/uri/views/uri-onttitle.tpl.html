@@ -10,11 +10,11 @@
     <span ng-if="vm.ontology.author">
         - Author: {{vm.ontology.author}}
     </span>
-    <!--
-        <span ng-if="vm.ontology.orgName">
-            Organization: {{vm.ontology.orgName}}
-        </span>
-    -->
+
+    <span ng-if="vm.ontology.ownerName">
+        Owner: {{vm.ontology.ownerName}}
+    </span>
+
     <span ng-if="vm.ontology.submitter">
         - Registered by:
         <a href="#/user/{{vm.ontology.submitter}}">{{vm.ontology.submitter}}</a>

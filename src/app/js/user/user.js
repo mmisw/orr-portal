@@ -1,35 +1,41 @@
 (function() {
-'use strict';
+  'use strict';
 
-angular.module('orrportal.user', [])
+  angular.module('orrportal.user', [])
     .controller('UserController', UserController)
-;
+  ;
 
-UserController.$inject = ['$scope', '$stateParams', 'service'];
+  UserController.$inject = ['$rootScope', '$scope', '$stateParams', '$timeout', 'service'];
 
-function UserController($scope, $stateParams, service) {
+  function UserController($rootScope, $scope, $stateParams, $timeout, service) {
     if (appUtil.debug) console.log("++UserController++");
 
     $scope.userName = $stateParams.userName;
     $scope.user = undefined;
     $scope.error = undefined;
 
-    refreshUser($scope, $scope.userName, service);
-}
+    // TODO use ui-router instead of the following hacky logic
+    if (!$rootScope.userLoggedIn()) {  // wait for a bit
+      $timeout(function() {
+        refreshUser();
+      }, 2000);
+    }
+    else refreshUser();
 
-function refreshUser($scope, userName, service) {
-    service.refreshUser(userName, gotUser);
+    function refreshUser() {
+      service.refreshUser($scope.userName, gotUser);
 
-    function gotUser(error, user) {
+      function gotUser(error, user) {
         if (error) {
-            console.log("error getting user:", error);
-            $scope.error = error;
+          console.log("error getting user:", error);
+          $scope.error = error;
         }
         else {
-            //console.log("gotUser=", user);
-            $scope.user = user;
+          //console.debug("gotUser=", user);
+          $scope.user = user;
         }
+      }
     }
-}
+  }
 
 })();
