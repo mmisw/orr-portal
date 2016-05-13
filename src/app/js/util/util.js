@@ -82,7 +82,7 @@
         templateUrl: 'js/util/message.tpl.html',
         controller:  'MessageInstanceCtrl',
         backdrop:    'static',
-        size:        'lg',
+        size:        info.size !== undefined ? info.size : 'lg',
         resolve: {
           info: function () {
             return $scope.info;

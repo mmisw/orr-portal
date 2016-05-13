@@ -229,6 +229,8 @@
       if ($rootScope.userLoggedInIsAdmin()) return true;
       if (!$rootScope.userLoggedIn())       return false;
 
+      if (!vm.ontology.ownerName)           return true; // TODO review this
+
       if (vm.ontology.ownerName.startsWith("~")) {
         var userOntOwner = vm.ontology.ownerName.substring(1);
         return userOntOwner === rvm.masterAuth.loggedInInfo.uid;
@@ -259,7 +261,10 @@
             if (index === 0) {
               $scope.editMode = true;
             }
-            else console.error("not implemented yet: " + options[index]);
+            else {
+              var e = "Not implemented yet: " + options[index];
+              utl.error({ title: "Sorry", error: e, size: '' });
+            }
           }
         });
       }
