@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-05-16: 0.3.1:
+  - initial m2r mapping format handling
+
 * 2016-05-13: 0.3.1:
   - ontologies now with ownerName attribute (either an orgName or a ~userName)
 

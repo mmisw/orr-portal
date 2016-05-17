@@ -1,0 +1,21 @@
+
+<label>Mapped ontologies</label>
+
+<ul>
+  <li ng-repeat="mo in ontData.mappedOnts"
+      ng-bind="mo"
+  >
+  </li>
+</ul>
+
+<label>Mappings</label>
+<span style="color: gray">
+  ({{gridOptions.data.length}})
+</span>
+
+<div class="ontGrid" ui-grid="gridOptions"></div>
+
+<div ng-if="debug" >
+  <pre class="debug" ng-bind="'ontData = ' +(ontData | json)"></pre>
+  <pre class="debug" ng-bind="'vm = ' +(vm | json)"></pre>
+</div>

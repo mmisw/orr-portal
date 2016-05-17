@@ -81,6 +81,7 @@
     };
 
     var newFormat = $stateParams.newFormat;
+    //console.debug("newFormat=", newFormat);
 
     if (vm.uri) {
       if (newFormat) console.warn("expecting undefined newFormat when vm.uri is defined. newFormat=", newFormat);
@@ -120,7 +121,7 @@
         "format": newFormat
       };
       vm.ontData = [];
-      vm.ontDataFormat = 'v2r';
+      vm.ontDataFormat = newFormat;
 
       var loggedInInfo = rvm.masterAuth.loggedInInfo;
       var userName = loggedInInfo.uid;
@@ -290,9 +291,9 @@
         userName:   $rootScope.userLoggedIn().uid
       };
 
-      if (vm.ontDataFormat === 'v2r') {
+      if (vm.ontDataFormat === 'v2r' || vm.ontDataFormat === 'm2r') {
         // Whole contents submission case.
-        body.format = 'v2r';
+        body.format = vm.ontDataFormat;
 
         if (!vm.ontology.ownerName.startsWith("~")) {
           body.orgName = vm.ontology.ownerName;
@@ -301,11 +302,19 @@
         body.name = getNameFromOmv(vm.ontology.metadata);
         if (vm.brandNew) adjustMetaForBrandNew();
 
-        body.contents = angular.toJson(omitSpecialFields({
-          metadata: vm.ontology.metadata,
-          vocabs:   vm.ontData
-        }));
-        if (debug) console.debug("TO submit V2R = ", body.contents);
+        var object = {
+          metadata: vm.ontology.metadata
+        };
+        if (vm.ontDataFormat === 'v2r') {
+          object.vocabs = vm.ontData;
+        }
+        else {
+          object.mappedOnts = vm.ontData.mappedOnts;
+          object.mappings   = vm.ontData.mappings;
+        }
+
+        body.contents = angular.toJson(omitSpecialFields(object));
+        if (debug) console.debug("TO submit " +vm.ontDataFormat+ " = ", body.contents);
       }
       else {
         // Only metadata submission case.
@@ -377,6 +386,9 @@
       if (vm.ontology.format === 'v2r') {
         getOntologyDataV2r();
       }
+      else if (vm.ontology.format === 'm2r') {
+        getOntologyDataM2r();
+      }
       else {
         getOntologyDataOtherFormat();
       }
@@ -394,6 +406,25 @@
           console.log("gotOntologyV2r: data=", data);
           vm.ontData = data.vocabs;
           vm.ontDataFormat = 'v2r';
+        }
+      }
+    }
+
+    function getOntologyDataM2r() {
+      service.getOntologyFormat(vm.uri, "m2r", gotOntologyM2r);
+
+      function gotOntologyM2r(error, data) {
+        if (error) {
+          $scope.error = error;
+          console.error(error);
+        }
+        else {
+          console.log("gotOntologyM2r: data=", data);
+          vm.ontData = {
+            mappedOnts: data.mappedOnts,
+            mappings:   data.mappings
+          };
+          vm.ontDataFormat = 'm2r';
         }
       }
     }

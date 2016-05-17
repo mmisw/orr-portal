@@ -446,3 +446,14 @@ div.debug {
 .kwLink:hover {
   border-color: darkgreen;
 }
+
+.m2rRelSymbol {
+  font-weight: bold;
+  cursor: pointer;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
