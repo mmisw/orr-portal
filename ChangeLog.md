@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-05-16: 0.3.1:
+  - automatic conversion from "vine" to "m2r" to use new m2r dispatch
   - initial m2r mapping format handling
 
 * 2016-05-13: 0.3.1:

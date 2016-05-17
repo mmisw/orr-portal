@@ -1,7 +1,8 @@
 (function() {
   'use strict';
 
-  var debug = true;//appUtil.debug;
+  var debug = appUtil.debug;
+  //debug = true;
 
   angular.module('orrportal.m2r', [])
     .directive('m2rDataViewer',  M2rDataViewerDirective)

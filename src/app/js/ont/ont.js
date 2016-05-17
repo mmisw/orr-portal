@@ -436,19 +436,28 @@
         if (error) {
           $scope.error = error;
           console.error(error);
+          return;
         }
-        else {
-          //console.log("gotOntologyOtherFormat: data=", data);
-          var v2rVocabs = try_voc_2_v2r(vm.uri, data);
-          if (v2rVocabs) {
-            vm.ontData = v2rVocabs;
-            vm.ontDataFormat = 'v2r';
-          }
-          else {
-            vm.ontData = data;
-            vm.ontDataFormat = 'rj';
-          }
+
+        //console.log("gotOntologyOtherFormat: data=", data);
+
+        var v2rVocabs = try_voc_2_v2r(vm.uri, data);
+        if (v2rVocabs) {
+          vm.ontData = v2rVocabs;
+          vm.ontDataFormat = 'v2r';
+          return;
         }
+
+        var m2rOntData = try_map_2_m2r(vm.uri, data, vocabulary);
+        if (m2rOntData) {
+          vm.ontData = m2rOntData;
+          vm.ontDataFormat = 'm2r';
+          return;
+        }
+
+        // Else: just dispatch generic rj
+        vm.ontData = data;
+        vm.ontDataFormat = 'rj';
       }
     }
 
@@ -626,6 +635,73 @@
     });
     console.debug("try_voc_2_v2r: vocabs=", vocabs);
     return vocabs;
+  }
+
+  /**
+   * Obtains the 'm2r' format (mappedOnts and mappings) of the given data if the metadata indicates
+   * the use of the vine tool.
+   * This is a helper to facilitate the creation of a new version
+   * of existing "vine" entries with the new 'm2r' format.
+   */
+  function try_map_2_m2r(uri, data, vocabulary) {
+    var owl = vocabulary.owl;
+    var usedOntologyEngineeringToolPropertyUri = 'http://omv.ontoware.org/2005/05/ontology#usedOntologyEngineeringTool';
+    var vinePropertyUri = 'http://mmisw.org/ont/mmi/20081020/ontologyMetadata/vine';
+    var vineStatementUri = 'http://mmisw.org/ont/mmi/vine/Statement';
+    var vineSubjectUri = 'http://mmisw.org/ont/mmi/vine/subject';
+    var vinePredicateUri = 'http://mmisw.org/ont/mmi/vine/predicate';
+    var vineObjectUri = 'http://mmisw.org/ont/mmi/vine/object';
+
+    var ontProps = data[uri];
+    if (!ontProps) {
+      return;
+    }
+
+    var usedOntologyEngineeringToolValue = ontProps[usedOntologyEngineeringToolPropertyUri];
+    if (!usedOntologyEngineeringToolValue) {
+      if (debug) console.debug("try_map_2_m2r: property no included: ", usedOntologyEngineeringToolPropertyUri);
+      return;
+    }
+
+    var isVine = _.any(usedOntologyEngineeringToolValue, {value: vinePropertyUri});
+
+    if (!isVine) {
+      if (debug) console.debug("try_map_2_m2r: Ontology not built with vine");
+      return;
+    }
+
+    if (debug) console.log("try_map_2_m2r: Yes! vine");
+
+    var mappedOnts = [];
+    var uriProps = data[uri];
+    if (uriProps) {
+      mappedOnts = _.map(uriProps[owl.imports.uri], "value");
+    }
+
+    // get vine statements:
+    var mappings = [];
+    _.forOwn(data, function(props, uri) {
+      var types = props['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'];
+      if (types && _.any(types, {value: vineStatementUri})) {
+        var subjectUris   = _.map(props[vineSubjectUri], "value");
+        var predicateUris = _.map(props[vinePredicateUri], "value");
+        var objectUris    = _.map(props[vineObjectUri], "value");
+        _.each(predicateUris, function(predicateUri) {
+          mappings.push({
+            subjects:  subjectUris,
+            predicate: predicateUri,
+            objects:   objectUris
+          });
+        });
+      }
+    });
+
+    if (debug) console.debug("try_map_2_m2r: mappings=", mappings);
+
+    return {
+      mappedOnts: mappedOnts,
+      mappings: mappings
+    };
   }
 
 })();

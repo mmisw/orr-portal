@@ -24,6 +24,8 @@
         versionInfo: {
           tooltip: "The annotation property that provides version information for an ontology or another OWL construct."
         },
+        imports: {
+        },
         sameAs: {
           tooltip: "The property that determines that two given individuals are equal."
         }

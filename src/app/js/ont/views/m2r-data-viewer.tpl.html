@@ -3,7 +3,7 @@
 
 <ul>
   <li ng-repeat="mo in ontData.mappedOnts"
-      ng-bind="mo"
+      ng-bind-html="mo | mklinksOnlyExternal"
   >
   </li>
 </ul>
