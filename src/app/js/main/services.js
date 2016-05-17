@@ -105,7 +105,7 @@
       $http.get(url)
         .success(function(res, status, headers, config) {
           setRefreshing(false);
-          console.log(appUtil.logTs() + ": gotOntology: ", _.cloneDeep(res));
+          //console.log(appUtil.logTs() + ": refreshOntology !md response: ", _.cloneDeep(res));
           if (res.error) {
             gotOntology(res);
           }
@@ -201,7 +201,7 @@
       $http.get(url)
         .success(function(res, status, headers, config) {
           setRefreshing(false);
-          console.log(appUtil.logTs() + ": gotOntology: ", _.cloneDeep(res));
+          //console.log(appUtil.logTs() + ": getOntologyFormat " +format+" response: ", _.cloneDeep(res));
           if (res.error) {
             gotOntology(res);
           }
