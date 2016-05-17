@@ -25,14 +25,15 @@
     }
   }
 
-  M2rDataViewerController.$inject = ['$scope', '$window'];
-  function M2rDataViewerController($scope, $window) {
+  M2rDataViewerController.$inject = ['$scope', 'service'];
+  function M2rDataViewerController($scope, service) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++M2rDataViewerController++ $scope=", $scope);
 
     var vm = $scope.vm = {
-      uri: $scope.uri
+      uri: $scope.uri,
+      mappedOntsInfo: {}
     };
 
     var triples = [];
@@ -113,6 +114,27 @@
       },
       300
     );
+
+    getMappedOntsInfo();
+
+    function getMappedOntsInfo() {
+      _.each($scope.ontData.mappedOnts, function(ontUri) {
+        service.refreshOntology(ontUri, gotOntology);
+
+        function gotOntology(error, ontology) {
+          if (error) {
+            // just log warning
+            console.warn("error getting info for mapped ontology " +ontUri, error);
+          }
+          else {
+            console.debug("got mapped ontology info", ontology);
+            vm.mappedOntsInfo[ontUri] = {
+              name: ontology.name
+            };
+          }
+        }
+      });
+    }
   }
 
   ///////////////////////////////////////////////////////

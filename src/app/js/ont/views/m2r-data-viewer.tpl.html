@@ -3,12 +3,14 @@
 </div>
 
 <div style="width: 100%">
-  <table class="table" style="width: 100px; margin-left: auto; margin-right: auto">
+  <table style="width: 100px; margin-left: auto; margin-right: auto">
     <tbody>
-    <tr ng-repeat="mo in ontData.mappedOnts" style="white-space: nowrap">
+    <tr ng-repeat="ontUri in ontData.mappedOnts" style="white-space: nowrap">
       <td>
         -
-        <span ng-bind-html="mo | mklinksOnlyExternal">
+        <span ng-bind-html="ontUri | mklinksOnlyExternal"></span>
+        <span ng-if="vm.mappedOntsInfo[ontUri].name">
+          - {{vm.mappedOntsInfo[ontUri].name}}
         </span>
       </td>
     </tr>
