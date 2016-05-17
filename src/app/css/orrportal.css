@@ -447,6 +447,9 @@ div.debug {
   border-color: darkgreen;
 }
 
+.m2rRelHeader {
+  text-align: center;
+}
 .m2rRelSymbol {
   font-weight: bold;
   cursor: pointer;
@@ -457,3 +460,4 @@ div.debug {
 .right {
   text-align: right;
 }
+

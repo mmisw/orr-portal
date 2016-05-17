@@ -69,24 +69,31 @@
 
     $scope.gridOptions = {
       data: [],
+      enableColumnMenus: false,
       columnDefs: [
         {
           field: 'subjectUri',
-          width: '****',
-          displayName: '', //'Subject',
+          //width: '****',
+          displayName: 'Subject',
+          headerCellClass: 'right',
           grouping: { groupPriority: 0 },
           cellTemplate: subjectTemplate
         },
         {
           field: 'predicateUri',
-          width: 50,
-          displayName: '', //'Predicate',
+          maxWidth: 42,
+          displayName: 'Prd', //'Predicate',
+          headerCellClass: 'm2rRelHeader',
+          enableFiltering: false,
+          enableSorting: false,
+          enableHiding: false,
           cellTemplate: predicateTemplate
         },
         {
           field: 'objectUri',
-          width: '*****',
-          displayName: '', //'Object',
+          //width: '*****',
+          displayName: 'Object',
+          headerCellClass: 'left',
           cellTemplate: objectTemplate
         }
       ]
@@ -163,7 +170,8 @@
     var relations = {};
     function add(prop, sym) {
       relations[prop.uri] = {
-        icon: '<i class="m2rRelSymbol btn btn-default btn-xs">' +sym+ '</i>',
+        icon: '<i class="m2rRelSymbol">' +sym+ '</i>',
+        //icon: '<i class="m2rRelSymbol btn btn-default btn-xs">' +sym+ '</i>',
         prop: prop
       };
     }

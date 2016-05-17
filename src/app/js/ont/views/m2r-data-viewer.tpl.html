@@ -1,17 +1,28 @@
+<div style="background-color: #cfe3e6; width: 100%; text-align: center">
+  Mapped ontologies
+</div>
 
-<label>Mapped ontologies</label>
+<div style="width: 100%">
+  <table class="table" style="width: 100px; margin-left: auto; margin-right: auto">
+    <tbody>
+    <tr ng-repeat="mo in ontData.mappedOnts" style="white-space: nowrap">
+      <td>
+        -
+        <span ng-bind-html="mo | mklinksOnlyExternal">
+        </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 
-<ul>
-  <li ng-repeat="mo in ontData.mappedOnts"
-      ng-bind-html="mo | mklinksOnlyExternal"
-  >
-  </li>
-</ul>
+</div>
 
-<label>Mappings</label>
-<span style="color: gray">
-  ({{gridOptions.data.length}})
-</span>
+<div style="background-color: #cfe3e6; width: 100%; text-align: center">
+  Mappings
+  <span style="color: gray">
+    ({{gridOptions.data.length}})
+  </span>
+</div>
 
 <div class="ontGrid" ui-grid="gridOptions"></div>
 
