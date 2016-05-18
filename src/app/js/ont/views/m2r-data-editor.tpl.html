@@ -1,1 +1,74 @@
-<h1>TODO: m2r editor</h1>
+<div style="background-color: #cfe3e6; width: 100%; text-align: center">
+  Mapped ontologies
+  <div class="btn btn-default btn-xs"
+       ng-click="addMappedOntology()"
+  ><i class="fa fa-plus" aria-hidden="true"></i>Add</div>
+</div>
+
+<div style="width: 100%">
+  <table style="width: 100px; margin-left: auto; margin-right: auto">
+    <tbody>
+    <tr ng-repeat="ontUri in ontData.mappedOnts" style="white-space: nowrap">
+      <td>
+        {{$index + 1}}-
+        <span ng-bind-html="ontUri | mklinksOnlyExternal"></span>
+        <span ng-if="vm.mappedOntsInfo[ontUri].name">
+          - {{vm.mappedOntsInfo[ontUri].name}}
+        </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<table style="width: 100%" class="table">
+
+  <tbody>
+  <tr>
+    <td style="width: 50%">
+
+      <m2r-data-editor-mapping-side side="'left'" ont-data="ontData"
+      ></m2r-data-editor-mapping-side>
+
+    </td>
+
+    <td style="width: 30px; vertical-align: middle">
+      <table>
+        <tbody>
+        <tr ng-repeat="(relUri, rel) in relations">
+          <td uib-popover="{{rel.prop.prefix + ':' + rel.prop.label + ' - ' +rel.prop.tooltip}}"
+              popover-trigger="mouseenter">
+            <div class="btn btn-default"
+                    ng-bind-html="rel.symbol"
+            ></div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </td>
+
+    <td style="width: 50%">
+
+      <m2r-data-editor-mapping-side side="'right'" ont-data="ontData"
+      ></m2r-data-editor-mapping-side>
+
+    </td>
+  </tr>
+  </tbody>
+
+</table>
+
+<div style="background-color: #cfe3e6; width: 100%; text-align: center">
+  Mappings
+  <span style="color: gray">
+    ({{gridOptions.data.length}})
+  </span>
+</div>
+
+<div class="ontGrid" ui-grid="gridOptions"></div>
+
+<div ng-if="debug" >
+  <pre class="debug" ng-bind="'ontData = ' +(ontData | json)"></pre>
+  <pre class="debug" ng-bind="'vm = ' +(vm | json)"></pre>
+</div>

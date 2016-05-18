@@ -8,6 +8,7 @@
     .directive('m2rData',        M2rDataDirective)
     .directive('m2rDataViewer',  M2rDataViewerDirective)
     .directive('m2rDataEditor',  M2rDataEditorDirective)
+    .directive('m2rDataEditorMappingSide', M2rDataEditorMappingSideDirective)
     .factory('m2rRelations',     m2rRelations)
     .filter('m2rRelationFilter', m2rRelationFilter)
   ;
@@ -105,16 +106,80 @@
     };
   }
 
-  M2rDataEditorController.$inject = ['$scope', '$uibModal', '$filter', '$timeout', 'utl'];
-  function M2rDataEditorController($scope, $uibModal, $filter, $timeout, utl) {
+  M2rDataEditorController.$inject = ['$scope', 'service', 'm2rRelations'];
+  function M2rDataEditorController($scope, service, m2rRelations) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++M2rDataEditorController++ $scope=", $scope);
 
     var vm = $scope.vm = {
-      uri: $scope.uri
+      uri: $scope.uri,
+      mappedOntsInfo: {}
+    };
+
+    var triples = getTriples($scope.ontData.mappings);
+
+    $scope.gridOptions = {
+      data: [],
+      enableColumnMenus: false,
+      columnDefs: []
+      ,enableGridMenu: true
+      ,showGridFooter: true
+      ,enableFiltering: true
+    };
+    addTripleColumnDefs($scope.gridOptions.columnDefs);
+
+    passTriplesToGrid($scope, $scope.gridOptions.data, triples);
+
+    getMappedOntsInfo($scope, service);
+
+    $scope.addMappedOntology = function() {
+      console.debug("addMappedOntology");
+    };
+
+    $scope.relations = m2rRelations;
+
+  }
+
+  ///////////////////////////////////////////////////////
+
+  M2rDataEditorMappingSideDirective.$inject = [];
+  function M2rDataEditorMappingSideDirective() {
+    if (debug) console.log("++M2rDataEditorMappingSideDirective++");
+
+    return {
+      restrict: 'E',
+      templateUrl: 'js/ont/views/m2r-data-editor-mapping-side.tpl.html',
+      controller: M2rDataEditorMappingSideController,
+      scope: {
+        // TODO
+        side:     '=',
+        ontData:  '='
+      }
     };
   }
+
+  M2rDataEditorMappingSideController.$inject = ['$scope'];
+  function M2rDataEditorMappingSideController($scope) {
+    var vm = $scope.vm = {
+      ontsToSearch: _.map($scope.ontData.mappedOnts, function() { return 0 })
+    };
+
+    $scope.noOntsToSearch = function() {
+      return !_.any(vm.ontsToSearch);
+    };
+
+    $scope.searchEntities = function() {
+      var selectedOntUris = [];
+      _.each(vm.ontsToSearch, function(sel, index) {
+        if (sel) selectedOntUris.push($scope.ontData.mappedOnts[index]);
+      });
+      console.debug("searchEntities: selectedOntUris=", selectedOntUris);
+      // TODO
+    }
+  }
+
+  ///////////////////////////////////////////////////////
 
   m2rRelationFilter.$inject = ['m2rRelations'];
   function m2rRelationFilter(m2rRelations) {
@@ -122,7 +187,6 @@
       var rel = m2rRelations[predicateUri];
       var icon = rel && rel.icon ? rel.icon : '?';
       var tooltip = rel.prop.prefix + ':' + rel.prop.label;
-      if (rel.prop.tooltip) tooltip += ": " + rel.prop.tooltip;
       return '<i title="' +tooltip+ '">' +icon+ '</i>';
     }
   }
@@ -132,8 +196,8 @@
     var relations = {};
     function add(prop, sym) {
       relations[prop.uri] = {
+        symbol: sym,
         icon: '<i class="m2rRelSymbol">' +sym+ '</i>',
-        //icon: '<i class="m2rRelSymbol btn btn-default btn-xs">' +sym+ '</i>',
         prop: prop
       };
     }

@@ -1,0 +1,47 @@
+<pre ng-if="debug" ng-bind="vm.ontsToSearch | json"></pre>
+
+<div class="m2rMappingSide">
+
+  <label>
+    Search the following ontologies:
+  </label>
+  <div class="btn btn-default btn-xs"
+       ng-repeat="mo in ontData.mappedOnts"
+       ng-model="vm.ontsToSearch[$index]"
+       uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0"
+  >{{$index + 1}}</div>
+
+  <br>
+
+  <!--<pre>{{ontData | json}}</pre>-->
+
+  <label>
+    Search for:
+  </label>
+  <input type="text" placeholder="string"
+         size="40em"
+  >
+  <div class="btn btn-default btn-xs"
+       ng-disabled="noOntsToSearch()"
+       ng-click="searchEntities()"
+  ><i class="fa fa-search" aria-hidden="true"></i></div>
+
+  <table style="width: 100%; margin-top: 10px" class="table table-bordered">
+    <thead>
+    <tr style="background-color: #cfe3e6">
+      <th style="font-weight: normal; text-align: center"
+      >Selected 0 out of 0 element(s)</th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+    <tr>
+      <td>
+        TODO
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
