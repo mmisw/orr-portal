@@ -12,24 +12,6 @@
     .filter('m2rRelationFilter', m2rRelationFilter)
   ;
 
-  // TODO proper filtering; for now all links external
-
-  var subjectTemplate =
-    '<div class="ui-grid-cell-contents right">' +
-    '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
-    + '</div>';
-
-  var predicateTemplate =
-    '<div class="ui-grid-cell-contents center">' +
-    '<span ng-bind-html="row.entity[col.field] | m2rRelationFilter"></span>'
-    + '</div>';
-
-  var objectTemplate =
-    '<div class="ui-grid-cell-contents left">' +
-    '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
-    + '</div>';
-
-
   M2rDataDirective.$inject = [];
   function M2rDataDirective() {
     if (debug) console.log("++M2rDataDirective++");
@@ -83,70 +65,16 @@
     $scope.gridOptions = {
       data: [],
       enableColumnMenus: false,
-      columnDefs: [
-        {
-          field: 'subjectUri',
-          //width: '****',
-          displayName: 'Subject',
-          headerCellClass: 'right',
-          grouping: { groupPriority: 0 },
-          cellTemplate: subjectTemplate
-        },
-        {
-          field: 'predicateUri',
-          maxWidth: 42,
-          displayName: 'Prd', //'Predicate',
-          headerCellClass: 'm2rRelHeader',
-          enableFiltering: false,
-          enableSorting: false,
-          enableHiding: false,
-          cellTemplate: predicateTemplate
-        },
-        {
-          field: 'objectUri',
-          //width: '*****',
-          displayName: 'Object',
-          headerCellClass: 'left',
-          cellTemplate: objectTemplate
-        }
-      ]
+      columnDefs: []
       ,enableGridMenu: true
       ,showGridFooter: true
       ,enableFiltering: true
     };
+    addTripleColumnDefs($scope.gridOptions.columnDefs);
 
-    appUtil.updateModelArray($scope.gridOptions.data, triples,
-      function(done) {
-        if (done) {
-          $scope.$parent.$digest();
-        }
-        else {
-          $scope.$digest();
-        }
-      },
-      300
-    );
+    passTriplesToGrid($scope, $scope.gridOptions.data, triples);
 
-    getMappedOntsInfo();
-
-    function getMappedOntsInfo() {
-      _.each($scope.ontData.mappedOnts, function(ontUri) {
-        service.refreshOntology(ontUri, gotOntology);
-
-        function gotOntology(error, ontology) {
-          if (error) {
-            // just log warning
-            console.warn("error getting info for mapped ontology " +ontUri, error);
-          }
-          else {
-            console.debug("got mapped ontology info", ontology);
-            vm.mappedOntsInfo[ontUri] = {
-              name: ontology.name
-            };
-          }
-        }
-      });
-    }
+    getMappedOntsInfo($scope, service);
   }
 
   ///////////////////////////////////////////////////////
@@ -237,5 +165,82 @@
     });
     return _.sortBy(triples, "subjectUri");
   }
+
+  function passTriplesToGrid($scope, data, triples) {
+    appUtil.updateModelArray(data, triples,
+      function(done) {
+        if (done) {
+          $scope.$parent.$digest();
+        }
+        else {
+          $scope.$digest();
+        }
+      },
+      300
+    );
+  }
+
+  function getMappedOntsInfo($scope, service) {
+    _.each($scope.ontData.mappedOnts, function(ontUri) {
+      service.refreshOntology(ontUri, function(error, ontology) {
+        if (error) {
+          // just log warning
+          console.warn("error getting info for mapped ontology " +ontUri, error);
+        }
+        else {
+          console.debug("got mapped ontology info", ontology);
+          $scope.vm.mappedOntsInfo[ontUri] = {
+            name: ontology.name
+          };
+        }
+      });
+    });
+  }
+
+  function addTripleColumnDefs(columnDefs) {
+    columnDefs.push({
+      field: 'subjectUri',
+      //width: '****',
+      displayName: 'Subject',
+      headerCellClass: 'right',
+      cellTemplate: subjectTemplate
+    });
+
+    columnDefs.push({
+      field: 'predicateUri',
+      maxWidth: 42,
+      displayName: 'Prd', //'Predicate',
+      headerCellClass: 'm2rRelHeader',
+      enableFiltering: false,
+      enableSorting: false,
+      enableHiding: false,
+      cellTemplate: predicateTemplate
+    });
+
+    columnDefs.push({
+      field: 'objectUri',
+      //width: '*****',
+      displayName: 'Object',
+      headerCellClass: 'left',
+      cellTemplate: objectTemplate
+    });
+  }
+
+  // TODO proper filtering; for now all links external
+
+  var subjectTemplate =
+    '<div class="ui-grid-cell-contents right">' +
+    '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
+    + '</div>';
+
+  var predicateTemplate =
+    '<div class="ui-grid-cell-contents center">' +
+    '<span ng-bind-html="row.entity[col.field] | m2rRelationFilter"></span>'
+    + '</div>';
+
+  var objectTemplate =
+    '<div class="ui-grid-cell-contents left">' +
+    '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
+    + '</div>';
 
 })();
