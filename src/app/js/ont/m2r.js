@@ -50,8 +50,8 @@
     }
   }
 
-  M2rDataViewerController.$inject = ['$scope', 'service'];
-  function M2rDataViewerController($scope, service) {
+  M2rDataViewerController.$inject = ['$scope', 'service', 'm2rRelations'];
+  function M2rDataViewerController($scope, service, m2rRelations) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++M2rDataViewerController++ $scope=", $scope);
@@ -61,7 +61,7 @@
       mappedOntsInfo: {}
     };
 
-    var triples = getTriples($scope.ontData.mappings);
+    var triples = getTriples($scope.ontData.mappings, m2rRelations);
 
     $scope.gridOptions = {
       data: [],
@@ -117,7 +117,7 @@
       mappedOntsInfo: {}
     };
 
-    var triples = getTriples($scope.ontData.mappings);
+    var triples = getTriples($scope.ontData.mappings, m2rRelations);
 
     $scope.gridOptions = {
       data: [],
@@ -137,8 +137,7 @@
       console.debug("addMappedOntology");
     };
 
-    $scope.relations = m2rRelations;
-
+    $scope.relations = m2rRelations.relations;
   }
 
   ///////////////////////////////////////////////////////
@@ -184,10 +183,8 @@
   m2rRelationFilter.$inject = ['m2rRelations'];
   function m2rRelationFilter(m2rRelations) {
     return function(predicateUri) {
-      var rel = m2rRelations[predicateUri];
-      var icon = rel && rel.icon ? rel.icon : '?';
-      var tooltip = rel.prop.prefix + ':' + rel.prop.label;
-      return '<i title="' +tooltip+ '">' +icon+ '</i>';
+      var rel = m2rRelations.relations[predicateUri];
+      return rel && rel.icon ? rel.icon : '?';
     }
   }
 
@@ -210,19 +207,29 @@
     add(skos.relatedMatch, '&sim;');
     add(owl.sameAs,        '&equiv;');
 
-    return relations;
+    return {
+      relations:           relations,
+      getRelationTooltip:  getRelationTooltip
+    };
+
+    function getRelationTooltip(predicateUri) {
+      console.log("getRelationTooltip: predicateUri=", predicateUri);
+      var rel = relations[predicateUri];
+      return rel.prop.prefix + ':' + rel.prop.label + ' - ' + rel.prop.tooltip;
+    }
   }
 
-  function getTriples(ontDataMappings) {
+  function getTriples(ontDataMappings, m2rRelations) {
     var triples = [];
     _.each(ontDataMappings, function(mapGroup) {
       var predicate = mapGroup.predicate;
       _.each(mapGroup.subjects, function(subjectUri) {
         _.each(mapGroup.objects, function(objectUri) {
           triples.push({
-            subjectUri:    subjectUri,
-            predicateUri:  predicate,
-            objectUri:     objectUri
+            subjectUri:        subjectUri,
+            predicateUri:      predicate,
+            predicateTooltip:  m2rRelations.getRelationTooltip(predicate),
+            objectUri:         objectUri
           })
         });
       });
@@ -298,9 +305,11 @@
     + '</div>';
 
   var predicateTemplate =
-    '<div class="ui-grid-cell-contents center">' +
-    '<span ng-bind-html="row.entity[col.field] | m2rRelationFilter"></span>'
-    + '</div>';
+    '<div uib-popover="{{ row.entity.predicateTooltip }}" popover-placement="top" popover-append-to-body="true" popover-trigger="mouseenter">' +
+     '<div class="ui-grid-cell-contents center">' +
+       '<span ng-bind-html="row.entity[col.field] | m2rRelationFilter">' +
+     '</span>' +
+    '</div>';
 
   var objectTemplate =
     '<div class="ui-grid-cell-contents left">' +
