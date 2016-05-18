@@ -5,6 +5,9 @@
   - m2r: show associated name for mapped ontologies
     TODO: capture version (if available) of mapped ontology at time of m2r creation
 
+* 2016-05-18: 0.3.1:
+  - m2r: incorporate getOntologySubjects to allow selection for mapping
+
 * 2016-05-16: 0.3.1:
   - automatic conversion from "vine" to "m2r" to use new m2r dispatch
   - initial m2r mapping format handling

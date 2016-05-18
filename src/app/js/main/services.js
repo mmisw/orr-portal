@@ -17,14 +17,15 @@
     return {
       isRefreshing:  function() { return refreshing; },
 
-      getOntologies:     getOntologies,
-      refreshOntologies: refreshOntologies,
-      setDoRefreshOntologies: setDoRefreshOntologies,
+      getOntologies:           getOntologies,
+      refreshOntologies:       refreshOntologies,
+      setDoRefreshOntologies:  setDoRefreshOntologies,
 
-      refreshOntology:   refreshOntology,
+      refreshOntology:         refreshOntology,
       refreshOntologyMetadata: refreshOntologyMetadata,
+      getOntologySubjects:     getOntologySubjects,
 
-      getOntologyFormat:   getOntologyFormat,
+      getOntologyFormat:       getOntologyFormat,
 
       refreshOrg:        refreshOrg,
       createOrg:         createOrg,
@@ -114,6 +115,21 @@
           }
         })
         .error(httpErrorHandler(gotOntology))
+    }
+
+    function getOntologySubjects(uri, cb) {
+      var params = {
+        uri: uri
+      };
+      doHttp("getOntologySubjects", {
+        method: 'GET',
+        url:    appConfig.orront.rest + "/api/v0/ont/sbjs",
+        params: params
+      }, cb)
+        .success(function (data) {
+          console.log(appUtil.logTs() + ": getOntologySubjects: data=", data);
+          cb(null, data);
+        })
     }
 
     /**

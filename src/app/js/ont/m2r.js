@@ -50,16 +50,17 @@
     }
   }
 
-  M2rDataViewerController.$inject = ['$scope', 'service', 'm2rRelations'];
-  function M2rDataViewerController($scope, service, m2rRelations) {
+  M2rDataViewerController.$inject = ['$scope', '$timeout', 'service', 'm2rRelations'];
+  function M2rDataViewerController($scope, $timeout, service, m2rRelations) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++M2rDataViewerController++ $scope=", $scope);
 
     var vm = $scope.vm = {
       uri: $scope.uri,
-      mappedOntsInfo: {}
+      mappedOntsInfo: []
     };
+    getMappedOntsInfo($scope, $timeout, service, true);
 
     var triples = getTriples($scope.ontData.mappings, m2rRelations);
 
@@ -74,8 +75,6 @@
     addTripleColumnDefs($scope.gridOptions.columnDefs);
 
     passTriplesToGrid($scope, $scope.gridOptions.data, triples);
-
-    getMappedOntsInfo($scope, service);
   }
 
   ///////////////////////////////////////////////////////
@@ -106,8 +105,8 @@
     };
   }
 
-  M2rDataEditorController.$inject = ['$scope', 'service', 'm2rRelations'];
-  function M2rDataEditorController($scope, service, m2rRelations) {
+  M2rDataEditorController.$inject = ['$scope', '$timeout', 'service', 'm2rRelations'];
+  function M2rDataEditorController($scope, $timeout, service, m2rRelations) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++M2rDataEditorController++ $scope=", $scope);
@@ -116,6 +115,8 @@
       uri: $scope.uri,
       mappedOntsInfo: {}
     };
+
+    getMappedOntsInfo($scope, $timeout, service, false);
 
     var triples = getTriples($scope.ontData.mappings, m2rRelations);
 
@@ -130,8 +131,6 @@
     addTripleColumnDefs($scope.gridOptions.columnDefs);
 
     passTriplesToGrid($scope, $scope.gridOptions.data, triples);
-
-    getMappedOntsInfo($scope, service);
 
     $scope.addMappedOntology = function() {
       console.debug("addMappedOntology");
@@ -251,18 +250,43 @@
     );
   }
 
-  function getMappedOntsInfo($scope, service) {
+  function getMappedOntsInfo($scope, $timeout, service, onlyBasicInfo) {
+    var mappedOntsInfo = $scope.vm.mappedOntsInfo = [];
     _.each($scope.ontData.mappedOnts, function(ontUri) {
-      service.refreshOntology(ontUri, function(error, ontology) {
-        if (error) {
-          // just log warning
-          console.warn("error getting info for mapped ontology " +ontUri, error);
+      mappedOntsInfo.push({
+        uri: ontUri,
+        loading: true
+      });
+    });
+
+    $timeout(function () {
+      _.each(mappedOntsInfo, function(moi) {
+        if (onlyBasicInfo) {
+          service.refreshOntology(moi.uri, function (error, ontology) {
+            moi.loading = false;
+            if (error) {   // just log warning
+              console.warn("error getting info for mapped ontology " + moi.uri, error);
+            }
+            else {
+              console.debug("got mapped ontology info", ontology);
+              moi.name    = ontology.name;
+              moi.version = ontology.version;
+            }
+          });
         }
         else {
-          console.debug("got mapped ontology info", ontology);
-          $scope.vm.mappedOntsInfo[ontUri] = {
-            name: ontology.name
-          };
+          service.getOntologySubjects(moi.uri, function(error, osr) {
+            moi.loading = false;
+            if (error) {   // just log warning
+              console.warn("error getting info for mapped ontology "+moi.uri, error);
+            }
+            else {
+              console.debug("got mapped ontology info", osr);
+              moi.name     = osr.name;
+              moi.version  = osr.version;
+              moi.subjects = osr.subjects;
+            }
+          });
         }
       });
     });
