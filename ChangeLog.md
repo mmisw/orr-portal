@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-05-17: 0.3.1:
+  - m2r: some refact preparing for editing dispatch
   - m2r: show associated name for mapped ontologies
     TODO: capture version (if available) of mapped ontology at time of m2r creation
 

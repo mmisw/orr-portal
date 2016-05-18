@@ -26,11 +26,7 @@
     </div>
 
     <div ng-if="ontDataFormat === 'm2r'">
-      <m2r-data-viewer ng-if="!editMode" ont-data="ontData" uri="uri"
-      ></m2r-data-viewer>
-
-      <m2r-data-editor ng-if="editMode" ont-data="ontData" uri="uri"
-      ></m2r-data-editor>
+      <m2r-data uri="uri" ont-data="ontData" edit-mode="editMode"></m2r-data>
     </div>
 
     <div ng-if="ontDataFormat === 'rj'">

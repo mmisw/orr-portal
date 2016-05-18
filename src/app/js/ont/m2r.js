@@ -5,11 +5,53 @@
   //debug = true;
 
   angular.module('orrportal.m2r', [])
+    .directive('m2rData',        M2rDataDirective)
     .directive('m2rDataViewer',  M2rDataViewerDirective)
     .directive('m2rDataEditor',  M2rDataEditorDirective)
-    .factory('m2rRelations',    m2rRelations)
+    .factory('m2rRelations',     m2rRelations)
     .filter('m2rRelationFilter', m2rRelationFilter)
   ;
+
+  // TODO proper filtering; for now all links external
+
+  var subjectTemplate =
+    '<div class="ui-grid-cell-contents right">' +
+    '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
+    + '</div>';
+
+  var predicateTemplate =
+    '<div class="ui-grid-cell-contents center">' +
+    '<span ng-bind-html="row.entity[col.field] | m2rRelationFilter"></span>'
+    + '</div>';
+
+  var objectTemplate =
+    '<div class="ui-grid-cell-contents left">' +
+    '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
+    + '</div>';
+
+
+  M2rDataDirective.$inject = [];
+  function M2rDataDirective() {
+    if (debug) console.log("++M2rDataDirective++");
+    return {
+      restrict: 'E',
+      templateUrl: 'js/ont/views/m2r-data.tpl.html',
+      controller: M2rDataController,
+      scope: {
+        uri:     '=',
+        ontData: '=',
+        editMode: '='
+      }
+    }
+  }
+
+  M2rDataController.$inject = ['$scope'];
+  function M2rDataController($scope) {
+    debug = debug || $scope.debug;
+    $scope.debug = debug;
+    if (debug) console.log("++M2rDataController++ $scope=", $scope);
+    // ...
+  }
 
   M2rDataViewerDirective.$inject = [];
   function M2rDataViewerDirective() {
@@ -36,37 +78,7 @@
       mappedOntsInfo: {}
     };
 
-    var triples = [];
-    _.each($scope.ontData.mappings, function(mapGroup) {
-      var predicate = mapGroup.predicate;
-      _.each(mapGroup.subjects, function(subjectUri) {
-        _.each(mapGroup.objects, function(objectUri) {
-          triples.push({
-            subjectUri:    subjectUri,
-            predicateUri:  predicate,
-            objectUri:     objectUri
-          })
-        });
-      });
-    });
-    triples = _.sortBy(triples, "subjectUri");
-
-    // TODO proper filtering; for now all links external
-
-    var subjectTemplate =
-      '<div class="ui-grid-cell-contents right">' +
-      '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
-      + '</div>';
-
-    var predicateTemplate =
-      '<div class="ui-grid-cell-contents center">' +
-      '<span ng-bind-html="row.entity[col.field] | m2rRelationFilter"></span>'
-      + '</div>';
-
-    var objectTemplate =
-      '<div class="ui-grid-cell-contents left">' +
-      '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
-      + '</div>';
+    var triples = getTriples($scope.ontData.mappings);
 
     $scope.gridOptions = {
       data: [],
@@ -208,4 +220,22 @@
 
     return relations;
   }
+
+  function getTriples(ontDataMappings) {
+    var triples = [];
+    _.each(ontDataMappings, function(mapGroup) {
+      var predicate = mapGroup.predicate;
+      _.each(mapGroup.subjects, function(subjectUri) {
+        _.each(mapGroup.objects, function(objectUri) {
+          triples.push({
+            subjectUri:    subjectUri,
+            predicateUri:  predicate,
+            objectUri:     objectUri
+          })
+        });
+      });
+    });
+    return _.sortBy(triples, "subjectUri");
+  }
+
 })();
