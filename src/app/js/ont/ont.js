@@ -122,6 +122,15 @@
       };
       vm.ontData = [];
       vm.ontDataFormat = newFormat;
+      if (vm.ontDataFormat === 'v2r') {
+        vm.ontData = [];
+      }
+      else {
+        vm.ontData = {
+          mappedOnts: [],
+          mappings:   []
+        };
+      }
 
       var loggedInInfo = rvm.masterAuth.loggedInInfo;
       var userName = loggedInInfo.uid;
