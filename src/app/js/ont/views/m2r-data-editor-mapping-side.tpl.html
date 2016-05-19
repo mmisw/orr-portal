@@ -2,43 +2,24 @@
 
 <div class="m2rMappingSide">
 
-  <label>
-    Search the following ontologies:
-  </label>
-  <div class="btn btn-default btn-xs"
-       ng-repeat="mo in ontData.mappedOnts"
-       ng-model="vm.ontsToSearch[$index]"
-       uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0"
-  >{{$index + 1}}</div>
+  <div class="center">
+    <label>
+      Load terms from:
+    </label>
+    <div class="btn btn-default btn-xs" style="margin-left: 5px"
+         ng-class="{'btn-primary': vm.ontsToSearch[$index]}"
+         ng-repeat="mo in mappedOntsInfo"
+         ng-model="vm.ontsToSearch[$index]"
+         uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0"
+    >{{$index + 1}}
+    </div>
+  </div>
 
-  <br>
-
-  <!--<pre>{{ontData | json}}</pre>-->
-
-  <label>
-    Search for:
-  </label>
-  <input type="text" placeholder="string"
-         size="40em"
-  >
-  <div class="btn btn-default btn-xs"
-       ng-disabled="noOntsToSearch()"
-       ng-click="searchEntities()"
-  ><i class="fa fa-search" aria-hidden="true"></i></div>
-
-  <table style="width: 100%; margin-top: 10px" class="table table-bordered">
-    <thead>
-    <tr style="background-color: #cfe3e6">
-      <th style="font-weight: normal; text-align: center"
-      >Selected 0 out of 0 element(s)</th>
-    </tr>
-
-    </thead>
-
+  <table style="width: 100%">
     <tbody>
     <tr>
-      <td>
-        TODO
+      <td style="max-width: 500px; overflow: hidden">
+        <div class="m2rMappingSideGrid" ui-grid="gridOptions" ui-grid-selection></div>
       </td>
     </tr>
     </tbody>

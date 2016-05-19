@@ -4,7 +4,7 @@
   var debug = appUtil.debug;
   //debug = true;
 
-  angular.module('orrportal.m2r', [])
+  angular.module('orrportal.m2r', ['ui.grid.selection'])
     .directive('m2rData',        M2rDataDirective)
     .directive('m2rDataViewer',  M2rDataViewerDirective)
     .directive('m2rDataEditor',  M2rDataEditorDirective)
@@ -74,7 +74,7 @@
     };
     addTripleColumnDefs($scope.gridOptions.columnDefs);
 
-    passTriplesToGrid($scope, $scope.gridOptions.data, triples);
+    updateModelArray($scope, $scope.gridOptions.data, triples);
   }
 
   ///////////////////////////////////////////////////////
@@ -130,7 +130,7 @@
     };
     addTripleColumnDefs($scope.gridOptions.columnDefs);
 
-    passTriplesToGrid($scope, $scope.gridOptions.data, triples);
+    updateModelArray($scope, $scope.gridOptions.data, triples);
 
     $scope.addMappedOntology = function() {
       console.debug("addMappedOntology");
@@ -150,9 +150,8 @@
       templateUrl: 'js/ont/views/m2r-data-editor-mapping-side.tpl.html',
       controller: M2rDataEditorMappingSideController,
       scope: {
-        // TODO
-        side:     '=',
-        ontData:  '='
+        side:            '=',
+        mappedOntsInfo:  '='
       }
     };
   }
@@ -160,20 +159,53 @@
   M2rDataEditorMappingSideController.$inject = ['$scope'];
   function M2rDataEditorMappingSideController($scope) {
     var vm = $scope.vm = {
-      ontsToSearch: _.map($scope.ontData.mappedOnts, function() { return 0 })
+      ontsToSearch: _.map($scope.mappedOntsInfo, function() { return 0 }),
+      subjects: []
     };
 
-    $scope.noOntsToSearch = function() {
-      return !_.any(vm.ontsToSearch);
+    var template =
+      '<div class="ui-grid-cell-contents">' +
+      '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
+      + '</div>';
+
+    $scope.gridOptions = {
+      data: 'vm.subjects',
+      enableSelectAll: false,
+      enableColumnMenus: false,
+      columnDefs: [
+        {
+          field: 'subjectUri',
+          displayName: '',
+          filter: {
+            placeholder: 'type to filter...'
+          },
+          cellTemplate: template
+        }
+      ]
+      ,enableGridMenu: true
+      ,showGridFooter: true
+      ,enableFiltering: true
     };
 
-    $scope.searchEntities = function() {
-      var selectedOntUris = [];
+    $scope.$watchCollection("vm.ontsToSearch", updateSubjects);
+
+    function updateSubjects() {
+      //console.debug("updateSubjects: ontsToSearch=", vm.ontsToSearch);
+      var subjects = [];
       _.each(vm.ontsToSearch, function(sel, index) {
-        if (sel) selectedOntUris.push($scope.ontData.mappedOnts[index]);
+        if (sel) {
+          var moi = $scope.mappedOntsInfo[index];
+          _.each(moi.subjects, function(subjectAttributes, subjectUri) {
+            subjects.push({
+              subjectUri:          subjectUri,
+              subjectAttributes:   subjectAttributes
+            });
+          })
+        }
       });
-      console.debug("searchEntities: selectedOntUris=", selectedOntUris);
-      // TODO
+      subjects = _.sortBy(subjects, "subjectUri");
+      $scope.vm.subjects = [];
+      updateModelArray($scope, $scope.vm.subjects, subjects);
     }
   }
 
@@ -236,7 +268,7 @@
     return _.sortBy(triples, "subjectUri");
   }
 
-  function passTriplesToGrid($scope, data, triples) {
+  function updateModelArray($scope, data, triples) {
     appUtil.updateModelArray(data, triples,
       function(done) {
         if (done) {

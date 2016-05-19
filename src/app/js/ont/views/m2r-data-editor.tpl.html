@@ -15,9 +15,13 @@
         </span>
         {{$index + 1}}-
         <span ng-bind-html="moi.uri | mklinksOnlyExternal"></span>
-        <span ng-if="moi.name"> - {{moi.name}}
-        <span ng-if="moi.version"
-              style="color: gray; font-size: x-small">({{moi.version}})</span>
+        <span ng-if="moi.name">
+          - {{moi.name}}
+<!--
+          <span ng-if="moi.version" style="color: #b3b3b3; font-size: x-small; font-weight: 200">
+            {{moi.version}}
+          </span>
+-->
         </span>
       </td>
     </tr>
@@ -31,7 +35,7 @@
   <tr>
     <td style="width: 50%">
 
-      <m2r-data-editor-mapping-side side="'left'" ont-data="ontData"
+      <m2r-data-editor-mapping-side side="'left'" mapped-onts-info="vm.mappedOntsInfo"
       ></m2r-data-editor-mapping-side>
 
     </td>
@@ -54,7 +58,7 @@
 
     <td style="width: 50%">
 
-      <m2r-data-editor-mapping-side side="'right'" ont-data="ontData"
+      <m2r-data-editor-mapping-side side="'right'" mapped-onts-info="vm.mappedOntsInfo"
       ></m2r-data-editor-mapping-side>
 
     </td>
