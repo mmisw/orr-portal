@@ -1,8 +1,26 @@
 <div style="background-color: #cfe3e6; width: 100%; text-align: center">
   Mapped ontologies
-  <div class="btn btn-default btn-xs"
-       ng-click="addMappedOntology()"
-  ><i class="fa fa-plus" aria-hidden="true"></i>Add</div>
+
+  <span uib-dropdown>
+    <a href id="add-mapped-ont-dropdown" uib-dropdown-toggle
+       class="btn btn-default btn-xs"
+    >
+      Add <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="add-mapped-ont-dropdown">
+      <li ng-repeat="ont in vm.selectableOnts">
+        <a href
+           uib-popover="{{ont.name}}" popover-trigger="mouseenter"
+           ng-click="selectMappedOntology(ont)">{{ont.uri}}</a>
+      </li>
+      <li class="divider"></li>
+      <li>
+        <a href
+           ng-click="enterExternalOntologyUri()">Enter external ontology URI&hellip;</a>
+      </li>
+      <li class="divider"></li>
+    </ul>
+  </span>
 </div>
 
 <div style="width: 100%">
