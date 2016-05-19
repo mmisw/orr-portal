@@ -8,6 +8,11 @@
 <div style="width: 100%">
   <table style="width: 100px; margin-left: auto; margin-right: auto">
     <tbody>
+    <tr ng-if="vm.mappedOntsInfo.length===0">
+      <td style="text-align: center;color:lightgrey;font-style: italic">
+        None
+      </td>
+    </tr>
     <tr ng-repeat="moi in vm.mappedOntsInfo" style="white-space: nowrap">
       <td>
         <span ng-if="moi.loading">
@@ -47,7 +52,8 @@
           <td uib-popover="{{rel.prop.prefix + ':' + rel.prop.label + ' - ' +rel.prop.tooltip}}"
               popover-trigger="mouseenter">
             <div class="btn btn-default"
-                    ng-bind-html="rel.symbol"
+                 style="margin-bottom: 5px"
+                 ng-bind-html="rel.symbol"
             ></div>
           </td>
         </tr>

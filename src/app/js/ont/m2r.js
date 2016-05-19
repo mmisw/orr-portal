@@ -124,7 +124,7 @@
       data: [],
       enableColumnMenus: false,
       columnDefs: []
-      ,enableGridMenu: true
+      ,enableGridMenu: false
       ,showGridFooter: true
       ,enableFiltering: true
     };
@@ -132,11 +132,12 @@
 
     updateModelArray($scope, $scope.gridOptions.data, triples);
 
+    $scope.relations = m2rRelations.relations;
+
     $scope.addMappedOntology = function() {
       console.debug("addMappedOntology");
     };
 
-    $scope.relations = m2rRelations.relations;
   }
 
   ///////////////////////////////////////////////////////
@@ -170,7 +171,7 @@
 
     $scope.gridOptions = {
       data: 'vm.subjects',
-      enableSelectAll: false,
+      enableSelectAll: true,  // but mainly to allow deselect-all
       enableColumnMenus: false,
       columnDefs: [
         {
