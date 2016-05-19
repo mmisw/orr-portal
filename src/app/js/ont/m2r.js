@@ -138,7 +138,13 @@
     $scope.selectMappedOntology = function(ont) {
       //console.debug("selectMappedOntology: ont=", ont);
       $scope.ontData.mappedOnts.push(ont.uri);
-      getMappedOntsInfo($scope, $timeout, service, false);
+      var moi = {
+        uri:      ont.uri,
+        subjects: ont.subjects
+      };
+      $scope.vm.mappedOntsInfo.push(moi);
+      getOntologySubjects(moi, service);
+      updateSelectableOntUris($scope, service);
     };
 
     $scope.enterExternalOntologyUri = function() {
@@ -146,8 +152,8 @@
       var modalInstance = $uibModal.open({
         templateUrl:  'js/ont/views/m2r-data-editor-ext-ont.tpl.html',
         controller:   EnterExternalOntologyUriController,
-        backdrop:    'static'
-        ,resolve: {
+        backdrop:    'static',
+        resolve: {
           info: function () {
             return {
               ontUris: $scope.ontData.mappedOnts
@@ -155,15 +161,21 @@
           }
         }
       });
-      modalInstance.result.then(function(ontUri) {
-        console.debug("enterExternalOntologyUri: entered=", ontUri);
-        // TODO
+      modalInstance.result.then(function(ont) {
+        if (debug) console.debug("enterExternalOntologyUri: ont=", ont);
+        $scope.ontData.mappedOnts.push(ont.uri);
+        var moi = {
+          uri:      ont.uri,
+          subjects: ont.subjects
+        };
+        $scope.vm.mappedOntsInfo.push(moi);
+        updateSelectableOntUris($scope, service);
       });
     };
   }
 
-  EnterExternalOntologyUriController.$inject = ['$scope', '$uibModalInstance', 'info', 'focus'];
-  function EnterExternalOntologyUriController($scope, $uibModalInstance, info, focus) {
+  EnterExternalOntologyUriController.$inject = ['$scope', '$uibModalInstance', 'info', 'focus', 'service'];
+  function EnterExternalOntologyUriController($scope, $uibModalInstance, info, focus, service) {
     var vm = $scope.vm = {
       ontUri: ""
     };
@@ -176,7 +188,7 @@
         return true;
       }
       if (_.indexOf(info.ontUris, vm.ontUri) >= 0) {
-        vm.error = "Duplicate URI";
+        vm.error = "Ontology by this URI is already loaded";
         return true;
       }
       vm.error = "";
@@ -184,7 +196,19 @@
     };
 
     $scope.doAddExternalOntologyUri = function() {
-      $uibModalInstance.close(vm.ontUri);
+      vm.errorLoading = "";
+      vm.status = vm.loading = "Loading. Please wait...";
+      service.getExternalOntologySubjects(vm.ontUri, function(error, osr) {
+        vm.status = vm.loading = undefined;
+        if (error) {
+          console.warn("error getting external ontology info:", error);
+          vm.errorLoading = error;
+        }
+        else {
+          //console.debug("got external ontology info", osr);
+          $uibModalInstance.close(osr);
+        }
+      });
     };
 
     $scope.cancelAddExternalOntologyUri = function() {
@@ -345,52 +369,69 @@
     });
 
     $timeout(function () {
-      _.each(mappedOntsInfo, function(moi) {
+      _.each(mappedOntsInfo, function (moi) {
         if (onlyBasicInfo) {
-          service.refreshOntology(moi.uri, function (error, ontology) {
-            moi.loading = false;
-            if (error) {   // just log warning
-              console.warn("error getting info for mapped ontology " + moi.uri, error);
-            }
-            else {
-              //console.debug("got mapped ontology info", ontology);
-              moi.name    = ontology.name;
-              moi.version = ontology.version;
-            }
-          });
+          getBasicInfo(moi, service);
         }
         else {
-          service.getOntologySubjects(moi.uri, function(error, osr) {
-            moi.loading = false;
-            if (error) {   // just log warning
-              console.warn("error getting info for mapped ontology "+moi.uri, error);
-            }
-            else {
-              //console.debug("got mapped ontology info", osr);
-              moi.name     = osr.name;
-              moi.version  = osr.version;
-              moi.subjects = osr.subjects;
-            }
-          });
+          getOntologySubjects(moi, service);
         }
       });
     });
 
-    if (!onlyBasicInfo) $timeout(function updateSelectableOntUris() {
-      service.getOntologies(function gotOntologies(error, ontologies) {
-        if (error) {
-          console.error("error getting ontologies:", error);
-        }
-        else {
-          //console.debug("updateSelectableOntUris: ontologies=", ontologies);
-          $scope.vm.selectableOnts = [];
-          _.each(ontologies, function(ont) {
-            if (_.indexOf($scope.ontData.mappedOnts, ont.uri) < 0) {
-              $scope.vm.selectableOnts.push(_.clone(ont));
-            }
-          })
-        }
-      });
+    if (!onlyBasicInfo) $timeout(function() {
+      updateSelectableOntUris($scope, service);
+    });
+  }
+
+  function getBasicInfo(moi, service) {
+    moi.loading = true;
+    service.refreshOntology(moi.uri, function (error, ontology) {
+      moi.loading = false;
+      if (error) {
+        moi.error = error;
+        console.warn("error getting info for mapped ontology " + moi.uri, error);
+        // TODO try external ontology
+      }
+      else {
+        //console.debug("got mapped ontology info", ontology);
+        moi.name    = ontology.name;
+        moi.version = ontology.version;
+      }
+    });
+  }
+
+  function getOntologySubjects(moi, service) {
+    moi.loading = true;
+    service.getOntologySubjects(moi.uri, function(error, osr) {
+      moi.loading = false;
+      if (error) {
+        moi.error = error;
+        console.warn("error getting info for mapped ontology "+moi.uri, error);
+      }
+      else {
+        //console.debug("got mapped ontology info", osr);
+        moi.name     = osr.name;
+        moi.version  = osr.version;
+        moi.subjects = osr.subjects;
+      }
+    });
+  }
+
+  function updateSelectableOntUris($scope, service) {
+    service.getOntologies(function gotOntologies(error, ontologies) {
+      if (error) {
+        console.error("error getting ontologies:", error);
+      }
+      else {
+        //console.debug("updateSelectableOntUris: ontologies=", ontologies);
+        $scope.vm.selectableOnts = [];
+        _.each(ontologies, function(ont) {
+          if (_.indexOf($scope.ontData.mappedOnts, ont.uri) < 0) {
+            $scope.vm.selectableOnts.push(_.clone(ont));
+          }
+        })
+      }
     });
   }
 

@@ -24,6 +24,7 @@
       refreshOntology:         refreshOntology,
       refreshOntologyMetadata: refreshOntologyMetadata,
       getOntologySubjects:     getOntologySubjects,
+      getExternalOntologySubjects: getExternalOntologySubjects,
 
       getOntologyFormat:       getOntologyFormat,
 
@@ -128,6 +129,21 @@
       }, cb)
         .success(function (data) {
           console.log(appUtil.logTs() + ": getOntologySubjects: data=", data);
+          cb(null, data);
+        })
+    }
+
+    function getExternalOntologySubjects(uri, cb) {
+      var params = {
+        uri: uri
+      };
+      doHttp("getExternalOntologySubjects", {
+        method: 'GET',
+        url:    appConfig.orront.rest + "/api/v0/ont/sbjs/external",
+        params: params
+      }, cb)
+        .success(function (data) {
+          console.log(appUtil.logTs() + ": getExternalOntologySubjects: data=", data);
           cb(null, data);
         })
     }

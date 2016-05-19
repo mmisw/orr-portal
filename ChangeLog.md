@@ -1,8 +1,8 @@
 ## change log ##
 
 * 2016-05-19: 0.3.1:
-  - m2r editing: allow to select from registered ontologies; and
-    dialog for user to enter external ontology URI (URL)
+  - m2r editing: allow to select from registered ontologies and
+    from external ontology URI (URL)
 
 * 2016-05-17: 0.3.1:
   - m2r: some refact preparing for editing dispatch

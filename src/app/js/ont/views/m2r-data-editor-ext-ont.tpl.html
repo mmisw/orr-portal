@@ -1,30 +1,44 @@
 <div ng-controller="UtilCtrl">
 
   <div class="modal-header">
-    Enter the ontology URI
+    Enter the URL of the ontology
   </div>
 
   <div class="modal-body">
 
     <label for="addExtOntUri"> URL: </label>
-    <input id="addExtOntUri"
+    <input id="addExtOntUri" class="form-control"
            type="url" size="50" ng-model="vm.ontUri"
            focus-on="addExtOntUri_form_activation">
+
+    <br>
+    <br>
+
+    <div ng-if="vm.error" style="color: darkred">
+      {{vm.error}}
+    </div>
+
+    <div ng-if="vm.errorLoading" style="color: darkred">
+      {{vm.errorLoading}}
+    </div>
+
+    <div>
+      <span ng-if="vm.loading">
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+      </span>
+      <span ng-if="vm.status" style="color: #324d4f">
+        {{vm.status}}
+      </span>
+    </div>
+
   </div>
 
   <div class="modal-footer">
 
-    <span ng-show="vm.error" style="color: darkred">
-      {{vm.error}}
-    </span>
-
-    <span ng-show="vm.status" style="color: #324d4f">
-      {{vm.status}}
-    </span>
-
     &nbsp;
-    <div ng-disabled="formInvalid()"
-         class="btn btn-primary btn-xs" ng-click="doAddExternalOntologyUri()"
+    <div ng-disabled="formInvalid() || vm.loading"
+         class="btn btn-primary btn-xs"
+         ng-click="doAddExternalOntologyUri()"
     >Add
     </div>
 
