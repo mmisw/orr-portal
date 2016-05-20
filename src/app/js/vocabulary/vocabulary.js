@@ -55,6 +55,10 @@
           label: "Creator",
           tooltip: "An entity primarily responsible for making the resource."
         },
+        contributor: {
+          label: "Contributor",
+          tooltip: "An entity responsible for making contributions to the resource."
+        },
         rights: {
           label: "Rights",
           tooltip: "Information about rights held in and over the resource."

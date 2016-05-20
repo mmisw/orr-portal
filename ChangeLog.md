@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-05-20: 0.3.1:
+  - show dct.contributor, if defined, in general metadata section
   - add Create Mapping button
 
 * 2016-05-19: 0.3.1:

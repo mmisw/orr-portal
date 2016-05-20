@@ -50,6 +50,7 @@
           hideIfUndefined(omv.documentation),
           hideIfUndefined(omv.hasContributor),
           //hideIfUndefined(hideForNew(dc.contributor)),
+          hideIfUndefined(hideForNew(dct.contributor)),
           hideIfUndefined(omv.reference),
           hideIfUndefined(rdfs.seeAlso)
         ]
