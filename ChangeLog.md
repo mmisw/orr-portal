@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-05-20: 0.3.1:
+  - add Create Mapping button
+
 * 2016-05-19: 0.3.1:
   - m2r editing: first version with saving of new mappings
     - TODO remove redundant triples in general
