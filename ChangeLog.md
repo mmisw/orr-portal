@@ -1,6 +1,9 @@
 ## change log ##
 
 * 2016-05-19: 0.3.1:
+  - m2r editing: first version with saving of new mappings
+    - TODO remove redundant triples in general
+    - TODO clear selection upon addition of mappings
   - m2r editing: allow to select from registered ontologies and
     from external ontology URI (URL)
 

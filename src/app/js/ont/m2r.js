@@ -105,8 +105,8 @@
     };
   }
 
-  M2rDataEditorController.$inject = ['$scope', '$timeout', '$uibModal', 'service', 'm2rRelations'];
-  function M2rDataEditorController($scope, $timeout, $uibModal, service, m2rRelations) {
+  M2rDataEditorController.$inject = ['$scope', '$timeout', '$uibModal', 'service', 'm2rRelations', 'utl'];
+  function M2rDataEditorController($scope, $timeout, $uibModal, service, m2rRelations, utl) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++M2rDataEditorController++ $scope=", $scope);
@@ -114,7 +114,9 @@
     var vm = $scope.vm = {
       uri: $scope.uri,
       mappedOntsInfo: {},
-      selectableOnts: []
+      selectableOnts: [],
+      selectedRowsLeft:  [],
+      selectedRowsRight: []
     };
 
     getMappedOntsInfo($scope, $timeout, service, false);
@@ -172,6 +174,63 @@
         updateSelectableOntUris($scope, service);
       });
     };
+
+    $scope.noSelectedPairs = function() {
+      return vm.selectedRowsLeft.length === 0 || vm.selectedRowsRight.length === 0;
+    };
+    $scope.relButtonClicked = function(rel) {
+      console.debug("relButtonClicked: rel=", rel
+        ,"selectedRowsLeft=", vm.selectedRowsLeft.length
+        ,"selectedRowsRight=", vm.selectedRowsRight.length
+      );
+
+      // TODO remove any redundant triples (both data model and grid).
+
+      var numNewMappings = vm.selectedRowsLeft.length * vm.selectedRowsRight.length;
+
+      if (numNewMappings >= 20) {
+        utl.confirm({
+          message: '<div class="center">' +
+            numNewMappings + ' mappings are about to be created' +
+            '<br><br>' +
+            'Proceed?' +
+          '</div>',
+          ok: doAddMappings
+        });
+      }
+      else doAddMappings();
+
+      function doAddMappings() {
+        var predicate = rel.prop.uri;
+
+        // update data mappings:
+        $scope.ontData.mappings.push({
+          subjects:   _.map(vm.selectedRowsLeft, "subjectUri"),
+          predicate:  predicate,
+          objects:    _.map(vm.selectedRowsRight, "subjectUri") // yes, subjectUri
+        });
+
+        // and update triples in the grid:
+        var triples4grid = [];
+        _.each(vm.selectedRowsLeft, function(left) {
+          _.each(vm.selectedRowsRight, function(right) {
+            triples4grid.push({
+              subjectUri:        left.subjectUri,
+              predicateUri:      predicate,
+              predicateTooltip:  m2rRelations.getRelationTooltip(predicate),
+              objectUri:         right.subjectUri
+            })
+          });
+        });
+        // insert elements at the beginning
+        updateModelArray($scope, $scope.gridOptions.data, triples4grid, false);
+
+        // TODO clear selection on both sides
+        // something like but with additional trigger in the sub-components...
+        vm.selectedRowsLeft  = [];
+        vm.selectedRowsRight = [];
+      }
+    }
   }
 
   EnterExternalOntologyUriController.$inject = ['$scope', '$uibModalInstance', 'info', 'focus', 'service'];
@@ -228,7 +287,8 @@
       controller: M2rDataEditorMappingSideController,
       scope: {
         side:            '=',
-        mappedOntsInfo:  '='
+        mappedOntsInfo:  '=',
+        selectedRows:    '='
       }
     };
   }
@@ -249,6 +309,9 @@
       data: 'vm.subjects',
       enableSelectAll: true,  // but mainly to allow deselect-all
       enableColumnMenus: false,
+      enableGridMenu: true,
+      showGridFooter: true,
+      enableFiltering: true,
       columnDefs: [
         {
           field: 'subjectUri',
@@ -259,9 +322,6 @@
           cellTemplate: template
         }
       ]
-      ,enableGridMenu: true
-      ,showGridFooter: true
-      ,enableFiltering: true
     };
 
     $scope.$watchCollection("vm.ontsToSearch", updateSubjects);
@@ -284,6 +344,18 @@
       $scope.vm.subjects = [];
       updateModelArray($scope, $scope.vm.subjects, subjects);
     }
+
+    $scope.gridOptions.onRegisterApi = function(gridApi) {
+      $scope.gridApi = gridApi;
+      //console.debug("gridApi.selection=", gridApi.selection);
+      gridApi.selection.on.rowSelectionChanged($scope, rowSelectionChanged);
+      gridApi.selection.on.rowSelectionChangedBatch($scope, rowSelectionChanged);
+
+      function rowSelectionChanged() {
+        $scope.selectedRows = gridApi.selection.getSelectedRows();
+        console.debug("side=" + $scope.side, "$scope.selectedRows=", $scope.selectedRows.length);
+      }
+    };
   }
 
   ///////////////////////////////////////////////////////
@@ -345,7 +417,7 @@
     return _.sortBy(triples, "subjectUri");
   }
 
-  function updateModelArray($scope, data, triples) {
+  function updateModelArray($scope, data, triples, doPush) {
     appUtil.updateModelArray(data, triples,
       function(done) {
         if (done) {
@@ -355,7 +427,8 @@
           $scope.$digest();
         }
       },
-      300
+      300,
+      doPush
     );
   }
 

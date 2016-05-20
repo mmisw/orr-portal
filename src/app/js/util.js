@@ -318,15 +318,20 @@ var appUtil = (function(window) {
    * @param stepFn         stepFn(done) called at every chunk update, with
    *                       done indicating whether the update has been completed.
    *                       If not complete, this function should return true to stop the transfer.
+   * @param doPush         Elements are pushed to the target array unless this parameter is defined and falsy
    * @param chunkSize      the larger this value the less responsive the ui.
    */
-  function updateModelArray(targetArray, sourceArray, stepFn, chunkSize) {
+  function updateModelArray(targetArray, sourceArray, stepFn, chunkSize, doPush) {
     chunkSize = chunkSize || 5;
+    doPush = doPush === undefined ? true : doPush;
     var jj = 0, len = sourceArray.length;
     setTimeout(function () {
       function processNext() {
         for (var kk = 0; jj < len && kk < chunkSize; kk++, jj++) {
-          targetArray.push(sourceArray[jj]);
+          if (doPush)
+            targetArray.push(sourceArray[jj]);
+          else
+            targetArray.unshift(sourceArray[jj]);
         }
 
         var done = jj >= len;

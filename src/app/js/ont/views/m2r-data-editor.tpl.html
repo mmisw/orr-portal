@@ -62,7 +62,9 @@
   <tr>
     <td style="width: 50%">
 
-      <m2r-data-editor-mapping-side side="'left'" mapped-onts-info="vm.mappedOntsInfo"
+      <m2r-data-editor-mapping-side side="'left'"
+                                    mapped-onts-info="vm.mappedOntsInfo"
+                                    selected-rows="vm.selectedRowsLeft"
       ></m2r-data-editor-mapping-side>
 
     </td>
@@ -76,6 +78,8 @@
             <div class="btn btn-default"
                  style="margin-bottom: 5px"
                  ng-bind-html="rel.symbol"
+                 ng-disabled="noSelectedPairs()"
+                 ng-click="relButtonClicked(rel)"
             ></div>
           </td>
         </tr>
@@ -86,7 +90,9 @@
 
     <td style="width: 50%">
 
-      <m2r-data-editor-mapping-side side="'right'" mapped-onts-info="vm.mappedOntsInfo"
+      <m2r-data-editor-mapping-side side="'right'"
+                                    mapped-onts-info="vm.mappedOntsInfo"
+                                    selected-rows="vm.selectedRowsRight"
       ></m2r-data-editor-mapping-side>
 
     </td>
