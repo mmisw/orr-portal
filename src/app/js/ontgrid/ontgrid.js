@@ -59,7 +59,7 @@ function OntGridController($scope, $stateParams, $location, $filter, uiGridConst
             { field: 'name',      width: '*****', cellTemplate: markCellTemplate },
             { field: 'author',    width: '**'},
             { field: 'ownerName', width: '*', displayName: 'Owner', cellTemplate: ownerCellTemplate},
-            { field: 'version',   width: '*', sort: { direction: uiGridConstants.DESC } }
+            { field: 'version',   width: 140, sort: { direction: uiGridConstants.DESC } }
         ];
     }
     function adjustColumnDefs(ontologies) {

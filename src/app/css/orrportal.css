@@ -278,6 +278,11 @@ div.facetsubblock {
   font-weight: 200;
 }
 
+.ownerLink {
+  font-family: 'Inconsolata', monospace;
+  font-weight: 200;
+}
+
 .center {
   text-align: center;
 }

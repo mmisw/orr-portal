@@ -90,11 +90,11 @@
   }
 
   function orgLink(orgName) {
-    return '<a href="#/org/' + orgName + '">' + orgName + '</a>';
+    return '<a class="ownerLink" href="#/org/' + orgName + '">' + orgName + '</a>';
   }
 
   function userLink(userName) {
-    return '<a href="#/user/' + userName + '">~' + userName + '</a>';
+    return '<a class="ownerLink" href="#/user/' + userName + '">~' + userName + '</a>';
   }
 
 })();
