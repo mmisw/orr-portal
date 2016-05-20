@@ -1,5 +1,24 @@
 ## change log ##
 
+* 2016-05-19: 0.3.1:
+  - m2r editing: first version with saving of new mappings
+    - TODO remove redundant triples in general
+    - TODO clear selection upon addition of mappings
+  - m2r editing: allow to select from registered ontologies and
+    from external ontology URI (URL)
+
+* 2016-05-17: 0.3.1:
+  - m2r: some refact preparing for editing dispatch
+  - m2r: show associated name for mapped ontologies
+    TODO: capture version (if available) of mapped ontology at time of m2r creation
+
+* 2016-05-18: 0.3.1:
+  - m2r: incorporate getOntologySubjects to allow selection for mapping
+
+* 2016-05-16: 0.3.1:
+  - automatic conversion from "vine" to "m2r" to use new m2r dispatch
+  - initial m2r mapping format handling
+
 * 2016-05-13: 0.3.1:
   - ontologies now with ownerName attribute (either an orgName or a ~userName)
 

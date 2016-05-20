@@ -446,3 +446,34 @@ div.debug {
 .kwLink:hover {
   border-color: darkgreen;
 }
+
+.m2rRelHeader {
+  text-align: center;
+}
+.m2rRelSymbol {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.m2rMappingSide {
+  border-radius: 8px;
+  border-color: #2b542c;
+  border-width: 1px;
+  border-style: solid;
+  padding: 4px;
+  width: 100%;
+  height: 500px
+}
+
+.m2rMappingSideGrid {
+  width: 1000px;
+  height: 450px;
+}
+
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+

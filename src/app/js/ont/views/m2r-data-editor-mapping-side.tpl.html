@@ -1,0 +1,32 @@
+<pre ng-if="debug" ng-bind="vm.ontsToSearch | json"></pre>
+
+<div class="m2rMappingSide">
+
+  <div class="center">
+    <span uib-popover="Check the mapped ontologies from which to load terms for this side"
+         popover-trigger="mouseenter"
+    >
+      <label ng-style="mappedOntsInfo.length===0 ? {'color': 'lightgray'} : {}">
+        Load terms from:
+      </label>
+    </span>
+    <div class="btn btn-default btn-xs" style="margin-left: 5px"
+         ng-class="{'btn-primary': vm.ontsToSearch[$index]}"
+         ng-repeat="mo in mappedOntsInfo"
+         ng-model="vm.ontsToSearch[$index]"
+         uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0"
+    >{{$index + 1}}
+    </div>
+  </div>
+
+  <table style="width: 100%">
+    <tbody>
+    <tr>
+      <td style="max-width: 500px; overflow: hidden">
+        <div class="m2rMappingSideGrid" ui-grid="gridOptions" ui-grid-selection></div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>

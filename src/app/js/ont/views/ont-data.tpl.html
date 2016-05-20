@@ -25,11 +25,15 @@
       ></v2r-data-editor>
     </div>
 
+    <div ng-if="ontDataFormat === 'm2r'">
+      <m2r-data uri="uri" ont-data="ontData" edit-mode="editMode"></m2r-data>
+    </div>
+
     <div ng-if="ontDataFormat === 'rj'">
       <rj-data-viewer uri="uri" rj="ontData" ></rj-data-viewer>
     </div>
 
-    <div ng-if="ontDataFormat !== 'v2r' && ontDataFormat !== 'rj'">
+    <div ng-if="ontDataFormat !== 'v2r' && ontDataFormat !== 'm2r' && ontDataFormat !== 'rj'">
       <h3>ontDataFormat '{{ontDataFormat}}' no handled yet</h3>
       <pre>ontData = {{ontData | json}}</pre>
     </div>

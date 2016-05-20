@@ -1,0 +1,132 @@
+<div style="background-color: #cfe3e6; width: 100%; text-align: center">
+  <label>
+  Mapped ontologies
+  </label>
+
+  <span uib-dropdown>
+    <a href id="add-mapped-ont-dropdown" uib-dropdown-toggle
+       class="btn btn-default btn-xs"
+    >
+      Add <i class="caret"></i>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="add-mapped-ont-dropdown">
+      <li ng-repeat="ont in vm.selectableOnts">
+        <a href class="uriTextSimple"
+           uib-popover="{{ont.name}}" popover-trigger="mouseenter"
+           ng-click="selectMappedOntology(ont)">{{ont.uri}}</a>
+      </li>
+      <li class="divider"></li>
+      <li>
+        <a href
+           uib-popover="Click to enter URL of desired ontology" popover-trigger="mouseenter"
+           ng-click="enterExternalOntologyUri()">External ontology&hellip;</a>
+      </li>
+      <li class="divider"></li>
+    </ul>
+  </span>
+</div>
+
+<div style="width: 100%">
+  <table style="width: 100px; margin-left: auto; margin-right: auto">
+    <tbody>
+    <tr ng-if="vm.mappedOntsInfo.length===0">
+      <td style="text-align: center;color:lightgrey;font-style: italic">
+        None
+      </td>
+    </tr>
+    <tr ng-repeat="moi in vm.mappedOntsInfo" style="white-space: nowrap">
+      <td>
+        <span ng-if="moi.loading">
+          <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+        </span>
+        {{$index + 1}}-
+        <span ng-bind-html="moi.uri | mklinksOnlyExternal"></span>
+        <span ng-if="moi.name">
+          - {{moi.name}}
+<!--
+          <span ng-if="moi.version" style="color: #b3b3b3; font-size: x-small; font-weight: 200">
+            {{moi.version}}
+          </span>
+-->
+        </span>
+        <span ng-if="moi.error"
+              style="color: #e0919a; font-size: small; font-weight: 200; font-style: italic">
+          &nbsp;{{moi.error}}
+        </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<table style="width: 100%" class="table">
+
+  <tbody>
+  <tr>
+    <td style="width: 50%">
+
+      <m2r-data-editor-mapping-side side="'left'"
+                                    mapped-onts-info="vm.mappedOntsInfo"
+                                    selected-rows="vm.selectedRowsLeft"
+      ></m2r-data-editor-mapping-side>
+
+    </td>
+
+    <td style="width: 30px; vertical-align: middle">
+      <table>
+        <tbody>
+        <tr style="height: 70px">
+          <td style="text-align: center; vertical-align: top">
+            <div uib-popover="Select entities on both sides and then choose the
+              relationship below that you want to establish between those entities"
+                 popover-trigger="mouseenter"
+                 style="margin-bottom: 40px"
+            >
+              <i class="fa fa-question-circle fa-lg" aria-hidden="true" style="color: gray"></i>
+            </div>
+          </td>
+        </tr>
+        <tr ng-repeat="(relUri, rel) in relations">
+          <td uib-popover="{{rel.prop.prefix + ':' + rel.prop.label + ' - ' +rel.prop.tooltip}}"
+              popover-trigger="mouseenter">
+            <div class="btn btn-default"
+                 style="margin-bottom: 5px"
+                 ng-bind-html="rel.symbol"
+                 ng-disabled="noSelectedPairs()"
+                 ng-click="relButtonClicked(rel)"
+            ></div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </td>
+
+    <td style="width: 50%">
+
+      <m2r-data-editor-mapping-side side="'right'"
+                                    mapped-onts-info="vm.mappedOntsInfo"
+                                    selected-rows="vm.selectedRowsRight"
+      ></m2r-data-editor-mapping-side>
+
+    </td>
+  </tr>
+  </tbody>
+
+</table>
+
+<div style="background-color: #cfe3e6; width: 100%; text-align: center">
+  <label>
+    Mappings
+  </label>
+  <span style="color: gray">
+    ({{gridOptions.data.length}})
+  </span>
+</div>
+
+<div class="ontGrid" ui-grid="gridOptions"></div>
+
+<div ng-if="debug" >
+  <pre class="debug" ng-bind="'ontData = ' +(ontData | json)"></pre>
+  <pre class="debug" ng-bind="'vm = ' +(vm | json)"></pre>
+</div>

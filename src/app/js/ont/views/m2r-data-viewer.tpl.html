@@ -1,0 +1,44 @@
+<div style="background-color: #cfe3e6; width: 100%; text-align: center">
+  <label>
+    Mapped ontologies
+  </label>
+</div>
+
+<div style="width: 100%">
+  <table style="width: 100px; margin-left: auto; margin-right: auto">
+    <tbody>
+    <tr ng-repeat="moi in vm.mappedOntsInfo" style="white-space: nowrap">
+      <td>
+        <span ng-if="moi.loading">
+          <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+        </span>
+        - <span ng-bind-html="moi.uri | mklinksOnlyExternal"></span>
+        <span ng-if="moi.name"> - {{moi.name}} </span>
+        <span ng-if="moi.version"
+              style="color: gray; font-size: x-small">({{moi.version}})</span>
+        <span ng-if="moi.error"
+              style="color: #e0919a; font-size: small; font-weight: 200; font-style: italic">
+          &nbsp;{{moi.error}}
+        </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<div style="background-color: #cfe3e6; width: 100%; text-align: center">
+  <label>
+    Mappings
+  </label>
+  <span style="color: gray">
+    ({{gridOptions.data.length}})
+  </span>
+</div>
+
+<div class="ontGrid" ui-grid="gridOptions"></div>
+
+<div ng-if="debug" >
+  <pre class="debug" ng-bind="'ontData = ' +(ontData | json)"></pre>
+  <pre class="debug" ng-bind="'vm = ' +(vm | json)"></pre>
+</div>

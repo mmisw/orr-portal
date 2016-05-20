@@ -2,7 +2,7 @@
   'use strict';
 
   var debug = appUtil.debug;
-  debug = true;
+  //debug = true;
 
   angular.module('orrportal.rj-viewer', ['ui.grid.grouping'])
     .directive('rjDataViewer',  RjDataViewerDirective)

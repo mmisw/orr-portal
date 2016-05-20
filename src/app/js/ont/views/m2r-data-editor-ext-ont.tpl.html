@@ -1,0 +1,52 @@
+<div ng-controller="UtilCtrl">
+
+  <div class="modal-header">
+    Load external ontology
+  </div>
+
+  <div class="modal-body">
+
+    <input class="form-control"
+           type="url" size="50" ng-model="vm.ontUri"
+           focus-on="addExtOntUri_form_activation"
+           placeholder="Enter the URL of the ontology"
+    >
+
+    <br>
+    <br>
+
+    <div ng-if="vm.error" style="color: darkred">
+      {{vm.error}}
+    </div>
+
+    <div ng-if="vm.errorLoading" style="color: darkred">
+      {{vm.errorLoading}}
+    </div>
+
+    <div>
+      <span ng-if="vm.loading">
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+      </span>
+      <span ng-if="vm.status" style="color: #324d4f">
+        {{vm.status}}
+      </span>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+
+    &nbsp;
+    <div ng-disabled="formInvalid() || vm.loading"
+         class="btn btn-primary btn-xs"
+         ng-click="doAddExternalOntologyUri()"
+    >Add
+    </div>
+
+    <div class="btn btn-default btn-xs" ng-click="cancelAddExternalOntologyUri()"
+    >Cancel
+    </div>
+
+  </div>
+
+</div>

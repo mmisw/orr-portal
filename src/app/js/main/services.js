@@ -17,14 +17,16 @@
     return {
       isRefreshing:  function() { return refreshing; },
 
-      getOntologies:     getOntologies,
-      refreshOntologies: refreshOntologies,
-      setDoRefreshOntologies: setDoRefreshOntologies,
+      getOntologies:           getOntologies,
+      refreshOntologies:       refreshOntologies,
+      setDoRefreshOntologies:  setDoRefreshOntologies,
 
-      refreshOntology:   refreshOntology,
+      refreshOntology:         refreshOntology,
       refreshOntologyMetadata: refreshOntologyMetadata,
+      getOntologySubjects:     getOntologySubjects,
+      getExternalOntologySubjects: getExternalOntologySubjects,
 
-      getOntologyFormat:   getOntologyFormat,
+      getOntologyFormat:       getOntologyFormat,
 
       refreshOrg:        refreshOrg,
       createOrg:         createOrg,
@@ -105,7 +107,7 @@
       $http.get(url)
         .success(function(res, status, headers, config) {
           setRefreshing(false);
-          console.log(appUtil.logTs() + ": gotOntology: ", _.cloneDeep(res));
+          //console.log(appUtil.logTs() + ": refreshOntology !md response: ", _.cloneDeep(res));
           if (res.error) {
             gotOntology(res);
           }
@@ -114,6 +116,36 @@
           }
         })
         .error(httpErrorHandler(gotOntology))
+    }
+
+    function getOntologySubjects(uri, cb) {
+      var params = {
+        uri: uri
+      };
+      doHttp("getOntologySubjects", {
+        method: 'GET',
+        url:    appConfig.orront.rest + "/api/v0/ont/sbjs",
+        params: params
+      }, cb)
+        .success(function (data) {
+          console.log(appUtil.logTs() + ": getOntologySubjects: data=", data);
+          cb(null, data);
+        })
+    }
+
+    function getExternalOntologySubjects(uri, cb) {
+      var params = {
+        uri: uri
+      };
+      doHttp("getExternalOntologySubjects", {
+        method: 'GET',
+        url:    appConfig.orront.rest + "/api/v0/ont/sbjs/external",
+        params: params
+      }, cb)
+        .success(function (data) {
+          console.log(appUtil.logTs() + ": getExternalOntologySubjects: data=", data);
+          cb(null, data);
+        })
     }
 
     /**
@@ -201,7 +233,7 @@
       $http.get(url)
         .success(function(res, status, headers, config) {
           setRefreshing(false);
-          console.log(appUtil.logTs() + ": gotOntology: ", _.cloneDeep(res));
+          //console.log(appUtil.logTs() + ": getOntologyFormat " +format+" response: ", _.cloneDeep(res));
           if (res.error) {
             gotOntology(res);
           }

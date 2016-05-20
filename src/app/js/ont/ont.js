@@ -81,6 +81,7 @@
     };
 
     var newFormat = $stateParams.newFormat;
+    //console.debug("newFormat=", newFormat);
 
     if (vm.uri) {
       if (newFormat) console.warn("expecting undefined newFormat when vm.uri is defined. newFormat=", newFormat);
@@ -120,7 +121,16 @@
         "format": newFormat
       };
       vm.ontData = [];
-      vm.ontDataFormat = 'v2r';
+      vm.ontDataFormat = newFormat;
+      if (vm.ontDataFormat === 'v2r') {
+        vm.ontData = [];
+      }
+      else {
+        vm.ontData = {
+          mappedOnts: [],
+          mappings:   []
+        };
+      }
 
       var loggedInInfo = rvm.masterAuth.loggedInInfo;
       var userName = loggedInInfo.uid;
@@ -290,9 +300,9 @@
         userName:   $rootScope.userLoggedIn().uid
       };
 
-      if (vm.ontDataFormat === 'v2r') {
+      if (vm.ontDataFormat === 'v2r' || vm.ontDataFormat === 'm2r') {
         // Whole contents submission case.
-        body.format = 'v2r';
+        body.format = vm.ontDataFormat;
 
         if (!vm.ontology.ownerName.startsWith("~")) {
           body.orgName = vm.ontology.ownerName;
@@ -301,11 +311,19 @@
         body.name = getNameFromOmv(vm.ontology.metadata);
         if (vm.brandNew) adjustMetaForBrandNew();
 
-        body.contents = angular.toJson(omitSpecialFields({
-          metadata: vm.ontology.metadata,
-          vocabs:   vm.ontData
-        }));
-        if (debug) console.debug("TO submit V2R = ", body.contents);
+        var object = {
+          metadata: vm.ontology.metadata
+        };
+        if (vm.ontDataFormat === 'v2r') {
+          object.vocabs = vm.ontData;
+        }
+        else {
+          object.mappedOnts = vm.ontData.mappedOnts;
+          object.mappings   = vm.ontData.mappings;
+        }
+
+        body.contents = angular.toJson(omitSpecialFields(object));
+        if (debug) console.debug("TO submit " +vm.ontDataFormat+ " = ", body.contents);
       }
       else {
         // Only metadata submission case.
@@ -377,6 +395,9 @@
       if (vm.ontology.format === 'v2r') {
         getOntologyDataV2r();
       }
+      else if (vm.ontology.format === 'm2r') {
+        getOntologyDataM2r();
+      }
       else {
         getOntologyDataOtherFormat();
       }
@@ -398,6 +419,25 @@
       }
     }
 
+    function getOntologyDataM2r() {
+      service.getOntologyFormat(vm.uri, "m2r", gotOntologyM2r);
+
+      function gotOntologyM2r(error, data) {
+        if (error) {
+          $scope.error = error;
+          console.error(error);
+        }
+        else {
+          console.log("gotOntologyM2r: data=", data);
+          vm.ontData = {
+            mappedOnts: data.mappedOnts,
+            mappings:   data.mappings
+          };
+          vm.ontDataFormat = 'm2r';
+        }
+      }
+    }
+
     function getOntologyDataOtherFormat() {
       service.getOntologyFormat(vm.uri, 'rj', gotOntologyOtherFormat);
 
@@ -405,19 +445,28 @@
         if (error) {
           $scope.error = error;
           console.error(error);
+          return;
         }
-        else {
-          //console.log("gotOntologyOtherFormat: data=", data);
-          var v2rVocabs = try_voc_2_v2r(vm.uri, data);
-          if (v2rVocabs) {
-            vm.ontData = v2rVocabs;
-            vm.ontDataFormat = 'v2r';
-          }
-          else {
-            vm.ontData = data;
-            vm.ontDataFormat = 'rj';
-          }
+
+        //console.log("gotOntologyOtherFormat: data=", data);
+
+        var v2rVocabs = try_voc_2_v2r(vm.uri, data);
+        if (v2rVocabs) {
+          vm.ontData = v2rVocabs;
+          vm.ontDataFormat = 'v2r';
+          return;
         }
+
+        var m2rOntData = try_map_2_m2r(vm.uri, data, vocabulary);
+        if (m2rOntData) {
+          vm.ontData = m2rOntData;
+          vm.ontDataFormat = 'm2r';
+          return;
+        }
+
+        // Else: just dispatch generic rj
+        vm.ontData = data;
+        vm.ontDataFormat = 'rj';
       }
     }
 
@@ -595,6 +644,73 @@
     });
     console.debug("try_voc_2_v2r: vocabs=", vocabs);
     return vocabs;
+  }
+
+  /**
+   * Obtains the 'm2r' format (mappedOnts and mappings) of the given data if the metadata indicates
+   * the use of the vine tool.
+   * This is a helper to facilitate the creation of a new version
+   * of existing "vine" entries with the new 'm2r' format.
+   */
+  function try_map_2_m2r(uri, data, vocabulary) {
+    var owl = vocabulary.owl;
+    var usedOntologyEngineeringToolPropertyUri = 'http://omv.ontoware.org/2005/05/ontology#usedOntologyEngineeringTool';
+    var vinePropertyUri = 'http://mmisw.org/ont/mmi/20081020/ontologyMetadata/vine';
+    var vineStatementUri = 'http://mmisw.org/ont/mmi/vine/Statement';
+    var vineSubjectUri = 'http://mmisw.org/ont/mmi/vine/subject';
+    var vinePredicateUri = 'http://mmisw.org/ont/mmi/vine/predicate';
+    var vineObjectUri = 'http://mmisw.org/ont/mmi/vine/object';
+
+    var ontProps = data[uri];
+    if (!ontProps) {
+      return;
+    }
+
+    var usedOntologyEngineeringToolValue = ontProps[usedOntologyEngineeringToolPropertyUri];
+    if (!usedOntologyEngineeringToolValue) {
+      if (debug) console.debug("try_map_2_m2r: property no included: ", usedOntologyEngineeringToolPropertyUri);
+      return;
+    }
+
+    var isVine = _.any(usedOntologyEngineeringToolValue, {value: vinePropertyUri});
+
+    if (!isVine) {
+      if (debug) console.debug("try_map_2_m2r: Ontology not built with vine");
+      return;
+    }
+
+    if (debug) console.log("try_map_2_m2r: Yes! vine");
+
+    var mappedOnts = [];
+    var uriProps = data[uri];
+    if (uriProps) {
+      mappedOnts = _.map(uriProps[owl.imports.uri], "value");
+    }
+
+    // get vine statements:
+    var mappings = [];
+    _.forOwn(data, function(props, uri) {
+      var types = props['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'];
+      if (types && _.any(types, {value: vineStatementUri})) {
+        var subjectUris   = _.map(props[vineSubjectUri], "value");
+        var predicateUris = _.map(props[vinePredicateUri], "value");
+        var objectUris    = _.map(props[vineObjectUri], "value");
+        _.each(predicateUris, function(predicateUri) {
+          mappings.push({
+            subjects:  subjectUris,
+            predicate: predicateUri,
+            objects:   objectUris
+          });
+        });
+      }
+    });
+
+    if (debug) console.debug("try_map_2_m2r: mappings=", mappings);
+
+    return {
+      mappedOnts: mappedOnts,
+      mappings: mappings
+    };
   }
 
 })();
