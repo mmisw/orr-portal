@@ -191,7 +191,7 @@
       if (numNewMappings >= 20) {
         utl.confirm({
           message: '<div class="center">' +
-            numNewMappings + ' mappings are about to be created' +
+            numNewMappings + ' mappings are about to be added.' +
             '<br><br>' +
             'Proceed?' +
           '</div>',

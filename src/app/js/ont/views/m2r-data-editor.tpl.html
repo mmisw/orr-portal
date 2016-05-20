@@ -1,5 +1,7 @@
 <div style="background-color: #cfe3e6; width: 100%; text-align: center">
+  <label>
   Mapped ontologies
+  </label>
 
   <span uib-dropdown>
     <a href id="add-mapped-ont-dropdown" uib-dropdown-toggle
@@ -9,14 +11,15 @@
     </a>
     <ul class="dropdown-menu" aria-labelledby="add-mapped-ont-dropdown">
       <li ng-repeat="ont in vm.selectableOnts">
-        <a href
+        <a href class="uriTextSimple"
            uib-popover="{{ont.name}}" popover-trigger="mouseenter"
            ng-click="selectMappedOntology(ont)">{{ont.uri}}</a>
       </li>
       <li class="divider"></li>
       <li>
         <a href
-           ng-click="enterExternalOntologyUri()">Enter external ontology URI&hellip;</a>
+           uib-popover="Click to enter URL of desired ontology" popover-trigger="mouseenter"
+           ng-click="enterExternalOntologyUri()">External ontology&hellip;</a>
       </li>
       <li class="divider"></li>
     </ul>
@@ -72,6 +75,17 @@
     <td style="width: 30px; vertical-align: middle">
       <table>
         <tbody>
+        <tr style="height: 70px">
+          <td style="text-align: center; vertical-align: top">
+            <div uib-popover="Select entities on both sides and then choose the
+              relationship below that you want to establish between those entities"
+                 popover-trigger="mouseenter"
+                 style="margin-bottom: 40px"
+            >
+              <i class="fa fa-question-circle fa-lg" aria-hidden="true" style="color: gray"></i>
+            </div>
+          </td>
+        </tr>
         <tr ng-repeat="(relUri, rel) in relations">
           <td uib-popover="{{rel.prop.prefix + ':' + rel.prop.label + ' - ' +rel.prop.tooltip}}"
               popover-trigger="mouseenter">
@@ -102,7 +116,9 @@
 </table>
 
 <div style="background-color: #cfe3e6; width: 100%; text-align: center">
-  Mappings
+  <label>
+    Mappings
+  </label>
   <span style="color: gray">
     ({{gridOptions.data.length}})
   </span>

@@ -3,9 +3,13 @@
 <div class="m2rMappingSide">
 
   <div class="center">
-    <label ng-style="mappedOntsInfo.length===0 ? {'color': 'lightgray'} : {}">
-      Load terms from:
-    </label>
+    <span uib-popover="Check the mapped ontologies from which to load terms for this side"
+         popover-trigger="mouseenter"
+    >
+      <label ng-style="mappedOntsInfo.length===0 ? {'color': 'lightgray'} : {}">
+        Load terms from:
+      </label>
+    </span>
     <div class="btn btn-default btn-xs" style="margin-left: 5px"
          ng-class="{'btn-primary': vm.ontsToSearch[$index]}"
          ng-repeat="mo in mappedOntsInfo"

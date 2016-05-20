@@ -1,15 +1,16 @@
 <div ng-controller="UtilCtrl">
 
   <div class="modal-header">
-    Enter the URL of the ontology
+    Load external ontology
   </div>
 
   <div class="modal-body">
 
-    <label for="addExtOntUri"> URL: </label>
-    <input id="addExtOntUri" class="form-control"
+    <input class="form-control"
            type="url" size="50" ng-model="vm.ontUri"
-           focus-on="addExtOntUri_form_activation">
+           focus-on="addExtOntUri_form_activation"
+           placeholder="Enter the URL of the ontology"
+    >
 
     <br>
     <br>
