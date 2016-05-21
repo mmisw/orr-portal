@@ -258,6 +258,17 @@ div.facetsubblock {
   font-weight: 300;
 }
 
+.stInputSection {
+  background: #f3faff;
+  border: solid 1px #d3e4ea;
+  border-radius: 8px;
+  border-collapse: separate;
+}
+
+.querySource {
+  text-align: left;
+}
+
 .stUriCol {
   width: 25% !important;
   max-width: 400px !important;

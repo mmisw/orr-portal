@@ -1,8 +1,10 @@
-<button type="button" class="btn btn-default btn-xs"
-        ng-model="allowGrouping" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false"
-        uib-tooltip="Enable/disable grouping feature"
+<div type="button" class="btn btn-default btn-xs"
+     ng-model="allowGrouping" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false"
+     uib-popover="Enable/disable grouping feature (experimental)"
+     popover-trigger="mouseenter"
+     popover-placement="right"
 >Grouping
-</button>
+</div>
 
 <div ng-if="allowGrouping"  class="ontGrid" ui-grid="gridOptions" ui-grid-grouping></div>
 <div ng-if="!allowGrouping" class="ontGrid" ui-grid="gridOptions" ></div>

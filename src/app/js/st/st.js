@@ -5,15 +5,17 @@
     .controller('SearchTermsController', SearchTermsController)
   ;
 
-  SearchTermsController.$inject = ['$rootScope', '$scope', '$stateParams', '$location', '$http'];
+  SearchTermsController.$inject = ['$rootScope', '$scope', '$stateParams', '$location', '$http', 'focus'];
 
-  function SearchTermsController($rootScope, $scope, $stateParams, $location, $http) {
+  function SearchTermsController($rootScope, $scope, $stateParams, $location, $http, focus) {
     if (appUtil.debug) console.log("++SearchTermsController++");
 
     $rootScope.rvm.curView = 'st';
 
     var vm = {st: $stateParams.st};
     $scope.vm = vm;
+
+    focus("stStringInput_form_activation", 700, {select: true});
 
     doSearch();
 
@@ -79,6 +81,8 @@
         "}\n" +
         "order by ?subject";
 
+      vm.querySource = query;
+
       if (appUtil.debug) console.log("doSearch: query={" +query+ "}");
 
       // un-define the Authorization header for the sparqlEndpoint
@@ -94,7 +98,6 @@
             return;
           }
 
-          vm.queryHtml = 'Query:<pre>' +query.replace(/</, '&lt;')+ '</pre>';
           gotResults(null, data);
         })
         .error(function(data, status, headers, config) {
@@ -139,6 +142,15 @@
               : appUtil.htmlifyObject(value, onlyExternalLink)
             : _.escape(value);
         }));
+      });
+
+      $scope.triples = [];
+      _.each(data.values, function (row) {
+        $scope.triples.push({
+          subjectUri: row[0].replace(/^<|>$/g, ''),
+          propUri:    row[1].replace(/^<|>$/g, ''),
+          value:      appUtil.cleanTripleObject(row[2])
+        });
       });
     }
   }

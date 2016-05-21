@@ -10,6 +10,10 @@ var appUtil = (function(window) {
     ? { level: "dummy" }
     : undefined;
 
+  /*
+   * TODO the whole htmlfying/text-processing/filtering in this module needs revision/simplification
+   */
+
   var uriRegex = /\b(https?:\/\/[0-9A-Za-z-\.\/&@:%_\+~#=\?\(\)]+\b)/g;
   // http://stackoverflow.com/q/7885096/830737
   // we could use JSON.parse instead of this regex based conversion
@@ -33,6 +37,8 @@ var appUtil = (function(window) {
 
     htmlifyUri:     htmlifyUri,
     htmlifyObject:  htmlifyObject,
+
+    cleanTripleObject:  cleanTripleObject,
 
     //getHmac:        getHmac,
     //getHmacParam:   getHmacParam,
@@ -107,6 +113,32 @@ var appUtil = (function(window) {
         value = value.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
       }
     }
+    return value
+  }
+
+  /*
+   * based on htmlifyObject this is to remove/adjust the extra/special characters included
+   * in SPARQL responses.
+   */
+  function cleanTripleObject(value) {
+    // uri?
+    var m = value.match(/^<([^>]*)>$/);
+    if (m) {
+      return m[1];
+    }
+
+    // \"Age of sea ice\" means...  -->  "Age of sea ice" means...
+    value = value.replace(/\\"/g, '"');
+
+    value = value.replace(/^"(.*)"$/, '$1');
+    // string with language tag?
+    m = value.match(/^("[^"]+")(@[A-Za-z\-]+)$/);
+    if (m) {
+      // http://stackoverflow.com/questions/7885096/how-do-i-decode-a-string-with-escaped-unicode
+      var parsed = JSON.parse(m[1]);
+      value = '"' + parsed + '"' + m[2];
+    }
+
     return value
   }
 
