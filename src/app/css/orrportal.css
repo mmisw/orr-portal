@@ -37,7 +37,8 @@ body {
 .testing {
     vertical-align: super;
     font-size: smaller;
-    color: red;
+    font-style: italic;
+    color: #d59b99;
 }
 
 .urititle {

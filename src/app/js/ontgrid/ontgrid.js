@@ -20,9 +20,9 @@ function OntGridController($scope, $stateParams, $location, $filter, uiGridConst
         '<span ng-bind-html="row.entity[col.field] | mklink4uriWithSelfHostPrefix"></span>'
         + '</div>';
 
-    var mklinksCellTemplate =
+    var authorCellTemplate =
         '<div class="ui-grid-cell-contents">' +
-        '<span ng-bind-html="row.entity[col.field] | mklinks"></span>'
+        '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
         + '</div>';
 
     var markCellTemplate =
@@ -55,11 +55,11 @@ function OntGridController($scope, $stateParams, $location, $filter, uiGridConst
 
     function getCommonColumnDefs() {
         return [
-            { field: 'uri',       width: '***', minWidth: 400, displayName: 'URI', enableHiding: false, cellTemplate: mkUriLinkCellTemplate },
+            { field: 'uri',       width: '****', displayName: 'URI', enableHiding: false, cellTemplate: mkUriLinkCellTemplate },
             { field: 'name',      width: '*****', cellTemplate: markCellTemplate },
-            { field: 'author',    width: '**'},
-            { field: 'ownerName', width: '*', displayName: 'Owner', cellTemplate: ownerCellTemplate},
-            { field: 'version',   width: 140, sort: { direction: uiGridConstants.DESC } }
+            { field: 'author',    width: '**',    cellTemplate: authorCellTemplate },
+            { field: 'ownerName', width: 100, displayName: 'Owner', cellTemplate: ownerCellTemplate},
+            { field: 'version',   width: 130, sort: { direction: uiGridConstants.DESC } }
         ];
     }
     function adjustColumnDefs(ontologies) {

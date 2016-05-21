@@ -62,7 +62,7 @@
       return function(entity) {
         var prefix = '';
         if ('testing' === entity.status) {
-          prefix = '<span class="testing">(T)</span>'
+          prefix = '<span class="testing">T </span>'
         }
 
         return prefix + appUtil.mklinks4text(entity.name);
