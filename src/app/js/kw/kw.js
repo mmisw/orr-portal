@@ -5,9 +5,9 @@
     .controller('KeywordSearchController', KeywordSearchController)
   ;
 
-  KeywordSearchController.$inject = ['$rootScope', '$scope', '$stateParams', '$location', '$http'];
+  KeywordSearchController.$inject = ['$rootScope', '$scope', '$stateParams', '$location', '$http', 'focus'];
 
-  function KeywordSearchController($rootScope, $scope, $stateParams, $location, $http) {
+  function KeywordSearchController($rootScope, $scope, $stateParams, $location, $http, focus) {
     if (appUtil.debug) console.log("++KeywordSearchController++");
 
     $rootScope.rvm.curView = 'kw';
@@ -15,6 +15,8 @@
     var vm = {};
     vm.kw = $stateParams.kw ? $stateParams.kw.replace(/\s*,\s*/g, ", ") : '';
     $scope.vm = vm;
+
+    focus("kwStringInput_form_activation", 700, {select: true});
 
     doSearch();
 
@@ -75,6 +77,8 @@
         "}\n" +
         "order by ?subject";
 
+      vm.querySource = query;
+
       if (appUtil.debug) console.log("doSearch: query={" +query+ "}");
 
       // un-define the Authorization header for the sparqlEndpoint
@@ -90,7 +94,6 @@
             return;
           }
 
-          vm.queryHtml = 'Query:<pre>' +query.replace(/</, '&lt;')+ '</pre>';
           gotResults(null, data);
         })
         .error(function(data, status, headers, config) {
