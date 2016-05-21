@@ -4,8 +4,8 @@
   var debug = appUtil.debug;
   //debug = true;
 
-  angular.module('orrportal.triples-viewer', ['ui.grid.grouping'])
-    .directive('triplesViewer',  TriplesViewerDirective)
+  angular.module('orrportal.items-viewer', ['ui.grid.grouping'])
+    .directive('itemsViewer',  TriplesViewerDirective)
   ;
 
   TriplesViewerDirective.$inject = [];
@@ -13,10 +13,11 @@
     if (debug) console.log("++TriplesViewerDirective++");
     return {
       restrict: 'E',
-      templateUrl: 'js/util/triples-viewer.tpl.html',
+      templateUrl: 'js/util/items-viewer.tpl.html',
       controller: TriplesViewerController,
       scope: {
-        triples:   '='
+        columnDefs: '=',
+        items:      '='
       }
     }
   }
@@ -45,6 +46,19 @@
 
     var gridApi;
 
+    //console.table($scope.columnDefs);
+
+    $scope.gridOptions = {
+      data: 'items',
+      columnDefs: $scope.columnDefs
+      ,enableGridMenu: true
+      ,showGridFooter: true
+      ,enableFiltering: true
+      ,onRegisterApi: function(api) {
+        gridApi = api;
+      }
+    };
+
     $scope.allowGrouping = false;
     $scope.$watch("allowGrouping", function(allowGrouping) {
       _.each($scope.gridOptions.columnDefs, function(cd) {
@@ -54,37 +68,6 @@
         gridApi.treeBase.toggleRowTreeState(gridApi.grid.renderContainers.body.visibleRowCache[0]);
       }
     });
-
-    $scope.gridOptions = {
-      data: 'triples',
-      columnDefs: [
-        {
-          field: 'subjectUri',
-          //width: '**',
-          displayName: 'Subject',
-          grouping: { groupPriority: 0 },
-          cellTemplate: mklinksOnlyExternal
-        },
-        {
-          field: 'propUri',
-          //width: '**',
-          displayName: 'Predicate',
-          cellTemplate: mklinksOnlyExternal
-        },
-        {
-          field: 'value',
-          //width: '*****',
-          displayName: 'Object',
-          cellTemplate: mklinksOnlyExternal
-        }
-      ]
-      ,enableGridMenu: true
-      ,showGridFooter: true
-      ,enableFiltering: true
-      ,onRegisterApi: function(api) {
-        gridApi = api;
-      }
-    };
   }
 
 })();

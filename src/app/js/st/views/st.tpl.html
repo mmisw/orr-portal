@@ -75,11 +75,11 @@
     </div>
   </div>
 
-  <div ng-if="vm.rows.length">
-    <triples-viewer triples="triples"></triples-viewer>
+  <div ng-if="items && items.length">
+    <items-viewer column-defs="columnDefs" items="items"></items-viewer>
   </div>
 
-  <div ng-if="vm.gotResults && !vm.searching && !vm.rows.length"
+  <div ng-if="vm.gotResults && !vm.searching && (!items || items.length === 0)"
     style="color: peru">
     No terms found
   </div>

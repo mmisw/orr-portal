@@ -72,23 +72,11 @@
     </div>
   </div>
 
-  <div ng-if="vm.rows.length">
-    <table class="table table-bordered table-hover table-condensed">
-      <thead>
-      <tr class="info">
-        <th ng-bind-html="vm.colNames[0]" class="stUriCol"></th>
-        <th ng-bind-html="vm.colNames[1]" class="stUriCol"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="row in vm.rows">
-        <td ng-bind-html="row[0]" style="word-break: break-all"></td>
-        <td ng-bind-html="row[1]"></td>
-      </tr>
-      </tbody>
-    </table>
+  <div ng-if="items && items.length">
+    <items-viewer column-defs="columnDefs" items="items"></items-viewer>
   </div>
-  <div ng-if="vm.gotResults && !vm.searching && !vm.rows.length"
+
+  <div ng-if="vm.gotResults && !vm.searching && (!items || items.length === 0)"
     style="color: peru">
     No entities found
   </div>

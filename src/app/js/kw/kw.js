@@ -15,6 +15,25 @@
     var vm = {};
     vm.kw = $stateParams.kw ? $stateParams.kw.replace(/\s*,\s*/g, ", ") : '';
     $scope.vm = vm;
+    $scope.items = [];
+
+    $scope.columnDefs = [
+      {
+        field: 'subjectUri',
+        displayName: 'Ontology'
+      },
+      {
+        field: 'name',
+        displayName: 'Name'
+      }
+    ];
+
+    function pushItem(row) {
+      $scope.items.push({
+        subjectUri: row[0].replace(/^<|>$/g, ''),
+        name:       appUtil.cleanTripleObject(row[1])
+      });
+    }
 
     focus("kwStringInput_form_activation", 700, {select: true});
 
@@ -58,7 +77,6 @@
       }
 
       vm.searching = true;
-      vm.rows = [];
 
       var searchString = vm.kw;
 
@@ -121,24 +139,7 @@
         return;
       }
 
-      var htmlify = true;
-      var onlyExternalLink = true;
-
-      vm.colNames = data.names;
-
-      vm.rows = []; // with htmlified or escaped uri's and values
-      _.each(data.values, function(row) {
-        vm.rows.push(_.map(row, function(value, index) {
-          if (index < 1) {
-            value = value.replace(/^<|>$/g, '');
-          }
-          return htmlify
-            ? index < 1
-              ? appUtil.mklinks4uri(value, true, false)
-              : appUtil.htmlifyObject(value, onlyExternalLink)
-            : _.escape(value);
-        }));
-      });
+      _.each(data.values, pushItem);
     }
   }
 

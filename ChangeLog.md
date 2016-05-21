@@ -1,8 +1,8 @@
 ## change log ##
 
 * 2016-05-21: 0.3.1:
-  - keyword-terms: style adjs
-  - search-terms: style adjs and use of <triples-viewer>
+  - keyword-terms: style adjs and use of <items-viewer>
+  - search-terms: style adjs and use of <items-viewer>
   - extract generic triples viewer from rj-viewer into a reusable directive
 
 * 2016-05-20: 0.3.1:

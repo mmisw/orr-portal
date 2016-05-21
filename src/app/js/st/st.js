@@ -14,6 +14,30 @@
 
     var vm = {st: $stateParams.st};
     $scope.vm = vm;
+    $scope.items = [];
+
+    $scope.columnDefs = [
+      {
+        field: 'subjectUri',
+        displayName: 'Subject'
+      },
+      {
+        field: 'propUri',
+        displayName: 'Predicate'
+      },
+      {
+        field: 'value',
+        displayName: 'Object'
+      }
+    ];
+
+    function pushItem(row) {
+      $scope.items.push({
+        subjectUri: row[0].replace(/^<|>$/g, ''),
+        propUri:    row[1].replace(/^<|>$/g, ''),
+        value:      appUtil.cleanTripleObject(row[2])
+      });
+    }
 
     focus("stStringInput_form_activation", 700, {select: true});
 
@@ -56,7 +80,7 @@
       }
 
       vm.searching = true;
-      vm.rows = [];
+      $scope.items = [];
 
       /*
        * TODO options for 'literal', 'glob', and 'regex' searches
@@ -125,33 +149,7 @@
         return;
       }
 
-      var htmlify = true;
-      var onlyExternalLink = true;
-
-      vm.colNames = data.names;
-
-      vm.rows = []; // with htmlified or escaped uri's and values
-      _.each(data.values, function(row) {
-        vm.rows.push(_.map(row, function(value, index) {
-          if (index < 2) {
-            value = value.replace(/^<|>$/g, '');
-          }
-          return htmlify
-            ? index < 2
-              ? appUtil.mklinks4uri(value, true, false)
-              : appUtil.htmlifyObject(value, onlyExternalLink)
-            : _.escape(value);
-        }));
-      });
-
-      $scope.triples = [];
-      _.each(data.values, function (row) {
-        $scope.triples.push({
-          subjectUri: row[0].replace(/^<|>$/g, ''),
-          propUri:    row[1].replace(/^<|>$/g, ''),
-          value:      appUtil.cleanTripleObject(row[2])
-        });
-      });
+      _.each(data.values, pushItem);
     }
   }
 

@@ -18,7 +18,8 @@
       scope: {
         uri:  '=',
         rj:   '=',
-        triples: '='
+        columnDefs: '=',
+        items: '='
       }
     }
   }
@@ -29,13 +30,28 @@
     $scope.debug = debug;
     if (debug) console.debug("++RjDataViewerController++ $scope=", $scope);
 
-    var triples = [];
+    $scope.columnDefs = [
+      {
+        field: 'subjectUri',
+        displayName: 'Subject'
+      },
+      {
+        field: 'propUri',
+        displayName: 'Predicate'
+      },
+      {
+        field: 'value',
+        displayName: 'Object'
+      }
+    ];
+
+    var items = [];
     _.each($scope.rj, function(subjectProps, subjectUri) {
       // do not include the ontology URI itself as a subject:
       if (subjectUri !== $scope.uri) {
         _.each(subjectProps, function (propValues, propUri) {
           _.each(propValues, function (value) {
-            triples.push({
+            items.push({
               subjectUri: subjectUri,
               propUri: propUri,
               value: value.value
@@ -44,14 +60,14 @@
         });
       }
     });
-    triples = _.sortBy(triples, "subjectUri");
+    items = _.sortBy(items, "subjectUri");
 
-    $scope.triples = [];
-    appUtil.updateModelArray($scope.triples, triples,
+    $scope.items = [];
+    appUtil.updateModelArray($scope.items, items,
       function(done) {
         if (done) {
           $scope.$parent.$digest();
-          if (debug) console.debug("Done update model array: $scope.triples=", $scope.triples.length);
+          if (debug) console.debug("Done update model array: $scope.items=", $scope.items.length);
         }
         else {
           $scope.$digest();
