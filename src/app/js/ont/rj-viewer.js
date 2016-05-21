@@ -115,8 +115,6 @@
       },
       300
     );
-
-    if (debug) console.debug("++RjDataViewerController++ triples=", $scope.subjects);
   }
 
 })();
