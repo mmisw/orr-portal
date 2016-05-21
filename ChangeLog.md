@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-05-21: 0.3.1:
+  - extract generic triples viewer from rj-viewer into a reusable directive
+
 * 2016-05-20: 0.3.1:
   - show dct.contributor, if defined, in general metadata section
   - add Create Mapping button

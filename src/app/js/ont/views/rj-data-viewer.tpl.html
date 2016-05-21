@@ -1,15 +1,1 @@
-<span style="color: gray">
-  ({{gridOptions.data.length}} triples)
-</span>
-
-&nbsp;&nbsp;&nbsp;
-
-<button type="button" class="btn btn-default btn-xs"
-        ng-model="allowGrouping" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false"
-        uib-tooltip="Enable/disable grouping feature"
->Grouping
-</button>
-
-<div ng-if="allowGrouping"  class="ontGrid" ui-grid="gridOptions" ui-grid-grouping></div>
-<div ng-if="!allowGrouping" class="ontGrid" ui-grid="gridOptions" ></div>
-
+<triples-viewer triples="triples"></triples-viewer>

@@ -24,6 +24,7 @@
     ,'orrportal.firebase'
     ,'orrportal.upload'
     ,'orrportal.util'
+    ,'orrportal.triples-viewer'
   ])
     .constant("rUri", appUtil.uri)
     .constant("cfg", appConfig)
