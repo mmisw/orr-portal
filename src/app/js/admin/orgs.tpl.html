@@ -1,0 +1,17 @@
+<div style="width: 100%">
+<div style="margin-left: 20px; margin-right: 10px">
+
+  <h3>
+    Organizations
+  </h3>
+
+  <div ng-if="orgs && orgs.length">
+    <items-viewer some-column-defs="someColumnDefs" items="orgs"></items-viewer>
+  </div>
+
+  <div ng-if="orgs && !orgs.length">
+    <span style="color: peru; font-style: italic">No organizations defined</span>
+  </div>
+
+</div>
+</div>

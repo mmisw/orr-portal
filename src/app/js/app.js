@@ -25,6 +25,8 @@
     ,'orrportal.upload'
     ,'orrportal.util'
     ,'orrportal.items-viewer'
+    ,'orrportal.admin.users'
+    ,'orrportal.admin.orgs'
   ])
     .constant("rUri", appUtil.uri)
     .constant("cfg", appConfig)
@@ -159,6 +161,16 @@
         url: '/user/{userName:.*}',
         templateUrl: 'js/user/views/user.tpl.html',
         controller: 'UserController'
+      })
+
+      .state('users', {
+        url: '/users',
+        template: '<admin-users></admin-users>'
+      })
+
+      .state('orgs', {
+        url: '/orgs',
+        template: '<admin-orgs></admin-orgs>'
       })
 
       .state('signIn', {

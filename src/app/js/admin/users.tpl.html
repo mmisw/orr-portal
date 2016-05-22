@@ -1,0 +1,17 @@
+<div style="width: 100%">
+<div style="margin-left: 20px; margin-right: 10px">
+
+  <h3>
+    Users
+  </h3>
+
+  <div ng-if="users && users.length">
+    <items-viewer some-column-defs="someColumnDefs" items="users"></items-viewer>
+  </div>
+
+  <div ng-if="users && !users.length">
+    <span style="color: peru; font-style: italic">No users defined</span>
+  </div>
+
+</div>
+</div>

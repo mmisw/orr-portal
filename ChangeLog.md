@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-05-21: 0.3.1:
+  - add admin dropdown with "new org" and also "organizations" and "users"
   - keyword-terms: style adjs and use of <items-viewer>
   - search-terms: style adjs and use of <items-viewer>
   - extract generic triples viewer from rj-viewer into a reusable directive

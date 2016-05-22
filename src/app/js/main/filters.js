@@ -84,7 +84,7 @@
 
   function ownerLink(ownerName) {
     if (ownerName.startsWith("~"))
-      return userLink(ownerName.substring(1));
+      return userLink(ownerName.substring(1), '~');
     else
       return orgLink(ownerName);
   }
@@ -93,8 +93,18 @@
     return '<a class="ownerLink" href="#/org/' + orgName + '">' + orgName + '</a>';
   }
 
-  function userLink(userName) {
-    return '<a class="ownerLink" href="#/user/' + userName + '">~' + userName + '</a>';
+  function userLink(userName, prefix) {
+    prefix = prefix || '';
+    if (typeof userName === 'string') {
+      return single(userName);
+    }
+    else {
+      return _.map(userName, single).join(", ")
+    }
+
+    function single(name) {
+      return '<a class="ownerLink" href="#/user/' + name + '">' + prefix + name + '</a>';
+    }
   }
 
 })();

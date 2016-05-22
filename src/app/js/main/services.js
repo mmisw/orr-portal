@@ -33,7 +33,10 @@
 
       registerOntology:  registerOntology,
 
-      refreshUser:       refreshUser
+      refreshUser:       refreshUser,
+
+      refreshUsers:      refreshUsers,
+      refreshOrgs:       refreshOrgs
     };
 
     /**
@@ -344,6 +347,41 @@
           }
         })
         .error(httpErrorHandler(gotUser))
+    }
+
+    function refreshUsers(cb) {
+      var params = {};
+      putJwtIfAvailable(params);
+
+      console.debug("$rootScope.rvm.masterAuth", $rootScope.rvm.masterAuth)
+
+      doHttp("refreshUsers", {
+        method: 'GET',
+        url:    appConfig.orront.rest + "/api/v0/user",
+        params: params
+      }, cb)
+        .success(function (data) {
+          //console.log(appUtil.logTs() + ": refreshUsers: data=", data);
+          //console.table(data);
+          cb(null, data);
+        });
+    }
+
+    function refreshOrgs(cb) {
+      var params = {};
+      putJwtIfAvailable(params);
+
+      console.debug("$rootScope.rvm.masterAuth", $rootScope.rvm.masterAuth)
+
+      doHttp("refreshOrgs", {
+        method: 'GET',
+        url:    appConfig.orront.rest + "/api/v0/org",
+        params: params
+      }, cb)
+        .success(function (data) {
+          //console.log(appUtil.logTs() + ": refreshOrgs: data=", data);
+          cb(null, data);
+        });
     }
 
     function setRefreshing(b) {
