@@ -5,16 +5,16 @@
   //debug = true;
 
   angular.module('orrportal.items-viewer', ['ui.grid.grouping'])
-    .directive('itemsViewer',  TriplesViewerDirective)
+    .directive('itemsViewer',  ItemsViewerDirective)
   ;
 
-  TriplesViewerDirective.$inject = [];
-  function TriplesViewerDirective() {
-    if (debug) console.log("++TriplesViewerDirective++");
+  ItemsViewerDirective.$inject = [];
+  function ItemsViewerDirective() {
+    if (debug) console.log("++ItemsViewerDirective++");
     return {
       restrict: 'E',
       templateUrl: 'js/util/items-viewer.tpl.html',
-      controller: TriplesViewerController,
+      controller: ItemsViewerController,
       scope: {
         columnDefs: '=',
         items:      '='
@@ -22,11 +22,11 @@
     }
   }
 
-  TriplesViewerController.$inject = ['$scope'];
-  function TriplesViewerController($scope) {
+  ItemsViewerController.$inject = ['$scope'];
+  function ItemsViewerController($scope) {
     debug = debug || $scope.debug;
     $scope.debug = debug;
-    if (debug) console.debug("++TriplesViewerController++ $scope=", $scope);
+    if (debug) console.debug("++ItemsViewerController++ $scope=", $scope);
 
     // TODO proper filtering; for now all links external
     var mklinksOnlyExternal =
@@ -44,8 +44,6 @@
       ' title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}' +
       '</div></div>';
 
-    var gridApi;
-
     //console.table($scope.columnDefs);
 
     $scope.gridOptions = {
@@ -55,17 +53,19 @@
       ,showGridFooter: true
       ,enableFiltering: true
       ,onRegisterApi: function(api) {
-        gridApi = api;
+        //$scope.gridApi = api;   // TODO grouping got broken for some reason, so disable for now
       }
     };
 
-    $scope.allowGrouping = false;
-    $scope.$watch("allowGrouping", function(allowGrouping) {
+    var vm = $scope.vm = {allowGrouping: false};
+    vm.allowGrouping = false;
+    $scope.$watch("vm.allowGrouping", function(allowGrouping) {
+      //console.debug("vm.allowGrouping=", allowGrouping);
       _.each($scope.gridOptions.columnDefs, function(cd) {
         cd.cellTemplate = allowGrouping ? groupingCellTemplate : mklinksOnlyExternal;
       });
-      if (allowGrouping && gridApi && gridApi.treeBase) {
-        gridApi.treeBase.toggleRowTreeState(gridApi.grid.renderContainers.body.visibleRowCache[0]);
+      if (allowGrouping && $scope.gridApi && $scope.gridApi.treeBase) {
+        $scope.gridApi.treeBase.toggleRowTreeState($scope.gridApi.grid.renderContainers.body.visibleRowCache[0]);
       }
     });
   }
