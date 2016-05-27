@@ -328,6 +328,7 @@ div.facetsubblock {
 }
 .uriTextSimple {
   font-family: 'Inconsolata', monospace;
+  white-space: nowrap;
 }
 .uriTextSimple:hover {
   background-color: #eaf8ff;

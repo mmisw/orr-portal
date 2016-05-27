@@ -105,7 +105,7 @@
           ></span>
           <span ng-if="!(someEditInProgress() || attrTableform.$waiting)"
                 editable-text="term.name" buttons="no" onbeforesave="checkTermId($data)"
-                ng-bind="term.name || 'empty'"
+                ng-bind="term.name || '-'"
           >
           </span>
         </td>
@@ -141,7 +141,7 @@
                       <span editable-textarea="valueEntry.value"
                             e-rows="2"
                             e-form="attrTableform"
-                            ng-bind="valueEntry.value || 'empty'"
+                            ng-bind="valueEntry.value || '-'"
                       >
                       </span>
                       <!--<pre ng-bind="'valueEntry=' +(valueEntry|json)"></pre>-->
