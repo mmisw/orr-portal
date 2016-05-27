@@ -45,7 +45,7 @@
       <thead>
       <tr class="v2rHeaderRow">
 
-        <th colspan="2" class="v2rTermColHeaderCell" style="width: 10px"></th>
+        <th colspan="2" class="v2rTermColHeaderCell" style="width: 5%"></th>
 
         <th ng-repeat="p in vocab.properties track by $index" ng-init="p_index=$index">
           {{getLabel(p)}}
@@ -105,7 +105,7 @@
           ></span>
           <span ng-if="!(someEditInProgress() || attrTableform.$waiting)"
                 editable-text="term.name" buttons="no" onbeforesave="checkTermId($data)"
-                ng-bind="term.name || '-'"
+                ng-bind="term.name || 'empty'"
           >
           </span>
         </td>
