@@ -15,22 +15,24 @@
       restrict: 'E',
       templateUrl: 'js/ont/rj/rj-viewer.html',
       controller: RjDataViewerController,
+      controllerAs: 'vm',
       scope: {
         uri:  '=',
         rj:   '=',
         columnDefs: '=',
         items: '='
-      }
+      },
+      bindToController: true
     }
   }
 
   RjDataViewerController.$inject = ['$scope'];
   function RjDataViewerController($scope) {
-    debug = debug || $scope.debug;
-    $scope.debug = debug;
-    if (debug) console.debug("++RjDataViewerController++ $scope=", $scope);
+    var vm = this;
+    vm.debug = debug;
+    if (debug) console.debug("++RjDataViewerController++ vm=", vm);
 
-    $scope.columnDefs = [
+    vm.columnDefs = [
       {
         field: 'subjectUri',
         displayName: 'Subject'
@@ -46,9 +48,9 @@
     ];
 
     var items = [];
-    _.each($scope.rj, function(subjectProps, subjectUri) {
+    _.each(vm.rj, function(subjectProps, subjectUri) {
       // do not include the ontology URI itself as a subject:
-      if (subjectUri !== $scope.uri) {
+      if (subjectUri !== vm.uri) {
         _.each(subjectProps, function (propValues, propUri) {
           _.each(propValues, function (value) {
             items.push({
@@ -65,12 +67,12 @@
       return item.subjectUri.startsWith("_:") ? "zzz" : item.subjectUri;
     });
 
-    $scope.items = [];
-    appUtil.updateModelArray($scope.items, items,
+    vm.items = [];
+    appUtil.updateModelArray(vm.items, items,
       function(done) {
         if (done) {
           $scope.$parent.$digest();
-          if (debug) console.debug("Done update model array: $scope.items=", $scope.items.length);
+          if (debug) console.debug("Done update model array: vm.items=", vm.items.length);
         }
         else {
           $scope.$digest();
