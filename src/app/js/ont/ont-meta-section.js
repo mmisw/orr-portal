@@ -24,7 +24,7 @@
     return {
       restrict:  'E',
       require:   '^orrOnt',
-      templateUrl: 'js/ont/views/ont-meta-section.tpl.html',
+      templateUrl: 'js/ont/ont-meta-section.html',
       controller: OntMetaSectionController,
       link: link,
       scope: {

@@ -13,7 +13,7 @@
     if (debug) console.log("++OntMetaDirective++");
     return {
       restrict:  'E',
-      templateUrl: 'js/ont/views/ont-meta.tpl.html',
+      templateUrl: 'js/ont/ont-meta.html',
       controller: OntMetaController,
       scope: {
         ontMeta:  '=',

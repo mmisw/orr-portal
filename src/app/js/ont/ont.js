@@ -13,7 +13,7 @@
     if (debug) console.log("++OntDirective++");
     return {
       restrict: 'E',
-      templateUrl: 'js/ont/views/ont.tpl.html',
+      templateUrl: 'js/ont/ont.html',
       controller: OntController
     }
   }
@@ -473,7 +473,7 @@
     function editOntUri(info) {
       console.log("editOntUri': info=", info);
       return $uibModal.open({
-        templateUrl: 'js/ont/views/ont-uri-editor.tpl.html',
+        templateUrl: 'js/ont/ont-uri-editor.html',
         controller:   OntUriEditorController,
         backdrop:    'static',
         resolve: {

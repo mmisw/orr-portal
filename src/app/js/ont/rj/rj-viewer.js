@@ -13,7 +13,7 @@
     if (debug) console.log("++RjDataViewerDirective++");
     return {
       restrict: 'E',
-      templateUrl: 'js/ont/rj-viewer.html',
+      templateUrl: 'js/ont/rj/rj-viewer.html',
       controller: RjDataViewerController,
       scope: {
         uri:  '=',

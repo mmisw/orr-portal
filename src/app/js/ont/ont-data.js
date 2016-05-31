@@ -12,7 +12,7 @@
     if (debug) console.log("++OntDataDirective++");
     return {
       restrict:  'E',
-      templateUrl: 'js/ont/views/ont-data.tpl.html',
+      templateUrl: 'js/ont/ont-data.html',
       controller: OntDataController,
       scope: {
         uri:           '=',
