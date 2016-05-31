@@ -32,14 +32,23 @@
     .constant("cfg", appConfig)
     .run(init)
     .run(xeditable)
-    .config(uiRoutes)
-    .run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
-      if (appUtil.debug) {
-        $rootScope.$state = $state;
-        $rootScope.$stateParams = $stateParams;
-      }
-    }])
   ;
+
+  if (appUtil.uri) {
+    console.debug("appUtil.uri defined ", appUtil.uri, "Not configuring routes");
+  }
+  else {
+    console.debug("appUtil.uri undefined. Configuring routes");
+    angular.module('orrportal')
+      .config(uiRoutes)
+      .run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
+        if (appUtil.debug) {
+          $rootScope.$state = $state;
+          $rootScope.$stateParams = $stateParams;
+        }
+      }])
+    ;
+  }
 
   init.$inject = ['$rootScope', 'rUri', 'cfg'];
 
@@ -87,8 +96,6 @@
 
   uiRoutes.$inject = ['$stateProvider', '$urlRouterProvider', 'rUri'];
   function uiRoutes($stateProvider, $urlRouterProvider, rUri) {
-
-    console.debug("uiRoutes: rUri=", rUri);
 
     $urlRouterProvider.otherwise("/");
 

@@ -1,5 +1,10 @@
 ## change log ##
 
+* 2016-05-31: 0.3.1:
+  - Do not use routing mechanism when dispatching a given URI.
+    Key goal here is to keep the URI in the browser URL field "clean", that is,
+    without the trailing `#/` automatically added by the routing library.
+
 * 2016-05-21: 0.3.1:
   - add admin dropdown with "new org" and also "organizations" and "users"
   - keyword-terms: style adjs and use of <items-viewer>
