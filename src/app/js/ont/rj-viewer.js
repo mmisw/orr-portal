@@ -60,7 +60,10 @@
         });
       }
     });
-    items = _.sortBy(items, "subjectUri");
+    items = _.sortBy(items, function(item) {
+      // put the blank nodes last
+      return item.subjectUri.startsWith("_:") ? "zzz" : item.subjectUri;
+    });
 
     $scope.items = [];
     appUtil.updateModelArray($scope.items, items,
