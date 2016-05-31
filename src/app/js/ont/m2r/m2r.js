@@ -18,7 +18,7 @@
     if (debug) console.log("++M2rDataDirective++");
     return {
       restrict: 'E',
-      templateUrl: 'js/ont/views/m2r-data.tpl.html',
+      templateUrl: 'js/ont/m2r/m2r-data.html',
       controller: M2rDataController,
       scope: {
         uri:     '=',
@@ -41,7 +41,7 @@
     if (debug) console.log("++M2rDataViewerDirective++");
     return {
       restrict: 'E',
-      templateUrl: 'js/ont/views/m2r-data-viewer.tpl.html',
+      templateUrl: 'js/ont/m2r/m2r-data-viewer.html',
       controller: M2rDataViewerController,
       scope: {
         uri:     '=',
@@ -95,7 +95,7 @@
     return {
       restrict: 'E',
       require:  '^orrOnt',
-      templateUrl: 'js/ont/views/m2r-data-editor.tpl.html',
+      templateUrl: 'js/ont/m2r/m2r-data-editor.html',
       controller: M2rDataEditorController,
       link: link,
       scope: {
@@ -152,7 +152,7 @@
     $scope.enterExternalOntologyUri = function() {
       //console.debug("enterExternalOntologyUri");
       var modalInstance = $uibModal.open({
-        templateUrl:  'js/ont/views/m2r-data-editor-ext-ont.tpl.html',
+        templateUrl:  'js/ont/m2r/m2r-data-editor-ext-ont.html',
         controller:   EnterExternalOntologyUriController,
         backdrop:    'static',
         resolve: {
@@ -283,7 +283,7 @@
 
     return {
       restrict: 'E',
-      templateUrl: 'js/ont/views/m2r-data-editor-mapping-side.tpl.html',
+      templateUrl: 'js/ont/m2r/m2r-data-editor-mapping-side.html',
       controller: M2rDataEditorMappingSideController,
       scope: {
         side:            '=',

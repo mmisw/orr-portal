@@ -13,7 +13,7 @@
     if (debug) console.log("++RjDataViewerDirective++");
     return {
       restrict: 'E',
-      templateUrl: 'js/ont/views/rj-data-viewer.tpl.html',
+      templateUrl: 'js/ont/rj-viewer.html',
       controller: RjDataViewerController,
       scope: {
         uri:  '=',
@@ -60,7 +60,10 @@
         });
       }
     });
-    items = _.sortBy(items, "subjectUri");
+    items = _.sortBy(items, function(item) {
+      // put the blank nodes last
+      return item.subjectUri.startsWith("_:") ? "zzz" : item.subjectUri;
+    });
 
     $scope.items = [];
     appUtil.updateModelArray($scope.items, items,

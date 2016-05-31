@@ -15,7 +15,7 @@
     if (debug) console.log("++OntContentsDirective++");
     return {
       restrict: 'E',
-      templateUrl: 'js/ont/views/ont-contents.tpl.html',
+      templateUrl: 'js/ont/ont-contents.html',
       controller: OntContentsController,
       scope: {
         ontology:      '=',

@@ -13,7 +13,7 @@
     if (debug) console.log("++V2rDataViewerDirective++");
     return {
       restrict: 'E',
-      templateUrl: 'js/ont/views/v2r-data-viewer.tpl.html',
+      templateUrl: 'js/ont/v2r/v2r-data-viewer.html',
       controller: V2rDataViewerController,
       scope: {
         uri:    '=',
@@ -59,7 +59,7 @@
     return {
       restrict: 'E',
       require:  '^orrOnt',
-      templateUrl: 'js/ont/views/v2r-data-editor.tpl.html',
+      templateUrl: 'js/ont/v2r/v2r-data-editor.html',
       controller: V2rDataEditorController,
       link: link,
       scope: {
@@ -95,7 +95,7 @@
     function editIdModel(title, idModel) {
       //console.log("editId': title=", title, "idModel=", idModel);
       return $uibModal.open({
-        templateUrl: 'js/ont/views/v2r-edit-id.tpl.html',
+        templateUrl: 'js/ont/v2r/v2r-edit-id.html',
         controller:   V2rEditIdController,
         backdrop:    'static',
         resolve: {
