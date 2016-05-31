@@ -20,6 +20,7 @@
     ,'orrportal.kw'
     ,'orrportal.v2r'
     ,'orrportal.m2r'
+    ,'orrportal.hot-table'
     ,'orrportal.voc'
     ,'orrportal.firebase'
     ,'orrportal.upload'

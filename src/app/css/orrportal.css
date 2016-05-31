@@ -495,3 +495,9 @@ div.debug {
   text-align: right;
 }
 
+.handsontable th {
+  background-image: linear-gradient(to bottom, #fff 0%, #EAF3FC 100%);
+  background-repeat: repeat-x;
+  text-align: left;
+  font-weight: bold;
+}

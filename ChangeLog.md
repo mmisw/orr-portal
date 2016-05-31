@@ -1,5 +1,23 @@
 ## change log ##
 
+* 2016-05-30: 0.3.1:
+  - some experimentation with HandsOnTable. Right now only with a directive
+    `<rj-hot-viewer>`, which in turns uses `<orr-hot-table>`, which in turns uses
+    `<hot-table>`. To see this in action, display an ontology that is not v2r or m2r,
+    eg. `http://localhost:9001/src/app/?uri=http://localhost:8081/demo/sio`
+    For this, `<rj-hot-viewer>` is used instead of `<rj-data-viewer>` in ont-data-tpl.html.
+    But the idea was to use HoT mainly for v2r.
+
+    Unfortunately, although nice spreadsheet-like behavior:
+      - no built-in filtering mechanism; - adding filter field to column doesn't seem straightforward to do.
+        (filtering seems to be available in PRO version https://docs.handsontable.com/pro/1.0.0-beta3/demo-filtering.html)
+      - customizing column headers (eg., to add menu for editing properties in v2r; tooltips) doesn't seem easy to do.
+      - No tooltip support! (planned or availble in PRO https://github.com/handsontable/handsontable/issues/2707)
+      - when editing a cell, cannot scroll to the origin of the cell if current contents
+        is large enough to not fit in the visible area
+      - not easy to make column width dynamic (eg. depending on window width)
+      - https://github.com/handsontable/handsontable/wiki/Feature-requests
+
 * 2016-05-21: 0.3.1:
   - add admin dropdown with "new org" and also "organizations" and "users"
   - keyword-terms: style adjs and use of <items-viewer>

@@ -6,6 +6,7 @@
 
   angular.module('orrportal.ont.contents', [
     'orrportal.metaUtil', 'orrportal.rj-viewer'
+    ,'orrportal.rj-hot-viewer'
   ])
     .directive('ontContents', OntContentsDirective)
   ;

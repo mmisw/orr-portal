@@ -30,7 +30,8 @@
     </div>
 
     <div ng-if="ontDataFormat === 'rj'">
-      <rj-data-viewer uri="uri" rj="ontData" ></rj-data-viewer>
+      <!--<rj-data-viewer uri="uri" rj="ontData" ></rj-data-viewer>-->
+      <rj-hot-viewer uri="uri" rj="ontData" ></rj-hot-viewer>
     </div>
 
     <div ng-if="ontDataFormat !== 'v2r' && ontDataFormat !== 'm2r' && ontDataFormat !== 'rj'">

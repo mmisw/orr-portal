@@ -1,0 +1,33 @@
+<div>
+  <div ng-if="debug">
+    <pre>colHeaders: {{vm.colHeaders | json}}</pre>
+    <pre>items: {{vm.items.length}}</pre>
+  </div>
+
+  <hot-table data="vm.items"
+             col-headers="vm.colHeaders"
+             height="400"
+             fixed-columns-left="1"
+             context-menu="true"
+             stretch-h="all"
+             manual-column-move="true"
+             manual-column-resize="true"
+             fill-handle="false"
+  >
+             <!--width="1200"-->
+
+    <hot-column data="subjectUri"
+                renderer="vm.colRenderer"
+    ></hot-column>
+
+    <hot-column data="propUri"
+                renderer="vm.colRenderer"
+    ></hot-column>
+
+    <hot-column data="value"
+                renderer="vm.colRenderer"
+                width="800"
+    ></hot-column>
+
+  </hot-table>
+</div>
