@@ -478,6 +478,12 @@ div.debug {
   font-weight: 100;
 }
 
+.m2rUriSelect {
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius:6px;
+}
+
 .m2rMappingSide {
   border-radius: 8px;
   border-color: #2b542c;
