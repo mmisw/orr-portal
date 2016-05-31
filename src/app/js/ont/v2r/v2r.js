@@ -2,6 +2,7 @@
   'use strict';
 
   var debug = appUtil.debug;
+  //debug = true;
 
   angular.module('orrportal.v2r', [])
     .directive('v2rDataViewer',  V2rDataViewerDirective)
@@ -10,33 +11,30 @@
 
   V2rDataViewerDirective.$inject = [];
   function V2rDataViewerDirective() {
-    if (debug) console.log("++V2rDataViewerDirective++");
     return {
       restrict: 'E',
       templateUrl: 'js/ont/v2r/v2r-data-viewer.html',
       controller: V2rDataViewerController,
+      controllerAs: 'vm',
       scope: {
         uri:    '=',
         vocabs: '='
-      }
+      },
+      bindToController: true
     }
   }
 
-  V2rDataViewerController.$inject = ['$scope', '$window'];
-  function V2rDataViewerController($scope, $window) {
-    debug = debug || $scope.debug;
-    $scope.debug = debug;
-    if (debug) console.log("++V2rDataViewerController++ $scope=", $scope);
+  V2rDataViewerController.$inject = ['$window'];
+  function V2rDataViewerController($window) {
+    var vm = this;
+    vm.debug = debug;
+    if (debug) console.log("++V2rDataViewerController++ vm=", vm);
 
-    var vm = $scope.vm = {
-      uri: $scope.uri
-    };
-
-    setCommonMethods($scope, vm);
+    setCommonMethods(vm);
 
     // mainly a workaround as the ng-href link in a "text/ng-template"
     // used in <uib-tab> doesn't work for some reason
-    $scope.openLink = function(href) {
+    vm.openLink = function(href) {
       $window.open(href, "_blank");
     };
   }
@@ -45,8 +43,6 @@
 
   V2rDataEditorDirective.$inject = [];
   function V2rDataEditorDirective() {
-    if (debug) console.log("++V2rDataEditorDirective++");
-
     function link(scope, el, attrs, orrOnt) {
       scope.setEditInProgress = function(inProgress) {
         orrOnt.setDataEditInProgress(inProgress);
@@ -61,34 +57,32 @@
       require:  '^orrOnt',
       templateUrl: 'js/ont/v2r/v2r-data-editor.html',
       controller: V2rDataEditorController,
+      controllerAs: 'vm',
       link: link,
       scope: {
         uri:    '=',
         vocabs: '='
-      }
+      },
+      bindToController: true
     };
   }
 
   V2rDataEditorController.$inject = ['$scope', '$uibModal', '$filter', '$timeout', 'utl'];
   function V2rDataEditorController($scope, $uibModal, $filter, $timeout, utl) {
-    debug = debug || $scope.debug;
-    $scope.debug = debug;
-    if (debug) console.log("++V2rDataEditorController++ $scope=", $scope);
+    var vm = this;
+    vm.debug = debug;
+    if (debug) console.log("++V2rDataEditorController++ vm=", vm);
 
-    var vm = $scope.vm = {
-      uri: $scope.uri
-    };
-
-    setCommonMethods($scope, vm);
+    setCommonMethods(vm);
 
     //////////////////////////////////////
     // Class and property editing
 
-    $scope.editVocabClass = function(idModel) {
+    vm.editVocabClass = function(idModel) {
       return editIdModel("Vocabulary class", idModel);
     };
 
-    $scope.editVocabProperty = function(idModel) {
+    vm.editVocabProperty = function(idModel) {
       return editIdModel("Vocabulary property", idModel);
     };
 
@@ -116,13 +110,13 @@
       var INS_LEFT  = 'Insert vocabulary (to the left)';
       var INS_RIGHT = 'Insert vocabulary (to the right)';
       var DEL_COL   = 'Delete this vocabulary';
-      $scope.vocabMenu = [MOV_LEFT, MOV_RIGTH, INS_LEFT, INS_RIGHT, DEL_COL];
+      vm.vocabMenu = [MOV_LEFT, MOV_RIGTH, INS_LEFT, INS_RIGHT, DEL_COL];
 
-      $scope.addVocab = function() {
-        insertVocab($scope.vocabs.length);
+      vm.addVocab = function() {
+        insertVocab(vm.vocabs.length);
       };
 
-      $scope.vocabOptionSelected = function(v_index, opt) {
+      vm.vocabOptionSelected = function(v_index, opt) {
         if (opt === MOV_LEFT)  moveVocab(v_index, v_index - 1);
         if (opt === MOV_RIGTH) moveVocab(v_index, v_index + 1);
         if (opt === INS_LEFT)  insertVocab(v_index);
@@ -131,20 +125,20 @@
       };
 
       function moveVocab(from_index, to_index) {
-        moveArrayElement($scope.vocabs, from_index, to_index);
+        moveArrayElement(vm.vocabs, from_index, to_index);
       }
 
       function insertVocab(v_index) {
         var idModel = {name: '?'};
-        $scope.editVocabClass(idModel).result.then(function() {
+        vm.editVocabClass(idModel).result.then(function() {
           console.log('editIdModel dialog accepted: idModel=', idModel);
           var newVocab = {
             'class': idModel,
             properties: [],
             terms: []
           };
-          $scope.addTerm(newVocab);
-          $scope.vocabs.splice(v_index, 0, newVocab);
+          vm.addTerm(newVocab);
+          vm.vocabs.splice(v_index, 0, newVocab);
         });
       }
 
@@ -156,7 +150,7 @@
           '</div>',
           ok: function() {
             $timeout(function() {
-              $scope.vocabs.splice(v_index, 1);
+              vm.vocabs.splice(v_index, 1);
             });
           }
         });
@@ -169,13 +163,13 @@
       var INS_LEFT  = 'Insert property (to the left)';
       var INS_RIGHT = 'Insert property (to the right)';
       var DEL_COL   = 'Delete this property';
-      $scope.columnMenu = [MOV_LEFT, MOV_RIGTH, INS_LEFT, INS_RIGHT, DEL_COL];
+      vm.columnMenu = [MOV_LEFT, MOV_RIGTH, INS_LEFT, INS_RIGHT, DEL_COL];
 
-      $scope.addProperty = function(vocab) {
+      vm.addProperty = function(vocab) {
         insertProp(vocab, vocab.properties.length);
       };
 
-      $scope.columnOptionSelected = function(vocab, p_index, opt) {
+      vm.columnOptionSelected = function(vocab, p_index, opt) {
         if (opt === MOV_LEFT)  moveProp(vocab, p_index, p_index - 1);
         if (opt === MOV_RIGTH) moveProp(vocab, p_index, p_index + 1);
         if (opt === INS_LEFT)  insertProp(vocab, p_index);
@@ -193,7 +187,7 @@
 
       function insertProp(vocab, p_index) {
         var idModel = {name: '?'};
-        $scope.editVocabProperty(idModel).result.then(function() {
+        vm.editVocabProperty(idModel).result.then(function() {
           //console.log('editIdModel dialog accepted: idModel=', idModel);
           vocab.properties.splice(p_index, 0, idModel);
           _.each(vocab.terms, function(term) {
@@ -227,18 +221,18 @@
     // Term ID editing
 
     // basic validation
-    $scope.checkTermId = function(val) {
+    vm.checkTermId = function(val) {
       if (!val) return "missing";
 
       if (val.match(/.*[\s/|?&!,;'\\]+.*/))
         return "invalid characters"
     };
 
-    $scope.removeTerm = function(vocab, index) {
+    vm.removeTerm = function(vocab, index) {
       vocab.terms.splice(index, 1);
     };
 
-    $scope.addTerm = function(vocab) {
+    vm.addTerm = function(vocab) {
       var term = {
         name:      "",
         attributes: _.map(vocab.properties, function() { return null })
@@ -250,9 +244,9 @@
     //////////////////////////////////////
     // Value cell editing
 
-    $scope.enterCellEditing = function(tableform) {
+    vm.enterCellEditing = function(tableform) {
       if (!$scope.someEditInProgress()) {
-        console.log("enterCellEditing");
+        //console.log("vm.enterCellEditing");
         $scope.setEditInProgress(true);
         tableform.$show()
       }
@@ -266,7 +260,7 @@
     }
 
     (function prepareAttrModels() {
-      _.each($scope.vocabs, function(vocab) {
+      _.each(vm.vocabs, function(vocab) {
         _.each(vocab.terms, setAttrModelsForTerm);
       });
     })();
@@ -284,12 +278,12 @@
     }
 
     // filter values to show
-    $scope.filterValue = function(valueEntry) {
+    vm.filterValue = function(valueEntry) {
       return valueEntry.isDeleted !== true;
     };
 
     // mark valueEntry as deleted
-    $scope.deleteValue = function(em, id) {
+    vm.deleteValue = function(em, id) {
       var filtered = $filter('filter')(em, {id: id});
       if (filtered.length) {
         filtered[0].isDeleted = true;
@@ -297,7 +291,7 @@
     };
 
     // add valueEntry
-    $scope.addValue = function(em) {
+    vm.addValue = function(em) {
       em.push({
         id:    em.length + 1,
         value: '',
@@ -306,7 +300,7 @@
     };
 
     // cancel all changes
-    $scope.cancelCell = function(em) {
+    vm.cancelCell = function(em) {
       $scope.setEditInProgress(false);
       for (var i = em.length; i--;) {
         var valueEntry = em[i];
@@ -322,7 +316,7 @@
     };
 
     // transfer the changes to the model
-    $scope.applyCellChanges = function(term, a_index, em) {
+    vm.applyCellChanges = function(term, a_index, em) {
       $scope.setEditInProgress(false);
       var result = [];
 
@@ -396,30 +390,30 @@
     };
   }
 
-  function setCommonMethods($scope, vm) {
-    $scope.getUri = function(e) {
+  function setCommonMethods(vm) {
+    vm.getUri = function(e) {
       if (e.uri)   return e.uri;
       if (!vm.uri) return undefined;
       return vm.uri + "/" + e.name;
     };
 
-    $scope.getName = function(e) {
+    vm.getName = function(e) {
       if (e.name)   return e.name;
       if (e.uri)    return e.uri;
     };
 
-    $scope.getLabel = function(e) {
+    vm.getLabel = function(e) {
       if (e.label)  return e.label;
       if (e.name)   return capitalizeFirstLetter(e.name);
       return e.uri;
     };
 
-    $scope.singleAttrValue = function(a) {
+    vm.singleAttrValue = function(a) {
       if (angular.isString(a))                 return a;
       if (angular.isArray(a) && a.length == 1) return a[0];
     };
 
-    $scope.multipleAttrValues = function(a) {
+    vm.multipleAttrValues = function(a) {
       if (angular.isArray(a) && a.length > 1) return a;
     };
   }

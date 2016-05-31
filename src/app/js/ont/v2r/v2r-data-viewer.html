@@ -1,18 +1,18 @@
-<div ng-if="vocabs.length === 0"
+<div ng-if="vm.vocabs.length === 0"
 >
   No vocabularies are defined.
 </div>
 
-<uib-tabset ng-if="vocabs.length" style="width: 100%">
+<uib-tabset ng-if="vm.vocabs.length" style="width: 100%">
 
-  <uib-tab ng-repeat="vocab in vocabs track by $index" style="cursor: pointer">
+  <uib-tab ng-repeat="vocab in vm.vocabs track by $index" style="cursor: pointer">
 
     <script type="text/ng-template" id="v2rClassTabPopup.html">
       <span>
-        Class: {{getLabel(vocab.class)}}
+        Class: {{vm.getLabel(vocab.class)}}
         <a target="_blank" class="uriLink"
-           ng-bind="getUri(vocab.class)"
-           ng-click="openLink(getUri(vocab.class))"
+           ng-bind="vm.getUri(vocab.class)"
+           ng-click="vm.openLink(vm.getUri(vocab.class))"
            ng-mouseleave="vocab._showPopup=undefined"
         >
         </a>
@@ -25,7 +25,7 @@
            popover-placement="right"
            popover-is-open="vocab._showPopup"
       >
-        <span class="regularFont bold" ng-bind="getName(vocab.class)"></span>
+        <span class="regularFont bold" ng-bind="vm.getName(vocab.class)"></span>
       </div>
 
     </tab-heading>
@@ -42,11 +42,11 @@
         >
           <script type="text/ng-template" id="v2rTermPropertyPopup.html">
             <span>
-              Property: {{getLabel(p)}}
+              Property: {{vm.getLabel(p)}}
               <br>
               <a target="_blank" class="uriLink"
-                 ng-href="{{getUri(p)}}"
-                 ng-bind="getUri(p)"
+                 ng-href="{{vm.getUri(p)}}"
+                 ng-bind="vm.getUri(p)"
                  ng-mouseleave="p._showPopup=undefined"
               >
               </a>
@@ -57,7 +57,7 @@
             <span uib-popover-template="'v2rTermPropertyPopup.html'"
                   popover-placement="top"
                   popover-is-open="p._showPopup">
-              {{getLabel(p)}}
+              {{vm.getLabel(p)}}
             </span>
           </div>
 
@@ -77,8 +77,8 @@
               Term&nbsp;URI:
               <br>
               <a target="_blank" class="uriLink"
-                 ng-href="{{getUri(t)}}"
-                 ng-bind="getUri(t)"
+                 ng-href="{{vm.getUri(t)}}"
+                 ng-bind="vm.getUri(t)"
                  ng-mouseleave="t._showPopup=undefined"
               ></a>
             </span>
@@ -88,19 +88,19 @@
                 popover-is-open="t._showPopup"
                 popover-placement="right"
                 class="v2rTermName">
-            {{getName(t)}}
+            {{vm.getName(t)}}
           </span>
 
         </td>
 
         <td ng-repeat="a in t.attributes track by $index">
-          <span ng-if="singleAttrValue(a)"
-                ng-bind-html="singleAttrValue(a) | mklinksOnlyExternal">
+          <span ng-if="vm.singleAttrValue(a)"
+                ng-bind-html="vm.singleAttrValue(a) | mklinksOnlyExternal">
           </span>
 
-          <table ng-if="multipleAttrValues(a)"
+          <table ng-if="vm.multipleAttrValues(a)"
                  class="table table-condensed table-hover">
-            <tr ng-repeat="b in multipleAttrValues(a) track by $index">
+            <tr ng-repeat="b in vm.multipleAttrValues(a) track by $index">
               <td ng-bind-html="b | mklinksOnlyExternal">
               </td>
             </tr>

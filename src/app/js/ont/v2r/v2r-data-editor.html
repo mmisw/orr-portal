@@ -1,7 +1,7 @@
-<button ng-if="vocabs.length === 0"
+<button ng-if="vm.vocabs.length === 0"
         type="button"
         ng-disabled="someEditInProgress() || attrTableform.$waiting"
-        ng-click="addVocab()"
+        ng-click="vm.addVocab()"
         class="btn btn-primary btn-sm"
         uib-tooltip="Add a vocabulary (a class and associated terms)"
         tooltip-placement="right"
@@ -9,17 +9,17 @@
   <i class="fa fa-plus" aria-hidden="true"></i>Vocabulary
 </button>
 
-<uib-tabset ng-if="vocabs.length" style="width: 100%">
+<uib-tabset ng-if="vm.vocabs.length" style="width: 100%">
 
-  <uib-tab ng-repeat="vocab in vocabs track by $index" ng-init="v_index=$index"
+  <uib-tab ng-repeat="vocab in vm.vocabs track by $index" ng-init="v_index=$index"
            disable="someEditInProgress() || attrTableform.$waiting"
            style="cursor: pointer">
 
     <tab-heading>
 
       <div>
-        {{getName(vocab.class)}}
-        <button ng-click="editVocabClass(vocab.class)" class="btn btn-link"
+        {{vm.getName(vocab.class)}}
+        <button ng-click="vm.editVocabClass(vocab.class)" class="btn btn-link"
                 ng-disabled="someEditInProgress() || attrTableform.$waiting">
           <i class="fa fa-edit" aria-hidden="true"></i>
         </button>
@@ -30,8 +30,8 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="opt in vocabMenu">
-              <a href ng-bind="opt" ng-click="vocabOptionSelected(v_index, opt)"></a>
+            <li ng-repeat="opt in vm.vocabMenu">
+              <a href ng-bind="opt" ng-click="vm.vocabOptionSelected(v_index, opt)"></a>
             </li>
           </ul>
         </div>
@@ -48,8 +48,8 @@
         <th colspan="2" class="v2rTermColHeaderCell" style="width: 5%"></th>
 
         <th ng-repeat="p in vocab.properties track by $index" ng-init="p_index=$index">
-          {{getLabel(p)}}
-          <button ng-click="editVocabProperty(p)" class="btn btn-link"
+          {{vm.getLabel(p)}}
+          <button ng-click="vm.editVocabProperty(p)" class="btn btn-link"
                   ng-disabled="someEditInProgress() || attrTableform.$waiting">
             <i class="fa fa-edit" aria-hidden="true"></i>
           </button>
@@ -60,8 +60,8 @@
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-              <li ng-repeat="opt in columnMenu">
-                <a href ng-bind="opt" ng-click="columnOptionSelected(vocab, p_index, opt)"></a>
+              <li ng-repeat="opt in vm.columnMenu">
+                <a href ng-bind="opt" ng-click="vm.columnOptionSelected(vocab, p_index, opt)"></a>
               </li>
             </ul>
           </div>
@@ -72,7 +72,7 @@
         <td style="width: 40px">
           <button type="button"
                   ng-disabled="someEditInProgress() || attrTableform.$waiting"
-                  ng-click="addProperty(vocab)"
+                  ng-click="vm.addProperty(vocab)"
                   class="btn btn-primary btn-xs"
                   uib-tooltip="Add a property to this vocabulary"
                   tooltip-placement="left"
@@ -91,7 +91,7 @@
         <td style="width: 40px;max-width: 40px">
           <button type="button"
                   ng-disabled="someEditInProgress() || attrTableform.$waiting"
-                  ng-click="removeTerm(vocab, t_index)"
+                  ng-click="vm.removeTerm(vocab, t_index)"
                   class="btn btn-danger btn-xs"
                   uib-tooltip="Remove term"
           >
@@ -104,7 +104,7 @@
                 ng-bind="term.name"
           ></span>
           <span ng-if="!(someEditInProgress() || attrTableform.$waiting)"
-                editable-text="term.name" buttons="no" onbeforesave="checkTermId($data)"
+                editable-text="term.name" buttons="no" onbeforesave="vm.checkTermId($data)"
                 ng-bind="term.name || 'empty'"
           >
           </span>
@@ -117,18 +117,18 @@
 
             <div>
               <form editable-form name="attrTableform"
-                    onaftersave="applyCellChanges(term, a_index, term._ems[a_index])"
-                    oncancel="cancelCell(term._ems[a_index])">
+                    onaftersave="vm.applyCellChanges(term, a_index, term._ems[a_index])"
+                    oncancel="vm.cancelCell(term._ems[a_index])">
 
                 <table class="table table-condensed"
                        ng-class="{'table-hover': !attrTableform.$visible, 'transparent': attrTableform.$visible}"
-                       ng-click="enterCellEditing(attrTableform)"
+                       ng-click="vm.enterCellEditing(attrTableform)"
                        uib-tooltip="{{!attrTableform.$visible && !someEditInProgress() ? 'Click to edit the value(s) for this property' : ''}}"
                 >
-                  <tr ng-repeat="valueEntry in term._ems[a_index] | filter:filterValue track by $index">
+                  <tr ng-repeat="valueEntry in term._ems[a_index] | filter:vm.filterValue track by $index">
 
                     <td ng-show="attrTableform.$visible" style="width: 5px">
-                      <button type="button" ng-click="deleteValue(term._ems[a_index], valueEntry.id)"
+                      <button type="button" ng-click="vm.deleteValue(term._ems[a_index], valueEntry.id)"
                               class="btn btn-danger btn-xs"
                               uib-tooltip="Remove this value"
                               tooltip-placement="left"
@@ -151,7 +151,7 @@
 
                 <span ng-show="attrTableform.$visible">
                     <button type="button" ng-disabled="attrTableform.$waiting"
-                            ng-click="addValue(term._ems[a_index])"
+                            ng-click="vm.addValue(term._ems[a_index])"
                             class="btn btn-default btn-xs"
                     >
                       <i class="fa fa-plus" aria-hidden="true"></i> Add value
@@ -187,7 +187,7 @@
 
     <button type="button"
             ng-disabled="someEditInProgress() || attrTableform.$waiting"
-            ng-click="addTerm(vocab)"
+            ng-click="vm.addTerm(vocab)"
             class="btn btn-primary btn-xs"
             uib-tooltip="Add a term to this vocabulary"
             tooltip-placement="right"
