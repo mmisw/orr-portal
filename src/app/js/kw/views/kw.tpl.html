@@ -1,6 +1,14 @@
 <div style="width: 100%">
 <div style="margin-left: 20px; margin-right: 10px">
 
+  <p style="margin-top: 20px">
+    The search below is applied on the
+    <code>omv:keywords</code> property value of any semantic entities in the triple store
+    with such property.
+    You can also take advantage of the full query capabilities through the
+    <a href="sparql">SPARQL interface</a>.
+  </p>
+
   <h3>
     Keyword search
   </h3>
@@ -83,7 +91,7 @@
 
   <div ng-if="vm.searching">
     <span class="fa fa-spinner fa-spin fa-lg"></span>
-    Searching ...
+    Searching. Please wait ...
   </div>
 
   <pre ng-if="vm.error" ng-bind="vm.error" style="color: darkred; font-family: monospace">

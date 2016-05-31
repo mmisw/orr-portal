@@ -1,6 +1,9 @@
 ## change log ##
 
 * 2016-05-31: 0.3.1:
+  - add app/sparql/index.html and include it as part of 'install';
+    also add link to it from term-search and keyword-search
+
   - m2r: show localName instead of symbol for the relation predicates
     (the symbols shown in the past have been rather ad hoc)
 
