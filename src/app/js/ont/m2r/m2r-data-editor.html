@@ -88,10 +88,12 @@
         </tr>
         <tr ng-repeat="(relUri, rel) in relations">
           <td uib-popover="{{rel.prop.prefix + ':' + rel.prop.label + ' - ' +rel.prop.tooltip}}"
-              popover-trigger="mouseenter">
-            <div class="btn btn-default"
-                 style="margin-bottom: 5px"
-                 ng-bind-html="rel.symbol"
+              popover-trigger="mouseenter"
+              style="text-align: center"
+          >
+            <div class="btn btn-primary btn-xs"
+                 style="margin-bottom: 7px"
+                 ng-bind-html="rel.prop.localName"
                  ng-disabled="noSelectedPairs()"
                  ng-click="relButtonClicked(rel)"
             ></div>

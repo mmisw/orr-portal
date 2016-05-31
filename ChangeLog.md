@@ -1,6 +1,9 @@
 ## change log ##
 
 * 2016-05-31: 0.3.1:
+  - m2r: show localName instead of symbol for the relation predicates
+    (the symbols shown in the past have been rather ad hoc)
+
   - Do not use routing mechanism when dispatching a given URI.
     Key goal here is to keep the URI in the browser URL field "clean", that is,
     without the trailing `#/` automatically added by the routing library.

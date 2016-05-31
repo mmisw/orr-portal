@@ -195,6 +195,7 @@
       _.each(obj, function(term, localName) {
         term.prefix = prefix;
         term.uri = namespace + localName;
+        term.localName = localName;
         term.label = term.label || localName;
       });
       obj.NS = namespace;

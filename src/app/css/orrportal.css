@@ -473,6 +473,11 @@ div.debug {
   cursor: pointer;
 }
 
+.m2rPredPrefix {
+  color: #a1a1a1;
+  font-weight: 100;
+}
+
 .m2rMappingSide {
   border-radius: 8px;
   border-color: #2b542c;

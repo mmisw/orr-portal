@@ -364,7 +364,15 @@
   function m2rRelationFilter(m2rRelations) {
     return function(predicateUri) {
       var rel = m2rRelations.relations[predicateUri];
-      return rel && rel.icon ? rel.icon : '?';
+      if (rel && rel.prop) {
+        //return rel.prop.prefix+ ':' + rel.prop.localName;
+        return '<span class="uriTextSimple">' +
+          //'<span class="m2rPredPrefix">' +rel.prop.prefix+ ':</span>' +
+          rel.prop.localName +
+          '</span>'
+      }
+      else return '?';
+      //return rel && rel.icon ? rel.icon : '?';
     }
   }
 
@@ -519,10 +527,10 @@
 
     columnDefs.push({
       field: 'predicateUri',
-      maxWidth: 42,
-      displayName: 'Prd', //'Predicate',
+      maxWidth: 110,
+      displayName: 'Predicate',
       headerCellClass: 'm2rRelHeader',
-      enableFiltering: false,
+      //enableFiltering: false,
       enableSorting: false,
       enableHiding: false,
       cellTemplate: predicateTemplate
