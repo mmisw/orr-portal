@@ -9,6 +9,12 @@
 var appConfig = {
   help: "https://github.com/mmisw/orr-portal",
 
+  portal: {
+    // (required) main ORR page URL.
+    // This can start with '//' to dynamically accommodate http or https access.
+    mainPage: "//example.net/ont/"
+  },
+
   orront: {
     // (required) orr-ont endpoint URL. (No trailing slash.)
     // This could be a full URL ("https://example.net/ont")

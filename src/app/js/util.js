@@ -5,6 +5,7 @@ var appUtil = (function(window) {
   var windowBareHref = getBareWindowHref();
 
   expandOrrOntRest();
+  expandPortalMainPageUrl();
 
   var uri, debug;
 
@@ -300,6 +301,15 @@ var appUtil = (function(window) {
       var loc = window.location;
       appConfig.orront.rest = loc.protocol + "//" + loc.host + original;
       console.debug("orront.rest expanded to=" + appConfig.orront.rest);
+    }
+  }
+
+  function expandPortalMainPageUrl() {
+    var original = appConfig.portal.mainPage;
+    if (original.startsWith("//")) {
+      var loc = window.location;
+      appConfig.portal.mainPage = loc.protocol + original;
+      console.debug("portal.mainPage expanded to=" + appConfig.portal.mainPage);
     }
   }
 

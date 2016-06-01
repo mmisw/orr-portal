@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-06-01: 0.3.1:
+  - introduce portal.mainPage configuration property
+
   - clean-up:
     - remove old voc module
     - move pieces from old 'uri' module to 'ont'
