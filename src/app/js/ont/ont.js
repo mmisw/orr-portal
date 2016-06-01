@@ -6,6 +6,30 @@
 
   angular.module('orrportal.ont', ['orrportal.ont.contents'])
     .directive('orrOnt',  OntDirective)
+    .directive('orrportalUriTitle', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/ont/uri-title.html'
+      }
+    })
+    .directive('orrportalUriViewAsOptions', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/ont/uri-viewasoptions.html'
+      }
+    })
+    .directive('orrportalUriVersions', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/ont/uri-versions.html'
+      }
+    })
+    .directive('orrportalUriOntTitle', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/ont/uri-onttitle.html'
+      }
+    })
   ;
 
   OntDirective.$inject = [];
@@ -78,6 +102,10 @@
         var msg = "Sorry, your browser may not support copying to the clipboard. Reported error: " + err;
         $timeout(function() {alert(msg);}, 250);
       }
+    };
+
+    $scope.linkForVersion = function(uri, version) {
+      return appUtil.windowBareHref + "/?uri=" + uri + "&version=" + version;
     };
 
     var newFormat = $stateParams.newFormat;

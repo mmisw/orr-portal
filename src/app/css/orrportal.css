@@ -506,3 +506,9 @@ div.debug {
   text-align: right;
 }
 
+.uriVersionSelect {
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius:6px;
+}
+
