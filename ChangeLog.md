@@ -1,7 +1,9 @@
 ## change log ##
 
 * 2016-06-01: 0.3.1:
-  - moving pieces from old 'uri' module to 'ont'
+  - clean-up:
+    - remove old voc module
+    - move pieces from old 'uri' module to 'ont'
 
 * 2016-05-31: 0.3.1:
   - utl.openRegistrationProgressModal: to show some progress feedback while registering

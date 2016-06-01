@@ -33,15 +33,6 @@ angular.module('orrportal.directives', [])
           controller:   'MainController'
         }
     })
-
-    .directive('voc', function() {
-        return {
-            restrict:     'E',
-            templateUrl:  'js/voc/views/voc.tpl.html',
-            controller:   'VocController'
-        }
-    })
-
 ;
 
 })();
