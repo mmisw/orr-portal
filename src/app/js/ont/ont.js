@@ -79,7 +79,7 @@
     var rvm = $rootScope.rvm;
 
     var vm = $scope.vm = {};
-    vm.uri = rvm.rUri || $stateParams.uri;
+    vm.uri = rvm.rUri;
 
     // todo move this to a directive or more general utility
     $scope.uriClipboard = {
