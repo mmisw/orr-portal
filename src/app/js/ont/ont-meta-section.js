@@ -48,7 +48,7 @@
     function update() {
       $scope.visiblePredicates = _.filter($scope.predicates, function(p) {
         if ($scope.editMode) {
-          return !p.hideForNew;
+          return !p.hideForNew || $scope.ontMeta[p.uri];
         }
         else if (p.hideIfUndefined) {
           //console.debug("hideIfUndefined p=", p, $scope.ontMeta[p.uri]);
