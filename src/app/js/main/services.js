@@ -89,14 +89,19 @@
         .error(httpErrorHandler(gotOntologies))
     }
 
-    function refreshOntology(uri, gotOntology) {
+    function refreshOntology(uri, version, gotOntology) {
 
       setRefreshing(true);
+
+      // TODO use doHttp
 
       var reqPath = "/api/v0/ont";
       var url = appConfig.orront.rest + reqPath;
 
       var params = ['format=!md', 'uri=' +uri];
+      if (version) {
+        params.push('version=' +version);
+      }
 
       //if ($rootScope.isPrivilegedSession()) {
       //    params.push(appUtil.getHmacParam("GET," + reqPath));

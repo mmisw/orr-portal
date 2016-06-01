@@ -278,7 +278,7 @@
       vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
 
       // TODO use more specific endpoint API to do this check
-      service.refreshOntology(vm.newUri, gotOntology);
+      service.refreshOntology(vm.newUri, null, gotOntology);
 
       function gotOntology(error, ontology) {
         vm.checkedNewUriIsAvailable = true;

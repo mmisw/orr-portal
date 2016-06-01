@@ -80,6 +80,7 @@
 
     var vm = $scope.vm = {};
     vm.uri = rvm.rUri;
+    vm.version = rvm.rVersion;
 
     // todo move this to a directive or more general utility
     $scope.uriClipboard = {
@@ -121,7 +122,7 @@
       if (newFormat) console.warn("expecting undefined newFormat when vm.uri is defined. newFormat=", newFormat);
 
       vm.brandNew = false;
-      refreshOntology(vm.uri);
+      refreshOntology();
     }
     else {
       if (!newFormat) console.warn("expecting defined newFormat when vm.uri is undefined");
@@ -217,8 +218,8 @@
       }
     }
 
-    function refreshOntology(uri) {
-      service.refreshOntology(vm.uri, gotOntology);
+    function refreshOntology() {
+      service.refreshOntology(vm.uri, vm.version, gotOntology);
 
       function gotOntology(error, ontology) {
         if (error) {
@@ -329,7 +330,7 @@
         cancelLabel: 'Back to editing',
         ok: function() {
           $scope.editMode = false;
-          refreshOntology(vm.uri);
+          refreshOntology();
         }
       });
     };

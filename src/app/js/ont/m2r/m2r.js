@@ -467,7 +467,7 @@
 
   function getBasicInfo(moi, service) {
     moi.loading = true;
-    service.refreshOntology(moi.uri, function (error, ontology) {
+    service.refreshOntology(moi.uri, null, function (error, ontology) {
       moi.loading = false;
       if (error) {
         moi.error = error;
