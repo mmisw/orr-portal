@@ -49,9 +49,9 @@
     ;
   }
 
-  init.$inject = ['$rootScope', 'rUri', 'cfg'];
+  init.$inject = ['$rootScope', 'rUri', 'rVersion', 'cfg'];
 
-  function init($rootScope, rUri, cfg) {
+  function init($rootScope, rUri, rVersion, cfg) {
     if (appUtil.debug) console.log("++INIT++");
 
     $rootScope.debug = appUtil.debug;
@@ -59,7 +59,8 @@
 
     var rvm = $rootScope.rvm = {
       masterAuth: {},
-      rUri:       rUri
+      rUri:       rUri,
+      rVersion:   rVersion
     };
 
     if (appUtil.debug) {
