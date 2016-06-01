@@ -68,9 +68,13 @@ var appUtil = (function(window) {
     else {
       // use "uri" parameter to windowHref:
       var url4link = uri.replace(/#/g, "%23");
-      // question mark or ampersand?
-      var qa = windowHref.indexOf('?') >= 0 ? '&' : '?';
-      return windowHref + qa + "uri=" + url4link;
+      var paramAndValue = "uri=" + url4link;
+      if (windowHref.indexOf(paramAndValue) < 0) {
+        // question mark or ampersand?
+        var qa = windowHref.indexOf('?') >= 0 ? '&' : '?';
+        return windowHref + qa + "uri=" + url4link;
+      }
+      else return windowHref;  // already there
     }
   }
 
