@@ -12,8 +12,8 @@ var appUtil = (function(window) {
   expandOrrOntRest();
   expandPortalMainPageUrl();
 
-  var uri, version;
-  setUriAndVersionIfAny();
+  var requestedUri, requestedVersion;
+  setRequestedUriAndVersionIfAny();
 
   /*
    * TODO the whole htmlfying/text-processing/filtering in this module needs revision/simplification
@@ -28,10 +28,12 @@ var appUtil = (function(window) {
 
 
   return {
-    uri:            uri,
     debug:          debug,
 
     windowBareHref: windowBareHref,
+
+    requestedUri:     requestedUri,
+    requestedVersion: requestedVersion,
 
     getHref4uriWithSelfHostPrefix: getHref4uriWithSelfHostPrefix,
     mklink4uriWithSelfHostPrefix:  mklink4uriWithSelfHostPrefix,
@@ -275,11 +277,11 @@ var appUtil = (function(window) {
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   }
 
-  function setUriAndVersionIfAny() {
+  function setRequestedUriAndVersionIfAny() {
     if (windowLocationSearch.uri) {
-      uri     = windowLocationSearch.uri;
-      version = windowLocationSearch.version;
-      console.debug("from window.location.search: uri=" +uri+ " version=" + version);
+      requestedUri     = windowLocationSearch.uri;
+      requestedVersion = windowLocationSearch.version;
+      console.debug("from window.location.search: requestedUri=" +requestedUri+ " requestedVersion=" + requestedVersion);
     }
     else {
       // uri will be windowBareHref if it has appConfig.portal.mainPage as a proper prefix (modulo trailing slash).
@@ -290,10 +292,10 @@ var appUtil = (function(window) {
       //if (windowBareHref.startsWith(mainPage) && windowBareHref.length > mainPage.length && mainPage+"/" !== windowBareHref) {
       if (windowBareHref.startsWith(mainPage) && !equalModuloTrailingSlash(windowBareHref, mainPage)) {
         console.debug("mainPage is proper prefix of windowBareHref, so using the latter as uri");
-        uri     = windowBareHref;
-        version = windowLocationSearch.version;
+        requestedUri     = windowBareHref;
+        requestedVersion = windowLocationSearch.version;
       }
-      console.debug("from window.location.href: uri=" +uri+ " version=" + version);
+      console.debug("from window.location.href: requestedUri=" +requestedUri+ " requestedVersion=" + requestedVersion);
     }
   }
 

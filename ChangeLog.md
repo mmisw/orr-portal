@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-06-01: 0.3.1:
+  - rename appUtil.uri to appUtil.requestedUri; introduce appUtil.requestedVersion
   - introduce portal.mainPage configuration property:
     - use it for term-search (#st) keyword-search (#kw) and link to main page in main header
     - adjustments to determine requested 'uri' and 'version' (if any) from the window

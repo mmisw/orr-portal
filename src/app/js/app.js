@@ -26,17 +26,18 @@
     ,'orrportal.admin.users'
     ,'orrportal.admin.orgs'
   ])
-    .constant("rUri", appUtil.uri)
+    .constant("rUri",     appUtil.requestedUri)
+    .constant("rVersion", appUtil.requestedVersion)
     .constant("cfg", appConfig)
     .run(init)
     .run(xeditable)
   ;
 
-  if (appUtil.uri) {
-    console.debug("appUtil.uri defined ", appUtil.uri, "Not configuring routes");
+  if (appUtil.requestedUri) {
+    console.debug("appUtil.requestedUri defined ", appUtil.requestedUri, "Not configuring routes");
   }
   else {
-    console.debug("appUtil.uri undefined. Configuring routes");
+    console.debug("appUtil.requestedUri undefined. Configuring routes");
     angular.module('orrportal')
       .config(uiRoutes)
       .run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
