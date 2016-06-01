@@ -350,7 +350,7 @@
             message: '<div class="center">' +
             'Ontology URI:' +
             '<br>' +
-            appUtil.mklink4uriWithSelfHostPrefix(uri) +
+            '<div class="uriText1">' +uri+ '</div>' +
             '</div>',
             ok: function() {
               $window.location.href = appUtil.getHref4uriWithSelfHostPrefix(uri);
