@@ -369,7 +369,7 @@
               message: '<div class="center">' +
               'Ontology URI:' +
               '<br>' +
-              appUtil.mklink4uriWithSelfHostPrefix(uri) +
+              '<div class="uriText1">' +uri+ '</div>' +
               '</div>',
               ok: function() {
                 $window.location.href = appUtil.getHref4uriWithSelfHostPrefix(uri);
@@ -388,9 +388,9 @@
       // omv:name used for 'name' in the ontology entry in the backend
       function getNameFromOmv(meta) {
         var omv_name = meta[vocabulary.omv.name.uri];
-        if (debug) console.debug("omv_name=", omv_name);
-        if (omv_name && omv_name.length) {
-          return omv_name.join("; ");
+        if (debug) console.debug("omv_name=", omv_name, typeof omv_name);
+        if (omv_name) {
+          return angular.isArray(omv_name) ? omv_name.join("; ") : omv_name;
         }
       }
     };
