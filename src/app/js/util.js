@@ -2,13 +2,19 @@ var appUtil = (function(window) {
   'use strict';
 
   var windowHref = getWindowHref();
-  expandOrrOntRest();
-  var windowLocationSearch = parseWindowLocationSearch();
-  var uri = windowLocationSearch.uri || uriFromWindowLocation();
+  var windowBareHref = getBareWindowHref();
 
-  var debug = windowLocationSearch.debug !== undefined
-    ? { level: "dummy" }
-    : undefined;
+  expandOrrOntRest();
+
+  var uri, debug;
+
+  (function() {
+    var windowLocationSearch = parseWindowLocationSearch();
+    uri = windowLocationSearch.uri || uriFromWindowLocation();
+    debug = windowLocationSearch.debug !== undefined
+      ? { level: "dummy" }
+      : undefined;
+  })();
 
   /*
    * TODO the whole htmlfying/text-processing/filtering in this module needs revision/simplification
@@ -23,9 +29,10 @@ var appUtil = (function(window) {
 
 
   return {
-    windowLocationSearch: windowLocationSearch,
     uri:            uri,
     debug:          debug,
+
+    windowBareHref: windowBareHref,
 
     getHref4uriWithSelfHostPrefix: getHref4uriWithSelfHostPrefix,
     mklink4uriWithSelfHostPrefix:  mklink4uriWithSelfHostPrefix,
@@ -59,10 +66,11 @@ var appUtil = (function(window) {
       return uri;
     }
     else {
-      // use "uri" parameter:
+      // use "uri" parameter to windowHref:
       var url4link = uri.replace(/#/g, "%23");
-      var orrOntRest = appConfig.orront.rest + "/";
-      return orrOntRest + "?uri=" + url4link;
+      // question mark or ampersand?
+      var qa = windowHref.indexOf('?') >= 0 ? '&' : '?';
+      return windowHref + qa + "uri=" + url4link;
     }
   }
 
@@ -285,21 +293,43 @@ var appUtil = (function(window) {
   function expandOrrOntRest() {
     var original = appConfig.orront.rest;
     if (original.startsWith("/")) {
-      var l = window.location;
-      appConfig.orront.rest = l.protocol + "//" + l.host + original;
-      console.log("orront.rest expanded to=" + appConfig.orront.rest);
+      var loc = window.location;
+      appConfig.orront.rest = loc.protocol + "//" + loc.host + original;
+      console.debug("orront.rest expanded to=" + appConfig.orront.rest);
     }
   }
 
   /**
-   * Returns window.location.href without trailing hash part.
+   * Returns window.location.href without trailing hash part (but possibly with search part)
    */
   function getWindowHref() {
-    var href = window.location.href;
-    if (href.endsWith(window.location.hash)) {
-      href = href.substring(0, href.length - window.location.hash.length);
+    var result = window.location.href;
+    console.debug("window.location.href=", window.location.href);
+    if (result.endsWith(window.location.hash)) {
+      result = result.substring(0, result.length - window.location.hash.length);
     }
-    return href;
+    console.debug("getWindowHref=", result);
+    return result;
+  }
+
+  /**
+   * Returns window.location.href without anything starting with search part (if any)
+   * and no trailing slash.
+   * If no search part, returns the same as getWindowHref but without trailing slash.
+   * This was mainly introduced to facilitate local development.
+   */
+  function getBareWindowHref() {
+    var result = window.location.href;
+    var search = window.location.search;
+    if (search) {
+      result = result.substring(0, result.indexOf(search));
+    }
+    else {
+      result = getWindowHref()
+    }
+    result = result.replace(/\/+$/, '');
+    console.debug("getBareWindowHref=", result);
+    return result;
   }
 
   /**
@@ -309,12 +339,11 @@ var appUtil = (function(window) {
    */
   function uriFromWindowLocation() {
     var orrOntRest = appConfig.orront.rest;
-    console.log("orrOntRest=[" +orrOntRest+ "] windowHref=[" +windowHref+ "]");
+    console.debug("orrOntRest=[" +orrOntRest+ "] windowHref=[" +windowHref+ "]");
     if (windowHref.startsWith(orrOntRest) && windowHref.length > orrOntRest.length && orrOntRest+"/" !== windowHref) {
       console.log("orrOntRest=[" +orrOntRest+ "] is proper prefix of windowHref=[" +windowHref+ "]");
-      var uri = windowHref;
+      return windowHref;
     }
-    return uri;
   }
 
   /**

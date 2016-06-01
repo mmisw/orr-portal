@@ -1,6 +1,15 @@
 ## change log ##
 
 * 2016-05-31: 0.3.1:
+  - mainly to facilitate local development, use variations of window.location.href
+    for purposes of self-hosted dispatch and registration of fully-hosted ontology:
+    - getHref4uriWithSelfHostPrefix: use windowHref, not cfg.orront.rest,
+      so the dispatch is always with href hosting the UI. This is particular
+      facilitates local development.
+    - With a new getBareWindowHref utility (which completely excludes any search
+      part--as opposed to getWindowHref, which keeps it), similar strategy for
+      registration of "fully-hosted" ontology via upload or v2r/m2r.
+
   - add app/sparql/index.html and include it as part of 'install';
     also add link to it from term-search and keyword-search
 

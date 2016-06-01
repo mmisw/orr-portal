@@ -24,7 +24,7 @@
         </td>
         <td>
           <span class="uriText0" uib-tooltip="Target URI">
-            {{cfg.orront.rest}}/<span ng-if="vm.selectedOwner" ng-bind="vm.selectedOwner.id"
+            {{vm.prefixFullyHosted}}<span ng-if="vm.selectedOwner" ng-bind="vm.selectedOwner.id"
                                       style="font-weight: bold;text-decoration: underline"
             ></span><span ng-if="!vm.selectedOwner"
                           style="color: red"

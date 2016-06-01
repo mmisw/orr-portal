@@ -155,7 +155,7 @@
           });
 
           var info = {
-            base:          appConfig.orront.rest,
+            base:          appUtil.windowBareHref,
             ownerOptions:  vm.ownerOptions
           };
           editOntUri(info).result.then(function(res) {

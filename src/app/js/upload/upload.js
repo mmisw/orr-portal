@@ -77,6 +77,8 @@
       vm = $scope.vm = {
         name:     '',
 
+        prefixFullyHosted: appUtil.windowBareHref + '/',
+
         formatOptions: formatOptions,
         selectedFormat: undefined,
 
@@ -267,7 +269,7 @@
 
     $scope.checkNewUriIsAvailable = function() {
       if (vm.registrationType === 'fully-hosted') {
-        vm.newUri = cfg.orront.rest + "/" + vm.selectedOwner.id + "/" + vm.newShortName;
+        vm.newUri = appUtil.windowBareHref + "/" + vm.selectedOwner.id + "/" + vm.newShortName;
       }
       else vm.newUri = vm.originalUri;
 
