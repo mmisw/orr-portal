@@ -327,14 +327,11 @@
       }
       else {
         // Only metadata submission case.
-        var newMetadata = [];
+        var newMetadata = {};
         _.each(vm.ontology.metadata, function (values, predicate) {
           values = _.filter(values, function (v) { return v; }); // only defined values
           if (values.length) {
-            newMetadata.push({
-              uri:   predicate,
-              value: values.length === 1 ? values[0] : values
-            });
+            newMetadata[predicate] = values.length === 1 ? values[0] : values;
           }
         });
 
