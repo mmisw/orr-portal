@@ -349,11 +349,14 @@
         body.metadata = angular.toJson(newMetadata);
       }
 
+      var progressModal = utl.openRegistrationProgressModal(vm.uri);
+
       service.registerOntology(vm.brandNew, body, registrationCallback(body.uri));
 
       // registrationCallback: verbatim copy from upload.js  TODO move to a common place
       function registrationCallback(uri) {
         return function cb(error, data) {
+          progressModal.close();
           if (error) {
             console.error(error);
             utl.error({

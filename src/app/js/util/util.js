@@ -116,8 +116,8 @@
     };
   }
 
-  miscUtils.$inject = ['$rootScope'];
-  function miscUtils($rootScope) {
+  miscUtils.$inject = ['$rootScope', '$uibModal'];
+  function miscUtils($rootScope, $uibModal) {
     return {
       confirm: function (info) {
         $rootScope.$broadcast('evtConfirm', info);
@@ -130,7 +130,36 @@
       },
       error: function (info) {
         $rootScope.$broadcast('evtError', info);
-      }
+      },
+
+      openRegistrationProgressModal: openRegistrationProgressModal
+    };
+
+    function openRegistrationProgressModal(uri) {
+      return $uibModal.open({
+        templateUrl: 'js/util/message.tpl.html',
+        controller:  'MessageInstanceCtrl',
+        //size:        'sm',
+        backdrop:    'static',
+        resolve: {
+          info: function () {
+            return {
+              title:   "Registering ...",
+              message: '<div class="center">' +
+              'Ontology URI:' +
+              '<br>' +
+              '<div class="uriText1">' +uri+ '</div>' +
+              '</div>' +
+              '<div>' +
+              '<br>' +
+              '<span class="fa fa-spinner fa-spin"></span> ' +
+              'Please wait ...' +
+              '</div>',
+              ok: null  // no OK button
+            };
+          }
+        }
+      });
     }
   }
 

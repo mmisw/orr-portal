@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-05-31: 0.3.1:
+  - utl.openRegistrationProgressModal: to show some progress feedback while registering
+
   - mainly to facilitate local development, use variations of window.location.href
     for purposes of self-hosted dispatch and registration of fully-hosted ontology:
     - getHref4uriWithSelfHostPrefix: use windowHref, not cfg.orront.rest,

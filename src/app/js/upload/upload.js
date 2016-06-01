@@ -212,7 +212,8 @@
       }
 
       var brandNew = !vm.knownOwner;
-      service.registerOntology(brandNew, params, registrationCallback(params.uri));
+      var progressModal = utl.openRegistrationProgressModal(params.uri);
+      service.registerOntology(brandNew, params, registrationCallback(params.uri, progressModal));
     };
 
     ////////////////////
@@ -328,12 +329,15 @@
       };
 
       var brandNew = vm.newUriIsAvailable;
-      service.registerOntology(brandNew, params, registrationCallback(params.uri));
+      var progressModal = utl.openRegistrationProgressModal(params.uri);
+      service.registerOntology(brandNew, params, registrationCallback(params.uri, progressModal));
     };
 
-    function registrationCallback(uri) {
+    function registrationCallback(uri, progressModal) {
       return function cb(error, data) {
+        progressModal.close();
         if (error) {
+          progressModal.close();
           console.error(error);
           utl.error({
             errorPRE: error

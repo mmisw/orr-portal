@@ -8,6 +8,7 @@
     <pre ng-if="info.errorPRE" ng-bind="info.errorPRE | json"></pre>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary btn-sm" ng-click="ok()">OK</button>
+    <button ng-hide="info.ok===null"
+            class="btn btn-primary btn-sm" ng-click="ok()">OK</button>
   </div>
 </div>
