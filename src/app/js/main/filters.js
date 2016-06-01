@@ -49,7 +49,8 @@
             //console.log("prepareKeywords: keywords=", keywords, "list=", list);
             var prepared = _.map(list, function(word) {
               word = word.trim();
-              var a = '<a href="#/kw/' +word+ '">'+ word+ '</a>';
+              var href = appConfig.portal.mainPage + "#/kw/" + word;
+              var a = '<a href="' +href+ '">'+ word+ '</a>';
               return'<span class="btn btn-link btn-sm badge kwLink">' + a + '</span>'
             });
             return prepared.join(" ");
