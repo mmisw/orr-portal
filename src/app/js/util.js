@@ -3,19 +3,17 @@ var appUtil = (function(window) {
 
   var windowHref = getWindowHref();
   var windowBareHref = getBareWindowHref();
+  var windowLocationSearch = parseWindowLocationSearch();
+
+  var debug = windowLocationSearch.debug !== undefined
+    ? { level: "dummy" }
+    : undefined;
 
   expandOrrOntRest();
   expandPortalMainPageUrl();
 
-  var uri, debug;
-
-  (function() {
-    var windowLocationSearch = parseWindowLocationSearch();
-    uri = windowLocationSearch.uri || uriFromWindowLocation();
-    debug = windowLocationSearch.debug !== undefined
-      ? { level: "dummy" }
-      : undefined;
-  })();
+  var uri, version;
+  setUriAndVersionIfAny();
 
   /*
    * TODO the whole htmlfying/text-processing/filtering in this module needs revision/simplification
@@ -56,6 +54,8 @@ var appUtil = (function(window) {
     filterKeys:     filterKeys,
 
     updateModelArray: updateModelArray,
+
+    equalModuloTrailingSlash: equalModuloTrailingSlash,
 
     logTs: function() { return moment().local().format(); }
   };
@@ -275,15 +275,43 @@ var appUtil = (function(window) {
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   }
 
+  function setUriAndVersionIfAny() {
+    if (windowLocationSearch.uri) {
+      uri     = windowLocationSearch.uri;
+      version = windowLocationSearch.version;
+      console.debug("from window.location.search: uri=" +uri+ " version=" + version);
+    }
+    else {
+      // uri will be windowBareHref if it has appConfig.portal.mainPage as a proper prefix (modulo trailing slash).
+      // This case interpreted as a particular URI request as opposed to a request to the main ontology list page.
+      // Otherwise, none of uri and version are defined here.
+      var mainPage = appConfig.portal.mainPage;
+      console.debug("mainPage=[" +mainPage+ "] windowBareHref=[" +windowBareHref+ "]");
+      //if (windowBareHref.startsWith(mainPage) && windowBareHref.length > mainPage.length && mainPage+"/" !== windowBareHref) {
+      if (windowBareHref.startsWith(mainPage) && !equalModuloTrailingSlash(windowBareHref, mainPage)) {
+        console.debug("mainPage is proper prefix of windowBareHref, so using the latter as uri");
+        uri     = windowBareHref;
+        version = windowLocationSearch.version;
+      }
+      console.debug("from window.location.href: uri=" +uri+ " version=" + version);
+    }
+  }
+
   function parseWindowLocationSearch() {
-    var locSearch = window.location.search.substring(1);
-    var params = {};
-    if ( locSearch && locSearch.trim().length > 0 ) {
-      // skip ? and get &-separated chunks:
-      var chunks = locSearch.split("&");
+    console.info("window.location.search=[" + window.location.search + "]");
+    var params = parseForSearchParams(window.location.search);
+    console.debug("parseWindowLocationSearch: params=", params);
+    return params;
+  }
+
+  function parseForSearchParams(string, params) {
+    params = params || {};
+    if ( string && string.trim().length > 0 ) {
+      string = string.substring(string.indexOf('?') + 1);
+      var chunks = string.split("&");
       _.each(chunks, function(chunk) {
         var toks = _.map(chunk.split("="), decodeURIComponent);
-        if ( toks.length > 0 ) {
+        if (toks.length > 0) {
           var key = toks[0].trim();
           if (key) {
             params[key] = toks.length === 2 ? toks[1].trim() : '';
@@ -291,7 +319,6 @@ var appUtil = (function(window) {
         }
       });
     }
-    if (params.debug !== undefined) console.log("parseWindowLocationSearch: params=", params);
     return params;
   }
 
@@ -300,7 +327,7 @@ var appUtil = (function(window) {
     if (original.startsWith("/")) {
       var loc = window.location;
       appConfig.orront.rest = loc.protocol + "//" + loc.host + original;
-      console.debug("orront.rest expanded to=" + appConfig.orront.rest);
+      if (debug) console.debug("orront.rest expanded to=" + appConfig.orront.rest);
     }
   }
 
@@ -309,7 +336,7 @@ var appUtil = (function(window) {
     if (original.startsWith("//")) {
       var loc = window.location;
       appConfig.portal.mainPage = loc.protocol + original;
-      console.debug("portal.mainPage expanded to=" + appConfig.portal.mainPage);
+      if (debug) console.debug("portal.mainPage expanded to=" + appConfig.portal.mainPage);
     }
   }
 
@@ -344,20 +371,6 @@ var appUtil = (function(window) {
     result = result.replace(/\/+$/, '');
     console.debug("getBareWindowHref=", result);
     return result;
-  }
-
-  /**
-   * Returns windowHref if it has appConfig.orront.rest as a proper prefix (modulo trailing slash).
-   * The returned string can be interpreted as a particular URI request as opposed
-   * to a request to the main ontology list page. Otherwise, returns undefined.
-   */
-  function uriFromWindowLocation() {
-    var orrOntRest = appConfig.orront.rest;
-    console.debug("orrOntRest=[" +orrOntRest+ "] windowHref=[" +windowHref+ "]");
-    if (windowHref.startsWith(orrOntRest) && windowHref.length > orrOntRest.length && orrOntRest+"/" !== windowHref) {
-      console.log("orrOntRest=[" +orrOntRest+ "] is proper prefix of windowHref=[" +windowHref+ "]");
-      return windowHref;
-    }
   }
 
   /**
@@ -418,6 +431,10 @@ var appUtil = (function(window) {
       }
       processNext();
     }, 0);
+  }
+
+  function equalModuloTrailingSlash(a, b) {
+    return a === b || a.replace(/\/+$/, '') === b.replace(/\/+$/, '');
   }
 
 })(window);

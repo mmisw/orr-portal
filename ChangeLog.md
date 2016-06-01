@@ -3,6 +3,9 @@
 * 2016-06-01: 0.3.1:
   - introduce portal.mainPage configuration property:
     - use it for term-search (#st) keyword-search (#kw) and link to main page in main header
+    - adjustments to determine requested 'uri' and 'version' (if any) from the window
+      location's search and/or href.
+      TODO actually use requested 'version' if given.
 
   - clean-up:
     - remove old voc module

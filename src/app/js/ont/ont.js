@@ -105,7 +105,13 @@
     };
 
     $scope.linkForVersion = function(uri, version) {
-      return appUtil.windowBareHref + "/?uri=" + uri + "&version=" + version;
+      // is our href already the intended uri?
+      if (appUtil.equalModuloTrailingSlash(appUtil.windowBareHref, uri)) {
+        return uri + "?version=" + version;
+      }
+      else {
+        return appConfig.portal.mainPage + "?version=" + version + "&uri=" + uri;
+      }
     };
 
     var newFormat = $stateParams.newFormat;
