@@ -1,7 +1,12 @@
-## A prototype for a new ORR Portal
+## The new ORR front-end
 
 This user interface is against a
 [orr-ont](https://github.com/mmisw/orr-ont)-based endpoint.
+
+### Status
+
+alpha
+
 
 ### Development
 
@@ -36,16 +41,6 @@ Adjust `src/app/js/local.config.js` as needed and then:
 $ gulp install --localConfig --base=/orr-ont/ --dest=/path/to/orr-ont/src/main/webapp/
 ```
 
-### Test deployments
-
-Most testing is local so the following deployments are only
-occasionally updated at this point.
-
-https://mmisw.org/experimental/orrportal/
+### Test deployment
 
 https://mmisw.org/orr-ont/
-
-
-### Status
-
-alpha
