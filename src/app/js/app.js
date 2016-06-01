@@ -14,7 +14,6 @@
     ,'orrportal.vocabulary'
     ,'orrportal.org'
     ,'orrportal.ont'
-    ,'orrportal.uri'
     ,'orrportal.user'
     ,'orrportal.st'
     ,'orrportal.kw'
@@ -103,8 +102,6 @@
       .state('/', rUri
           ? {
           url: '/',
-          //templateUrl: 'js/uri/views/uri.tpl.html',
-          //controller: 'UriController'
           template: '<orr-ont></orr-ont>'
         }
           : {
@@ -150,12 +147,6 @@
         url: '/kw/{kw:.*}',
         templateUrl: 'js/kw/views/kw.tpl.html',
         controller: 'KeywordSearchController'
-      })
-
-      .state('uri', {
-        url: '/uri/{uri:.*}',
-        templateUrl: 'js/uri/views/uri.tpl.html',
-        controller: 'UriController'
       })
 
       .state('org', {

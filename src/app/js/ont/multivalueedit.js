@@ -11,7 +11,7 @@
           editInProgress: '&'
         },
         controller:   MveController,
-        templateUrl:  'js/uri/views/multivalueedit.tpl.html'
+        templateUrl:  'js/ont/multivalueedit.html'
       }
     })
   ;

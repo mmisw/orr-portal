@@ -4,7 +4,7 @@
   var debug = appUtil.debug;
   //debug = true;
 
-  angular.module('orrportal.ont', ['orrportal.ont.contents'])
+  angular.module('orrportal.ont', ['orrportal.ont.contents', 'orrportal.multivalueedit'])
     .directive('orrOnt',  OntDirective)
     .directive('orrportalUriTitle', function() {
       return {

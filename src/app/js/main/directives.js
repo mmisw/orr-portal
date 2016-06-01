@@ -34,14 +34,6 @@ angular.module('orrportal.directives', [])
         }
     })
 
-    .directive('orruri', function() {
-        return {
-          restrict:     'E',
-          templateUrl:  'js/uri/views/uri.tpl.html',
-          controller:   'UriController'
-        }
-    })
-
     .directive('voc', function() {
         return {
             restrict:     'E',
