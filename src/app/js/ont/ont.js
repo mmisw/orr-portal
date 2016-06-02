@@ -106,13 +106,25 @@
     };
 
     $scope.linkForVersion = function(uri, version) {
-      // is our href already the intended uri?
+      var params = [];
+      // include version parameter only if it's not the latest:
+      var latest = _.sortBy(vm.ontology.versions)[vm.ontology.versions.length -1];
+      if (version !== latest) {
+        params.push('version=' + version);
+      }
+
+      // is our windowBareHref already the intended uri?
       if (appUtil.equalModuloTrailingSlash(appUtil.windowBareHref, uri)) {
-        return uri + "?version=" + version;
+        var link = uri;
       }
       else {
-        return appConfig.portal.mainPage + "?version=" + version + "&uri=" + uri;
+        link = appConfig.portal.mainPage;
+        params.push('uri=' + uri);
       }
+      if (params.length) {
+        link += '?' + params.join('&');
+      }
+      return link;
     };
 
     var newFormat = $stateParams.newFormat;
