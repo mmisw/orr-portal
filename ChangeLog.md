@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-06-02: 0.3.1:
+  - header: proper link to main page depending on whether dispatching main app (with routing) or particular ontology
+
 * 2016-06-01: 0.3.1:
   - pass version parameter in service.getOntologyFormat so correct requested version is
     actually retrieved and displayed

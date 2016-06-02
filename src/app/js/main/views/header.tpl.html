@@ -1,20 +1,23 @@
 <div class="effect1">
   <div style="float: left; padding: 4px">
-        <span>
-            <a ng-href="{{cfg.portal.mainPage}}" title="Go to main page"
-            ><img src="img/logo-sm.png" style="vertical-align: middle"></a>
-            <span style="font-weight: bold; color: #285e8e">ORR Portal (prototype)</span>
-            <span ng-show="cfg.help">
-                <a target="_blank" class="btn btn-sm btn-link" style="color: darkgray; font-size: small"
-                   ng-href="{{cfg.help}}">@@version</a>
-            </span>
-            <span ng-show="!cfg.help" style="color: darkgray; font-size: small">
-                   @@version
-            </span>
-            <span ng-if="vm.curView !== 'st'">
-                <a ng-href="{{cfg.portal.mainPage}}#/st/">Search terms</a>
-            </span>
-        </span>
+    <span>
+      <span title="Go to main page" style="vertical-align: middle">
+        <a ng-if="rvm.rUri" ng-href="{{cfg.portal.mainPage}}"><img src="img/logo-sm.png"></a>
+        <a ng-if="!rvm.rUri" ui-sref="/"><img src="img/logo-sm.png"></a>
+      </span>
+
+      <span style="font-weight: bold; color: #285e8e">ORR Portal (prototype)</span>
+      <span ng-show="cfg.help">
+          <a target="_blank" class="btn btn-sm btn-link" style="color: darkgray; font-size: small"
+             ng-href="{{cfg.help}}">@@version</a>
+      </span>
+      <span ng-show="!cfg.help" style="color: darkgray; font-size: small">
+             @@version
+      </span>
+      <span ng-if="rvm.curView !== 'st'">
+          <a ng-href="{{cfg.portal.mainPage}}#/st/">Search terms</a>
+      </span>
+    </span>
   </div>
   <span style="width: 30px"></span> <!-- some filler -->
 
@@ -24,14 +27,14 @@
 </div>
 
 <div>
-    <div class="parent-status" ng-show="refreshing">
-        <div class="status">
-            <span class="fa fa-spinner fa-spin fa-lg"></span>
-        </div>
-<!--
-        <alert class="alert-info status" role="alert" type="'info'">
-            <span class="fa fa-spinner fa-spin"></span>
-        </alert>
--->
+  <div class="parent-status" ng-show="refreshing">
+    <div class="status">
+      <span class="fa fa-spinner fa-spin fa-lg"></span>
     </div>
+    <!--
+    <alert class="alert-info status" role="alert" type="'info'">
+        <span class="fa fa-spinner fa-spin"></span>
+    </alert>
+    -->
+  </div>
 </div>
