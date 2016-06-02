@@ -9,6 +9,10 @@ var appUtil = (function(window) {
     ? { level: "dummy" }
     : undefined;
 
+  console.debug("windowHref=[" +windowHref+ "]");
+  console.debug("windowBareHref=[" +windowBareHref+ "]");
+  console.debug("windowLocationSearch=", windowLocationSearch);
+
   expandOrrOntRest();
   expandPortalMainPageUrl();
 
@@ -301,9 +305,7 @@ var appUtil = (function(window) {
 
   function parseWindowLocationSearch() {
     console.info("window.location.search=[" + window.location.search + "]");
-    var params = parseForSearchParams(window.location.search);
-    console.debug("parseWindowLocationSearch: params=", params);
-    return params;
+    return parseForSearchParams(window.location.search);
   }
 
   function parseForSearchParams(string, params) {
@@ -346,13 +348,17 @@ var appUtil = (function(window) {
    * Returns window.location.href without trailing hash part (but possibly with search part)
    */
   function getWindowHref() {
-    var result = window.location.href;
-    console.debug("window.location.href=", window.location.href);
-    if (result.endsWith(window.location.hash)) {
-      result = result.substring(0, result.length - window.location.hash.length);
+    var href = window.location.href;
+    var hash = window.location.hash;
+    console.debug("window.location: href=[" +href+ "] hash=[" +hash+"]");
+    if (!hash) {
+      // hash may be empty when there's a bare trailing '#' in href
+      href = href.replace(/#+$/, '');
     }
-    console.debug("getWindowHref=", result);
-    return result;
+    if (href.endsWith(hash)) {
+      href = href.substring(0, href.length - hash.length);
+    }
+    return href;
   }
 
   /**
@@ -368,11 +374,9 @@ var appUtil = (function(window) {
       result = result.substring(0, result.indexOf(search));
     }
     else {
-      result = getWindowHref()
+      result = windowHref;
     }
-    result = result.replace(/\/+$/, '');
-    console.debug("getBareWindowHref=", result);
-    return result;
+    return result.replace(/\/+$/, '');
   }
 
   /**
