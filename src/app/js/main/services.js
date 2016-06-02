@@ -224,7 +224,7 @@
         .error(httpErrorHandler(gotOntologyMetadata));
     }
 
-    function getOntologyFormat(uri, format, gotOntology) {
+    function getOntologyFormat(uri, version, format, gotOntology) {
 
       setRefreshing(true);
 
@@ -232,6 +232,9 @@
       var url = appConfig.orront.rest + reqPath;
 
       var params = ['format=' +format, 'uri=' +uri];
+      if (version) {
+        params.push('version=' +version);
+      }
 
       if (params.length > 0) {
         url += "?" + params.join('&');

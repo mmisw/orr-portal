@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-06-01: 0.3.1:
+  - pass version parameter in service.getOntologyFormat so correct requested version is
+    actually retrieved and displayed
   - in linkForVersion, include version parameter only if it's not the latest
   - hide "Edit new version" button if currently viewing explicitly requested version
   - if given, use requestedVersion in service.refreshOntology

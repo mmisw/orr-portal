@@ -458,7 +458,7 @@
     }
 
     function getOntologyDataV2r() {
-      service.getOntologyFormat(vm.uri, "v2r", gotOntologyV2r);
+      service.getOntologyFormat(vm.uri, vm.version, "v2r", gotOntologyV2r);
 
       function gotOntologyV2r(error, data) {
         if (error) {
@@ -474,7 +474,7 @@
     }
 
     function getOntologyDataM2r() {
-      service.getOntologyFormat(vm.uri, "m2r", gotOntologyM2r);
+      service.getOntologyFormat(vm.uri, vm.version, "m2r", gotOntologyM2r);
 
       function gotOntologyM2r(error, data) {
         if (error) {
@@ -493,7 +493,7 @@
     }
 
     function getOntologyDataOtherFormat() {
-      service.getOntologyFormat(vm.uri, 'rj', gotOntologyOtherFormat);
+      service.getOntologyFormat(vm.uri, vm.version, 'rj', gotOntologyOtherFormat);
 
       function gotOntologyOtherFormat(error, data) {
         if (error) {
