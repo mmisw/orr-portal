@@ -21,7 +21,7 @@
   </span>
 
     <span>
-      <button ng-if="!editMode && canEditNewVersion()"
+      <button ng-if="!editMode && !rvm.rVersion && canEditNewVersion()"
               ng-click="startEditMode()"
               type="button" class="btn btn-default btn-xs">
         Edit new version

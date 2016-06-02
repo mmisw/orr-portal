@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-06-01: 0.3.1:
+  - hide "Edit new version" button if currently viewing explicitly requested version
   - if given, use requestedVersion in service.refreshOntology
     TODO also pass version parameter in other operations like service.getOntologySubjects
   - rename appUtil.uri to appUtil.requestedUri; introduce appUtil.requestedVersion
