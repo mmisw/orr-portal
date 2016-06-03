@@ -167,15 +167,17 @@
   focus.$inject = ['$rootScope', '$timeout'];
   function focus($rootScope, $timeout) {
     return function(name, delay, options) {
+      //console.debug("focus: name=", name, "delay=", delay, "options=", options);
       $timeout(function (){
         $rootScope.$broadcast('focusOn', name, options);
-      }, delay);
+        }, delay || 0);
     }
   }
   function focusOn() {
     return function(scope, elem, attr) {
       scope.$on('focusOn', function(e, name, options) {
         if(name === attr.focusOn) {
+          //console.debug("focusOn: name=", name, "options=", options);
           elem[0].focus();
           if (options && options.select) {
             elem[0].select && elem[0].select();
