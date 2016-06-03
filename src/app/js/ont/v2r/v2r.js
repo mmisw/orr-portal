@@ -67,8 +67,8 @@
     };
   }
 
-  V2rDataEditorController.$inject = ['$scope', '$uibModal', '$filter', '$timeout', 'utl'];
-  function V2rDataEditorController($scope, $uibModal, $filter, $timeout, utl) {
+  V2rDataEditorController.$inject = ['$scope', '$uibModal', '$filter', '$timeout', 'utl', 'focus'];
+  function V2rDataEditorController($scope, $uibModal, $filter, $timeout, utl, focus) {
     var vm = this;
     vm.debug = debug;
     if (debug) console.log("++V2rDataEditorController++ vm=", vm);
@@ -235,20 +235,27 @@
     vm.addTerm = function(vocab) {
       var term = {
         name:      "",
-        attributes: _.map(vocab.properties, function() { return null })
+        attributes: _.map(vocab.properties, function() { return null }),
+        _focus: true
       };
       setAttrModelsForTerm(term);
       vocab.terms.push(term);
+    };
+    vm.focusNewTerm = function(term) {
+      if (term._focus) {
+        focus("newTerm_form_activation", 200);
+        delete term._focus;
+      }
     };
 
     //////////////////////////////////////
     // Value cell editing
 
-    vm.enterCellEditing = function(tableform) {
+    vm.enterCellEditing = function(tableForm) {
       if (!$scope.someEditInProgress()) {
         //console.log("vm.enterCellEditing");
         $scope.setEditInProgress(true);
-        tableform.$show()
+        tableForm.$show()
       }
     };
 
@@ -312,6 +319,30 @@
         if (valueEntry.isNew) {
           em.splice(i, 1);
         }
+      }
+    };
+
+    vm.cellFormKeyUp = function($event, tableForm) {
+      //console.debug("cellFormKeyUp: keyCode=", $event.keyCode, "$event=", $event);
+      if ($event.keyCode == 13) {
+        vm.enterCellEditing(tableForm);
+      }
+    };
+
+    vm.cellTextAreaKeyUp = function($event, tableForm, em) {
+      //console.debug("cellTextAreaKeyUp: keyCode=", $event.keyCode, "$event=", $event);
+      if ($event.keyCode == 13 && $event.ctrlKey) {
+        $timeout(function() {
+          tableForm.$submit();
+        });
+      }
+      else if ($event.keyCode == 187 && $event.ctrlKey && $event.shiftKey) {
+        $timeout(function() {
+          vm.addValue(em);
+        });
+      }
+      else if ($event.keyCode == 27) {
+        tableForm.$cancel();
       }
     };
 
