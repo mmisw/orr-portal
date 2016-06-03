@@ -241,9 +241,9 @@
       setAttrModelsForTerm(term);
       vocab.terms.push(term);
     };
-    vm.focusNewTerm = function(term) {
+    vm.focusNewTerm = function(term, t_index) {
       if (term._focus) {
-        focus("newTerm_form_activation", 200);
+        focusCell(t_index, -1);
         delete term._focus;
       }
     };
@@ -307,7 +307,8 @@
     };
 
     // cancel all changes
-    vm.cancelCell = function(em) {
+    vm.cancelCell = function(t_index, term, a_index) {
+      var em = term._ems[a_index];
       $scope.setEditInProgress(false);
       for (var i = em.length; i--;) {
         var valueEntry = em[i];
@@ -320,23 +321,47 @@
           em.splice(i, 1);
         }
       }
+      focusCell(t_index, a_index);
     };
 
-    vm.cellFormKeyUp = function($event, tableForm, t_index, term, a_index) {
-      //console.debug("cellFormKeyUp: keyCode=", $event.keyCode, "$event=", $event, "t_index=", t_index, "a_index=", a_index);
+    vm.cellKeyUp = function($event, tableForm, t_index, term, a_index) {
+      //console.debug("cellKeyUp: keyCode=", $event.keyCode, "$event=", $event, "t_index=", t_index, "a_index=", a_index);
       if ($event.keyCode == 13) {
         vm.enterCellEditing(tableForm);
       }
+      else vm.cellKeyUpNavigation($event, t_index, term, a_index);
+    };
 
-        // TODO arrow and other navigation keys
-      else if ($event.keyCode == 39) {  // right arrow
+    vm.cellKeyUpNavigation = function($event, t_index, term, a_index) {
+      var new_t_index = -1, new_a_index = -2;   // a_index==-1 is the term name column
+      if ($event.keyCode == 39) {  // right arrow
+        new_t_index = t_index;
+        new_a_index = a_index + 1;
+      }
+      else if ($event.keyCode == 37) {  // left arrow
+        new_t_index = t_index;
+        new_a_index = a_index - 1;
+      }
+      else if ($event.keyCode == 40) {  // down arrow
+        new_t_index = t_index + 1;
+        new_a_index = a_index;
+      }
+      else if ($event.keyCode == 38) {  // up arrow
+        new_t_index = t_index - 1;
+        new_a_index = a_index;
+      }
 
+      if (new_t_index >= 0 && new_a_index >= -1) {
+        $event.stopPropagation();
+        $event.preventDefault();
+        focusCell(new_t_index, new_a_index);
+        return true;
       }
     };
 
     vm.cellTextAreaKeyUp = function($event, tableForm, em) {
       //console.debug("cellTextAreaKeyUp: keyCode=", $event.keyCode, "$event=", $event);
-      if ($event.keyCode == 13 && $event.ctrlKey) {
+      if ($event.keyCode == 13 && $event.ctrlKey && $event.shiftKey) {
         $timeout(function() {
           tableForm.$submit();
         });
@@ -352,7 +377,8 @@
     };
 
     // transfer the changes to the model
-    vm.applyCellChanges = function(term, a_index, em) {
+    vm.applyCellChanges = function(t_index, term, a_index) {
+      var em = term._ems[a_index];
       $scope.setEditInProgress(false);
       var result = [];
 
@@ -382,9 +408,15 @@
       if (em.length === 0) {
         em.push({id: 0, value: null});
       }
+
+      focusCell(t_index, a_index);
+
       //console.log("applyCellChanges: attributes=", term.attributes, "a_index=", a_index, "em=", em);
     };
 
+    function focusCell(t_index, a_index) {
+      focus('cell_form_activation_' +t_index+ '_' +a_index);
+    }
   }
 
   V2rEditIdController.$inject = ['$scope', '$uibModalInstance', 'info'];

@@ -110,8 +110,9 @@
                 tabindex="0"
                 ng-focus="v2rTermForm.$show()"
                 e-ng-blur="v2rTermForm.$submit()"
-                focus-on="newTerm_form_activation"
-                ng-init="vm.focusNewTerm(term)"
+                focus-on="{{'cell_form_activation_' +t_index+ '_-1'}}"
+                ng-init="vm.focusNewTerm(term, t_index)"
+                e-ng-keyup="vm.cellKeyUpNavigation($event, t_index, term, -1)"
           >
           </span>
         </td>
@@ -123,11 +124,12 @@
 
             <div>
               <form editable-form name="attrTableform"
-                    onaftersave="vm.applyCellChanges(term, a_index, term._ems[a_index])"
-                    oncancel="vm.cancelCell(term._ems[a_index])"
+                    onaftersave="vm.applyCellChanges(t_index, term, a_index)"
+                    oncancel="vm.cancelCell(t_index, term, a_index)"
                     tabindex="0"
                     ng-keyup="!someEditInProgress() ?
-                       vm.cellFormKeyUp($event, attrTableform, t_index, term, a_index) : null"
+                       vm.cellKeyUp($event, attrTableform, t_index, term, a_index) : null"
+                    focus-on="{{'cell_form_activation_' +t_index+ '_' +a_index}}"
               >
                     <!--ng-focus="!someEditInProgress() ? vm.enterCellEditing(attrTableform) : null"-->
 
@@ -175,7 +177,7 @@
                     <div type="submit" ng-disabled="attrTableform.$waiting"
                             class="btn btn-default btn-xs"
                          ng-click="attrTableform.$submit();"
-                            uib-tooltip="Apply all changes in this cell (Ctrl-Enter)"
+                            uib-tooltip="Apply all changes in this cell (Ctrl-Shift-Enter)"
                     >
                       <i class="fa fa-check" aria-hidden="true"></i> Apply
                     </div>

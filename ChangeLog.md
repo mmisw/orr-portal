@@ -4,9 +4,12 @@
   - v2r general edit improvements:
     - make cell focusable to facilitate navigation with keyboard; in the case of term name, the field is
       automatically entered in edit mode; for property values, press Enter to start editing.
-    - process some key strokes in property value cell (Ctrl-Enter to apply changes;
-      Esc to cancel changes; Ctrl-Shit-+ to add a value);
+    - process some key strokes in property value cell:
+      - Ctrl-Shift-Enter to apply changes
+      - Esc to cancel changes
+      - Ctrl-Shit-+ to add a value
     - auto focus new term field when the +Term button is clicked
+    - navigation with arrow keys
 
   - header: proper link to main page depending on whether dispatching main app (with routing) or particular ontology
 
