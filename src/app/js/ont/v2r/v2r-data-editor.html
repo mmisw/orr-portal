@@ -126,7 +126,8 @@
                     onaftersave="vm.applyCellChanges(term, a_index, term._ems[a_index])"
                     oncancel="vm.cancelCell(term._ems[a_index])"
                     tabindex="0"
-                    ng-keyup="!someEditInProgress() ? vm.cellFormKeyUp($event, attrTableform) : null"
+                    ng-keyup="!someEditInProgress() ?
+                       vm.cellFormKeyUp($event, attrTableform, t_index, term, a_index) : null"
               >
                     <!--ng-focus="!someEditInProgress() ? vm.enterCellEditing(attrTableform) : null"-->
 
@@ -149,8 +150,9 @@
                     </td>
 
                     <td>
+                            <!--e-rows="3"-->
                       <span editable-textarea="valueEntry.value"
-                            e-rows="2"
+                            e-style="min-width: 20em; min-height:4em"
                             e-form="attrTableform"
                             ng-bind="valueEntry.value || '-'"
                             e-ng-keyup="vm.cellTextAreaKeyUp($event, attrTableform, term._ems[a_index])"
@@ -161,7 +163,7 @@
                   </tr>
                 </table>
 
-                <span ng-show="attrTableform.$visible">
+                <div ng-show="attrTableform.$visible" style="text-align: center; width: 100%">
                     <div type="button" ng-disabled="attrTableform.$waiting"
                          class="btn btn-default btn-xs"
                          ng-click="vm.addValue(term._ems[a_index])"
@@ -185,7 +187,7 @@
                     >
                       Cancel
                     </div>
-                </span>
+                </div>
 
               </form>
             </div>

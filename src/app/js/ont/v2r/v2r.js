@@ -322,10 +322,15 @@
       }
     };
 
-    vm.cellFormKeyUp = function($event, tableForm) {
-      //console.debug("cellFormKeyUp: keyCode=", $event.keyCode, "$event=", $event);
+    vm.cellFormKeyUp = function($event, tableForm, t_index, term, a_index) {
+      //console.debug("cellFormKeyUp: keyCode=", $event.keyCode, "$event=", $event, "t_index=", t_index, "a_index=", a_index);
       if ($event.keyCode == 13) {
         vm.enterCellEditing(tableForm);
+      }
+
+        // TODO arrow and other navigation keys
+      else if ($event.keyCode == 39) {  // right arrow
+
       }
     };
 
