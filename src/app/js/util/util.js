@@ -178,7 +178,7 @@
         if(name === attr.focusOn) {
           elem[0].focus();
           if (options && options.select) {
-            elem[0].select();
+            elem[0].select && elem[0].select();
           }
         }
       });
