@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mmisw/orr-portal.svg?branch=master)](https://travis-ci.org/mmisw/orr-portal)
+
 ## The new ORR front-end
 
 This user interface is against a
