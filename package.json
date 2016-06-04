@@ -29,7 +29,6 @@
     "rimraf": "^2.2.8"
   },
   "scripts": {
-    "postinstall": "bower install",
     "test": "./node_modules/gulp/bin/gulp.js ci"
   }
 }

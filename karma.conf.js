@@ -4,8 +4,8 @@ module.exports = function (config) {
     basePath: './',
 
     files: [
-      'src/app/vendor/angular/angular.js',
-      'src/app/vendor/angular-mocks/angular-mocks.js',
+      //'src/app/vendor/angular/angular.js',
+      //'src/app/vendor/angular-mocks/angular-mocks.js',
       //'component/**/*.module.js',
       'src/app/js/util0.js',
       'src/app/js/**/*.spec.js'
