@@ -80,7 +80,7 @@
 
       var searchString = vm.kw;
 
-      searchString = appUtil.escapeRegex(searchString);
+      searchString = bUtil.escapeRegex(searchString);
       searchString = searchString.replace(/\\/g, "\\\\"); // for SPARQL still need to escape \ --> \\
       searchString = searchString.replace(/\s*,\s*/, "|");
 
