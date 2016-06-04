@@ -11,6 +11,13 @@ var webserver   = require('gulp-webserver');
 var open        = require('open');
 var fs          = require('fs');
 
+var extend      = require('extend');
+var karma       = require('karma').server;
+var karmaConfig = require('./karma.conf');
+var plugins     = require('gulp-load-plugins')();
+// TODO use plugins.* for the others above...
+
+var ciMode = false;
 
 var base = gutil.env.base;
 
@@ -79,6 +86,29 @@ gulp.task('check-dest', function (cb) {
   cb()
 });
 
+/////////////////////////////////////////////////////////////////////////////
+gulp.task('test', function () {
+  karmaConfig({
+    set: function (testConfig) {
+      extend(testConfig, {
+        singleRun: ciMode,
+        autoWatch: !ciMode,
+        browsers: ['PhantomJS']
+      });
+
+      karma.start(testConfig, function (exitCode) {
+        plugins.util.log('Karma has exited with ' + exitCode);
+        process.exit(exitCode);
+      });
+    }
+  });
+});
+
+gulp.task('ci', function () {
+  ciMode = true;
+  return gulp.start(['test']);
+  //return gulp.start(['clean', 'scripts', 'test']);
+});
 
 
 /////////////////////////////////////////////////////////////////////////////
