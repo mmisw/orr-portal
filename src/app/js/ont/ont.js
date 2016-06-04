@@ -114,7 +114,7 @@
       }
 
       // is our windowBareHref already the intended uri?
-      if (appUtil.equalModuloTrailingSlash(appUtil.windowBareHref, uri)) {
+      if (bUtil.equalModuloTrailingSlash(appUtil.windowBareHref, uri)) {
         var link = uri;
       }
       else {
@@ -430,7 +430,7 @@
       }
 
       function omitSpecialFields(obj) {
-        return appUtil.filterKeys(obj, function(key) {
+        return bUtil.filterKeys(obj, function(key) {
           return !key.startsWith('_');
         });
       }

@@ -26,9 +26,6 @@ var appUtil = (function(window) {
   // we could use JSON.parse instead of this regex based conversion
   var escapedUnicodeRegex = /\\u([\d\w]{4})/gi;
 
-  setPolyfills();
-
-
   return {
     debug:          debug,
 
@@ -53,13 +50,7 @@ var appUtil = (function(window) {
     //getHmac:        getHmac,
     //getHmacParam:   getHmacParam,
 
-    escapeRegex:    escapeRegex,
-
-    filterKeys:     filterKeys,
-
     updateModelArray: updateModelArray,
-
-    equalModuloTrailingSlash: equalModuloTrailingSlash,
 
     logTs: function() { return moment().local().format(); }
   };
@@ -242,43 +233,6 @@ var appUtil = (function(window) {
   //    return appConfig.orront.sigParamName + "=" + encodeURIComponent(getHmac(str));
   //}
 
-  function setPolyfills() {
-    /*
-     * from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
-     */
-
-    if (!String.prototype.startsWith) {
-      Object.defineProperty(String.prototype, 'startsWith', {
-        enumerable: false,
-        configurable: false,
-        writable: false,
-        value: function(searchString, position) {
-          position = position || 0;
-          return this.lastIndexOf(searchString, position) === position;
-        }
-      });
-    }
-
-    if (!String.prototype.endsWith) {
-      Object.defineProperty(String.prototype, 'endsWith', {
-        value: function(searchString, position) {
-          var subjectString = this.toString();
-          if (position === undefined || position > subjectString.length) {
-            position = subjectString.length;
-          }
-          position -= searchString.length;
-          var lastIndex = subjectString.indexOf(searchString, position);
-          return lastIndex !== -1 && lastIndex === position;
-        }
-      });
-    }
-  }
-
-  // http://stackoverflow.com/a/3561711/830737
-  function escapeRegex(s) {
-    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-  }
-
   function setRequestedUriAndVersionIfAny() {
     if (windowLocationSearch.uri) {
       requestedUri     = windowLocationSearch.uri;
@@ -292,7 +246,7 @@ var appUtil = (function(window) {
       var mainPage = appConfig.portal.mainPage;
       console.debug("mainPage=[" +mainPage+ "] windowBareHref=[" +windowBareHref+ "]");
       //if (windowBareHref.startsWith(mainPage) && windowBareHref.length > mainPage.length && mainPage+"/" !== windowBareHref) {
-      if (windowBareHref.startsWith(mainPage) && !equalModuloTrailingSlash(windowBareHref, mainPage)) {
+      if (windowBareHref.startsWith(mainPage) && !miscUtil.equalModuloTrailingSlash(windowBareHref, mainPage)) {
         console.debug("mainPage is proper prefix of windowBareHref, so using the latter as uri");
         requestedUri     = windowBareHref;
         requestedVersion = windowLocationSearch.version;
@@ -376,30 +330,6 @@ var appUtil = (function(window) {
   }
 
   /**
-   * Returns a copy of the given element except that any traversed
-   * dictionary will only have the keys passing the given predicate `goodKey`.
-   */
-  function filterKeys(obj, goodKey) {
-    return doIt(obj);
-
-    function doIt(obj) {
-      if (_.isPlainObject(obj)) {
-        var res = {};
-        _.each(obj, function(val, key) {
-          if (goodKey(key)) {
-            res[key] = doIt(val);
-          }
-        });
-        return res;
-      }
-      else if (_.isArray(obj)) {
-        return _.map(obj, doIt);
-      }
-      else return obj;
-    }
-  }
-
-  /**
    * Helps perform updates to a view-model array with potential better UI responsiveness
    * and/or visual feedback.
    *
@@ -433,10 +363,6 @@ var appUtil = (function(window) {
       }
       processNext();
     }, 0);
-  }
-
-  function equalModuloTrailingSlash(a, b) {
-    return a === b || a.replace(/\/+$/, '') === b.replace(/\/+$/, '');
   }
 
   function debugWindowLocationRelatedStuff() {

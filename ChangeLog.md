@@ -1,7 +1,7 @@
 ## change log ##
 
 * 2016-06-04: 0.3.1:
-  - test/travis preparations..
+  - test/travis preparations; put some basic utilities in bUtil
 
 * 2016-06-02: 0.3.1:
   - v2r general edit improvements:

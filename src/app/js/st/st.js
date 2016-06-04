@@ -91,7 +91,7 @@
       var orOperands = vm.st.split(/\s*\|\s*/);
       //console.log("doSearch: orOperands={" +orOperands+ "}");
       var searchString = _.map(orOperands, function(operand) {
-        return appUtil
+        return bUtil
           .escapeRegex(operand)
           .replace(/\\/g, "\\\\"); // for SPARQL still need to escape \ --> \\
       }).join('|');
