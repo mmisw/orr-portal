@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/mmisw/orr-portal.svg?branch=master)](https://travis-ci.org/mmisw/orr-portal)
+[![Build Status](https://travis-ci.org/mmisw/orr-portal.svg)](https://travis-ci.org/mmisw/orr-portal)
 
 ## The new ORR front-end
 
