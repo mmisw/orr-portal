@@ -17,16 +17,18 @@ var karmaConfig = require('./karma.conf');
 var plugins     = require('gulp-load-plugins')();
 // TODO use plugins.* for the others above...
 
+// TODO min'ified version
+
 var ciMode = false;
 
 var base = gutil.env.base;
 
-var bower = require('./bower');
-var appname = bower.name;
-var version = bower.version;
+var appInfo = require('./package');
+var appName = appInfo.name;
+var version = appInfo.version;
 
-var distDest = './dist/' + appname;
-var zipfile = appname + '-' + version + (base ? '-BASE' + base.replace(/\//g, '_') : '') + '.zip';
+var distDest = './dist/' + appName;
+var zipFile = appName + '-' + version + (base ? '-BASE' + base.replace(/\//g, '_') : '') + '.zip';
 var zipDest = './dist';
 
 gutil.log("Building version " + version);
@@ -66,16 +68,16 @@ gulp.task('webserver', function() {
 /////////////////////////////////////////////////////////////////////////////
 // dist
 
-gulp.task('dist', ['min'], function(){
+gulp.task('dist', ['dist-directory'], function(){
   return gulp.src([distDest + '/**'])
-    .pipe(zip(zipfile))
+    .pipe(zip(zipFile))
     .pipe(gulp.dest(zipDest));
 });
 
 /////////////////////////////////////////////////////////////////////////////
 // install
 
-gulp.task('install', ['check-dest', 'min'], function(){
+gulp.task('install', ['check-dest', 'dist-directory'], function(){
   return gulp.src([distDest + '/**'])
     .pipe(gulp.dest(installDest));
 });
@@ -113,9 +115,7 @@ gulp.task('ci', function () {
 
 /////////////////////////////////////////////////////////////////////////////
 
-// TODO we are not actually using the min'ified stuff
-
-gulp.task('min', ['app', 'vendor', 'orrportal']);
+gulp.task('dist-directory', ['app', 'vendor']);
 
 gulp.task('app', ['clean'], function(){
   var src = ['./src/app/**', '!./src/app/**/*.html'];
@@ -131,95 +131,29 @@ gulp.task('app', ['clean'], function(){
     gulp.src(['./src/app/**/*.html'])
       .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))
       .pipe(replace(/@@version/g, version))
+      .pipe(replace(/\.\.\/\.\.\/node_modules/g, 'vendor'))
       .pipe(gulp.dest(distDest))
   );
 });
 
-gulp.task('vendor', ['vendor-js', 'vendor-css', 'vendor-other']);
-
-gulp.task('vendor-js', ['clean'], function() {
-  return merge(
-    gulp.src([
-      'src/app/vendor/angular/angular.min.js',
-      'src/app/vendor/angular-sanitize/angular-sanitize.min.js',
-      'src/app/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
-      'src/app/vendor/moment/min/moment.min.js',
-      'src/app/vendor/lodash/dist/lodash.min.js',
-      'src/app/vendor/angular-cookie/angular-cookie.min.js'
-    ])
-      .pipe(concat('vendor.js'))
-      .pipe(gulp.dest(distDest + '/min/js'))
-      .pipe(uglify())
-      .pipe(rename('vendor.min.js'))
-      .pipe(gulp.dest(distDest + '/min/js/vendor'))
-  )
-});
-
-gulp.task('vendor-css', ['clean'], function() {
+gulp.task('vendor', ['clean'], function() {
   return gulp.src([
-      'src/app/vendor/bootstrap-css-only/css/bootstrap.min.css',
-      'src/app/vendor/bootstrap-css-only/css/bootstrap-theme.min.css',
-      'src/app/vendor/fontawesome/css/font-awesome.min.css',
-      'src/app/vendor/angular-growl-v2/build/angular-growl.min.css'
-    ])
-    .pipe(concat('vendor.min.css'))
-    .pipe(gulp.dest(distDest + '/min/css/vendor'))
-});
-
-gulp.task('vendor-other', ['clean'], function() {
-  return merge(
-    gulp.src([
-      'src/app/vendor/fontawesome/fonts/**'
-    ], {base: 'src/app/vendor/fontawesome/'})
-      .pipe(gulp.dest(distDest + '/min/css')),
-    gulp.src([
-      'src/app/vendor/bootstrap-css-only/fonts/**'
-    ], {base: 'src/app/vendor/bootstrap-css-only/'})
-      .pipe(gulp.dest(distDest + '/min/css'))
-  )
-});
-
-gulp.task('orrportal', ['orrportal-js', 'orrportal-css', 'orrportal-other'], function(){
-  gulp.src(['./src/app/index.min.html'])
-    .pipe(replace(/@@version/g, version))
-    .pipe(rename('index.html'))
-    .pipe(gulp.dest(distDest))
-});
-
-gulp.task('orrportal-js', ['clean'], function() {
-  return gulp.src([
-    'src/app/js/app.js',
-    'src/app/js/config.js',
-    'src/app/js/util.js',
-    'src/app/js/services.js',
-    'src/app/js/directives.js',
-    'src/app/js/ontgrid.js'
-  ])
-    .pipe(concat('orrportal.js'))
-    .pipe(gulp.dest(distDest + '/min/js'))
-    .pipe(uglify())
-    .pipe(rename('orrportal.min.js'))
-    .pipe(gulp.dest(distDest + '/min/js'))
-});
-
-gulp.task('orrportal-css', ['clean'], function() {
-  return gulp.src([
-    'src/app/css/orrportal.css'
-  ])
-    .pipe(concat('orrportal.css'))
-    .pipe(gulp.dest(distDest + '/min/css'))
-});
-
-gulp.task('orrportal-other', ['clean'], function() {
-  return merge(
-    gulp.src([
-      'src/app/template/*.html',
-      'src/app/template/*.html'
-    ], {base: 'src/app/'})
-      .pipe(replace(/@@version/g, version))
-      .pipe(gulp.dest(distDest + '/min'))
-
-  )
+      './node_modules/angular/**',
+      './node_modules/angular-clipboard/**',
+      './node_modules/angular-cookie/**',
+      './node_modules/angular-sanitize/**',
+      './node_modules/angular-ui-bootstrap/**',
+      './node_modules/angular-ui-grid/**',
+      './node_modules/angular-ui-router/**',
+      './node_modules/angular-xeditable/**',
+      './node_modules/bootstrap-css-only/**',
+      './node_modules/font-awesome/**',
+      './node_modules/lodash/**',
+      './node_modules/moment/**',
+      './node_modules/ng-file-upload/**',
+      './node_modules/ui-select/**'
+    ], {base: './node_modules/'})
+      .pipe(gulp.dest(distDest + '/vendor'))
 });
 
 gulp.task('clean', function (cb) {

@@ -1,5 +1,4 @@
 node_modules/
-bower_components/
 src/app/js/local.config.js
 src/app/vendor
 src/app/js/templates.js

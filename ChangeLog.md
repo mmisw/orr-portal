@@ -1,5 +1,12 @@
 ## change log ##
 
+* 2016-06-05: 0.3.2:
+  - get rid of bower;
+  - some adjustments arising from differences in angular-ui-bootstrap: uib-tab-heading stopped
+    working nicely in ont-meta.html, so was replaced with direct heading attribute.
+    (uib-tab-heading continues to work fine in v2r).
+  - some clean-up in gulpfile
+
 * 2016-06-04: 0.3.1:
   - test/travis preparations; put some basic utilities in bUtil
 
