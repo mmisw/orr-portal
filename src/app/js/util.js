@@ -246,7 +246,7 @@ var appUtil = (function(window) {
       var mainPage = appConfig.portal.mainPage;
       console.debug("mainPage=[" +mainPage+ "] windowBareHref=[" +windowBareHref+ "]");
       //if (windowBareHref.startsWith(mainPage) && windowBareHref.length > mainPage.length && mainPage+"/" !== windowBareHref) {
-      if (windowBareHref.startsWith(mainPage) && !miscUtil.equalModuloTrailingSlash(windowBareHref, mainPage)) {
+      if (windowBareHref.startsWith(mainPage) && !bUtil.equalModuloTrailingSlash(windowBareHref, mainPage)) {
         console.debug("mainPage is proper prefix of windowBareHref, so using the latter as uri");
         requestedUri     = windowBareHref;
         requestedVersion = windowLocationSearch.version;
