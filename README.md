@@ -12,36 +12,51 @@ alpha
 
 ### Development
 
+To set everything up:
+
 ```shell
 $ npm install
-$ bower install
 ```
 
-Launch server and browser for local testing:
+In all of the following, adjust `src/app/js/local.config.js` as appropriate.
+
+Launch server and browser for local development:
 
 ```shell
 $ gulp dev
 ```
 
-Create installable zip archive under `dist/`:
+### Installing
 
-```shell
-$ gulp dist
-```
+- Create installable directory and zip archive under `dist/`,
+  adjust `src/app/js/local.config.js` and then:
 
-Install under a running `orr-ont` service:
+    ```shell
+    $ gulp dist --localConfig
+    ```
 
-```shell
-$ gulp install --base=/orr-ont/ --dest=/opt/tomcat/webapps/orr-ont/
-```
+    To locally verify the "local" installation involved in the above,
+    open [http://localhost:9001/dist/orrportal/](http://localhost:9001/dist/orrportal/)
 
-Install under the `orr-ont` codebase for subsequent packaging:
 
-Adjust `src/app/js/local.config.js` as needed and then:
+- Install under a running `orr-ont` service:
 
-```shell
-$ gulp install --localConfig --base=/orr-ont/ --dest=/path/to/orr-ont/src/main/webapp/
-```
+    ```shell
+    $ gulp install --base=/orr-ont/ --dest=/opt/tomcat/webapps/orr-ont/
+    ```
+
+    Adjust the `--base` parameter value above depending on the actual
+    deployed application context of the `orr-ont` service.
+
+
+- Install under the `orr-ont` codebase for subsequent packaging:
+
+    As needed, adjust contents of `src/app/js/local.config.js`
+    and the `--base` parameter value below, and then:
+
+    ```shell
+    $ gulp install --localConfig --base=/orr-ont/ --dest=/path/to/orr-ont/src/main/webapp/
+    ```
 
 ### Test deployment
 
