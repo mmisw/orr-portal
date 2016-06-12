@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/mmisw/orr-portal.svg)](https://travis-ci.org/mmisw/orr-portal)
+[![Stories in Ready](https://badge.waffle.io/mmisw/orr-portal.svg?label=ready&title=Ready)](http://waffle.io/mmisw/orr-portal)
 
 ## The new ORR front-end
 
