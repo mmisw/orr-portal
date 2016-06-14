@@ -82,12 +82,25 @@
         formatOptions: formatOptions,
         selectedFormat: undefined,
 
-        // TODO properly handle distinction between userName OR organization (this also involves orr-ont)
         ownerOptions: [{
           id:    userName,
           name: 'User: ' + userName + ": " + $rootScope.rvm.masterAuth.loggedInInfo.displayName
         }],
-        selectedOwner: undefined
+        selectedOwner: undefined,
+
+        visibilityOptions: [
+          {
+            value:  'owner',
+            name:   'Visible only to owner (user or members of indicated organization)'
+          }, {
+            value:  'user',
+            name:   'Visible to any authenticated user or client application'
+          }, {
+            value:  'public',
+            name:   'Public'
+          }
+        ],
+        selectedVisibility: undefined
       };
 
       // add user's organizations:
@@ -192,7 +205,8 @@
     $scope.okToRegisterRehosted = function() {
       return (vm.knownOwner || vm.selectedOwner)
           && validUri(vm.originalUri)
-        && vm.name;
+        && vm.name
+        && vm.selectedVisibility;
 
       function validUri(uri) {
         return uri;  // TODO URI validation
@@ -205,7 +219,8 @@
         name:     vm.name,
         userName: userName,
         uploadedFilename: vm.uploadResponse.data.filename,
-        uploadedFormat:   vm.uploadResponse.data.format
+        uploadedFormat:   vm.uploadResponse.data.format,
+        visibility:       vm.selectedVisibility
       };
       if (vm.knownOwner && !vm.knownOwner.startsWith("~")) {
         params.orgName = vm.knownOwner;
@@ -317,6 +332,7 @@
     $scope.okToRegisterFullyHosted = function() {
       return vm.checkedNewUriIsAvailable
         && vm.name && vm.name.indexOf('<') < 0
+        && vm.selectedVisibility
     };
 
     $scope.doRegisterFullyHosted = function() {
@@ -324,10 +340,10 @@
         uri:              vm.newUri,
         originalUri:      vm.originalUri,
         name:             vm.name,
-        orgName:          vm.selectedOwner.id,
         userName:         userName,
         uploadedFilename: vm.uploadResponse.data.filename,
-        uploadedFormat:   vm.uploadResponse.data.format
+        uploadedFormat:   vm.uploadResponse.data.format,
+        visibility:       vm.selectedVisibility
       };
 
       var brandNew = vm.newUriIsAvailable;

@@ -512,3 +512,6 @@ div.debug {
   border-radius:6px;
 }
 
+.simpleLabel {
+  font-weight: 200 !important;
+}

@@ -111,6 +111,22 @@
           </div>
 
           <div class="form-group">
+            <label for="inputName" class="control-label col-xs-2">
+              Version visibility:
+            </label>
+
+            <div class="col-xs-8">
+              <div ng-repeat="visOpt in vm.visibilityOptions">
+                <label class="simpleLabel">
+                  <input type="radio" ng-model="vm.selectedVisibility" ng-value="visOpt.value">
+                  {{visOpt.name}}
+                </label>
+                <br/>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
             <div class="form-group">
               <label class="col-xs-2"> </label>
               <button ng-disabled="!okToRegisterRehosted()"
