@@ -6,31 +6,31 @@
     .directive('orrportalUploadOntology', function() {
       return {
         restrict:    'E',
-        templateUrl: 'js/upload/views/upload.tpl.html'
+        templateUrl: 'js/upload/upload.html'
       }
     })
     .directive('orrportalUploadUriConfirmed', function() {
       return {
         restrict:    'E',
-        templateUrl: 'js/upload/views/uri-confirmed.tpl.html'
+        templateUrl: 'js/upload/uri-confirmed.html'
       }
     })
     .directive('orrportalSelectRegistrationType', function() {
       return {
         restrict:    'E',
-        templateUrl: 'js/upload/views/regtype.tpl.html'
+        templateUrl: 'js/upload/regtype.html'
       }
     })
     .directive('orrportalUploadRehosted', function() {
       return {
         restrict:    'E',
-        templateUrl: 'js/upload/views/rehosted.tpl.html'
+        templateUrl: 'js/upload/rehosted.html'
       }
     })
     .directive('orrportalUploadFullyHosted', function() {
       return {
         restrict:    'E',
-        templateUrl: 'js/upload/views/fullyhosted.tpl.html'
+        templateUrl: 'js/upload/fullyhosted.html'
       }
     })
   ;

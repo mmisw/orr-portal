@@ -124,7 +124,7 @@
 
       .state('rx', {
         url: '/rx',
-        templateUrl: 'js/upload/views/sequence.tpl.html',
+        templateUrl: 'js/upload/sequence.html',
         controller: 'UploadController'
       })
 
