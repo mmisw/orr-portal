@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-06-13: 0.3.2:
+  - resolve #18 v2r: select corresp tab when creating a new vocab
+
 * 2016-06-05: 0.3.2:
   - get rid of bower;
   - some adjustments arising from differences in angular-ui-bootstrap: uib-tab-heading stopped

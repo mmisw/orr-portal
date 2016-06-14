@@ -137,8 +137,11 @@
             properties: [],
             terms: []
           };
-          vm.addTerm(newVocab);
           vm.vocabs.splice(v_index, 0, newVocab);
+          $timeout(function() {
+            vm._activeVocab = v_index;
+            $timeout(function() { vm.addTerm(newVocab); }, 300);
+          }, 300);
         });
       }
 

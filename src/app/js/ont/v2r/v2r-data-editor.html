@@ -9,7 +9,8 @@
   <i class="fa fa-plus" aria-hidden="true"></i>Vocabulary
 </div>
 
-<uib-tabset ng-if="vm.vocabs.length" style="width: 100%">
+<uib-tabset ng-if="vm.vocabs.length" style="width: 100%"
+            active="vm._activeVocab">
 
   <uib-tab ng-repeat="vocab in vm.vocabs track by $index" ng-init="v_index=$index"
            disable="someEditInProgress() || attrTableform.$waiting"
