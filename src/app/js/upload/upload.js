@@ -83,7 +83,7 @@
         selectedFormat: undefined,
 
         ownerOptions: [{
-          id:    userName,
+          id:    '~' + userName,
           name: 'User: ' + userName + ": " + $rootScope.rvm.masterAuth.loggedInInfo.displayName
         }],
         selectedOwner: undefined,
@@ -346,6 +346,9 @@
         visibility:       vm.selectedVisibility
       };
 
+      if (!vm.selectedOwner.id.startsWith("~")) {
+        params.orgName = vm.knownOwner;
+      }
       var brandNew = vm.newUriIsAvailable;
       var progressModal = utl.openRegistrationProgressModal(params.uri);
       service.registerOntology(brandNew, params, registrationCallback(params.uri, progressModal));
