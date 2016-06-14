@@ -3,8 +3,8 @@
 
 ## The new ORR front-end
 
-This user interface is against a
-[orr-ont](https://github.com/mmisw/orr-ont)-based endpoint.
+This user interface is against an
+[orr-ont](https://github.com/mmisw/orr-ont)-based REST endpoint.
 
 ### Status
 
