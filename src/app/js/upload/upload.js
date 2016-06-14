@@ -233,7 +233,9 @@
       vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = false;
     });
     $scope.$watch("vm.selectedOwner", function() {
-      vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = false;
+      if (vm.registrationType !== 're-hosted') {
+        vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = false;
+      }
     });
 
     function cleanShortName(val) {

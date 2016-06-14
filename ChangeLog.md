@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-06-13: 0.3.2:
+  - fix #17 ontology name becomes hidden in re-hosted upload sequence
   - resolve #18 v2r: select corresp tab when creating a new vocab
 
 * 2016-06-05: 0.3.2:
