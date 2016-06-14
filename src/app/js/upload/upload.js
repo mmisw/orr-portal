@@ -195,6 +195,7 @@
     $scope.uploadAnotherFile = function() {
       vm.uploadResponse = vm.originalUri = undefined;
       vm.selectedOwner = vm.newShortName = undefined;
+      vm.selectedVisibility = undefined;
       vm.knownOwner = undefined;
       vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
       vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = undefined;
@@ -291,6 +292,7 @@
       }
       else vm.newUri = vm.originalUri;
 
+      vm.selectedVisibility = undefined;
       vm.knownOwner = undefined;
       vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
 
@@ -307,6 +309,8 @@
           console.log("got ontology:", ontology);
           vm.name = ontology.name;
           vm.newUriIsAvailable = false;
+
+          vm.selectedVisibility = ontology.visibility;
 
           vm.knownOwner = ontology.ownerName;
           vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
