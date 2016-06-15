@@ -30,6 +30,12 @@
         templateUrl:  'js/ont/uri-onttitle.html'
       }
     })
+    .directive('changeVisibility', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/ont/change-visibility.html'
+      }
+    })
   ;
 
   OntDirective.$inject = [];
@@ -241,6 +247,7 @@
         else {
           vm.ontology = ontology;
           setViewAsOptions(vm.uri);
+          setVisibilityOptions();
           getOntologyData();
         }
       }
@@ -279,7 +286,93 @@
           return appConfig.orront.rest + "/api/v0/ont?format=" +format+ "&uri=" + uri;
         }
       }
+
+      function setVisibilityOptions() {
+        $scope.visibilityInfo = {
+          owner:  'Visible only to owner (user or members of indicated organization)',
+          user:   'Visible to any authenticated user or client application',
+          public: 'Visible to any visitor or client application'
+        };
+        var all = ['owner', 'user', 'public'];
+        $scope.visibilities = _.filter(all, function(v) { return v !== vm.ontology.visibility });
+      }
     }
+
+    $scope.canChangeVisibility = function() {
+      if (!vm.ontology)                     return false;
+      if (!vm.ontology.ownerName)           return false;
+      if (!$rootScope.userLoggedIn())       return false;
+      if ($rootScope.userLoggedInIsAdmin()) return true;
+
+      if (vm.ontology.ownerName.startsWith("~")) {
+        var userOntOwner = vm.ontology.ownerName.substring(1);
+        return userOntOwner === rvm.masterAuth.loggedInInfo.uid;
+      }
+      else {
+        if (!rvm.masterAuth.organizations) return false;
+        var orgOntOwner = vm.ontology.ownerName;
+        var userOrgs = _.map(rvm.masterAuth.organizations, "orgName");
+        return _.contains(userOrgs, orgOntOwner);
+      }
+    };
+    $scope.setVisibility = function(visibility) {
+      utl.confirm({
+        size: 'ls',
+        message: '<div class="center">' +
+        'The visibility of ' +
+        '<br>' +
+        '<br>' +
+        '<div class="uriText1">' +vm.uri+ '</div>' +
+        'Version: ' + vm.ontology.version +
+        '<br>' +
+        '<br>' +
+        'will be changed to <span class="bold">\'' + visibility + '\'</span>' +
+        '<br>' +
+        '<br>' +
+        'Proceed?' +
+        '</div>',
+
+        ok: function() {
+          console.debug("setting visibility=", visibility);
+          var progressModal = utl.openRegistrationProgressModal(vm.uri, "Setting visibility...");
+
+          var body = {
+            uri:        vm.uri,
+            version:    vm.ontology.version,
+            visibility: visibility,
+            userName:   $rootScope.userLoggedIn().uid
+          };
+
+          var brandNew = false;
+          service.registerOntology(brandNew, body, function cb(error, data) {
+            progressModal.close();
+            if (error) {
+              console.error(error);
+              utl.error({
+                errorPRE: error
+              });
+            }
+            else {
+              if (debug) console.debug("registerOntology: success data=", data);
+              utl.message({
+                title:   'Visibility has been changed to: <span class="bold">\'' + visibility + '\'</span>',
+                message: '<div class="center">' +
+                '<br>' +
+                '<div class="uriText1">' +vm.uri+ '</div>' +
+                '<br>' +
+                'Version: ' + vm.ontology.version +
+                '<br>' +
+                '<br>' +
+                '</div>',
+                ok: function() {
+                  $window.location.href = appUtil.getHref4uriWithSelfHostPrefix(vm.uri);
+                }
+              });
+            }
+          })
+        }
+      });
+    };
 
     $scope.canEditNewVersion = function() {
       if (!vm.ontology)                     return false;

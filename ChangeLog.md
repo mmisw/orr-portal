@@ -1,5 +1,13 @@
 ## change log ##
 
+* 2016-06-14: 0.3.2:
+  - \#12: add dropdown in main ontology page to directly change visibility (in non-edit mode).
+    This is available for logged-in user that is authorized to change the ontology.
+    NOTE: For v2r/m2r, not yet capturing visibility at time of registration, so the ontology gets the
+    default 'owner' visibility. But the user can then go to the ontology page and use the new option as needed.
+
+    TODO: some code clean-up as there's some replication in upload.js and ont.js
+
 * 2016-06-13: 0.3.2:
   - upload: fix proper '~' prefix handling of username as owner in fully-hosted registration
   - \#12 capture visibility attribute for ontologies.

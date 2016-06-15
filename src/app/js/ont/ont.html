@@ -20,28 +20,31 @@
     <orrportal-uri-versions></orrportal-uri-versions>
   </span>
 
-    <span>
-      <button ng-if="!editMode && !rvm.rVersion && canEditNewVersion()"
-              ng-click="startEditMode()"
-              type="button" class="btn btn-default btn-xs">
-        Edit new version
-      </button>
+  <span>
+    <button ng-if="!editMode && !rvm.rVersion && canEditNewVersion()"
+            ng-click="startEditMode()"
+            type="button" class="btn btn-default btn-xs">
+      Edit new version
+    </button>
+  </span>
 
-    </span>
+  <span ng-if="!editMode && !rvm.rVersion && canChangeVisibility()">
+    <change-visibility></change-visibility>
+  </span>
 
-    <span ng-if="editMode">
+  <span ng-if="editMode">
 
-      <button ng-disabled="vm.someEditInProgress"
-              ng-click="registerOntology()"
-              class="btn btn-info btn-xs">
-        Register
-      </button>
+    <button ng-disabled="vm.someEditInProgress"
+            ng-click="registerOntology()"
+            class="btn btn-info btn-xs">
+      Register
+    </button>
 
-      <button ng-click="cancelNewVersion()"
-              class="btn btn-info btn-xs">
-        Cancel
-      </button>
-    </span>
+    <button ng-click="cancelNewVersion()"
+            class="btn btn-info btn-xs">
+      Cancel
+    </button>
+  </span>
 
 </div>
 
