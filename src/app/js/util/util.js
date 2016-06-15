@@ -18,7 +18,7 @@
       var modalInstance = $uibModal.open({
         templateUrl: 'js/util/confirm.tpl.html',
         controller:  'MessageInstanceCtrl',
-        size:        'sm',
+        size:        info.size || 'sm',
         backdrop:    'static',
         resolve: {
           info: function () {
@@ -135,7 +135,7 @@
       openRegistrationProgressModal: openRegistrationProgressModal
     };
 
-    function openRegistrationProgressModal(uri) {
+    function openRegistrationProgressModal(uri, title) {
       return $uibModal.open({
         templateUrl: 'js/util/message.tpl.html',
         controller:  'MessageInstanceCtrl',
@@ -144,7 +144,7 @@
         resolve: {
           info: function () {
             return {
-              title:   "Registering ...",
+              title:   title || "Registering ...",
               message: '<div class="center">' +
               'Ontology URI:' +
               '<br>' +
