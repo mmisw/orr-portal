@@ -48,6 +48,7 @@
   <script src='js/ontgrid/ontgrid.js'></script>
   <script src='js/org/org.js'></script>
   <script src='js/vocabulary/vocabulary.js'></script>
+  <script src='js/uri/uri.js'></script>
   <script src='js/ont/metaUtil.js'></script>
   <script src='js/ont/ont.js'></script>
   <script src='js/ont/ont-contents.js'></script>
@@ -58,6 +59,7 @@
   <script src='js/ont/m2r/m2r.js'></script>
   <script src='js/ont/rj/rj-viewer.js'></script>
   <script src='js/ont/multivalueedit.js'></script>
+  <script src='js/term/term.js'></script>
   <script src='js/user/user.js'></script>
   <script src='js/st/st.js'></script>
   <script src='js/kw/kw.js'></script>
@@ -84,7 +86,7 @@
 <orrportal-header></orrportal-header>
 
 <div ng-if="rvm.rUri">
-  <orr-ont></orr-ont>
+  <orr-uri></orr-uri>
 </div>
 <div ng-if="!rvm.rUri">
   <div ui-view></div>

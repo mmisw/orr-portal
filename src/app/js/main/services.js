@@ -21,6 +21,8 @@
       refreshOntologies:       refreshOntologies,
       setDoRefreshOntologies:  setDoRefreshOntologies,
 
+      resolveUri:              resolveUri,
+
       refreshOntology:         refreshOntology,
       refreshOntologyMetadata: refreshOntologyMetadata,
       getOntologySubjects:     getOntologySubjects,
@@ -89,6 +91,42 @@
         .error(httpErrorHandler(gotOntologies))
     }
 
+    function resolveUri(uri, version, gotUriResolution) {
+      console.debug("resolveUri: uri=", uri, "version=", version);
+      refreshOntology(uri, version, function(error, ontology) {
+        if (error) {
+          console.debug("resolveUri: error getting ontology:", error, ". Will try term");
+          resolveTerm(function(error, term) {
+            if (error) {
+              gotUriResolution({msg: "resolveUri: error getting term", error: error});
+            }
+            else {
+              gotUriResolution(null, {term: term});
+            }
+          });
+        }
+        else {
+          gotUriResolution(null, {ontology: ontology});
+        }
+      });
+
+      function resolveTerm(cb) {
+        var params = {
+          turi:    uri,
+          format: 'json'
+        };
+        doHttp("resolveTerm", {
+          method: 'GET',
+          url:    appConfig.orront.rest + "/api/v0/ont",
+          params: params
+        }, cb)
+          .success(function (data) {
+            console.log(appUtil.logTs() + ": resolveTerm: data=", data);
+            cb(null, data);
+          })
+      }
+    }
+
     function refreshOntology(uri, version, gotOntology) {
 
       setRefreshing(true);
@@ -98,7 +136,7 @@
       var reqPath = "/api/v0/ont";
       var url = appConfig.orront.rest + reqPath;
 
-      var params = ['format=!md', 'uri=' +uri];
+      var params = ['ouri=' +uri];
       if (version) {
         params.push('version=' +version);
       }
@@ -231,7 +269,7 @@
       var reqPath = "/api/v0/ont";
       var url = appConfig.orront.rest + reqPath;
 
-      var params = ['format=' +format, 'uri=' +uri];
+      var params = ['format=' +format, 'ouri=' +uri];
       if (version) {
         params.push('version=' +version);
       }

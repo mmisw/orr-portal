@@ -1,0 +1,34 @@
+<div ng-if="error">
+  <pre style="border-color: red">{{error | json}}</pre>
+</div>
+
+<div ng-if="debug" class="debug">
+  <pre>vm = {{vm | json}}</pre>
+</div>
+
+
+<div ng-if="vm.resolving">
+  <span class="fa fa-spinner fa-spin fa-lg"></span>
+  Resolving {{vm.uri}} ...
+</div>
+
+<div ng-if="vm.resolved">
+  <div ng-if="vm.ontology">
+    <orr-ont></orr-ont>
+  </div>
+
+  <div ng-if="vm.term">
+    <orr-term></orr-term>
+  </div>
+
+  <div ng-if="!vm.ontology && !vm.term" style="margin-left: 30px">
+    <span class="uriNotFound">
+      URI not found
+    </span>
+    <p style="color: darkgray">
+      - No ontology registered with this URI
+      <br>
+      - No term in the triple store with this URI
+    </p>
+  </div>
+</div>

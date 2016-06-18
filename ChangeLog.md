@@ -1,5 +1,10 @@
 ## change log ##
 
+* 2016-06-17: 0.3.2:
+  - \#30 "dispatch term request"
+    - initial preparations to dispatch given URI (rUri) so it uses the existing 'ont' display,
+      a new 'term' display, or a "Not found" message
+
 * 2016-06-14: 0.3.2:
   - \#12: add dropdown in main ontology page to directly change visibility (in non-edit mode).
     This is available for logged-in user that is authorized to change the ontology.

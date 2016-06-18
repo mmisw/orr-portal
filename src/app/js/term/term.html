@@ -1,0 +1,32 @@
+<div ng-if="error">
+  <pre style="border-color: red">{{error | json}}</pre>
+</div>
+
+<div ng-if="debug" class="debug">
+  <pre>vm = {{vm | json}}</pre>
+</div>
+
+<div style="margin-left: 20px; margin-right: 20px">
+
+  <span class="uriText0">{{vm.uri}}</span>
+
+  <table class="table table-bordered table-condensed">
+    <thead>
+    <tr>
+      <th ng-repeat="name in vm.term.names">
+        <span ng-bind="name"></span>
+      </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr ng-repeat="row in vm.term.values">
+      <td ng-repeat="col in row">
+        <span ng-bind-html="col | mklinksOnlyExternal"></span>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+
+</div>

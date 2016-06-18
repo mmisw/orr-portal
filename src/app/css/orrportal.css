@@ -515,3 +515,8 @@ div.debug {
 .simpleLabel {
   font-weight: 200 !important;
 }
+
+.uriNotFound {
+  color: darkred;
+  font-size: large;
+}
