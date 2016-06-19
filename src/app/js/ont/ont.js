@@ -12,12 +12,6 @@
         templateUrl:  'js/ont/uri-title.html'
       }
     })
-    .directive('orrportalUriViewAsOptions', function() {
-      return {
-        restrict:     'E',
-        templateUrl:  'js/ont/uri-viewasoptions.html'
-      }
-    })
     .directive('orrportalUriVersions', function() {
       return {
         restrict:     'E',
@@ -223,15 +217,18 @@
         }
         else {
           vm.ontology = ontology;
-          setViewAsOptions(vm.uri);
+          $scope.viewAsOptions = setViewAsOptions(vm.uri);
           setVisibilityOptions();
           getOntologyData();
         }
       }
       function setViewAsOptions(uri) {
         uri = uri.replace(/#/g, '%23');
+        function getUrl(format) {
+          return appConfig.orront.rest + "/api/v0/ont?format=" +format+ "&uri=" + uri;
+        }
 
-        $scope.viewAsOptions = [
+        return [
           {
             label: "RDF/XML",
             url: getUrl('rdf')
@@ -258,10 +255,6 @@
             url: getUrl('rj')
           }
         ];
-
-        function getUrl(format) {
-          return appConfig.orront.rest + "/api/v0/ont?format=" +format+ "&uri=" + uri;
-        }
       }
 
       function setVisibilityOptions() {

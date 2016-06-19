@@ -6,12 +6,17 @@
   <pre>vm = {{vm | json}}</pre>
 </div>
 
-<div style="margin-left: 20px; margin-right: 20px">
-
-  <span class="uriText0">{{vm.uri}}</span>
+<div class="effect1">
+  <span class="uriText">{{vm.uri}}</span>
 
   <clipboard-copy text="vm.uri"
   ></clipboard-copy>
+
+  <view-as-options options="viewAsOptions"
+  ></view-as-options>
+</div>
+
+<div style="margin: 20px">
 
   <table class="table table-bordered table-condensed">
     <thead>

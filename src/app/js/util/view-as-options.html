@@ -1,0 +1,10 @@
+<div class="btn-group" uib-dropdown>
+  <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle>
+    View/download as <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li ng-repeat="vao in vm.options">
+      <a target="_blank" ng-href="{{vao.url}}" ng-bind="vao.label"></a>
+    </li>
+  </ul>
+</div>

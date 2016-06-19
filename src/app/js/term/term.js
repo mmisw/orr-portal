@@ -23,6 +23,49 @@
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++TermController++ $scope=", $scope);
+
+    $scope.viewAsOptions = setViewAsOptions();
+
+    function setViewAsOptions() {
+      var uri = $scope.vm.uri.replace(/#/g, '%23');
+      function getUrl(format) {
+        return appConfig.orront.rest + "/api/v0/ont?format=" +format+ "&turi=" + uri;
+      }
+
+      return [
+        {
+          label: "RDF/XML",
+          url: getUrl('rdf')
+        }, {
+          label: "JSON",
+          url: getUrl('json')
+        }, {
+          label: "N3",
+          url: getUrl('n3')
+        }, {
+          label: "CSV",
+          url: getUrl('csv')
+        }, {
+          label: "TTL",
+          url: getUrl('ttl')
+        }, {
+          label: "TSV",
+          url: getUrl('tsv')
+        }, {
+          label: "Table",
+          url: getUrl('table')
+        }, {
+          label: "N-Quads",
+          url: getUrl('nquads')
+        }, {
+          label: "Trix",
+          url: getUrl('trix')
+        }, {
+          label: "Integer",
+          url: getUrl('integer')
+        }
+      ];
+    }
   }
 
 })();
