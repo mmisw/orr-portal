@@ -21,14 +21,17 @@
     <orr-term></orr-term>
   </div>
 
-  <div ng-if="!vm.ontology && !vm.term" style="margin-left: 30px">
+  <div ng-if="!vm.ontology && !vm.term" style="margin: 30px">
+
+    <div class="uriText0">{{vm.uri}}</div>
+
     <span class="uriNotFound">
       URI not found
     </span>
     <p style="color: darkgray">
       - No ontology registered with this URI
       <br>
-      - No term in the triple store with this URI
+      - No subject in the triple store with this URI
     </p>
   </div>
 </div>
