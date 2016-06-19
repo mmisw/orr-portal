@@ -1,0 +1,9 @@
+<button type="button" class="btn btn-default btn-xs"
+        uib-popover-html="vm.tooltip"
+        popover-trigger="mouseenter" popover-placement="top"
+        clipboard text="vm.text"
+        on-copied="vm.success()"
+        on-error="vm.fail(err)"
+>
+  <i class="fa fa-clipboard"></i> {{vm.result}}
+</button>

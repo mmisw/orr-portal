@@ -88,29 +88,6 @@
     vm.uri = rvm.rUri;
     vm.version = rvm.rVersion;
 
-    // todo move this to a directive or more general utility
-    $scope.uriClipboard = {
-      result: '',
-      getText: function() {
-        return vm.brandNew ? null : vm.uri;
-      },
-      getTooltip: function() {
-        return $scope.uriClipboard.result || 'Copy URI to clipboard';
-      },
-      setResult: function(result, delay) {
-        $scope.uriClipboard.result = result;
-        $timeout(function() {$scope.uriClipboard.result = '';}, delay || 2000);
-      },
-      success: function() {
-        $scope.uriClipboard.setResult('<b>Copied!</b>');
-      },
-      fail: function(err) {
-        $scope.uriClipboard.setResult('<b>Error</b>');
-        var msg = "Sorry, your browser may not support copying to the clipboard. Reported error: " + err;
-        $timeout(function() {alert(msg);}, 250);
-      }
-    };
-
     $scope.linkForVersion = function(uri, version) {
       var params = [];
       // include version parameter only if it's not the latest:
