@@ -15,7 +15,8 @@
       templateUrl: 'js/util/clipboardCopy.html',
       controller: ClipboardCopyController,
       scope: {
-        text:   '='
+        text:     '=',
+        tooltip:  '='
       },
       controllerAs: 'vm',
       bindToController: true
@@ -28,12 +29,13 @@
     vm.debug = debug;
     if (debug) console.log("++ClipboardCopyController++ vm=", vm);
 
-    var baseTooltip = vm.tooltip = 'Copy to clipboard';
+    var baseTooltip = vm.tooltip || 'Copy to clipboard';
+    vm.runTooltip = baseTooltip;
 
     function setTooltip(tooltip) {
-      vm.tooltip = tooltip;
+      vm.runTooltip = tooltip;
       $timeout(function() {
-        vm.tooltip = baseTooltip;
+        vm.runTooltip = baseTooltip;
       }, 2000);
     }
 
@@ -43,8 +45,9 @@
 
     vm.fail = function(err) {
       setTooltip('<b>Error</b>');
-      var msg = "Sorry, your browser may not support copying to the clipboard. Reported error: " + err;
+      var msg = "Sorry, your browser may not support copying to the clipboard directly";
       $timeout(function() {alert(msg);}, 250);
+      console.error(msg, "Reported error:", err);
     }
   }
 
