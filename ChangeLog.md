@@ -1,11 +1,9 @@
 ## change log ##
 
 * 2016-06-18: 0.3.2:
-  - extract view-as-options utility into a directive, and also use it in term.html
-  - extract clipboard-copy utility into a directive
-
-* 2016-06-17: 0.3.2:
-  - \#30 "dispatch term request"
+  - resolve #30 "dispatch term request"
+    - extract view-as-options utility into a directive, and also use it in term.html
+    - extract clipboard-copy utility into a directive
     - initial preparations to dispatch given URI (rUri) so it uses the existing 'ont' display,
       a new 'term' display, or a "Not found" message
 
