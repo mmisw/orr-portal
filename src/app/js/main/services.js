@@ -136,7 +136,7 @@
       var reqPath = "/api/v0/ont";
       var url = appConfig.orront.rest + reqPath;
 
-      var params = ['ouri=' +uri];
+      var params = ['format=!md', 'ouri=' +uri];
       if (version) {
         params.push('version=' +version);
       }
