@@ -11,13 +11,13 @@
         Visibility: <span style="font-weight: bold">{{vm.ontology.visibility}}</span>
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" role="menu">
+      <ul class="dropdown-menu" role="menu" style="cursor: pointer">
         <li ng-repeat="v in visibilities">
           <a ng-click="setVisibility(v)"
              uib-tooltip="'{{v}}' - {{visibilityInfo[v]}}"
              tooltip-placement="left"
           >
-            Change to: <span style="font-weight: bold">'{{v}}'</span>
+            Change to: <span style="font-weight: bold">{{v}}</span>
           </a>
         </li>
       </ul>
