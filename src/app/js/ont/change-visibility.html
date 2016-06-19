@@ -1,7 +1,11 @@
 <span>
     <div class="btn-group" uib-dropdown>
       <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle
-              uib-tooltip="Current visibility: '{{vm.ontology.visibility}}' - {{visibilityInfo[vm.ontology.visibility]}}"
+              uib-tooltip="Current visibility: {{
+              vm.ontology.visibility
+              ? vm.ontology.visibility + ' - ' + visibilityInfo[vm.ontology.visibility]
+              : '(not defined)'
+              }}"
               tooltip-placement="left"
       >
         Visibility: <span style="font-weight: bold">{{vm.ontology.visibility}}</span>
