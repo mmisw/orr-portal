@@ -33,6 +33,10 @@
     <change-visibility></change-visibility>
   </span>
 
+  <span ng-if="!editMode && unregisterer.canUnregister()">
+    <unregister-menu></unregister-menu>
+  </span>
+
   <span ng-if="editMode">
 
     <button ng-disabled="vm.someEditInProgress"

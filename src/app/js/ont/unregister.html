@@ -1,0 +1,17 @@
+<div class="btn-group" uib-dropdown>
+  <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle>
+    Unregister <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" style="cursor: pointer">
+    <li>
+      <a ng-click="unregisterer.unregisterVersion()">
+        Version {{vm.ontology.version}}
+      </a>
+    </li>
+    <li ng-if="vm.ontology.versions.length > 1">
+      <a ng-click="unregisterer.unregisterOntology()">
+        All {{vm.ontology.versions.length}} versions
+      </a>
+    </li>
+  </ul>
+</div>

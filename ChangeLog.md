@@ -1,6 +1,10 @@
 ## change log ##
 
 * 2016-06-18: 0.3.2:
+  - implement #26 "option to unregister ontology"
+    - Menu with option to unregister current displayed version, and whole ontology entry (all versions)
+    - only available to admin
+
   - resolve #30 "dispatch term request"
     - extract view-as-options utility into a directive, and also use it in term.html
     - extract clipboard-copy utility into a directive

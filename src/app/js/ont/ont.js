@@ -30,6 +30,12 @@
         templateUrl:  'js/ont/change-visibility.html'
       }
     })
+    .directive('unregisterMenu', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/ont/unregister.html'
+      }
+    })
   ;
 
   OntDirective.$inject = [];
@@ -62,17 +68,16 @@
   // todo reorganize! (too many deps)
   OntController.$inject = [
     '$rootScope', '$scope', '$stateParams', '$state', '$timeout', '$window', '$location', '$uibModal',
-    'service', 'utl', 'vocabulary'
+    'service', 'utl', 'vocabulary', 'cfg'
   ];
   function OntController(
     $rootScope, $scope, $stateParams, $state, $timeout, $window, $location, $uibModal,
-    service, utl, vocabulary
+    service, utl, vocabulary, cfg
   ) {
 
     debug = debug || $scope.debug;
     $scope.debug = debug;
     if (debug) console.log("++OntController++ $scope=", $scope);
-
 
     this.scope = $scope;
 
@@ -343,6 +348,72 @@
         }
       });
     };
+
+    $scope.unregisterer = (function() {
+      return {
+        canUnregister:      canUnregister,
+        unregisterVersion:  function() { unregister(vm.ontology.version); },
+        unregisterOntology: function() { unregister(); }
+      };
+
+      function canUnregister() {
+        if (!vm.ontology)                     return false;
+        if ($rootScope.userLoggedInIsAdmin()) return true;
+      }
+
+      function unregister(version) {
+        var ontInfo = '<div class="uriText1">' +vm.uri+ '</div>' +
+          (version ? 'Version: ' + vm.ontology.version : '(' +vm.ontology.versions.length+ ' versions)')+
+            '<br><br>';
+
+        utl.confirm({
+          title: 'Confirm unregistration',
+          size: 'ls',
+          message:
+            '<div class="center">' +
+            ontInfo +
+            'Are you sure you want to unregister this ontology ' +
+            (version ? 'version' : 'including all its versions') + '?' +
+          '</div>',
+
+          ok: function() { doUnregister(version); }
+        });
+
+        function doUnregister(version) {
+          var progressModal = utl.openRegistrationProgressModal(vm.uri,
+            "Unregistering " +(version ? version : 'ontology') + "...");
+
+          var params = {
+            uri:        vm.uri,
+            userName:   $rootScope.userLoggedIn().uid
+          };
+          if (version) {
+            params.version = version;
+          }
+
+          service.unregisterOntology(params, function cb(error, data) {
+            progressModal.close();
+            if (error) {
+              console.error(error);
+              utl.error({ errorPRE: error });
+            }
+            else {
+              if (debug) console.debug("unregisterOntology: success data=", data);
+              utl.message({
+                title:   'Unregistration complete',
+                message:
+                  '<div class="center">' +
+                  ontInfo +
+                  '</div>',
+                ok: function() {
+                  $window.location.href = cfg.portal.mainPage;
+                }
+              });
+            }
+          });
+        }
+      }
+    })();
 
     $scope.canEditNewVersion = function() {
       if (!vm.ontology)                     return false;

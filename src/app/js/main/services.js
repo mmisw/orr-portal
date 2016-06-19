@@ -34,6 +34,7 @@
       createOrg:         createOrg,
 
       registerOntology:  registerOntology,
+      unregisterOntology:  unregisterOntology,
 
       refreshUser:       refreshUser,
 
@@ -357,6 +358,20 @@
       }, cb)
         .success(function (data) {
           console.log(appUtil.logTs() + ": registerOntology(brandNew=" +brandNew+ "): data=", data);
+          cb(null, data);
+        })
+    }
+
+    function unregisterOntology(params, cb) {
+      putJwtIfAvailable(params);
+
+      doHttp("unregisterOntology", {
+        method: 'DELETE',
+        url:    appConfig.orront.rest + "/api/v0/ont",
+        params: params
+      }, cb)
+        .success(function (data) {
+          console.log(appUtil.logTs() + ": unregisterOntology: data=", data);
           cb(null, data);
         })
     }
