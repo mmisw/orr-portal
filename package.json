@@ -1,6 +1,7 @@
 {
   "name": "orrportal",
-  "version": "3.0.alpha",
+  "version": "3.0.0-alpha",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/mmisw/orr-portal.git"
