@@ -48,7 +48,8 @@
 
         <th colspan="2" class="v2rTermColHeaderCell" style="width: 5%"></th>
 
-        <th ng-repeat="p in vocab.properties track by $index" ng-init="p_index=$index">
+        <th ng-repeat="p in vocab.properties track by $index" ng-init="p_index=$index"
+            style="white-space: nowrap">
           {{vm.getLabel(p)}}
           <div ng-click="vm.editVocabProperty(p)" class="btn btn-link"
                   ng-disabled="someEditInProgress() || attrTableform.$waiting">
