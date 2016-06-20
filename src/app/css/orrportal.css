@@ -10,6 +10,11 @@ body {
     margin: 5px;
 }
 
+.appLink {
+  color: darkgray;
+  font-size: small;
+}
+
 .effect1 {
     width: 100%;
     text-shadow: 0 1px 0 #fff;

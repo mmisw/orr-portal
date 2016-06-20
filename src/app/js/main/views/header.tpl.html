@@ -2,21 +2,44 @@
   <div style="float: left; padding: 4px">
     <span>
       <span title="Go to main page" style="vertical-align: middle">
-        <a ng-if="rvm.rUri" ng-href="{{cfg.portal.mainPage}}"><img src="img/logo-sm.png"></a>
-        <a ng-if="!rvm.rUri" ui-sref="/"><img src="img/logo-sm.png"></a>
+        <a ng-if="rvm.rUri" ng-href="{{cfg.portal.mainPage}}">
+          <img src="{{cfg.branding.logo || 'img/mmi-orr3-logo.png'}}">
+        </a>
+        <a ng-if="!rvm.rUri" ui-sref="/">
+          <img src="{{cfg.branding.logo || 'img/mmi-orr3-logo.png'}}">
+        </a>
       </span>
 
-      <span style="font-weight: bold; color: #285e8e">ORR Portal (prototype)</span>
-      <span ng-show="cfg.help">
-          <a target="_blank" class="btn btn-sm btn-link" style="color: darkgray; font-size: small"
-             ng-href="{{cfg.help}}">@@version</a>
-      </span>
-      <span ng-show="!cfg.help" style="color: darkgray; font-size: small">
-             @@version
-      </span>
-      <span ng-if="rvm.curView !== 'st'">
-          <a ng-href="{{cfg.portal.mainPage}}#/st/">Search terms</a>
-      </span>
+      <table style="display: inline">
+        <tbody>
+        <tr>
+          <td style="vertical-align: top">
+            <span>
+              <span>
+                <a target="_blank" class="btn btn-sm btn-link appLink"
+                   href="https://github.com/mmisw/orr-portal">v@@version</a>
+              </span>
+              <span ng-if="cfg.help">
+                <a target="_blank" class="btn btn-sm btn-link appLink"
+                   ng-href="{{cfg.help}}">Help</a>
+              </span>
+              <span ng-if="cfg.branding.tou">
+                <a target="_blank" class="btn btn-sm btn-link appLink"
+                   ng-href="{{cfg.branding.tou}}">Terms of use</a>
+              </span>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span ng-if="rvm.curView !== 'st'">
+                <a ng-href="{{cfg.portal.mainPage}}#/st/" class="btn btn-sm btn-link">Search terms</a>
+            </span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
     </span>
   </div>
   <span style="width: 30px"></span> <!-- some filler -->

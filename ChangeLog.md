@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-06-20: 3.0.alpha:
+  - implement #15 "branding"
+
 * 2016-06-18: 0.3.2:
   - implement #26 "option to unregister ontology"
     - Menu with option to unregister current displayed version, and whole ontology entry (all versions)
