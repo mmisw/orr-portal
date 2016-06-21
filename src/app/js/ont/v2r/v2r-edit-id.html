@@ -8,9 +8,12 @@
 
       <form class="form-horizontal">
         <p style="color: gray">
-          To construct the URI of this entity either specify a "local name"
-          (relative to the URI of this ontology),
-          or a full URI.
+          To construct the URI of this {{vm.what}} either specify a "local name"
+          (relative to the URI of this ontology)
+          or a full URI<span ng-if="vm.what === 'property'"
+          >, where you can also select from a list of standard properties
+          that may be applicable to your vocabulary
+        </span>.
         </p>
         <br>
 
@@ -24,65 +27,98 @@
 
         <br>
 
-        <div class="form-group" ng-if="vm.idType === 'lname'">
-          <label for="inputLocalName" class="control-label col-xs-2">
-            Local&nbsp;name:
-          </label>
+        <div ng-if="vm.idType === 'lname'">
+          <div class="form-group">
+            <label for="inputLocalName" class="control-label col-xs-2">
+              Local&nbsp;name:
+            </label>
 
-          <div class="col-xs-4">
-            <input id="inputLocalName"
-                   type="text"
-                   class="form-control"
-                   ng-model="vm.lname"
-            >
+            <div class="col-xs-4">
+              <input id="inputLocalName"
+                     type="text"
+                     class="form-control"
+                     ng-model="vm.lname"
+              >
+            </div>
           </div>
-        </div>
 
-        <div class="form-group" ng-if="vm.idType === 'lname'">
-          <label class="control-label col-xs-1"></label>
+          <div class="form-group">
+            <label class="control-label col-xs-1"></label>
 
-          <div class="col-xs-7">
-            <span>
-              URI:&nbsp;<span class="uriTextSimple"
+            <div class="col-xs-7">
+              <span>
+                URI:&nbsp;<span class="uriTextSimple"
               >{{vm.namespace}}/<span ng-if="vm.lname" ng-bind="vm.lname" style="text-decoration: underline"
-                ></span><span ng-if="!vm.lname" style="color: red">?</span>
+              ></span><span ng-if="!vm.lname" style="color: red">?</span>
+                </span>
               </span>
-            </span>
+            </div>
           </div>
         </div>
 
-        <div class="form-group" ng-if="vm.idType === 'uri'">
+        <div ng-if="vm.idType === 'uri'">
+          <div class="form-group" ng-if="vm.what === 'property'">
+            <label class="control-label col-xs-2">
+            </label>
 
-          <label for="inputUri" class="control-label col-xs-2">
-            Full&nbsp;URI:
-          </label>
-
-          <div class="col-xs-8">
-            <input id="inputUri"
-                   type="url"
-                   class="form-control"
-                   ng-model="vm.uri"
-            >
+            <div class="col-xs-8">
+              <div style="color: gray">
+                <span style="text-decoration: underline">Tip</span>:
+                Consider using a
+                <div class="btn-group" uib-dropdown>
+                  <div type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle
+                  >
+                    standard property <span class="caret"></span>
+                  </div>
+                  <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="stdProp in vm.stdProperties">
+                      <a href ng-click="stdPropertySelected(stdProp)"
+                         uib-popover="{{stdProp.tooltip}}"
+                         popover-placement="left"
+                         popover-trigger="mouseenter"
+                      >
+                        {{stdProp.prefix}}:{{stdProp.localName}}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <div class="form-group">
+
+            <label for="inputUri" class="control-label col-xs-2">
+              Full&nbsp;URI:
+            </label>
+
+            <div class="col-xs-8">
+              <input id="inputUri"
+                     type="url"
+                     class="form-control"
+                     ng-model="vm.uri"
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+
+            <label class="col-xs-3"> </label>
+            <button class="btn btn-primary btn-sm"
+                    ng-disabled="!idEditFormOk()"
+                    ng-click="doneEditId()"
+            >OK
+            </button>
+
+            <label class="col-xs-1"> </label>
+            <button class="btn btn-default btn-sm"
+                    ng-click="cancelEditId()"
+                    ng-disabled="vm.working"
+            >Cancel
+            </button>
+          </div>
+
         </div>
-
-        <div class="form-group">
-
-          <label class="col-xs-3"> </label>
-          <button class="btn btn-primary btn-sm"
-                  ng-disabled="!idEditFormOk()"
-                  ng-click="doneEditId()"
-          >OK
-          </button>
-
-          <label class="col-xs-1"> </label>
-          <button class="btn btn-default btn-sm"
-                  ng-click="cancelEditId()"
-                  ng-disabled="vm.working"
-          >Cancel
-          </button>
-        </div>
-
       </form>
 
     </div>

@@ -6,15 +6,28 @@
   ;
 
   function vocabulary() {
+    var byUri = {};
     return {
+      byUri: byUri,
+
       rdf: setDetails("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", {
         type: {
         }
       }),
 
       rdfs: setDetails("rdfs", "http://www.w3.org/2000/01/rdf-schema#", {
+        label: {
+          tooltip: "A human-readable name for the subject."
+        },
+        comment: {
+          tooltip: "A description of the subject resource."
+        },
+        isDefinedBy: {
+          tooltip: "Used to indicate a resource defining the subject resource. " +
+            "This property may be used to indicate an RDF vocabulary in which a resource is described."
+        },
         seeAlso: {
-          tooltip: "Further information about the subject resource."
+          tooltip: "Used to indicate a resource that might provide additional information about the subject resource."
         }
       }),
 
@@ -70,6 +83,12 @@
       }),
 
       skos: setDetails("skos", "http://www.w3.org/2004/02/skos/core#", {
+        note: {
+          tooltip: "SKOS property for general documentation purposes."
+        },
+        definition: {
+          tooltip: "A complete explanation of the intended meaning of a concept."
+        },
         exactMatch: {
           tooltip: "The property skos:exactMatch is used to link two concepts, indicating a high degree " +
             "of confidence that the concepts can be used interchangeably across a wide range of " +
@@ -197,6 +216,7 @@
         term.uri = namespace + localName;
         term.localName = localName;
         term.label = term.label || localName;
+        byUri[term.uri] = term;
       });
       obj.NS = namespace;
       return obj;

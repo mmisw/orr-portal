@@ -24,13 +24,13 @@
     }
   }
 
-  V2rDataViewerController.$inject = ['$window'];
-  function V2rDataViewerController($window) {
+  V2rDataViewerController.$inject = ['$window', 'vocabulary'];
+  function V2rDataViewerController($window, vocabulary) {
     var vm = this;
     vm.debug = debug;
     if (debug) console.log("++V2rDataViewerController++ vm=", vm);
 
-    setCommonMethods(vm);
+    setCommonMethods(vm, vocabulary);
 
     // mainly a workaround as the ng-href link in a "text/ng-template"
     // used in <uib-tab> doesn't work for some reason
@@ -67,26 +67,26 @@
     };
   }
 
-  V2rDataEditorController.$inject = ['$scope', '$uibModal', '$filter', '$timeout', 'utl', 'focus'];
-  function V2rDataEditorController($scope, $uibModal, $filter, $timeout, utl, focus) {
+  V2rDataEditorController.$inject = ['$scope', '$uibModal', '$filter', '$timeout', 'utl', 'focus', 'vocabulary'];
+  function V2rDataEditorController($scope, $uibModal, $filter, $timeout, utl, focus, vocabulary) {
     var vm = this;
     vm.debug = debug;
     if (debug) console.log("++V2rDataEditorController++ vm=", vm);
 
-    setCommonMethods(vm);
+    setCommonMethods(vm, vocabulary);
 
     //////////////////////////////////////
     // Class and property editing
 
     vm.editVocabClass = function(idModel) {
-      return editIdModel("Vocabulary class", idModel);
+      return editIdModel("Vocabulary class", "class", idModel);
     };
 
     vm.editVocabProperty = function(idModel) {
-      return editIdModel("Vocabulary property", idModel);
+      return editIdModel("Vocabulary property", "property", idModel);
     };
 
-    function editIdModel(title, idModel) {
+    function editIdModel(title, what, idModel) {
       //console.log("editId': title=", title, "idModel=", idModel);
       return $uibModal.open({
         templateUrl: 'js/ont/v2r/v2r-edit-id.html',
@@ -96,6 +96,7 @@
           info: function () {
             return {
               title:     title,
+              what:      what,
               namespace: vm.uri,
               idModel:   idModel
             };
@@ -422,22 +423,29 @@
     }
   }
 
-  V2rEditIdController.$inject = ['$scope', '$uibModalInstance', 'info'];
-  function V2rEditIdController($scope, $uibModalInstance, info) {
+  V2rEditIdController.$inject = ['$scope', '$uibModalInstance', 'vocabulary', 'info'];
+  function V2rEditIdController($scope, $uibModalInstance, vocabulary, info) {
     console.log("V2rEditIdController: info=", info);
 
     var vm = $scope.vm = {
       title:      info.title,
+      what:       info.what,
       namespace:  info.namespace,
       lname:      info.idModel.name,
       uri:        info.idModel.uri,
-      idType:     info.idModel.name ? "lname" : "uri"
+      idType:     info.idModel.name ? "lname" : "uri",
+      stdProperties: getStdProperties(vocabulary)
     };
 
     $scope.$watch("vm.lname", function(val) {
       // TODO review; this uses some most obvious symbols to avoid
       if (val) vm.lname = val.replace(/[\s/|?&!,;'\\]/gi, "");
     });
+
+    $scope.stdPropertySelected = function(stdProp) {
+      console.debug("stdPropertySelected: stdProp=", stdProp);
+      vm.uri = stdProp.uri;
+    };
 
     $scope.idEditFormOk = function() {
       return vm.idType === 'lname' && vm.lname
@@ -461,7 +469,7 @@
     };
   }
 
-  function setCommonMethods(vm) {
+  function setCommonMethods(vm, vocabulary) {
     vm.getUri = function(e) {
       if (e.uri)   return e.uri;
       if (!vm.uri) return undefined;
@@ -476,6 +484,10 @@
     vm.getLabel = function(e) {
       if (e.label)  return e.label;
       if (e.name)   return capitalizeFirstLetter(e.name);
+      var def = vocabulary.byUri[e.uri];
+      if (def) {
+        return def.prefix + ':' + def.label;
+      }
       return e.uri;
     };
 
@@ -487,6 +499,19 @@
     vm.multipleAttrValues = function(a) {
       if (angular.isArray(a) && a.length > 1) return a;
     };
+  }
+
+  // TODO retrieve list from a registered (internal) ontology
+  function getStdProperties(vocabulary) {
+    return [
+      vocabulary.skos.definition,
+      vocabulary.skos.note,
+      vocabulary.rdfs.seeAlso,
+      vocabulary.dct.title,
+      vocabulary.dct.description,
+      vocabulary.dct.creator,
+      vocabulary.dct.contributor
+    ]
   }
 
   function capitalizeFirstLetter(s) {
