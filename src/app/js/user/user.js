@@ -17,9 +17,9 @@
       controller: UserController
     }
   }
-  UserController.$inject = ['$scope', '$stateParams'];
+  UserController.$inject = ['$scope', '$stateParams', 'service'];
 
-  function UserController($scope, $stateParams) {
+  function UserController($scope, $stateParams, service) {
     if (appUtil.debug) console.log("++UserController++");
 
     $scope.userName = $stateParams.userName;
@@ -27,6 +27,16 @@
     $scope.$on('evtAuthenticateStateChanged', function(evt, masterAuth, user) {
       //console.debug('$on evtAuthenticateStateChanged: masterAuth=', masterAuth);
       $scope.user = user;
+    });
+
+    service.refreshUser($scope.userName, function gotUser(error, user) {
+      if (error) {
+        console.error("error getting user:", error);
+        $scope.error = error;
+      }
+      else {
+        $scope.user = user;
+      }
     });
   }
 
