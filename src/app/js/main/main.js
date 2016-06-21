@@ -1,0 +1,50 @@
+(function() {
+  'use strict';
+
+  var debug = appUtil.debug;
+  //debug = true;
+
+  angular.module('orrportal.main', ['orrportal.directives', 'orrportal.filters', 'orrportal.services'])
+    .directive('orrMain',  MainDirective)
+  ;
+
+  MainDirective.$inject = [];
+  function MainDirective() {
+    if (debug) console.log("++MainDirective++");
+    return {
+      restrict: 'E',
+      templateUrl: 'js/main/main.html',
+      controller: MainController
+    }
+  }
+
+  MainController.$inject = ['$rootScope', '$scope', 'service'];
+
+  function MainController($rootScope, $scope, service) {
+    if (appUtil.debug) console.log("++MainController++");
+
+    $rootScope.rvm.curView = '';
+
+    $scope.$on('evtAuthenticateStateChanged', function(evt, masterAuth, user) {
+      //console.debug('MainController $on evtAuthenticateStateChanged: masterAuth=', masterAuth, "user=", user);
+      getOntologies($scope, service);
+    });
+
+    $scope.$on('evtRefresh', function() {
+      console.log(appUtil.logTs() + ": on gotOntologies");
+      getOntologies($scope, service);
+    });
+  }
+
+  function getOntologies($scope, service) {
+    service.refreshOntologies(function(error, ontologies) {
+      if (error) {
+        console.log(appUtil.logTs() + ": error getting ontologies:", error);
+      }
+      else {
+        $scope.$broadcast('evtGotOntologies', ontologies);
+      }
+    });
+  }
+
+})();

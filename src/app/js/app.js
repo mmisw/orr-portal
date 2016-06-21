@@ -104,9 +104,8 @@
     $stateProvider
       .state('/',  {
         url: '/',
-        templateUrl: 'js/main/views/main.tpl.html',
-        controller: 'MainController'}
-      )
+        template: '<orr-main></orr-main>'
+      })
 
       .state('newvoc', {
         url: '/newvoc',
@@ -133,8 +132,8 @@
 
       .state('searchOnt', {
         url: '/so/{so:.*}',
-        templateUrl: 'js/main/views/main.tpl.html',
-        controller: 'MainController'})
+        template: '<orr-main></orr-main>'
+      })
 
       .state('searchTerm', {
         url :'/st/{st:.*}',
