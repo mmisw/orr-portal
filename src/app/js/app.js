@@ -126,8 +126,7 @@
 
       .state('neworg', {
         url: '/neworg',
-        templateUrl: 'js/org/views/createOrg.tpl.html',
-        controller: 'CreateOrgController'
+        template: '<orr-org-create></orr-org-create>'
       })
 
       .state('searchOnt', {
@@ -148,8 +147,7 @@
 
       .state('org', {
         url: '/org/{orgName:.*}',
-        templateUrl: 'js/org/views/org.tpl.html',
-        controller: 'OrgController'
+        template: '<orr-org></orr-org>'
       })
 
       .state('user', {

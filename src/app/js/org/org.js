@@ -1,10 +1,22 @@
 (function() {
   'use strict';
 
+  var debug = appUtil.debug;
+  //debug = true;
+
   angular.module('orrportal.org', [])
-    .controller('OrgController', OrgController)
-    .controller('CreateOrgController', CreateOrgController)
+    .directive('orrOrg',  OrgDirective)
   ;
+
+  OrgDirective.$inject = [];
+  function OrgDirective() {
+    if (debug) console.log("++OrgDirective++");
+    return {
+      restrict: 'E',
+      templateUrl: 'js/org/org.html',
+      controller: OrgController
+    }
+  }
 
   OrgController.$inject = ['$scope', '$stateParams', 'service'];
 
@@ -14,6 +26,10 @@
     $scope.orgName = $stateParams.orgName;
     $scope.org = undefined;
     $scope.error = undefined;
+
+    $scope.$on('evtAuthenticateStateChanged', function(evt, masterAuth, user) {
+      refreshOrg($scope.orgName, service);
+    });
 
     refreshOrg($scope.orgName, service);
 
@@ -30,54 +46,6 @@
         }
       }
     }
-  }
-
-  CreateOrgController.$inject = ['$rootScope', '$scope', '$location', '$timeout', 'service'];
-
-  function CreateOrgController($rootScope, $scope, $location, $timeout, service) {
-    if (appUtil.debug) console.log("++CreateOrgController++");
-
-    if (!$rootScope.userLoggedInIsAdmin()) {
-      $location.url("/");
-      return;
-    }
-
-    var vm = $scope.vm = {
-      orgName: '',
-      name:    '',
-      members: ''
-    };
-
-    $scope.$watch("vm.orgName", function(val) {
-      vm.orgName = val.replace(/^[_\.-]+/, "").replace(/[^a-z0-9_\.-]/gi, "").toLowerCase();
-    });
-
-    $scope.okToCreateOrg = function() {
-      return vm.orgName && vm.name && vm.members;
-    };
-
-    $scope.createOrg = function() {
-      vm.status = "creating...";
-      vm.working = true;
-
-      service.createOrg(vm.orgName, vm.name, vm.members, createdOrg);
-
-      function createdOrg(error, org) {
-        vm.working = false;
-        vm.status = vm.error = undefined;
-        if (error) {
-          console.log("error creating org:", error);
-          vm.error = error;
-          $timeout(function() {
-            vm.error = undefined;
-          }, 3000);
-        }
-        else {
-          $location.url("org/" +org.orgName);
-        }
-      }
-    };
-
   }
 
 })();

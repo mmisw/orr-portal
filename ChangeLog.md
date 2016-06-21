@@ -2,6 +2,7 @@
 
 * 2016-06-21: 3.0.0-alpha:
   - some code clean-up and new evtAuthenticateStateChanged:
+    - orr-org and orr-org-create directives
     - admin-users directive
     - admin-orgs directive
     - orr-main directive
