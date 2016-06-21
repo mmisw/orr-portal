@@ -1,7 +1,7 @@
 ## change log ##
 
 * 2016-06-20: 3.0.alpha:
-  - implement #15 "v2r: for column property definition allow selection from standard vocabularies"
+  - implement #21 "v2r: for column property definition allow selection from standard vocabularies"
     A selected property is displayed with associated typical prefix, eg., skos:definition (#19).
     The list is for now hard-coded. TODO capture list in a registered (internal) ontology.
   - implement #15 "branding"
