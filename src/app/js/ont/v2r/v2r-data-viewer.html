@@ -8,7 +8,7 @@
   <uib-tab ng-repeat="vocab in vm.vocabs track by $index" style="cursor: pointer">
 
     <script type="text/ng-template" id="v2rClassTabPopup.html">
-      <div ng-mouseleave="vocab._showPopup=undefined">
+      <div ng-mouseleave="vocab._showPopup=undefined" class="left">
         Class: {{vm.getLabel(vocab.class)}}
         <a target="_blank" class="uriLink"
            ng-bind="vm.getUri(vocab.class)"
@@ -74,7 +74,7 @@
             ng-mouseenter="t._showPopup=true" ng-mouseleave="t._showPopup=undefined">
 
           <script type="text/ng-template" id="v2rTermUriPopup.html">
-            <div ng-mouseleave="t._showPopup=undefined">
+            <div ng-mouseleave="t._showPopup=undefined" class="left">
               Term&nbsp;URI:
               <br>
               <a target="_blank" class="uriLink"

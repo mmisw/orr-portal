@@ -293,6 +293,7 @@ div.facetsubblock {
 .uriLink {
   font-family: 'Inconsolata', monospace;
   font-weight: 200;
+  white-space: nowrap;
 }
 
 .ownerLink {

@@ -101,24 +101,25 @@
             </div>
           </div>
 
-          <div class="form-group">
-
-            <label class="col-xs-3"> </label>
-            <button class="btn btn-primary btn-sm"
-                    ng-disabled="!idEditFormOk()"
-                    ng-click="doneEditId()"
-            >OK
-            </button>
-
-            <label class="col-xs-1"> </label>
-            <button class="btn btn-default btn-sm"
-                    ng-click="cancelEditId()"
-                    ng-disabled="vm.working"
-            >Cancel
-            </button>
-          </div>
-
         </div>
+
+        <div class="form-group">
+
+          <label class="col-xs-3"> </label>
+          <button class="btn btn-primary btn-sm"
+                  ng-disabled="!idEditFormOk()"
+                  ng-click="doneEditId()"
+          >OK
+          </button>
+
+          <label class="col-xs-1"> </label>
+          <button class="btn btn-default btn-sm"
+                  ng-click="cancelEditId()"
+                  ng-disabled="vm.working"
+          >Cancel
+          </button>
+        </div>
+
       </form>
 
     </div>
