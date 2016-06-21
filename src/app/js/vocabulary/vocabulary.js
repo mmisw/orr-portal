@@ -207,6 +207,15 @@
         origVocSyntaxFormat: {
           label: "Syntax format"
         }
+      }),
+
+      vs: setDetails("vs", "http://www.w3.org/2003/06/sw-vocab-status/ns#", {
+        term_status: {
+          label: "status",
+          tooltip: "Status of a vocabulary term or resource, expressed as a short symbolic string. " +
+            "Possible values include 'draft', 'unstable', 'testing', 'stable', 'deprecated', 'archaic'."
+          // Note: a bit generalized
+        }
       })
     };
 

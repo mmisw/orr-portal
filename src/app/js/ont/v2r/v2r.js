@@ -510,7 +510,8 @@
       vocabulary.dct.title,
       vocabulary.dct.description,
       vocabulary.dct.creator,
-      vocabulary.dct.contributor
+      vocabulary.dct.contributor,
+      vocabulary.vs.term_status
     ]
   }
 
