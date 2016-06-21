@@ -3,9 +3,9 @@
     <div>
       <span title="Go to main page" style="vertical-align: middle">
         <a ng-if="rvm.rUri" ng-href="{{cfg.portal.mainPage}}">
-          <img src="{{cfg.branding.logo || 'img/mmi-orr3-logo.png'}}"></a>
+          <img ng-src="{{cfg.branding.logo || 'img/mmi-orr3-logo.png'}}"></a>
         <a ng-if="!rvm.rUri" ui-sref="/">
-          <img src="{{cfg.branding.logo || 'img/mmi-orr3-logo.png'}}"></a>
+          <img ng-src="{{cfg.branding.logo || 'img/mmi-orr3-logo.png'}}"></a>
       </span>
 
       <table style="display: inline">
