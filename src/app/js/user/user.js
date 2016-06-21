@@ -1,41 +1,33 @@
 (function() {
   'use strict';
 
+  var debug = appUtil.debug;
+  //debug = true;
+
   angular.module('orrportal.user', [])
-    .controller('UserController', UserController)
+    .directive('orrUser',  UserDirective)
   ;
 
-  UserController.$inject = ['$rootScope', '$scope', '$stateParams', '$timeout', 'service'];
+  UserDirective.$inject = [];
+  function UserDirective() {
+    if (debug) console.log("++UserDirective++");
+    return {
+      restrict: 'E',
+      templateUrl: 'js/user/user.html',
+      controller: UserController
+    }
+  }
+  UserController.$inject = ['$scope', '$stateParams'];
 
-  function UserController($rootScope, $scope, $stateParams, $timeout, service) {
+  function UserController($scope, $stateParams) {
     if (appUtil.debug) console.log("++UserController++");
 
     $scope.userName = $stateParams.userName;
-    $scope.user = undefined;
-    $scope.error = undefined;
 
-    // TODO use ui-router instead of the following hacky logic
-    if (!$rootScope.userLoggedIn()) {  // wait for a bit
-      $timeout(function() {
-        refreshUser();
-      }, 2000);
-    }
-    else refreshUser();
-
-    function refreshUser() {
-      service.refreshUser($scope.userName, gotUser);
-
-      function gotUser(error, user) {
-        if (error) {
-          console.log("error getting user:", error);
-          $scope.error = error;
-        }
-        else {
-          //console.debug("gotUser=", user);
-          $scope.user = user;
-        }
-      }
-    }
+    $scope.$on('evtAuthenticateStateChanged', function(evt, masterAuth, user) {
+      //console.debug('$on evtAuthenticateStateChanged: masterAuth=', masterAuth);
+      $scope.user = user;
+    });
   }
 
 })();

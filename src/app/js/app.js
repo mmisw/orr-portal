@@ -155,8 +155,7 @@
 
       .state('user', {
         url: '/user/{userName:.*}',
-        templateUrl: 'js/user/views/user.tpl.html',
-        controller: 'UserController'
+        template: '<orr-user></orr-user>'
       })
 
       .state('users', {

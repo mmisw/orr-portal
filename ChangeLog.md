@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-06-21: 3.0.0-alpha:
+  - some code clean-up in user module, and new evtAuthenticateStateChanged
   - uiRoutes is only used for main page and associated actions (no need for rUri parameter)
 
 * 2016-06-20: 3.0.alpha:

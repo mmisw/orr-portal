@@ -75,12 +75,14 @@
             masterAuth.organizations = user.organizations;
             updateFirebase();
             updateUI();
+            notifyAuthenticateStateChanged(masterAuth, user);
           }
         });
       }
       else {
         updateFirebase();
         updateUI();
+        notifyAuthenticateStateChanged();
       }
 
       function updateMasterAuth(authData) {
@@ -157,6 +159,10 @@
         //$state.reload();
         // TODO graceful update as this *reload* would cause controllers to be created twice
       }
+
+      function notifyAuthenticateStateChanged(masterAuth, user) {
+        $rootScope.$broadcast('evtAuthenticateStateChanged', masterAuth, user);
+      }
     }
   }
 
@@ -230,7 +236,7 @@
 
   OrrOntLoginController.$inject = ['$scope', '$uibModalInstance', '$http', '$uibModal', 'fireAuth', 'cfg'];
   function OrrOntLoginController($scope, $uibModalInstance, $http, $uibModal, fireAuth, cfg) {
-    console.log("=OrrOntLoginController=");
+    //console.log("=OrrOntLoginController=");
 
     var vm = $scope.vm = {
       userName: "",
@@ -306,7 +312,7 @@
         backdrop:    'static'
       });
       modalInstance.result.then(function (username) {
-        console.log('orront.create dialog accepted: username=', username);
+        //console.log('orront.create dialog accepted: username=', username);
         vm.userName = username;
         vm.password = '';
       }, function () {});
