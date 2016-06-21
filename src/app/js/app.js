@@ -96,21 +96,16 @@
     editableOptions.theme = 'bs3';
   }
 
-  uiRoutes.$inject = ['$stateProvider', '$urlRouterProvider', 'rUri'];
-  function uiRoutes($stateProvider, $urlRouterProvider, rUri) {
+  uiRoutes.$inject = ['$stateProvider', '$urlRouterProvider'];
+  function uiRoutes($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise("/");
 
     $stateProvider
-      .state('/', rUri
-          ? {
-          url: '/',
-          template: '<orr-ont></orr-ont>'
-        }
-          : {
-          url: '/',
-          templateUrl: 'js/main/views/main.tpl.html',
-          controller: 'MainController'}
+      .state('/',  {
+        url: '/',
+        templateUrl: 'js/main/views/main.tpl.html',
+        controller: 'MainController'}
       )
 
       .state('newvoc', {
