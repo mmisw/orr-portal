@@ -13,7 +13,7 @@
     if (debug) console.log("++UsersDirective++");
     return {
       restrict: 'E',
-      templateUrl: 'js/admin/users.tpl.html',
+      templateUrl: 'js/admin/users.html',
       controller: UsersController
     }
   }
@@ -24,10 +24,18 @@
     $scope.debug = debug;
     if (debug) console.debug("++UsersController++ $scope=", $scope);
 
-    if (!$rootScope.userLoggedInIsAdmin()) {
-      $location.url("/");
-      return;
+    if ($rootScope.userLoggedInIsAdmin()) {
+      getUsers();
     }
+
+    $scope.$on('evtAuthenticateStateChanged', function(evt, masterAuth, user) {
+      if ($rootScope.userLoggedInIsAdmin()) {
+        getUsers();
+      }
+      else {
+        $location.url("/");
+      }
+    });
 
     $scope.someColumnDefs = [
       {
@@ -39,7 +47,6 @@
         + '</div>'
       }
     ];
-    getUsers();
 
     function getUsers() {
       service.refreshUsers(function(error, data) {
