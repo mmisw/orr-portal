@@ -34,6 +34,9 @@
       console.log(appUtil.logTs() + ": on gotOntologies");
       getOntologies($scope, service);
     });
+
+    // TODO still improved "refresh" logic is needed
+    getOntologies($scope, service);
   }
 
   function getOntologies($scope, service) {

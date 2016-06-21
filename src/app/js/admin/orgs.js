@@ -13,7 +13,7 @@
     if (debug) console.log("++OrgsDirective++");
     return {
       restrict: 'E',
-      templateUrl: 'js/admin/orgs.tpl.html',
+      templateUrl: 'js/admin/orgs.html',
       controller: OrgsController
     }
   }
@@ -24,10 +24,18 @@
     $scope.debug = debug;
     if (debug) console.debug("++OrgsController++ $scope=", $scope);
 
-    if (!$rootScope.userLoggedInIsAdmin()) {
-      $location.url("/");
-      return;
+    if ($rootScope.userLoggedInIsAdmin()) {
+      getOrgs();
     }
+
+    $scope.$on('evtAuthenticateStateChanged', function(evt, masterAuth, user) {
+      if ($rootScope.userLoggedInIsAdmin()) {
+        getOrgs();
+      }
+      else {
+        $location.url("/");
+      }
+    });
 
     $scope.someColumnDefs = [
       {
@@ -48,8 +56,6 @@
           + '</div>'
       }
     ];
-
-    getOrgs();
 
     function getOrgs() {
       service.refreshOrgs(function(error, data) {
