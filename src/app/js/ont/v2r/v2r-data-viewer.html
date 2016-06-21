@@ -8,15 +8,14 @@
   <uib-tab ng-repeat="vocab in vm.vocabs track by $index" style="cursor: pointer">
 
     <script type="text/ng-template" id="v2rClassTabPopup.html">
-      <span>
+      <div ng-mouseleave="vocab._showPopup=undefined">
         Class: {{vm.getLabel(vocab.class)}}
         <a target="_blank" class="uriLink"
            ng-bind="vm.getUri(vocab.class)"
            ng-click="vm.openLink(vm.getUri(vocab.class))"
-           ng-mouseleave="vocab._showPopup=undefined"
         >
         </a>
-      </span>
+      </div>
     </script>
 
     <uib-tab-heading ng-mouseenter="vocab._showPopup=true" ng-mouseleave="vocab._showPopup=undefined">
@@ -41,16 +40,18 @@
             ng-mouseenter="p._showPopup=true" ng-mouseleave="p._showPopup=undefined"
         >
           <script type="text/ng-template" id="v2rTermPropertyPopup.html">
-            <span>
-              Property: {{vm.getLabel(p)}}
+            <div ng-mouseleave="p._showPopup=undefined">
+              <span style="font-weight: bold">{{vm.getLabel(p)}}</span>
+              <span ng-if="vm.getTooltip(p)">
+                <br>{{vm.getTooltip(p)}}
+              </span>
               <br>
               <a target="_blank" class="uriLink"
                  ng-href="{{vm.getUri(p)}}"
                  ng-bind="vm.getUri(p)"
-                 ng-mouseleave="p._showPopup=undefined"
               >
               </a>
-            </span>
+            </div>
           </script>
 
           <div>
@@ -73,15 +74,14 @@
             ng-mouseenter="t._showPopup=true" ng-mouseleave="t._showPopup=undefined">
 
           <script type="text/ng-template" id="v2rTermUriPopup.html">
-            <span>
+            <div ng-mouseleave="t._showPopup=undefined">
               Term&nbsp;URI:
               <br>
               <a target="_blank" class="uriLink"
                  ng-href="{{vm.getUri(t)}}"
                  ng-bind="vm.getUri(t)"
-                 ng-mouseleave="t._showPopup=undefined"
               ></a>
-            </span>
+            </div>
           </script>
 
           <span uib-popover-template="'v2rTermUriPopup.html'"

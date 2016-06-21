@@ -491,6 +491,14 @@
       return e.uri;
     };
 
+    vm.getTooltip = function(e) {
+      if (e.tooltip)  return e.tooltip;
+      var def = vocabulary.byUri[e.uri];
+      if (def && def.tooltip) {
+        return def.tooltip;
+      }
+    };
+
     vm.singleAttrValue = function(a) {
       if (angular.isString(a))                 return a;
       if (angular.isArray(a) && a.length == 1) return a[0];

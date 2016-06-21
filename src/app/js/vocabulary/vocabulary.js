@@ -213,7 +213,7 @@
         term_status: {
           label: "status",
           tooltip: "Status of a vocabulary term or resource, expressed as a short symbolic string. " +
-            "Possible values include 'draft', 'unstable', 'testing', 'stable', 'deprecated', 'archaic'."
+            "Possible values include draft, unstable, testing, stable, deprecated, and archaic."
           // Note: a bit generalized
         }
       })
