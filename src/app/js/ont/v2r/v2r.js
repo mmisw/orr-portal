@@ -73,6 +73,8 @@
     vm.debug = debug;
     if (debug) console.log("++V2rDataEditorController++ vm=", vm);
 
+    var stdProperties = getStdProperties(vocabulary);
+
     setCommonMethods(vm, vocabulary);
 
     //////////////////////////////////////
@@ -111,7 +113,8 @@
       var INS_LEFT  = 'Insert vocabulary (to the left)';
       var INS_RIGHT = 'Insert vocabulary (to the right)';
       var DEL_COL   = 'Delete this vocabulary';
-      vm.vocabMenu = [MOV_LEFT, MOV_RIGTH, INS_LEFT, INS_RIGHT, DEL_COL];
+      var IMPORT_CSV = 'Import CSV contents';
+      vm.vocabMenu = [MOV_LEFT, MOV_RIGTH, INS_LEFT, INS_RIGHT, DEL_COL, IMPORT_CSV];
 
       vm.addVocab = function() {
         insertVocab(vm.vocabs.length);
@@ -123,6 +126,7 @@
         if (opt === INS_LEFT)  insertVocab(v_index);
         if (opt === INS_RIGHT) insertVocab(v_index + 1);
         if (opt === DEL_COL)   deleteVocab(v_index);
+        if (opt === IMPORT_CSV) importCsv(v_index);
       };
 
       function moveVocab(from_index, to_index) {
@@ -158,6 +162,81 @@
             });
           }
         });
+      }
+
+      function importCsv(v_index) {
+        //console.debug("dispatchCsvImport: v_index=", v_index);
+        var instance = $uibModal.open({
+          templateUrl: 'js/ont/v2r/v2r-csv.html',
+          controller: 'CsvImportController',
+          backdrop: 'static',
+          size:     'lg',
+          resolve: {
+            info: function () {
+              return {
+                csvString: ''
+              };
+            }
+          }
+        });
+        instance.result.then(updateVocabFromCsv);
+
+        function updateVocabFromCsv(csvParsed) {
+          var vocab = vm.vocabs[v_index];
+          vocab.properties.splice(0);
+          vocab.terms.splice(0);
+
+          // properties:
+          var csvHeader = csvParsed[0];
+          for (var cc = 1; cc < csvHeader.length; cc++) {
+            vocab.properties.push(createIdModelFromCsvHeaderCell(csvHeader[cc]));
+          }
+
+          // terms:
+          for (var rr = 1; rr < csvParsed.length; rr++) {
+            var csvRow = csvParsed[rr];
+            var term = {
+              name:       csvRow[0].trim(),
+              attributes: []
+            };
+            for (cc = 1; cc < csvHeader.length; cc++) {
+              var value = cc < csvRow.length ? csvRow[cc] : null;
+              if (value) {
+                value = value.trim() || null;
+              }
+              term.attributes.push(value);
+            }
+            setAttrModelsForTerm(term);
+            vocab.terms.push(term);
+          }
+
+          function createIdModelFromCsvHeaderCell(csvCell) {
+            csvCell = csvCell.trim();
+            var idModel = {};
+            // is it a "standard" property or a full uri?
+            if (csvCell.indexOf(':') >= 0) {
+              // yes.
+              // Is it a "standard" prop according to prefixed notation (eg., "skos:definition")?
+              var stdProp = _.find(stdProperties, function(sp) {
+                var prefixed = sp.prefix+ ':' + sp.localName;
+                if (prefixed === csvCell) return sp;
+              });
+              if (stdProp) {
+                // yes: capture the associated uri
+                idModel.uri = stdProp.uri;
+              }
+              else {
+                // no: assume it's a full uri
+                idModel.uri = csvCell;
+              }
+            }
+            else {
+              // no colon, so assume it's a "local" name
+              idModel.name = csvCell;
+            }
+            return idModel;
+          }
+        }
       }
     })();
 

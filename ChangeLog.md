@@ -1,5 +1,20 @@
 ## change log ##
 
+* 2016-06-22: 3.0.1-alpha:
+  - implement #31 "CSV import for vocabulary table".
+    For parsing the given CSV contents, using [knrz/CSV.js](https://github.com/knrz/CSV.js/) which seems
+    good enough at least initially.
+    ([SheetJS/js-xlsx](https://github.com/SheetJS/js-xlsx) can be considered for a future more sophisticated version.)
+
+      The following cases are considered for creation of the properties according to each header string:
+       - if the string is a prefixed notation for one of the "standard" properties (eg, "skos:definition"),
+       then the corresponding URI is associated to the property;
+       - otherwise, if the string contains a colon (:), then it's assumed to be a full URI;
+       - else, the string is taken as a "local" name for the property.
+
+       TODO This logic can be made more robust later on.
+
+
 * 2016-06-21: 3.0.0-alpha:
   - some code clean-up and new evtAuthenticateStateChanged:
     - orr-org and orr-org-create directives

@@ -442,6 +442,10 @@ div.facetsubblock {
   min-width: 200px;
 }
 
+.v2rCsvContents {
+  font-family: 'Inconsolata', monospace;
+}
+
 .editable-controls {
   margin: 0 !important;
 }
