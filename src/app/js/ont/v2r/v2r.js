@@ -573,7 +573,16 @@
 
     vm.getLabel = function(e) {
       if (e.label)  return e.label;
-      if (e.name)   return capitalizeFirstLetter(e.name);
+      if (e.name)   return e.name;  //capitalizeFirstLetter(e.name);
+      var def = vocabulary.byUri[e.uri];
+      if (def) {
+        return def.label;
+      }
+      return e.uri;
+    };
+
+    vm.getPrefixed = function(e) {
+      if (e.name)  return ':' + e.name;  // capitalizeFirstLetter(e.name);
       var def = vocabulary.byUri[e.uri];
       if (def) {
         return def.prefix + ':' + def.label;

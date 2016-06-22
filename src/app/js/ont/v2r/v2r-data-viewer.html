@@ -41,7 +41,7 @@
         >
           <script type="text/ng-template" id="v2rTermPropertyPopup.html">
             <div ng-mouseleave="p._showPopup=undefined">
-              <span style="font-weight: bold">{{vm.getLabel(p)}}</span>
+              <span style="font-weight: bold" ng-bind="vm.getPrefixed(p)"></span>
               <span ng-if="vm.getTooltip(p)">
                 <br>{{vm.getTooltip(p)}}
               </span>
