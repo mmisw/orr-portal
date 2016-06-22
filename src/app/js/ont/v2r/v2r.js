@@ -109,12 +109,12 @@
 
     (function prepareVocabMenu() {
       var MOV_LEFT  = 'Move vocabulary to the left';
-      var MOV_RIGTH = 'Move vocabulary to the right';
+      var MOV_RIGHT = 'Move vocabulary to the right';
       var INS_LEFT  = 'Insert vocabulary (to the left)';
       var INS_RIGHT = 'Insert vocabulary (to the right)';
       var DEL_COL   = 'Delete this vocabulary';
       var IMPORT_CSV = 'Import CSV contents';
-      vm.vocabMenu = [MOV_LEFT, MOV_RIGTH, INS_LEFT, INS_RIGHT, DEL_COL, IMPORT_CSV];
+      vm.vocabMenu = [MOV_LEFT, MOV_RIGHT, INS_LEFT, INS_RIGHT, DEL_COL, IMPORT_CSV];
 
       vm.addVocab = function() {
         insertVocab(vm.vocabs.length);
@@ -122,7 +122,7 @@
 
       vm.vocabOptionSelected = function(v_index, opt) {
         if (opt === MOV_LEFT)  moveVocab(v_index, v_index - 1);
-        if (opt === MOV_RIGTH) moveVocab(v_index, v_index + 1);
+        if (opt === MOV_RIGHT) moveVocab(v_index, v_index + 1);
         if (opt === INS_LEFT)  insertVocab(v_index);
         if (opt === INS_RIGHT) insertVocab(v_index + 1);
         if (opt === DEL_COL)   deleteVocab(v_index);
@@ -242,11 +242,11 @@
 
     (function prepareColumnMenu() {
       var MOV_LEFT  = 'Move property to the left';
-      var MOV_RIGTH = 'Move property to the right';
+      var MOV_RIGHT = 'Move property to the right';
       var INS_LEFT  = 'Insert property (to the left)';
       var INS_RIGHT = 'Insert property (to the right)';
       var DEL_COL   = 'Delete this property';
-      vm.columnMenu = [MOV_LEFT, MOV_RIGTH, INS_LEFT, INS_RIGHT, DEL_COL];
+      vm.columnMenu = [MOV_LEFT, MOV_RIGHT, INS_LEFT, INS_RIGHT, DEL_COL];
 
       vm.addProperty = function(vocab) {
         insertProp(vocab, vocab.properties.length);
@@ -254,7 +254,7 @@
 
       vm.columnOptionSelected = function(vocab, p_index, opt) {
         if (opt === MOV_LEFT)  moveProp(vocab, p_index, p_index - 1);
-        if (opt === MOV_RIGTH) moveProp(vocab, p_index, p_index + 1);
+        if (opt === MOV_RIGHT) moveProp(vocab, p_index, p_index + 1);
         if (opt === INS_LEFT)  insertProp(vocab, p_index);
         if (opt === INS_RIGHT) insertProp(vocab, p_index + 1);
         if (opt === DEL_COL)   deleteProp(vocab, p_index);
