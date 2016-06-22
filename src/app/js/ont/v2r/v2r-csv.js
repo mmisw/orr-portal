@@ -54,7 +54,7 @@
       //console.debug('dispatchCsvImport dialog accepted: csvParsed=', csvParsed);
       utl.confirm({
         message: '<div class="center">' +
-        'This action will replace the whole contents of this vocabulary.' +
+        'This action will replace the whole contents of this term set table.' +
         '</div>',
         ok: function() {
           $uibModalInstance.close(csvParsed);

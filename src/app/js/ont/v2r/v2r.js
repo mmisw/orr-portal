@@ -81,11 +81,11 @@
     // Class and property editing
 
     vm.editVocabClass = function(idModel) {
-      return editIdModel("Vocabulary class", "class", idModel);
+      return editIdModel("Term set class", "class", idModel);
     };
 
     vm.editVocabProperty = function(idModel) {
-      return editIdModel("Vocabulary property", "property", idModel);
+      return editIdModel("Term set property", "property", idModel);
     };
 
     function editIdModel(title, what, idModel) {
@@ -110,23 +110,23 @@
     (function prepareVocabMenu() {
       vm.vocabMenu = {
         MOV_LEFT: {
-          label: 'Move vocabulary to the left',
+          label: 'Move term set to the left',
           handler: function(v_index) { moveVocab(v_index, v_index - 1); }
         },
         MOV_RIGHT: {
-          label: 'Move vocabulary to the right',
+          label: 'Move term set to the right',
           handler: function(v_index) { moveVocab(v_index, v_index + 1); }
         },
         INS_LEFT: {
-          label: 'Insert vocabulary (to the left)',
+          label: 'Insert term set (to the left)',
           handler: function(v_index) { insertVocab(v_index); }
         },
         INS_RIGHT: {
-          label: 'Insert vocabulary (to the right)',
+          label: 'Insert term set (to the right)',
           handler: function(v_index) { insertVocab(v_index + 1); }
         },
         DEL_COL: {
-          label: 'Delete this vocabulary',
+          label: 'Delete this term set',
           handler: function(v_index) { deleteVocab(v_index); }
         },
         IMPORT_CSV: {
@@ -162,8 +162,9 @@
 
       function deleteVocab(v_index) {
         utl.confirm({
+          size: 'md',
           message: '<div class="center">' +
-          'Are you sure you want to remove this vocabulary?' +
+          'Are you sure you want to remove this term set?' +
           '<br><br>(the associated class, properties and terms will be removed)' +
           '</div>',
           ok: function() {

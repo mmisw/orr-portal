@@ -3,10 +3,10 @@
         ng-disabled="someEditInProgress() || attrTableform.$waiting"
         ng-click="vm.addVocab()"
         class="btn btn-primary btn-sm"
-        uib-popover="Add a vocabulary (a class and associated properties and terms)"
+        uib-popover="Add a term set (a class and associated properties and terms)"
         popover-placement="right" popover-trigger="mouseenter"
 >
-  <i class="fa fa-plus" aria-hidden="true"></i>Vocabulary
+  <i class="fa fa-plus" aria-hidden="true"></i>Term set
 </div>
 
 <uib-tabset ng-if="vm.vocabs.length" style="width: 100%"
@@ -103,7 +103,7 @@
                   ng-disabled="someEditInProgress() || attrTableform.$waiting"
                   ng-click="vm.addProperty(vocab)"
                   class="btn btn-primary btn-xs"
-                  uib-tooltip="Add a property to this vocabulary"
+                  uib-tooltip="Add a property to this term set"
                   tooltip-placement="left"
           >
             <i class="fa fa-plus" aria-hidden="true"></i>Property
@@ -237,7 +237,7 @@
             ng-click="vm.addTerm(vocab)"
             class="btn btn-primary btn-sm"
             style="margin-top: 8px; margin-left: 32px"
-            uib-tooltip="Add a term to this vocabulary"
+            uib-tooltip="Add a term to this term set"
             tooltip-placement="right"
     >
       <i class="fa fa-plus" aria-hidden="true"></i>Term
