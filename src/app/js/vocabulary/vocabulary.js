@@ -90,24 +90,29 @@
           tooltip: "A complete explanation of the intended meaning of a concept."
         },
         exactMatch: {
+          label: "has exact match",
           tooltip: "The property skos:exactMatch is used to link two concepts, indicating a high degree " +
             "of confidence that the concepts can be used interchangeably across a wide range of " +
             "information retrieval applications. [SKOS Section 10.1] (transitive, symmetric)"
         },
         closeMatch: {
+          label: "has close match",
           tooltip: "A skos:closeMatch link indicates that two concepts are sufficiently similar that " +
             "they can be used interchangeably in some information retrieval applications. " +
             "[SKOS Section 10.1] (symmetric)"
         },
         broadMatch: {
+          label: "has broader match",
           tooltip: "'has the broader concept': the second (object) concept is broader than the first " +
             "(subject) concept [SKOS Section 8.1] (infers broaderTransitive, a transitive relation)"
         },
         narrowMatch: {
+          label: "has narrower match",
           tooltip: "'has the narrower concept': the second (object) concept is narrower than the first " +
             "(subject) concept [SKOS Section 8.1] (infers narrowTransitive, a transitive relation)"
         },
         relatedMatch: {
+          label: "has related match",
           tooltip: "The property skos:relatedMatch is used to state an associative mapping link between " +
             "two concepts. [SKOS Section 8.1] (symmetric)"
         }
