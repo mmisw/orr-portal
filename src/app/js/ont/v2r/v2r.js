@@ -108,25 +108,35 @@
     }
 
     (function prepareVocabMenu() {
-      var MOV_LEFT  = 'Move vocabulary to the left';
-      var MOV_RIGHT = 'Move vocabulary to the right';
-      var INS_LEFT  = 'Insert vocabulary (to the left)';
-      var INS_RIGHT = 'Insert vocabulary (to the right)';
-      var DEL_COL   = 'Delete this vocabulary';
-      var IMPORT_CSV = 'Import CSV contents';
-      vm.vocabMenu = [MOV_LEFT, MOV_RIGHT, INS_LEFT, INS_RIGHT, DEL_COL, IMPORT_CSV];
+      vm.vocabMenu = {
+        MOV_LEFT: {
+          label: 'Move vocabulary to the left',
+          handler: function(v_index) { moveVocab(v_index, v_index - 1); }
+        },
+        MOV_RIGHT: {
+          label: 'Move vocabulary to the right',
+          handler: function(v_index) { moveVocab(v_index, v_index + 1); }
+        },
+        INS_LEFT: {
+          label: 'Insert vocabulary (to the left)',
+          handler: function(v_index) { insertVocab(v_index); }
+        },
+        INS_RIGHT: {
+          label: 'Insert vocabulary (to the right)',
+          handler: function(v_index) { insertVocab(v_index + 1); }
+        },
+        DEL_COL: {
+          label: 'Delete this vocabulary',
+          handler: function(v_index) { deleteVocab(v_index); }
+        },
+        IMPORT_CSV: {
+          label: 'Import CSV contents',
+          handler: function(v_index) { importCsv(v_index); }
+        }
+      };
 
       vm.addVocab = function() {
         insertVocab(vm.vocabs.length);
-      };
-
-      vm.vocabOptionSelected = function(v_index, opt) {
-        if (opt === MOV_LEFT)  moveVocab(v_index, v_index - 1);
-        if (opt === MOV_RIGHT) moveVocab(v_index, v_index + 1);
-        if (opt === INS_LEFT)  insertVocab(v_index);
-        if (opt === INS_RIGHT) insertVocab(v_index + 1);
-        if (opt === DEL_COL)   deleteVocab(v_index);
-        if (opt === IMPORT_CSV) importCsv(v_index);
       };
 
       function moveVocab(from_index, to_index) {

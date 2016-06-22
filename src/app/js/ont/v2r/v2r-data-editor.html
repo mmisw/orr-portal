@@ -3,7 +3,7 @@
         ng-disabled="someEditInProgress() || attrTableform.$waiting"
         ng-click="vm.addVocab()"
         class="btn btn-primary btn-sm"
-        uib-popover="Add a vocabulary (a class and associated terms)"
+        uib-popover="Add a vocabulary (a class and associated properties and terms)"
         popover-placement="right" popover-trigger="mouseenter"
 >
   <i class="fa fa-plus" aria-hidden="true"></i>Vocabulary
@@ -31,9 +31,36 @@
             <span class="caret"></span>
           </div>
           <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="opt in vm.vocabMenu">
-              <a href ng-bind="opt" ng-click="vm.vocabOptionSelected(v_index, opt)"></a>
+            <li ng-if="v_index > 0">
+              <a href ng-bind="vm.vocabMenu.MOV_LEFT.label" ng-click="vm.vocabMenu.MOV_LEFT.handler(v_index)"></a>
             </li>
+
+            <li ng-if="v_index < vm.vocabs.length - 1">
+              <a href ng-bind="vm.vocabMenu.MOV_RIGHT.label" ng-click="vm.vocabMenu.MOV_RIGHT.handler(v_index)"></a>
+            </li>
+
+            <li ng-if="v_index > 0 || v_index < vm.vocabs.length - 1" class="divider"></li>
+
+            <li>
+              <a href ng-bind="vm.vocabMenu.INS_LEFT.label" ng-click="vm.vocabMenu.INS_LEFT.handler(v_index)"></a>
+            </li>
+
+            <li>
+              <a href ng-bind="vm.vocabMenu.INS_RIGHT.label" ng-click="vm.vocabMenu.INS_RIGHT.handler(v_index)"></a>
+            </li>
+
+            <li class="divider"></li>
+
+            <li>
+              <a href ng-bind="vm.vocabMenu.IMPORT_CSV.label" ng-click="vm.vocabMenu.IMPORT_CSV.handler(v_index)"></a>
+            </li>
+
+            <li class="divider"></li>
+
+            <li>
+              <a href ng-bind="vm.vocabMenu.DEL_COL.label" ng-click="vm.vocabMenu.DEL_COL.handler(v_index)"></a>
+            </li>
+
           </ul>
         </div>
 

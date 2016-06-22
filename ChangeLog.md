@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-06-22: 3.0.1-alpha:
+  - v2r: improve vocabulary drop-down menu
   - implement #31 "CSV import for vocabulary table".
     For parsing the given CSV contents, using [knrz/CSV.js](https://github.com/knrz/CSV.js/) which seems
     good enough at least initially.
