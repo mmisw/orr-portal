@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-06-22: 3.0.1-alpha:
+  - ont: confirm leaving page when in editing mode
   - v2r: substitute "term set" for "vocabulary" when referring to a particular collection of terms within the vocabulary.
     This is to avoid confusion by overloading the "vocabulary" concept to refer to a whole ontology, but also (particularly
     in the context of the vocabulary tool) to a particular collection of terms within the ontology.

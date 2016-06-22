@@ -87,6 +87,27 @@
     vm.uri = rvm.rUri;
     vm.version = rvm.rVersion;
 
+    (function leavePageHandling() {
+      var prompt = 'Any edits will be lost. Are you sure you want to leave this page?';
+      function leavePagePrompt(event) {
+        if ($scope.editMode) {
+          event.returnValue = prompt;
+          return prompt;
+        }
+      }
+      window.addEventListener('beforeunload', leavePagePrompt);
+      $scope.$on('$destroy', function() {
+        window.removeEventListener('beforeunload', leavePagePrompt);
+      });
+
+      $rootScope.$on('$stateChangeStart', function(event) {
+        //console.debug('$stateChangeStart: event=', event);
+        if ($scope.editMode && !confirm(prompt)) {
+          event.preventDefault();
+        }
+      });
+    })();
+
     $scope.linkForVersion = function(uri, version) {
       var params = [];
       // include version parameter only if it's not the latest:
