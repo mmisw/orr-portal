@@ -17,6 +17,18 @@ var karmaConfig = require('./karma.conf');
 var plugins     = require('gulp-load-plugins')();
 // TODO use plugins.* for the others above...
 
+
+(function getAppConfig() {
+  var path = require('path');
+  function evalJs(filename) {
+    eval.apply(this, [fs.readFileSync(path.join(__dirname, '/src/app/js/' +filename)).toString()]);
+  }
+  evalJs('config.js');
+  evalJs('local.config.js');
+  console.log("appConfig=", appConfig);
+})();
+
+
 // TODO min'ified version
 
 var ciMode = false;
@@ -131,6 +143,8 @@ gulp.task('app', ['clean'], function(){
     gulp.src(['./src/app/**/*.html'])
       .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))
       .pipe(replace(/@@version/g, version))
+      .pipe(replace(/@@portalMainPage/g, appConfig.portal.mainPage))
+      .pipe(replace(/@@brandingLogo/g, appConfig.branding.logo || 'img/mmi-orr3-logo.png'))
       .pipe(replace(/\.\.\/\.\.\/node_modules/g, 'vendor'))
       .pipe(gulp.dest(distDest))
   );

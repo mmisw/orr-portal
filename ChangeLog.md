@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-06-22: 3.0.1-alpha:
+  - gulpfile: sparql/index.html now gets branding logo and main page link from appConfig
+
   - v2r property column header: show label in header; show "prefixed" notation in tooltip
   - ont: confirm leaving page when in editing mode
   - v2r: substitute "term set" for "vocabulary" when referring to a particular collection of terms within the vocabulary.
