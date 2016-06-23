@@ -20,11 +20,13 @@ var plugins     = require('gulp-load-plugins')();
 
 (function getAppConfig() {
   var path = require('path');
-  function evalJs(filename) {
-    eval.apply(this, [fs.readFileSync(path.join(__dirname, '/src/app/js/' +filename)).toString()]);
+  function evalJs(filenames) {
+    filenames.forEach(function(filename) {
+      var file = path.join(__dirname, '/src/app/js', filename);
+      if (fs.existsSync(file)) eval.apply(this, [fs.readFileSync(file).toString()]);
+    });
   }
-  evalJs('config.js');
-  evalJs('local.config.js');
+  evalJs(['config.js', 'local.config.js']);
   console.log("appConfig=", appConfig);
 })();
 
