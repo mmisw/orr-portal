@@ -93,9 +93,6 @@
             value:  'owner',
             name:   'Visible only to owner (user or members of indicated organization)'
           }, {
-            value:  'user',
-            name:   'Visible to any authenticated user or client application'
-          }, {
             value:  'public',
             name:   'Public'
           }
