@@ -1,6 +1,12 @@
 ## change log ##
 
 * 2016-06-24: 3.0.2-alpha:
+  - fix #33 "Avoid invalid characters in given local name"
+    TODO in general, character in URIs needs systematic revision/handling. For now we restrict some
+    characters that are in general considered [unsafe](http://www.ietf.org/rfc/rfc1738.txt) or
+    simply not yet properly handled by the tool
+    (for example, parens should be OK but are avoided at the moment)
+
   - implement #25 "admin interface to edit organization"
 
 * 2016-06-22: 3.0.1-alpha:

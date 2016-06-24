@@ -243,7 +243,7 @@
             }
             else {
               // no colon, so assume it's a "local" name
-              idModel.name = csvCell;
+              idModel.name = fixLocalName(csvCell);
             }
             return idModel;
           }
@@ -528,8 +528,7 @@
     };
 
     $scope.$watch("vm.lname", function(val) {
-      // TODO review; this uses some most obvious symbols to avoid
-      if (val) vm.lname = val.replace(/[\s/|?&!,;'\\]/gi, "");
+      if (val) vm.lname = fixLocalName(val);
     });
 
     $scope.stdPropertySelected = function(stdProp) {
@@ -620,6 +619,13 @@
       vocabulary.dct.contributor,
       vocabulary.vs.term_status
     ]
+  }
+
+  // TODO review; for now this restricts some characters that are unsafe or
+  // simply not yet properly handled by the tool (for example, parens should be OK
+  // but are avoided at the moment)
+  function fixLocalName(val) {
+    return val ? val.replace(/[\s/|?&!,;'\\()\[\]{}]/gi, "") : val;
   }
 
   function capitalizeFirstLetter(s) {
