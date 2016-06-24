@@ -1,0 +1,63 @@
+<div style="margin-bottom: 20px">
+  <div class="effect1">
+    <div style="float: left; padding: 4px">
+      <div>
+        <span title="Go to main page" style="vertical-align: middle">
+          <a ng-if="rvm.rUri" ng-href="{{cfg.portal.mainPage}}">
+            <img ng-src="{{cfg.branding.logo || 'img/mmi-orr3-logo.png'}}"></a>
+          <a ng-if="!rvm.rUri" ui-sref="/">
+            <img ng-src="{{cfg.branding.logo || 'img/mmi-orr3-logo.png'}}"></a>
+        </span>
+
+        <table style="display: inline">
+          <tbody>
+          <tr>
+            <td style="vertical-align: top">
+            <span>
+              <span>
+                <a target="_blank" class="btn btn-sm btn-link appLink"
+                   href="https://github.com/mmisw/orr-portal">v@@version</a>
+              </span>
+              <span ng-if="cfg.help">
+                <a target="_blank" class="btn btn-sm btn-link appLink"
+                   ng-href="{{cfg.help}}">Help</a>
+              </span>
+              <span ng-if="cfg.branding.tou">
+                <a target="_blank" class="btn btn-sm btn-link appLink"
+                   ng-href="{{cfg.branding.tou}}">Terms of use</a>
+              </span>
+            </span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <span ng-if="rvm.curView !== 'st'">
+                <a ng-href="{{cfg.portal.mainPage}}#/st/" class="btn btn-sm btn-link">Search terms</a>
+            </span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+    <span style="width: 30px"></span> <!-- some filler -->
+
+    <orrportal-log-button></orrportal-log-button>
+
+    <div style="clear:both;"></div>
+  </div>
+
+  <div>
+    <div class="parent-status" ng-show="refreshing">
+      <div class="status">
+        <span class="fa fa-spinner fa-spin fa-lg"></span>
+      </div>
+      <!--
+      <alert class="alert-info status" role="alert" type="'info'">
+          <span class="fa fa-spinner fa-spin"></span>
+      </alert>
+      -->
+    </div>
+  </div>
+</div>

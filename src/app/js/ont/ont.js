@@ -270,12 +270,12 @@
           }, {
             label: "N-Triples",
             url: getUrl('nt')
-          }, {
-            label: "N-Quads",
-            url: getUrl('nq')
-            //}, {
-            //  label: "TriG",  // TODO jena fails with this(?)
-            //  getUrl('trig')
+          //}, {             // TODO jena fails with the following(?)
+          //  label: "N-Quads",
+          //  url: getUrl('nq')
+          //}, {
+          //  label: "TriG",
+          //  getUrl('trig')
           }, {
             label: "RDF/JSON",
             url: getUrl('rj')

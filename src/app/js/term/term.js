@@ -24,6 +24,7 @@
     $scope.debug = debug;
     if (debug) console.log("++TermController++ $scope=", $scope);
 
+    $scope.localName = getLocalName($scope.vm.uri);
     $scope.viewAsOptions = setViewAsOptions();
 
     function setViewAsOptions() {
@@ -66,6 +67,13 @@
         }
       ];
     }
+  }
+
+  function getLocalName(uri) {
+    // no trailing slashes:
+    var ln = uri ? uri.replace(/\|+$/, '') : '';
+    var idx = ln.lastIndexOf('/');
+    return ln.substring(idx + 1);
   }
 
 })();
