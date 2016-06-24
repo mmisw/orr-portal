@@ -5,7 +5,13 @@
     <table class="table table-bordered borderTop0">
       <tbody>
 
-      <tr ng-repeat="p in visiblePredicates">
+      <tr ng-if="!visiblePredicates.length">
+        <td>
+          <i style="color: gray">No properties in this metadata section</i>
+        </td>
+      </tr>
+
+      <tr ng-if="visiblePredicates.length" ng-repeat="p in visiblePredicates">
 
         <td class="mdLabel borderTop0"
             ng-mouseenter="p._showPopup=true" ng-mouseleave="p._showPopup=undefined"
