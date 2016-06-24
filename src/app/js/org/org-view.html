@@ -1,0 +1,43 @@
+<form ng-show="org" class="form-horizontal uriBody">
+
+  <div class="form-group" ng-if="org.name">
+    <label class="control-label col-xs-2">
+      Name:
+    </label>
+    <div class="col-xs-4" style="font-size: larger" ng-bind="org.name">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-xs-2">
+      Members:
+    </label>
+    <div class="col-xs-4" style="font-size: larger">
+      <span ng-repeat="userName in org.members | orderBy">
+          <a ng-href="#/user/{{userName}}">{{userName}}</a>
+          &nbsp;
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group" ng-if="org.registered">
+    <label class="control-label col-xs-2">
+      Registered:
+    </label>
+    <div class="col-xs-4">
+      {{org.registered}}
+      <span ng-if="org.registeredBy">(by {{org.registeredBy}})</span>
+    </div>
+  </div>
+
+  <div class="form-group" ng-if="org.updated">
+    <label class="control-label col-xs-2">
+      Updated:
+    </label>
+    <div class="col-xs-4">
+      {{org.updated}}
+      <span ng-if="org.updatedBy">(by {{org.updatedBy}})</span>
+    </div>
+  </div>
+
+</form>

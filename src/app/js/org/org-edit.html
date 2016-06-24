@@ -1,0 +1,27 @@
+<form ng-show="org" class="form-horizontal uriBody">
+
+  <div class="form-group" ng-if="org.name">
+    <label for="inputMembers" class="control-label col-xs-2">
+      Name:
+    </label>
+    <div class="col-xs-6" style="font-size: larger">
+      {{org.name}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputMembers" class="control-label col-xs-2">
+      Members:
+    </label>
+
+    <div class="col-xs-6">
+      <input id="inputMembers"
+             type="text" class="form-control"
+             placeholder="comma-separated list of usernames"
+             ng-model="vm.membersString"
+      >
+    </div>
+
+  </div>
+
+</form>

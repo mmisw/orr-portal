@@ -1,45 +1,45 @@
-<div style="width: 100%">
+<div style="margin-left: 20px; margin-right: 20px">
+  <br/>
 
-    <br/>
-
-    <div class="effect1">
-        <span style="font-size: large">
-            <span style="color: gray">
-                Organization:
-            </span>
-            <span style="font-weight: bold">
-                {{orgName}}
-            </span>
+  <div class="effect1">
+    <span style="font-size: large">
+        <span style="color: gray">
+            Organization:
         </span>
-    </div>
+        <span style="font-weight: bold">
+            {{orgName}}
+        </span>
+    </span>
 
-    <form ng-show="org" class="form-horizontal uriBody">
+    <button ng-if="!editMode && canEditOrg()"
+            ng-click="startOrgEdit()"
+            type="button" class="btn btn-default btn-xs">
+      Edit
+    </button>
 
-        <div class="form-group" ng-show="org.name">
-            <label class="col-xs-2"> Name: </label>
-            <div class="col-xs-4" style="font-size: larger" ng-bind="org.name">
-            </div>
-        </div>
+    <span ng-if="editMode">
+      <button ng-disabled="orgEditInProgress"
+              ng-click="updateOrg()"
+              class="btn btn-info btn-xs">
+        Save
+      </button>
 
-        <div class="form-group" ng-show="org.registered">
-            <label class="col-xs-2"> Registered: </label>
-            <div class="col-xs-4"> {{org.registered}} </div>
-        </div>
+      <button ng-click="cancelEditOrg()"
+              class="btn btn-info btn-xs">
+        Cancel
+      </button>
+    </span>
+  </div>
 
-        <div class="form-group"ng-show="org.members">
-            <label class="col-xs-2"> Members: </label>
-            <div class="col-xs-4" style="font-size: larger">
-                <span ng-repeat="userName in org.members | orderBy">
-                    <a ng-href="#/user/{{userName}}">{{userName}}</a>
-                    &nbsp;
-                </span>
-            </div>
-        </div>
 
-    </form>
+  <orr-org-view ng-if="!editMode"
+  ></orr-org-view>
 
-    <div ng-show="error">
-        Error: {{error.error}} <br/>
-    </div>
+  <orr-org-edit ng-if="editMode"
+  ></orr-org-edit>
+
+  <div ng-show="error">
+    Error: {{error.error}} <br/>
+  </div>
 
 </div>

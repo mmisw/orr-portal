@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-06-24: 3.0.2-alpha:
+  - implement #25 "admin interface to edit organization"
+
 * 2016-06-22: 3.0.1-alpha:
   - gulpfile: sparql/index.html now gets branding logo and main page link from appConfig
 

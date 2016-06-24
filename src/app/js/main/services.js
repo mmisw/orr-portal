@@ -32,6 +32,7 @@
 
       refreshOrg:        refreshOrg,
       createOrg:         createOrg,
+      updateOrg:         updateOrg,
 
       registerOntology:  registerOntology,
       unregisterOntology:  unregisterOntology,
@@ -344,6 +345,24 @@
       }, cb)
         .success(function (data) {
           console.log(appUtil.logTs() + ": createdOrg: data=", data);
+          cb(null, data);
+        })
+    }
+
+    function updateOrg(orgName, name, members, cb) {
+      var data = {
+        name:     name,
+        members:  members
+      };
+      putJwtIfAvailable(data);
+
+      doHttp("updateOrg", {
+        method: 'PUT',
+        url:    appConfig.orront.rest + "/api/v0/org/" + orgName,
+        data:   data
+      }, cb)
+        .success(function (data) {
+          console.log(appUtil.logTs() + ": updateOrg: data=", data);
           cb(null, data);
         })
     }
