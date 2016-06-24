@@ -285,11 +285,11 @@
 
       function setVisibilityOptions() {
         $scope.visibilityInfo = {
-          owner:  'Visible only to owner (user or members of indicated organization)',
-          user:   'Visible to any authenticated user or client application',
+          owner:  'Visible only to owner (user or members of indicated organization) ' +
+          'in the main ORR ontology page, or to anyone with the URI.',
           public: 'Visible to any visitor or client application'
         };
-        var all = ['owner', 'user', 'public'];
+        var all = _.keys($scope.visibilityInfo);
         $scope.visibilities = _.filter(all, function(v) { return v !== vm.ontology.visibility });
       }
     }

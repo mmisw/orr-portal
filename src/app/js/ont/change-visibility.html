@@ -1,12 +1,13 @@
 <span>
     <div class="btn-group" uib-dropdown>
       <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle
-              uib-tooltip="Current visibility: {{
+              uib-popover="Current visibility: {{
               vm.ontology.visibility
               ? vm.ontology.visibility + ' - ' + visibilityInfo[vm.ontology.visibility]
               : '(not defined)'
               }}"
-              tooltip-placement="left"
+              popover-placement="left"
+              popover-trigger="mouseenter"
       >
         Visibility: <span style="font-weight: bold">{{vm.ontology.visibility}}</span>
         <span class="caret"></span>
@@ -14,8 +15,9 @@
       <ul class="dropdown-menu" role="menu" style="cursor: pointer">
         <li ng-repeat="v in visibilities">
           <a ng-click="setVisibility(v)"
-             uib-tooltip="'{{v}}' - {{visibilityInfo[v]}}"
-             tooltip-placement="left"
+             uib-popover="'{{v}}' - {{visibilityInfo[v]}}"
+             popover-placement="bottom"
+             popover-trigger="mouseenter"
           >
             Change to: <span style="font-weight: bold">{{v}}</span>
           </a>

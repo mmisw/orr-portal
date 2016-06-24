@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-06-24: 3.0.2-alpha:
+  - resolve #12 "capture visibility attribute for ontologies"
+    Only "owner" and "public" now handled.
   - fix #33 "Avoid invalid characters in given local name"
     TODO in general, character in URIs needs systematic revision/handling. For now we restrict some
     characters that are in general considered [unsafe](http://www.ietf.org/rfc/rfc1738.txt) or
