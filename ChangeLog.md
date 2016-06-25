@@ -1,5 +1,17 @@
 ## change log ##
 
+* 2016-06-25: 3.0.2-alpha:
+  - implement #32 "resource type selection in ontology metadata".
+     Implemented in a generic way so other properties can also be dispatched by just indicating them
+     in the configuration:
+    - appConfig: new valueSelections entry to indicate properties and corresponding class for
+      selection of terms. If a metadata property URI is found in appConfig.valueSelections, then
+      a button with selection of corresponding terms (instances) is included.
+    - <orp-multivalue-edit> now with new prop-uri attribute for generic class instance selection
+    - new queryUtil service for general handling of SPARQL queries
+    - new utl.selectFromList for more general dispatch of selection
+    - utl.select renamed to utl.selectButton
+
 * 2016-06-24: 3.0.2-alpha:
   - resolve #12 "capture visibility attribute for ontologies"
     Only "owner" and "public" now handled.

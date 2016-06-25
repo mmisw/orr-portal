@@ -462,7 +462,7 @@
       }
       else {
         var options = ["Edit metadata", "Upload file"];
-        utl.select({
+        utl.selectButton({
           title:   "Select option to create new version",
           message: '<p>' +
           'You can either edit the metadata' +
@@ -621,7 +621,7 @@
           console.error(error);
         }
         else {
-          console.log("gotOntologyV2r: data=", data);
+          //console.log("gotOntologyV2r: data=", data);
           vm.ontData = data.vocabs;
           vm.ontDataFormat = 'v2r';
         }

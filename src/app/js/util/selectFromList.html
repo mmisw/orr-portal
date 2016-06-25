@@ -1,0 +1,41 @@
+<div>
+  <div class="modal-header">
+    <table >
+      <tbody>
+      <tr>
+        <td>
+          <span ng-bind-html="info.title">
+          </span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-body">
+    <div class="vocabTermSelection">
+      <div ng-if="info.message" ng-bind-html="info.message"
+      ></div>
+
+      <ui-select ng-model="person.selected"
+                 theme="select2"
+                 style="width: 100%"
+                 autofocus
+                 on-select="onFromListSelect($item, $model, $select)"
+                 ng-init="fromListActivate($select)"
+      >
+        <ui-select-match placeholder="{{info.selectPlaceholder || 'Select an option'}}">
+          {{$select.selected.name}}
+        </ui-select-match>
+        <ui-select-choices repeat="option in info.options | filter: $select.search">
+          <div class="uriTextSimple" ng-bind-html="option | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select>
+
+      <div ng-if="info.error" ng-bind-html="info.error"></div>
+      <pre ng-if="info.errorPRE" ng-bind="info.errorPRE | json"></pre>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
+  </div>
+</div>

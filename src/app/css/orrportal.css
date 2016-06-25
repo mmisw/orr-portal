@@ -530,3 +530,9 @@ div.debug {
   color: darkred;
   font-size: large;
 }
+
+.vocabTermSelection {
+  height: 300px;
+  overflow: scroll;
+  overflow-y: auto;
+}

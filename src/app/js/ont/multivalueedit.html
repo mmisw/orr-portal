@@ -12,6 +12,15 @@
     >
       <tr ng-repeat="valueEntry in em | filter:filterValue track by $index">
         <td ng-show="attrTableform.$visible" style="width: 10px">
+          <button ng-if="propValueSelection"
+                  type="button" ng-click="selectValue(em, valueEntry.id)"
+                  class="btn btn-info btn-xs pull-right" style="margin-bottom: 4px"
+                  uib-tooltip="Select value"
+                  tooltip-placement="right"
+          >
+            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+          </button>
+
           <button type="button" ng-click="deleteValue(em, valueEntry.id)"
                   class="btn btn-danger btn-xs pull-right"
                   uib-tooltip="Remove this value"

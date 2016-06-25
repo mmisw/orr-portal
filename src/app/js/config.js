@@ -28,6 +28,20 @@ var appConfig = {
     sparqlEndpoint: '/sparql'
   },
 
+  // (optional) allows to specify vocabularies from which to populate selection drop-down lists in metadata editing.
+  valueSelections: {
+    // Each key:obj entry indicates:
+    //    key:                property URI
+    //    obj.class:          class of the terms that can be selected as value for the property
+    //    obj.sparqlEndpoint: (optional) alternative SPARQL endpoint to query for the terms
+
+    "http://mmisw.org/ont/mmi/20081020/ontologyMetadata/hasResourceType": {
+      class: "http://mmisw.org/ont/mmi/resourcetype/ResourceType",
+
+      sparqlEndpoint: "http://mmisw.org/sparql"
+    }
+  },
+
   branding: {
     // (optional) URL of image to show in the page header.
     // By default, this will be MMI ORR's logo.

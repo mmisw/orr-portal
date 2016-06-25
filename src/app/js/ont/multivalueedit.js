@@ -1,11 +1,15 @@
 (function() {
   'use strict';
 
+  var debug = appUtil.debug;
+  //debug = true;
+
   angular.module('orrportal.multivalueedit', [])
     .directive('orpMultivalueEdit', function() {
       return {
         restrict:     'E',
         scope:        {
+          propUri:        '=',
           propValue:      '=',
           disableEditIf:  '=',
           editInProgress: '&'
@@ -16,10 +20,14 @@
     })
   ;
 
-  MveController.$inject = ['$scope', '$filter'];
+  MveController.$inject = ['$scope', '$filter', 'cfg', 'utl', 'queryUtil'];
 
-  function MveController($scope, $filter) {
-    //console.log("++MveController++ propValue=", $scope.propValue, "disableEditIf=", $scope.disableEditIf);
+  function MveController($scope, $filter, cfg, utl, queryUtil) {
+    if (debug) console.log("++MveController++ propUri=", $scope.propUri, "propValue=", $scope.propValue, "disableEditIf=", $scope.disableEditIf);
+
+    if ($scope.propUri) {
+      $scope.propValueSelection = cfg.valueSelections[$scope.propUri];
+    }
 
     var em = $scope.em = [];
     _.each($scope.propValue, function(val) {
@@ -49,6 +57,52 @@
     // filter values to show
     $scope.filterValue = function(valueEntry) {
       return valueEntry.isDeleted !== true;
+    };
+
+    $scope.selectValue = function(em, id) {
+      if ($scope.propValueSelection.options) {
+        doSelect();
+      }
+      else {
+        var title = 'Class: <span class="uriTextSimple">' +$scope.propValueSelection.class+ '</span>';
+        var progressModal = utl.openProgressModal({
+          title: title,
+          size: 'md',
+          message: '<div class="center">' +
+          'Retrieving class terms' +
+          '<br>' +
+          '<i class="fa fa-spinner fa-spin"></i> Please wait ...' +
+          '</div>',
+          ok: null  // no OK button
+        });
+        queryUtil.getPropValueOptions($scope.propUri, $scope.propValueSelection, function (error, options) {
+          progressModal.close();
+          if (error) {
+            console.error(error);
+            utl.error({errorPRE: error});
+          }
+          else {
+            $scope.propValueSelection.options = options;
+            doSelect();
+          }
+        });
+      }
+
+      function doSelect() {
+        if (debug) console.debug("doSelect: propValueSelection=", $scope.propValueSelection);
+        var options = $scope.propValueSelection.options;
+        utl.selectFromList({
+          title: title,
+          selectPlaceholder: 'Select a term',
+          options: options,
+          selected: function(index) {
+            var filtered = $filter('filter')(em, {id: id});
+            if (filtered.length) {
+              filtered[0].value = options[index];
+            }
+          }
+        });
+      }
     };
 
     // mark valueEntry as deleted

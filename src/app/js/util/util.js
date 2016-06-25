@@ -7,6 +7,7 @@
     .factory('utl', miscUtils)
     .factory('focus', focus)
     .directive('focusOn', focusOn)
+    .filter('orPropsFilter', orPropsFilter)
   ;
 
   UtilCtrl.$inject = ['$scope', '$uibModal'];
@@ -55,10 +56,30 @@
       });
     });
 
-    $scope.$on('evtSelect', function (event, info) {
+    $scope.$on('evtSelectButton', function (event, info) {
       $scope.info = info;
       var modalInstance = $uibModal.open({
-        templateUrl: 'js/util/select.tpl.html',
+        templateUrl: 'js/util/selectButton.html',
+        controller:  'MessageInstanceCtrl',
+        //size:        'sm',
+        backdrop:    'static',
+        resolve: {
+          info: function () {
+            return $scope.info;
+          }
+        }
+      });
+      modalInstance.result.then(function (index) {
+        if ($scope.info.selected) $scope.info.selected(index)
+      }, function () {
+        if ($scope.info.cancel) $scope.info.cancel();
+      });
+    });
+
+    $scope.$on('evtSelectFromList', function (event, info) {
+      $scope.info = info;
+      var modalInstance = $uibModal.open({
+        templateUrl: 'js/util/selectFromList.html',
         controller:  'MessageInstanceCtrl',
         //size:        'sm',
         backdrop:    'static',
@@ -98,10 +119,19 @@
     });
   }
 
-  MessageInstanceCtrl.$inject = ['$scope', '$uibModalInstance', 'info'];
+  MessageInstanceCtrl.$inject = ['$scope', '$uibModalInstance', '$timeout', 'info'];
 
-  function MessageInstanceCtrl($scope, $uibModalInstance, info) {
+  function MessageInstanceCtrl($scope, $uibModalInstance, $timeout, info) {
     $scope.info = info;
+
+    $scope.fromListActivate = function($select) {
+      $timeout(function() { $select.activate(); }, 250);
+    };
+
+    $scope.onFromListSelect = function($item, $select) {
+      //console.debug("onFromListSelect: ", "$item=", $item, "$select=", $select);
+      $uibModalInstance.close(_.indexOf(info.options, $item));
+    };
 
     $scope.ok = function() {
       $uibModalInstance.close();
@@ -125,12 +155,17 @@
       message: function (info) {
         $rootScope.$broadcast('evtMessage', info);
       },
-      select: function (info) {
-        $rootScope.$broadcast('evtSelect', info);
+      selectButton: function (info) {
+        $rootScope.$broadcast('evtSelectButton', info);
+      },
+      selectFromList: function (info) {
+        $rootScope.$broadcast('evtSelectFromList', info);
       },
       error: function (info) {
         $rootScope.$broadcast('evtError', info);
       },
+
+      openProgressModal: openProgressModal,
 
       openRegistrationProgressModal: openRegistrationProgressModal
     };
@@ -161,6 +196,20 @@
         }
       });
     }
+
+    function openProgressModal(info) {
+      return $uibModal.open({
+        templateUrl: 'js/util/message.tpl.html',
+        controller:  'MessageInstanceCtrl',
+        size:        info.size || 'sm',
+        backdrop:    'static',
+        resolve: {
+          info: function () {
+            return info;
+          }
+        }
+      });
+    }
   }
 
   // focus http://stackoverflow.com/a/18295416/830737
@@ -185,6 +234,30 @@
         }
       });
     };
+  }
+
+  /**
+   * Adapted from propsFilter in http://plnkr.co/edit/5pWPKGSQfGejuEflDNuF?p=preview
+   */
+  function orPropsFilter() {
+    return function(items, props) {
+      if (angular.isArray(items)) {
+        var out = [];
+        var keys = Object.keys(props);
+        items.forEach(function(item) {
+          for (var i = 0; i < keys.length; i++) {
+            var prop = keys[i];
+            var text = props[prop].toLowerCase();
+            if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+              out.push(item);
+              break;
+            }
+          }
+        });
+        return out;
+      }
+      else return items;
+    }
   }
 
 })();
