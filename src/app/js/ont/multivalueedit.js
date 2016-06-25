@@ -60,11 +60,11 @@
     };
 
     $scope.selectValue = function(em, id) {
+      var title = 'Class: <span class="uriTextSimple">' +$scope.propValueSelection.class+ '</span>';
       if ($scope.propValueSelection.options) {
         doSelect();
       }
       else {
-        var title = 'Class: <span class="uriTextSimple">' +$scope.propValueSelection.class+ '</span>';
         var progressModal = utl.openProgressModal({
           title: title,
           size: 'md',
