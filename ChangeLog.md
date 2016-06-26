@@ -1,6 +1,10 @@
 ## change log ##
 
 * 2016-06-26: 3.0.2-alpha:
+  - resolve #39 "add option in Upload to let the ORR determine the format".
+    Actually, decided to not even prompt the user about this, so always
+    use the special `_guess` format supported by the backend.
+
   - ont: better handling of "leave page" confirmation when editing brand new ontology or new version
 
 * 2016-06-25: 3.0.2-alpha:

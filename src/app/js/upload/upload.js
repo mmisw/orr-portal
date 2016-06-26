@@ -35,14 +35,6 @@
     })
   ;
 
-  var formatOptions = [
-    { id: 'rdf',    name: 'RDF/XML'},
-    { id: 'owl',    name: 'OWL/XML'},
-    { id: 'n3',     name: 'N3'},
-    { id: 'nt',     name: 'N-TRIPLE'},
-    { id: 'turtle', name: 'TURTLE'}
-  ];
-
   var possibleNamePropertyUris = [
     "http://www.w3.org/2000/01/rdf-schema#label",
     "http://omv.ontoware.org/2005/05/ontology#name",
@@ -79,8 +71,7 @@
 
         prefixFullyHosted: appUtil.windowBareHref + '/',
 
-        formatOptions: formatOptions,
-        selectedFormat: undefined,
+        maxUploadSize: '10MB',  // TODO retrieve this limit from the backend
 
         ownerOptions: [{
           id:    '~' + userName,
@@ -132,7 +123,7 @@
       var url = appConfig.orront.rest + "/api/v0/ont/upload";
       var data = {
         file:     file,
-        format:   vm.selectedFormat.id
+        format:   '_guess'
       };
 
       if ($rootScope.rvm.masterAuth.authData && $rootScope.rvm.masterAuth.authData.token) {
