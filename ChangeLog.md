@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-06-25: 3.0.2-alpha:
+  - resolve #38 "improve error message when failing to load URL for external ontology"
   - implement #32 "resource type selection in ontology metadata".
      Implemented in a generic way so other properties can also be dispatched by just indicating them
      in the configuration:

@@ -261,7 +261,13 @@
         vm.status = vm.loading = undefined;
         if (error) {
           console.warn("error getting external ontology info:", error);
-          vm.errorLoading = error;
+          if (error.detail && error.detail.match(/parseException/gi)) {
+            vm.errorLoading =
+              "This URL could not be loaded or parsed by the ORR backend. " +
+              "Make sure you enter a URL that can resolved to an ontology " +
+              "representation.";
+          }
+          else vm.errorLoading = error.error || error;
         }
         else {
           //console.debug("got external ontology info", osr);
