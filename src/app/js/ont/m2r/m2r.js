@@ -241,9 +241,13 @@
 
     focus("addExtOntUri_form_activation", 700, {select: true});
 
+    $scope.$watch("vm.ontUri", function() {
+      vm.errorLoading = ""
+    });
+
     $scope.formInvalid = function() {
       if (!vm.ontUri) {
-        vm.error = "Invalid URL";
+        vm.error = "Please enter a valid URL";
         return true;
       }
       if (_.indexOf(info.ontUris, vm.ontUri) >= 0) {
@@ -264,8 +268,7 @@
           if (error.detail && error.detail.match(/parseException/gi)) {
             vm.errorLoading =
               "This URL could not be loaded or parsed by the ORR backend. " +
-              "Make sure you enter a URL that can resolved to an ontology " +
-              "representation.";
+              "Please enter a URL that can resolved to an ontology representation.";
           }
           else vm.errorLoading = error.error || error;
         }
