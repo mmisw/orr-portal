@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-06-26: 3.0.2-alpha:
+  - specially for alpha testing, add "Testing!" badge in application header with some info and links to issue tracker
+
   - resolve #39 "add option in Upload to let the ORR determine the format".
     Actually, decided to not even prompt the user about this, so always
     use the special `_guess` format supported by the backend.
