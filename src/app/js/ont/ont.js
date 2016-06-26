@@ -64,6 +64,7 @@
     return this.scope.vm.someEditInProgress;
   };
 
+  var changesWillBeLostPrompt = '\nAny changes made will be lost.\n\n';
 
   // todo reorganize! (too many deps)
   OntController.$inject = [
@@ -87,25 +88,47 @@
     vm.uri = rvm.rUri;
     vm.version = rvm.rVersion;
 
-    (function leavePageHandling() {
-      var prompt = 'Any edits will be lost. Are you sure you want to leave this page?';
-      function leavePagePrompt(event) {
-        if ($scope.editMode) {
-          event.returnValue = prompt;
-          return prompt;
-        }
-      }
-      window.addEventListener('beforeunload', leavePagePrompt);
+    var leavePageHandling = (function() {
+      var unsubscribeStateChangeStart = null;
+
       $scope.$on('$destroy', function() {
-        window.removeEventListener('beforeunload', leavePagePrompt);
+        //console.debug("**** $destroy");
+        disable();
       });
 
-      $rootScope.$on('$stateChangeStart', function(event) {
-        //console.debug('$stateChangeStart: event=', event);
-        if ($scope.editMode && !confirm(prompt)) {
-          event.preventDefault();
+      enable();
+
+      return {
+        enable:     enable,
+        disable:    disable
+      };
+
+      function enable() {
+        unsubscribeStateChangeStart = $scope.$on('$stateChangeStart', function(event) {
+          //console.debug('$stateChangeStart: event=', event);
+          if ($scope.editMode && !window.confirm(changesWillBeLostPrompt)) {
+            event.preventDefault();
+          }
+        });
+
+        //console.debug("**** addBeforeUnloadListener");
+        window.addEventListener('beforeunload', leavePagePrompt);
+      }
+
+      function disable() {
+        //console.debug("**** removeBeforeUnloadListener");
+        window.removeEventListener('beforeunload', leavePagePrompt);
+        if (unsubscribeStateChangeStart) unsubscribeStateChangeStart();
+        unsubscribeStateChangeStart = null;
+      }
+
+      function leavePagePrompt(event) {
+        //console.debug("**** leavePagePrompt $scope.editMode=", $scope.editMode);
+        if ($scope.editMode) {
+          event.returnValue = changesWillBeLostPrompt;
+          return changesWillBeLostPrompt;
         }
-      });
+      }
     })();
 
     $scope.linkForVersion = function(uri, version) {
@@ -490,16 +513,20 @@
     };
 
     $scope.cancelNewVersion = function() {
-      utl.confirm({
-        message: '<div class="center">' +
-        'Any changes made will be lost' +
-        '</div>',
-        cancelLabel: 'Back to editing',
-        ok: function() {
+      leavePageHandling.disable();
+      if (window.confirm(changesWillBeLostPrompt)) {
+        if (vm.brandNew) {
+          $state.go("/");
+        }
+        else {
+          leavePageHandling.enable();
           $scope.editMode = false;
           refreshOntology();
         }
-      });
+      }
+      else {
+        leavePageHandling.enable();
+      }
     };
 
     $scope.registerOntology = function() {

@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-06-26: 3.0.2-alpha:
+  - ont: better handling of "leave page" confirmation when editing brand new ontology or new version
+
 * 2016-06-25: 3.0.2-alpha:
   - resolve #38 "improve error message when failing to load URL for external ontology"
   - implement #32 "resource type selection in ontology metadata".
