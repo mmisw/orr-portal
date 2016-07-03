@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-07-03: 3.0.3-alpha:
+  - various style adjustments and auto-focus in user account related dialogs
   - add create account button in header
 
 * 2016-06-26: 3.0.2-alpha:

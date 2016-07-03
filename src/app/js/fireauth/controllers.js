@@ -252,8 +252,8 @@
     };
   }
 
-  OrrOntLoginController.$inject = ['$scope', '$uibModalInstance', '$http', '$uibModal', 'fireAuth', 'cfg', 'info'];
-  function OrrOntLoginController($scope, $uibModalInstance, $http, $uibModal, fireAuth, cfg, info) {
+  OrrOntLoginController.$inject = ['$scope', '$uibModalInstance', '$http', '$uibModal', 'fireAuth', 'cfg', 'focus', 'info'];
+  function OrrOntLoginController($scope, $uibModalInstance, $http, $uibModal, fireAuth, cfg, focus, info) {
     //console.log("=OrrOntLoginController= info=", info);
 
     var vm = $scope.vm = {
@@ -263,6 +263,8 @@
 
     $scope.progress = undefined;
     $scope.error = undefined;
+
+    focus("login_form_activation", 700, {select: true});
 
     $scope.loginKeyPressed = function($event) {
       if ($event.keyCode == 13) {
@@ -341,8 +343,8 @@
     };
   }
 
-  OrrOntResetController.$inject = ['$scope', '$uibModalInstance', '$http', 'fireAuth', 'cfg'];
-  function OrrOntResetController($scope, $uibModalInstance, $http, fireAuth, cfg) {
+  OrrOntResetController.$inject = ['$scope', '$uibModalInstance', '$http', 'fireAuth', 'cfg', 'focus'];
+  function OrrOntResetController($scope, $uibModalInstance, $http, fireAuth, cfg, focus) {
 
     var vm = $scope.vm = {
       username: "",
@@ -350,6 +352,8 @@
       alreadyRequested: []
       // to avoid repeated requests for same username at least during the same modal session
     };
+
+    focus("resetPw_form_activation", 700, {select: true});
 
     $scope.error = undefined;
 
@@ -391,8 +395,8 @@
     };
   }
 
-  OrrOntRemindUsernameController.$inject = ['$scope', '$uibModalInstance', '$http', 'cfg'];
-  function OrrOntRemindUsernameController($scope, $uibModalInstance, $http, cfg) {
+  OrrOntRemindUsernameController.$inject = ['$scope', '$uibModalInstance', '$http', 'cfg', 'focus'];
+  function OrrOntRemindUsernameController($scope, $uibModalInstance, $http, cfg, focus) {
 
     var vm = $scope.vm = {
       email: "",
@@ -402,6 +406,7 @@
       reminded: false
     };
 
+    focus("remindUsername_form_activation", 700, {select: true});
 
     $scope.isValid = function() {
       return vm.email && !$scope.working;
@@ -440,8 +445,8 @@
     };
   }
 
-  OrrOntCreateAccountController.$inject = ['$scope', '$uibModalInstance', '$http', 'cfg'];
-  function OrrOntCreateAccountController($scope, $uibModalInstance, $http, cfg) {
+  OrrOntCreateAccountController.$inject = ['$scope', '$uibModalInstance', '$http', 'cfg', 'focus'];
+  function OrrOntCreateAccountController($scope, $uibModalInstance, $http, cfg, focus) {
 
     var vm = $scope.vm = {
       username: "",
@@ -456,6 +461,8 @@
       creating: true,
       created: false
     };
+
+    focus("createAccount_form_activation", 700, {select: true});
 
     $scope.$watch("vm.username", function(val) {
       vm.username = val.replace(/^[_\.-]+/, "").replace(/[^a-z0-9_\.-]/gi, "").toLowerCase();

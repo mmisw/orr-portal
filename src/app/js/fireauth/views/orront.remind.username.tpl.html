@@ -16,10 +16,11 @@
                 <div class="form-group">
                     <div class="col-xs-4">
                         <input id="inputEmail"
-                               type="text" class="form-control" style="width: 15em"
+                               type="text" class="form-control" style="width: 16em"
                                ng-keypress="loginKeyPressed($event)"
                                ng-model="vm.email"
                                ng-disabled="vm.working || vm.reminded"
+                               focus-on="remindUsername_form_activation"
                         >
                     </div>
                 </div>
@@ -28,7 +29,7 @@
                     <label class="col-xs-3"> </label>
                     <button class="btn btn-primary btn-sm" ng-click="doRemind()"
                             ng-disabled="vm.working || !isValid() || vm.reminded"
-                            >Reset
+                            >Retrieve
                     </button>
 
                     <label class="col-xs-1"> </label>

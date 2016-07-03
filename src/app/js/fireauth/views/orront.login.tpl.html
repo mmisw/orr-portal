@@ -20,6 +20,7 @@
                    type="text" class="form-control" style="width: 10em"
                    ng-keypress="loginKeyPressed($event)"
                    ng-model="vm.userName"
+                   focus-on="login_form_activation"
             >
           </div>
         </div>
@@ -39,14 +40,23 @@
         </div>
 
         <div class="form-group">
-          <label class="col-xs-6"> </label>
+          <label class="col-xs-2"> </label>
           <button class="btn btn-primary btn-sm" ng-click="doLogin()"
                   ng-disabled="refreshing || !isValid()"
           >Sign in
           </button>
+
+          <label class="col-xs-3"> </label>
+          <button class="btn btn-default btn-sm" ng-click="cancel()"
+                  ng-disabled="refreshing"
+          >Cancel
+          </button>
+
         </div>
 
-        <div style="height: 20px"> </div>
+        <div style="margin-top: 20px">
+          <hr>
+        </div>
 
         <div class="form-group">
           <span class="col-xs-6">Forgot&nbsp;password?</span>
@@ -60,7 +70,7 @@
           <span class="col-xs-6">Forgot&nbsp;username?</span>
           <button class="btn btn-default btn-xs" ng-click="remindUsername()"
                   ng-disabled="refreshing"
-          >Get it
+          >Get username
           </button>
         </div>
 
@@ -69,14 +79,6 @@
           <button class="btn btn-default btn-xs" ng-click="createAccount()"
                   ng-disabled="refreshing"
           >Create account
-          </button>
-        </div>
-
-        <div class="form-group">
-          <label class="col-xs-6"> </label>
-          <button class="btn btn-default btn-xs" ng-click="cancel()"
-                  ng-disabled="refreshing"
-          >Cancel
           </button>
         </div>
 
