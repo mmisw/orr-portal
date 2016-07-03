@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-07-03: 3.0.3-alpha:
+  - add create account button in header
+
 * 2016-06-26: 3.0.2-alpha:
   - specially for alpha testing, add "Testing!" badge in application header with some info and links to issue tracker
 

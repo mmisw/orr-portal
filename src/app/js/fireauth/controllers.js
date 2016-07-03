@@ -168,7 +168,7 @@
 
   MainLoginController.$inject = ['$scope', '$uibModal', 'fireAuth'];
   function MainLoginController($scope, $uibModal, fireAuth) {
-    $scope.openLoginDialog = function() {
+    $scope.openLoginDialog = function(info) {
       //console.log("MainLoginController.openLoginDialog");
       $uibModal.open({
 
@@ -183,7 +183,25 @@
         //controller:  'FireClientController',
 
         backdrop:    'static'
+
+        ,resolve: {
+          info: function () {
+            return info;
+          }
+        }
       });
+    };
+
+    $scope.createAccount = function () {
+      var modalInstance = $uibModal.open({
+        templateUrl: 'js/fireauth/views/orront.create.tpl.html',
+        controller:  'OrrOntCreateAccountController',
+        backdrop:    'static'
+      });
+      modalInstance.result.then(function (username) {
+        //console.log('orront.create dialog accepted: username=', username);
+        $scope.openLoginDialog({userName: username})
+      }, function () {});
     };
 
     $scope.openAccountDialog = function(userName) {
@@ -234,12 +252,12 @@
     };
   }
 
-  OrrOntLoginController.$inject = ['$scope', '$uibModalInstance', '$http', '$uibModal', 'fireAuth', 'cfg'];
-  function OrrOntLoginController($scope, $uibModalInstance, $http, $uibModal, fireAuth, cfg) {
-    //console.log("=OrrOntLoginController=");
+  OrrOntLoginController.$inject = ['$scope', '$uibModalInstance', '$http', '$uibModal', 'fireAuth', 'cfg', 'info'];
+  function OrrOntLoginController($scope, $uibModalInstance, $http, $uibModal, fireAuth, cfg, info) {
+    //console.log("=OrrOntLoginController= info=", info);
 
     var vm = $scope.vm = {
-      userName: "",
+      userName: info && info.userName ? info.userName : "",
       password: ""
     };
 

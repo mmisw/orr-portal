@@ -23,10 +23,15 @@
     </button>
   </span>
 
-  <button ng-if="!rvm.masterAuth.loggedInInfo.uid"
-    class="btn btn-default btn-xs" ng-click="openLoginDialog()">
-    <i class="fa fa-sign-in"></i>
-    Sign in
-  </button>
+  <span ng-if="!rvm.masterAuth.loggedInInfo.uid">
+    <button class="btn btn-default btn-xs" ng-click="openLoginDialog()">
+      <i class="fa fa-sign-in"></i>
+      Sign in
+    </button>
+    <button class="btn btn-default btn-xs" ng-click="createAccount()">
+      <i class="fa fa-user-plus"></i>
+      Create account
+    </button>
+  </span>
 
 </span>
