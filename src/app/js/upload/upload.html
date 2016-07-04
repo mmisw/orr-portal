@@ -24,6 +24,19 @@
 
     <form name="myForm" class="form-horizontal">
 
+      <p ng-if="!vm.uploadResponse"
+         style="color: gray; margin-bottom: 20px">
+        Select the local file you want to upload and click the 'Upload file' button.
+        File formats recognized by the ORR include:
+        <a target="_blank" href="https://www.w3.org/TR/REC-rdf-syntax/">RDF/XML</a>,
+        <a target="_blank" href="https://www.w3.org/TR/rdf-json/">RDF/JSON</a>,
+        <a target="_blank" href="https://www.w3.org/TR/json-ld/">JSON-LD</a>,
+        <a target="_blank" href="https://www.w3.org/TeamSubmission/n3/">Notation3</a>,
+        <a target="_blank" href="https://www.w3.org/TR/n-triples/">N-Triples</a>,
+        <a target="_blank" href="https://www.w3.org/TeamSubmission/turtle/">Turtle</a>,
+        <a target="_blank" href="https://www.w3.org/TR/owl-xml-serialization/">OWL/XML</a>.
+      </p>
+
       <div class="form-group">
         <label for="inputFile" class="control-label col-xs-2">
           Ontology file:
@@ -86,6 +99,16 @@
       <div ng-if="vm.uploadResponse">
 
         <div class="form-group">
+          <p class="col-xs-12" style="color: gray">
+            Please indicate the original ontology URI in this file.
+            <span ng-if="vm.possibleOntologyUris">
+              You can either enter the URI manually or
+              select one of the possible URIs detected from typical properties below.
+            </span>
+          </p>
+        </div>
+
+        <div class="form-group">
           <label class="control-label col-xs-2" for="inputOriginalUri">
             Original ontology URI:
           </label>
@@ -96,41 +119,54 @@
                    class="form-control"
                    ng-model="vm.originalUri"
                    name="originalUri"
-                   placeholder="Indicate the original URI of this ontology"
+                   placeholder="Enter URI"
                    required>
           </div>
         </div>
 
         <div class="form-group" >
-          <label class="col-xs-2"> </label>
+          <label class="col-xs-1"> </label>
 
-          <div class="col-xs-6" ng-if="vm.possibleOntologyUris">
-            <div>
+          <div class="col-xs-10" ng-if="vm.possibleOntologyUris">
+            <div style="color: gray">
               The following possible URI(s) were detected in the contents of the file:
             </div>
 
-            <ul>
-              <li ng-repeat="(uri, info) in vm.possibleOntologyUris">
-                <button class="btn btn-default btn-sm"
-                        ng-bind="uri"
-                        ng-click="vm.originalUri = uri"
-                        uib-tooltip="Click to select this as the original URI for this ontology"
-                        tooltip-placement="left"
-                >
-                </button>
-                <ul>
-                  <li ng-repeat="e in info.explanations">
+            <table class="table table-bordered table-condensed" style="width: initial">
+              <thead>
+              <tr>
+                <th></th>
+                <th>URI</th>
+                <th>Explanation</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="(uri, info) in vm.possibleOntologyUris">
+                <td style="width: 5px">
+                  <button class="btn btn-info btn-xs"
+                          ng-click="vm.originalUri = uri"
+                          uib-tooltip="Select this as the original URI for this ontology"
+                          tooltip-placement="right"
+                  >
+                    Select
+                  </button>
+                </td>
+                <td>
+                  <span class="uriTextSimple" style="font-size: large" ng-bind="uri">
+                  </span>
+                </td>
+                <td>
+                  <ul style="margin-left: 20px; padding-left: 0;">
+                    <li ng-repeat="e in info.explanations">
                     <span ng-bind="e"
                           style="color:gray; font-weight: 200"
-                          uib-tooltip="Origin of the URI above"
-                          tooltip-placement="left"
                     ></span>
-                  </li>
-                </ul>
-
-              </li>
-
-            </ul>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </div>
 
           <div class="col-xs-6" ng-if="!vm.possibleOntologyUris">

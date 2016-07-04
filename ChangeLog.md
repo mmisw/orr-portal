@@ -1,6 +1,7 @@
 ## change log ##
 
-* 2016-07-03: 3.0.3-alpha:
+* 2016-07-05: 3.0.3-alpha:
+  - upload: include info about recognized formats and make selection of URI more clear
   - various style adjustments and auto-focus in user account related dialogs
   - add create account button in header
 
