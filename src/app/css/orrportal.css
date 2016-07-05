@@ -537,6 +537,13 @@ div.debug {
   overflow-y: auto;
 }
 
+.thinHr {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: gray;
+  width: 100%
+}
+
 .yourTesting {
   font-weight: 300 !important;
   border-radius: 1em;

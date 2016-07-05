@@ -265,6 +265,8 @@
 
     $scope.backPage = function(page) {
       vm.page = page;
+      vm.newShortName = '';
+      vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = false;
     };
 
     $scope.okToCheckNewUriIsAvailable = function() {

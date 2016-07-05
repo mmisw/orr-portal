@@ -2,8 +2,14 @@
 
     <div class="panel-heading">
       <div>
-        <div style="float: left; font-weight: bold">
-          Fully hosted registration type
+        <div style="float: left">
+          <label>
+            Registration type: Fully hosted ontology
+          </label>
+          <p>
+            The URI of the ontology is changed to a new target URI,
+            and all associated terms are moved to a namespace also determined by the target URI.
+          </p>
         </div>
 
         <div style="float: right">
@@ -26,9 +32,15 @@
         <div class="form-group">
           <p class="col-xs-12">
             Select the owner of this submission and provide a short name for the ontology.
-            These pieces of information are also used to compose the new URI for the registration.
+            These pieces of information are also used to compose the target URI for the registration.
+            Click the 'Check target URI' to determine whether this will be a brand new
+            entry in the repository or a new version for an existing entry.
+            Then indicate a short description and desired visibility for the ontology
+            and click the 'Complete registration' button.
           </p>
         </div>
+
+        <hr class="thinHr">
 
         <div class="form-group">
           <label for="inputOrgName" class="control-label col-xs-2">
@@ -48,6 +60,8 @@
 
           </div>
         </div>
+
+        <hr class="thinHr">
 
         <div class="form-group">
           <label for="inputNewShortName" class="control-label col-xs-2">
@@ -69,6 +83,8 @@
             </button>
           </div>
         </div>
+
+        <hr class="thinHr">
 
         <div class="form-group">
           <label class="control-label col-xs-2"> </label>
@@ -117,29 +133,45 @@
               Name(s) found in the contents of the file:
             </div>
 
-            <ul>
-              <li ng-repeat="(n, propUris) in vm.possibleOntologyNames"
-                  style="margin-top: 10px">
-                <button class="btn btn-default btn-sm"
-                        ng-bind="n"
-                        ng-click="vm.name = n"
-                        uib-tooltip="Click to select this name for the ontology"
-                        tooltip-placement="left"
-                >
-                </button>
-                <ul>
-                  <li ng-repeat="propUri in propUris">
-                    <span
-                      ng-bind="propUri"
-                      uib-tooltip="Property having the value above"
-                      tooltip-placement="left"
-                      style="color:gray; font-weight: 200"></span>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+            <table class="table table-bordered table-condensed" style="width: initial">
+              <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Explanation</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="(n, propUris) in vm.possibleOntologyNames">
+                <td style="width: 5px">
+                  <button class="btn btn-info btn-xs"
+                          ng-click="vm.name = n"
+                          uib-tooltip="Select this name for the ontology"
+                          tooltip-placement="right"
+                  >
+                    Select
+                  </button>
+                </td>
+                <td>
+                    <span ng-bind="n">
+                    </span>
+                </td>
+                <td>
+                  <ul style="margin-left: 20px; padding-left: 0;">
+                    <li ng-repeat="propUri in propUris">
+                      <span style="color:gray; font-weight: 200">
+                        Value of property: {{propUri}}
+                      </span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+
+        <hr class="thinHr">
 
         <div class="form-group">
           <label for="inputName" class="control-label col-xs-2">
