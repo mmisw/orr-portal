@@ -36,8 +36,10 @@
         predicates: [
           required(omv.name),
           hideIfUndefined(hideForNew(dct.title)),
+          hideIfUndefined(hideForNew(dc.title)),
           required(omv.description),
           hideIfUndefined(hideForNew(dct.description)),
+          hideIfUndefined(hideForNew(rdfs.comment)),
           hideIfUndefined(hideForNew(owl.versionInfo)),
           hideIfUndefined(omvmmi.hasResourceType),
           hideIfUndefined(hideForNew(omvmmi.hasContentCreator)),
