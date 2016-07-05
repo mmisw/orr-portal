@@ -211,8 +211,13 @@
         uploadedFormat:   vm.uploadResponse.data.format,
         visibility:       vm.selectedVisibility
       };
-      if (vm.knownOwner && !vm.knownOwner.startsWith("~")) {
-        params.orgName = vm.knownOwner;
+      if (vm.knownOwner) {
+        if (!vm.knownOwner.startsWith("~")) {
+          params.orgName = vm.knownOwner;
+        }
+      }
+      else if (!vm.selectedOwner.id.startsWith("~")) {
+        params.orgName = vm.selectedOwner.id;
       }
 
       var brandNew = !vm.knownOwner;
