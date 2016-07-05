@@ -84,9 +84,18 @@
 
     var rvm = $rootScope.rvm;
 
-    var vm = $scope.vm = {};
-    vm.uri = rvm.rUri;
-    vm.version = rvm.rVersion;
+    // because of enclosing UriController we can already have ontology information here,
+    // so we do a refreshOntology if not:
+    var doRefreshOntology = false;
+    //console.log("OntController vm=", _.cloneDeep($scope.vm));
+    if (!$scope.vm) {
+      $scope.vm = {
+        uri:      rvm.rUri,
+        version:  rvm.rVersion
+      };
+      doRefreshOntology = true;
+    }
+    var vm = $scope.vm;
 
     var leavePageHandling = (function() {
       var unsubscribeStateChangeStart = null;
@@ -160,7 +169,9 @@
       if (newFormat) console.warn("expecting undefined newFormat when vm.uri is defined. newFormat=", newFormat);
 
       vm.brandNew = false;
-      refreshOntology();
+      if (doRefreshOntology) {
+        refreshOntology();
+      }
     }
     else {
       if (!newFormat) console.warn("expecting defined newFormat when vm.uri is undefined");
