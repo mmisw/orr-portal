@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-07-05: 3.0.3-alpha:
+  - fix bug: upload: getUserCanRegisterNewVersion was using "name" and not "orgName" for checking organizations
   - fix bug: re-hosted brand new submission with organization as owner was actually associated with user and not with
     selected organization
   - gulpfile: add missing select2.css in distribution

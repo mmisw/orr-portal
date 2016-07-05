@@ -323,9 +323,9 @@
         return $rootScope.rvm.masterAuth.loggedInInfo.uid === userOntOwner;
       }
       var orgOntOwner = vm.knownOwner;
-      console.debug("owned by org:", orgOntOwner);
+      console.debug("owned by org:", orgOntOwner, "masterAuth.organizations=", $rootScope.rvm.masterAuth.organizations);
       var organizations = $rootScope.rvm.masterAuth.organizations;
-      return organizations && _.contains(_.map(organizations, "name"), orgOntOwner);
+      return organizations && _.contains(_.map(organizations, "orgName"), orgOntOwner);
     }
 
     $scope.okToRegisterFullyHosted = function() {
