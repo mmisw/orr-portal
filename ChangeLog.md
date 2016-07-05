@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-07-05: 3.0.4-alpha:
+  - resolve #50 "Capitalize 'o' in Upload Ontology button"
   - resolve #49 "need contact us in web app":  new optional config parameter branding.contactUs
 
 * 2016-07-05: 3.0.3-alpha:
