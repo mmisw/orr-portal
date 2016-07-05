@@ -24,7 +24,6 @@
       resolveUri:              resolveUri,
 
       refreshOntology:         refreshOntology,
-      refreshOntologyMetadata: refreshOntologyMetadata,
       getOntologySubjects:     getOntologySubjects,
       getExternalOntologySubjects: getExternalOntologySubjects,
 
@@ -222,46 +221,6 @@
         // or the admin (with whatever mechanism) to explicitly indicate "stable", "experimental", etc.
       }
       return ont;
-    }
-
-    function refreshOntologyMetadata(uri, gotOntologyMetadata) {
-
-      setRefreshing(true);
-
-      var query = 'select distinct ?predicate ?value\n' +
-        'where { <' + uri + '> ?predicate ?value. }\n' +
-        'order by ?predicate';
-
-      // un-define the Authorization header for the sparqlEndpoint
-      var headers = {Authorization: undefined};
-      var url = appConfig.orront.sparqlEndpoint;
-      var params = {query: query};
-      console.log(appUtil.logTs() + ": GET " + url, params);
-      $http.get(appConfig.orront.sparqlEndpoint, {params: params, headers: headers})
-        .success(function(data, status, headers, config) {
-          setRefreshing(false);
-          console.log(appUtil.logTs() + ": got metadata: ", data);
-          if (data.error) {
-            gotOntologyMetadata(data);
-            return;
-          }
-
-          var rows = data.values;
-
-          var predicates = {};
-          _.each(rows, function(e) {
-            var predicate = e[0];
-            var value     = e[1];
-
-            if (!predicates.hasOwnProperty(predicate)) {
-              predicates[predicate] = [];
-            }
-            predicates[predicate].push(value);
-          });
-
-          gotOntologyMetadata(null, predicates);
-        })
-        .error(httpErrorHandler(gotOntologyMetadata));
     }
 
     function getOntologyFormat(uri, version, format, gotOntology) {
