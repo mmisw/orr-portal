@@ -54,6 +54,10 @@ var appConfig = {
     // (optional) "Terms of Use" link.
     // No default value.
     //tou: "http://somewhere/mytermsofuse"
+
+    // (optional) "Contact us" link.
+    // No default value.
+    //contactUs: "http://somewhere/contactus"  // OR  "mailto:addr@example.net"
   }
 
   // (required) firebase application.

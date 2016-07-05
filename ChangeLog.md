@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-07-05: 3.0.4-alpha:
+  - resolve #49 "need contact us in web app":  new optional config parameter branding.contactUs
+
 * 2016-07-05: 3.0.3-alpha:
   - fix bug: upload: getUserCanRegisterNewVersion was using "name" and not "orgName" for checking organizations
   - fix bug: re-hosted brand new submission with organization as owner was actually associated with user and not with
