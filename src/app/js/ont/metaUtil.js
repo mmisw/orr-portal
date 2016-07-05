@@ -37,6 +37,7 @@
           required(omv.name),
           hideIfUndefined(hideForNew(dct.title)),
           hideIfUndefined(hideForNew(dc.title)),
+          hideIfUndefined(hideForNew(rdfs.label)),
           required(omv.description),
           hideIfUndefined(hideForNew(dct.description)),
           hideIfUndefined(hideForNew(rdfs.comment)),
