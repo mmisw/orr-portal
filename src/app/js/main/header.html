@@ -19,78 +19,7 @@
                    href="https://github.com/mmisw/orr-portal">v@@version</a>
               </span>
 
-              <span ng-mouseenter="YourTesting_showPopup=true" ng-mouseleave="YourTesting_showPopup=undefined">
-                <script type="text/ng-template" id="YourTesting.html">
-                  <div ng-mouseleave="YourTesting_showPopup=undefined" class="left" style="padding: 20px">
-                    <label>
-                      Thank you for trying/testing the new ORR v3.
-                    </label>
-                    <p>
-                      In general, besides a number of additional features, the new ORR web application retains
-                      similar elements and sequences as in the current version 2.
-                      So, some basic familiarity with that version would be useful, but not required.
-                      (Please note, overall documentation is still to be created/updated.)
-                    </p>
-                    <p>
-                      Please refer to our
-                      <a target="_blank" href="https://github.com/mmisw/orr-portal/issues">
-                        main issue tracker</a> to see the status and plans for upcoming milestones.
-                      If possible, please also report your bugs, suggestions,
-                      or <a target="_blank" href="https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments"
-                      >"reactions"</a>
-                      there.
-
-                      (If you prefer, you can also <a href="mailto:mmi.mmiorr@gmail.com">email us</a>.)
-                      Screenshots, particularly useful for reporting bugs, unclear procedures or messages,
-                      are very welcome.
-                      Although the current focus of development is on functionality (and we believe this
-                      is mostly covered already), we also welcome feedback regarding usability
-                      and, somewhat to a less extent at this point, performance.
-                      Lastly, if you are also interested in the new
-                      <a target="_blank" href="https://github.com/mmisw/orr-ont">
-                        ORR backend service v3 and REST API
-                      </a> (on which this new UI relies),
-                      please note that proper documentation is still to be created, but you may
-                      find the current
-                      <a target="_blank" href="https://github.com/mmisw/orr-ont/wiki">
-                        wiki
-                      </a>
-                      useful in the mean time.
-                    </p>
-                    <p>
-                      Some quick tracker links:
-                    </p>
-                    <ul>
-                      <li>
-                        <a target="_blank" href="https://github.com/mmisw/orr-portal/milestones/ESIPSummer16">
-                          'ESIPSummer16' milestone
-                        </a>
-                      </li>
-                      <li>
-                        <a target="_blank" href="https://github.com/mmisw/orr-portal/issues?q=is%3Aopen+is%3Aissue+label%3Abug">
-                          Bugs
-                        </a>
-                      </li>
-                      <li>
-                        <a target="_blank" href="https://github.com/mmisw/orr-portal/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement">
-                          Enhancements
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </script>
-
-                <span uib-popover-template="'YourTesting.html'"
-                     popover-placement="bottom"
-                     popover-is-open="YourTesting_showPopup"
-                >
-                  <span class="label label-primary yourTesting">
-                    Testing!
-                  </span>
-                </span>
-
-              </span>
-
+              <orr-testing></orr-testing>
 
               <span ng-if="cfg.help">
                 <a target="_blank" class="btn btn-sm btn-link appLink"
