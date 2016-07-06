@@ -2,7 +2,8 @@
 
 * 2016-07-05: 3.0.4-alpha:
   - looking into #42 "updating metadata for an ontology doesn't show or maintain existing values"
-    - OntController: do not duplicate refresh ontology request if we already have the information from enclosing UriController
+    - OntController: do not duplicate refresh ontology request if we already have the information from enclosing UriController;
+      but still set the view and visibility options and retrieve the ontology *data*.
 
   - metadata: include rdfs.label in General section (the SWEET ontologies use it)
   - resolve #50 "Capitalize 'o' in Upload Ontology button"

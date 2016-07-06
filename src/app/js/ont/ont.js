@@ -172,6 +172,9 @@
       if (doRefreshOntology) {
         refreshOntology();
       }
+      else {
+        ontologyRefreshed();
+      }
     }
     else {
       if (!newFormat) console.warn("expecting defined newFormat when vm.uri is undefined");
@@ -277,11 +280,16 @@
         }
         else {
           vm.ontology = ontology;
-          $scope.viewAsOptions = setViewAsOptions(vm.uri);
-          setVisibilityOptions();
-          getOntologyData();
+          ontologyRefreshed();
         }
       }
+    }
+
+    function ontologyRefreshed() {
+      $scope.viewAsOptions = setViewAsOptions(vm.uri);
+      setVisibilityOptions();
+      getOntologyData();
+
       function setViewAsOptions(uri) {
         uri = uri.replace(/#/g, '%23');
         function getUrl(format) {
