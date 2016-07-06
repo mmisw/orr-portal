@@ -455,12 +455,12 @@
 
     vm.cellTextAreaKeyUp = function($event, tableForm, em) {
       //console.debug("cellTextAreaKeyUp: keyCode=", $event.keyCode, "$event=", $event);
-      if ($event.keyCode == 13 && $event.ctrlKey && $event.shiftKey) {
+      if ($event.keyCode == 13 && !$event.ctrlKey) {
         $timeout(function() {
           tableForm.$submit();
         });
       }
-      else if ($event.keyCode == 187 && $event.ctrlKey && $event.shiftKey) {
+      else if ($event.keyCode == 187 && $event.ctrlKey) {
         $timeout(function() {
           vm.addValue(em);
         });

@@ -198,7 +198,7 @@
                     <div type="button" ng-disabled="attrTableform.$waiting"
                          class="btn btn-default btn-xs"
                          ng-click="vm.addValue(term._ems[a_index])"
-                         uib-tooltip="Add other value for this property (Ctrl-Shift-+)"
+                         uib-tooltip="[Ctrl-+] Add value for this property"
                          tooltip-placement="bottom"
                     >
                       <i class="fa fa-plus" aria-hidden="true"></i> Add value
@@ -207,7 +207,7 @@
                     <div type="submit" ng-disabled="attrTableform.$waiting"
                          class="btn btn-default btn-xs"
                          ng-click="attrTableform.$submit();"
-                         uib-tooltip="Apply all changes in this cell (Ctrl-Shift-Enter)"
+                         uib-tooltip="[Enter] Apply all changes in this cell. (Use Ctrl-Enter to insert a new line.)"
                          tooltip-placement="bottom"
                     >
                       <i class="fa fa-check" aria-hidden="true"></i> Apply
@@ -216,7 +216,7 @@
                     <div type="button" ng-disabled="attrTableform.$waiting"
                          class="btn btn-default btn-xs"
                          ng-click="attrTableform.$cancel()"
-                         uib-tooltip="Cancel all changes to this cell (Esc)"
+                         uib-tooltip="[Esc] Cancel changes in this cell"
                          tooltip-placement="bottom"
                     >
                       Cancel
