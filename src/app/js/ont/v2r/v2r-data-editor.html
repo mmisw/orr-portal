@@ -100,11 +100,11 @@
 
         <td style="width: 40px">
           <div type="button"
-                  ng-disabled="someEditInProgress() || attrTableform.$waiting"
-                  ng-click="vm.addProperty(vocab)"
-                  class="btn btn-primary btn-xs"
-                  uib-tooltip="Add a property to this term set"
-                  tooltip-placement="left"
+               ng-disabled="someEditInProgress() || attrTableform.$waiting"
+               ng-click="vm.addProperty(vocab)"
+               class="btn btn-primary btn-xs"
+               uib-tooltip="Add a property to this term set"
+               tooltip-placement="left"
           >
             <i class="fa fa-plus" aria-hidden="true"></i>Property
           </div>
@@ -119,10 +119,10 @@
 
         <td style="width: 40px;max-width: 40px">
           <div type="button"
-                  ng-disabled="someEditInProgress() || attrTableform.$waiting"
-                  ng-click="vm.removeTerm(vocab, t_index)"
-                  class="btn btn-danger btn-xs"
-                  uib-tooltip="Remove term"
+               ng-disabled="someEditInProgress() || attrTableform.$waiting"
+               ng-click="vm.removeTerm(vocab, t_index)"
+               class="btn btn-danger btn-xs"
+               uib-tooltip="Remove term"
           >
             <i class="fa fa-remove" aria-hidden="true"></i>
           </div>
@@ -172,9 +172,9 @@
 
                     <td ng-show="attrTableform.$visible" style="width: 5px">
                       <div type="button" ng-click="vm.deleteValue(term._ems[a_index], valueEntry.id)"
-                              class="btn btn-danger btn-xs"
-                              uib-tooltip="Remove this value"
-                              tooltip-placement="left"
+                           class="btn btn-danger btn-xs"
+                           uib-tooltip="Remove this value"
+                           tooltip-placement="left"
                       >
                         <i class="fa fa-times" aria-hidden="true"></i>
                       </div>
@@ -194,27 +194,30 @@
                   </tr>
                 </table>
 
-                <div ng-show="attrTableform.$visible" style="text-align: center; width: 100%">
+                <div ng-show="attrTableform.$visible">
                     <div type="button" ng-disabled="attrTableform.$waiting"
                          class="btn btn-default btn-xs"
                          ng-click="vm.addValue(term._ems[a_index])"
                          uib-tooltip="Add other value for this property (Ctrl-Shift-+)"
+                         tooltip-placement="bottom"
                     >
                       <i class="fa fa-plus" aria-hidden="true"></i> Add value
                     </div>
 
                     <div type="submit" ng-disabled="attrTableform.$waiting"
-                            class="btn btn-default btn-xs"
+                         class="btn btn-default btn-xs"
                          ng-click="attrTableform.$submit();"
-                            uib-tooltip="Apply all changes in this cell (Ctrl-Shift-Enter)"
+                         uib-tooltip="Apply all changes in this cell (Ctrl-Shift-Enter)"
+                         tooltip-placement="bottom"
                     >
                       <i class="fa fa-check" aria-hidden="true"></i> Apply
                     </div>
 
                     <div type="button" ng-disabled="attrTableform.$waiting"
-                            class="btn btn-default btn-xs"
-                            ng-click="attrTableform.$cancel()"
-                            uib-tooltip="Cancel all changes to this cell (Esc)"
+                         class="btn btn-default btn-xs"
+                         ng-click="attrTableform.$cancel()"
+                         uib-tooltip="Cancel all changes to this cell (Esc)"
+                         tooltip-placement="bottom"
                     >
                       Cancel
                     </div>

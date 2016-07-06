@@ -20,9 +20,9 @@
     })
   ;
 
-  MveController.$inject = ['$scope', '$filter', 'cfg', 'utl', 'queryUtil'];
+  MveController.$inject = ['$scope', '$filter', '$timeout', 'cfg', 'utl', 'queryUtil'];
 
-  function MveController($scope, $filter, cfg, utl, queryUtil) {
+  function MveController($scope, $filter, $timeout, cfg, utl, queryUtil) {
     if (debug) console.log("++MveController++ propUri=", $scope.propUri, "propValue=", $scope.propValue, "disableEditIf=", $scope.disableEditIf);
 
     if ($scope.propUri) {
@@ -51,6 +51,29 @@
     $scope.enterCellEditing = function(tableForm) {
       if (!$scope.disableEditIf) {
         tableForm.$show()
+      }
+    };
+
+    $scope.cellKeyUp = function($event, tableForm) {
+      if ($event.keyCode == 13) {
+        $scope.enterCellEditing(tableForm);
+      }
+    };
+
+    $scope.cellTextAreaKeyUp = function($event, tableForm, em) {
+      //console.debug("cellTextAreaKeyUp: keyCode=", $event.keyCode, "$event=", $event);
+      if ($event.keyCode == 13 && $event.ctrlKey && $event.shiftKey) {
+        $timeout(function() {
+          tableForm.$submit();
+        });
+      }
+      else if ($event.keyCode == 187 && $event.ctrlKey && $event.shiftKey) {
+        $timeout(function() {
+          $scope.addValue(em);
+        });
+      }
+      else if ($event.keyCode == 27) {
+        tableForm.$cancel();
       }
     };
 

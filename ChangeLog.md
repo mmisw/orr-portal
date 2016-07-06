@@ -1,6 +1,16 @@
 ## change log ##
 
-* 2016-07-05: 3.0.4-alpha:
+* 2016-07-06: 3.0.4-alpha:
+  - Re #43 "modal issues with parameter entry".
+    For now, just some adjustments for consistency with v2r property value editing:
+    - allow keystrokes in metadata property editing similarly as those for vocabulary properties:
+      - Ctrl-Shift-Enter to apply changes in the cell
+      - Ctrl-Shift-+ to add a value in the cell
+      - Esc to cancel the changes in the cell
+    - make metadata property cells focusable so one can navigate with tab and shift-tab
+    - Wanted to use ng-blur to immediately accept the value but this alone would be incomplete logic as
+      a cell can have multiple values (so a blur in one would prevent from focusing other value in the same cell)...
+
   - fix #40 "Testing popup is offscreen left" --tested with chrome and safari
   - metadata: if undefined hide omv.name and omv.description (but show them in edit mode)
     TODO the general configuration/dispatch of metadata properties is still to be fully defined/implemented.
