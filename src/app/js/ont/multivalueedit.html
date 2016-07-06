@@ -37,8 +37,6 @@
                 e-ng-keyup="cellTextAreaKeyUp($event, attrTableform)"
                 e-ng-blur="applyAndSubmit(attrTableform)"
           >
-                <!--ng-bind="valueEntry || '-'"-->
-
             <table ng-if="propValue.length > 1" class="table table-condensed transparent">
               <tr ng-repeat="v in propValue track by $index">
                 <td ng-bind="v">
@@ -46,12 +44,10 @@
               </tr>
             </table>
 
-            <span ng-if="propValue.length === 1" ng-bind="propValue[0]">
-              -
+            <span ng-if="propValue.length === 1" ng-bind="propValue[0] || '-'">
             </span>
 
-            <span ng-if="!propValue.length">
-              -
+            <span ng-if="!propValue.length" ng-bind="'-'">
             </span>
 
           </div>
