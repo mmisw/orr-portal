@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-07-05: 3.0.4-alpha:
+  - metadata: if undefined hide omv.name and omv.description (but show them in edit mode)
+    TODO the general configuration/dispatch of metadata properties is still to be fully defined/implemented.
   - metadata: include dc.description and dc.creator in General section (used in http://data.gcoos.org/dp/data/Parameters.owl)
   - looking into #42 "updating metadata for an ontology doesn't show or maintain existing values"
     - OntController: do not duplicate refresh ontology request if we already have the information from enclosing UriController;

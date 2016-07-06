@@ -34,11 +34,11 @@
          * entries that the old system added as copies of omv/omvmmi property values)
          */
         predicates: [
-          required(omv.name),
+          required(hideIfUndefined(omv.name)),
           hideIfUndefined(hideForNew(dct.title)),
           hideIfUndefined(hideForNew(dc.title)),
           hideIfUndefined(hideForNew(rdfs.label)),
-          required(omv.description),
+          required(hideIfUndefined(omv.description)),
           hideIfUndefined(hideForNew(dct.description)),
           hideIfUndefined(hideForNew(dc.description)),
           hideIfUndefined(hideForNew(rdfs.comment)),
