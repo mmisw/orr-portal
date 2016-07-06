@@ -4,8 +4,11 @@
   var debug = appUtil.debug;
   //debug = true;
 
+  var VAL_SEPARATOR_INSERT = '\n-----\n';
+  var VAL_SEPARATOR_REGEX  = /\n+-----\n+/;
+
   angular.module('orrportal.multivalueedit', [])
-    .directive('orpMultivalueEdit', function() {
+    .directive('multivalueedit', function() {
       return {
         restrict:     'E',
         scope:        {
@@ -29,19 +32,8 @@
       $scope.propValueSelection = cfg.valueSelections[$scope.propUri];
     }
 
-    var em = $scope.em = [];
-    _.each($scope.propValue, function(val) {
-      em.push({
-        id:    em.length + 1,
-        value: val
-      });
-    });
-    if (em.length === 0) {
-      em.push({
-        id:    em.length + 1,
-        value: ''
-      });
-    }
+    $scope.valueEntry = ($scope.propValue || []).join(VAL_SEPARATOR_INSERT);
+    $scope.textAreaRows = 1 + $scope.valueEntry.split('\n').length;
 
     $scope.$watch("attrTableform.$visible", function(vis) {
       //console.log("$watch attrTableform.$visible", vis);
@@ -60,29 +52,24 @@
       }
     };
 
-    $scope.cellTextAreaKeyUp = function($event, tableForm, em) {
+    $scope.cellTextAreaKeyUp = function($event, tableForm) {
       //console.debug("cellTextAreaKeyUp: keyCode=", $event.keyCode, "$event=", $event);
       if ($event.keyCode == 13 && !$event.ctrlKey) {
-        $timeout(function() {
-          tableForm.$submit();
-        });
-      }
-      else if ($event.keyCode == 187 && $event.ctrlKey) {
-        $timeout(function() {
-          $scope.addValue(em);
-        });
+        $scope.applyAndSubmit(tableForm);
       }
       else if ($event.keyCode == 27) {
         tableForm.$cancel();
       }
     };
 
-    // filter values to show
-    $scope.filterValue = function(valueEntry) {
-      return valueEntry.isDeleted !== true;
+    $scope.applyAndSubmit = function(tableForm) {
+      $timeout(function() {
+        $scope.applyCellChanges();
+        tableForm.$submit();
+      }, 50);
     };
 
-    $scope.selectValue = function(em, id) {
+    $scope.selectValue = function(tableForm) {
       var title = 'Class: <span class="uriTextSimple">' +$scope.propValueSelection.class+ '</span>';
       if ($scope.propValueSelection.options) {
         doSelect();
@@ -119,73 +106,53 @@
           selectPlaceholder: 'Select a term',
           options: options,
           selected: function(index) {
-            var filtered = $filter('filter')(em, {id: id});
-            if (filtered.length) {
-              filtered[0].value = options[index];
-            }
+            var value = options[index];
+            setPropValueFromValueEntry();
+            $scope.propValue.push(value);
+            setValueEntryFromPropValue();
+            $scope.applyAndSubmit(tableForm);
           }
         });
       }
     };
 
-    // mark valueEntry as deleted
-    $scope.deleteValue = function(em, id) {
-      var filtered = $filter('filter')(em, {id: id});
-      if (filtered.length) {
-        filtered[0].isDeleted = true;
-      }
-    };
-
-    // add valueEntry
-    $scope.addValue = function(em) {
-      em.push({
-        id:    em.length + 1,
-        value: '',
-        isNew: true
+    function setPropValueFromValueEntry() {
+      $scope.propValue = [];
+      var values = $scope.valueEntry.split(VAL_SEPARATOR_REGEX);
+      _.each(values, function (val) {
+        var valLines = (val || "").trim().split('\n');
+        var valResult = [];
+        _.each(valLines, function(line) {
+          if (line.trim() !== VAL_SEPARATOR_INSERT.trim()) {
+            valResult.push(line);
+          }
+        });
+        var valResultString = valResult.join('\n');
+        if (valResultString) {
+          $scope.propValue.push(valResultString);
+        }
       });
-    };
-
-    // cancel all changes
-    $scope.cancelCell = function(em) {
-      for (var i = em.length; i--;) {
-        var valueEntry = em[i];
-        // undelete
-        if (valueEntry.isDeleted) {
-          delete valueEntry.isDeleted;
-        }
-        // remove new
-        if (valueEntry.isNew) {
-          em.splice(i, 1);
-        }
-      }
-    };
+      //console.debug("$scope.propValue=", $scope.propValue);
+    }
+    function setValueEntryFromPropValue() {
+      $scope.valueEntry = $scope.propValue.join(VAL_SEPARATOR_INSERT);
+      $scope.textAreaRows = 1 + $scope.valueEntry.split('\n').length;
+      //console.debug("$scope.valueEntry=", [$scope.valueEntry]);
+    }
 
     // transfer the changes to the model
     $scope.applyCellChanges = function() {
-      var result = [];
-
-      for (var i = em.length; i--;) {
-        var valueEntry = em[i];
-        if (valueEntry.isDeleted) {
-          em.splice(i, 1);
-        }
-        // note: empty string "" is regarded as absent value
-        else if (valueEntry.value) {
-          result.push(valueEntry.value);
-        }
-        if (valueEntry.isNew) {
-          valueEntry.isNew = false;
-        }
-      }
-
-      $scope.propValue = result;
-
-      // don't let the cell edit model (array) get empty, so
-      // user can later still click cell to edit and add a value
-      if (em.length === 0) {
-        em.push({id: 0, value: null});
-      }
+      setPropValueFromValueEntry();
+      setValueEntryFromPropValue();
     };
+
+    $scope.cellEditTooltip =
+      '<div class="left">' +
+      '<p>Cell editing:</p>' +
+      '<p>For a multi-line value, type [Ctrl-Enter] to insert new lines.</p>' +
+      '<p>For multiple values in the cell, enter five dashes in a line by itself as the value separator.</p>' +
+      '</div>'
+    ;
   }
 
 })();

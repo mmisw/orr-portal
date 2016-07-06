@@ -50,11 +50,11 @@
           </div>
 
           <div ng-if="editMode">
-            <orp-multivalue-edit prop-uri="p.uri"
-                                 prop-value="ontMeta[p.uri]"
-                                 disable-edit-if="someEditInProgress()"
-                                 edit-in-progress="setEditInProgress(inProgress)"
-            ></orp-multivalue-edit>
+            <multivalueedit prop-uri="p.uri"
+                            prop-value="ontMeta[p.uri]"
+                            disable-edit-if="someEditInProgress()"
+                            edit-in-progress="setEditInProgress(inProgress)"
+            ></multivalueedit>
 
             <pre ng-if="debug">ontMeta[{{p.uri}}] = {{ontMeta[p.uri] | json}}</pre>
 

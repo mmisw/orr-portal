@@ -1,10 +1,10 @@
 <div>
   <form editable-form name="attrTableform"
         onaftersave="applyCellChanges()"
-        oncancel="cancelCell(em)"
         ng-class="{'cell-editing': attrTableform.$visible}"
         tabindex="0"
         ng-keyup="cellKeyUp($event, attrTableform)"
+        ng-focus="attrTableform.$show()"
   >
 
     <table class="table table-condensed"
@@ -12,66 +12,53 @@
            ng-click="enterCellEditing(attrTableform)"
            uib-tooltip="{{!attrTableform.$visible && !disableEditIf ? 'Click to edit the value(s) for this property' : ''}}"
     >
-      <tr ng-repeat="valueEntry in em | filter:filterValue track by $index">
+      <tr>
         <td ng-show="attrTableform.$visible" style="width: 10px">
           <div ng-if="propValueSelection"
-               type="button" ng-click="selectValue(em, valueEntry.id)"
+               type="button" ng-click="selectValue(attrTableform)"
                class="btn btn-info btn-xs pull-right" style="margin-bottom: 4px"
                uib-tooltip="Select value"
                tooltip-placement="right"
           >
             <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
           </div>
-
-          <div type="button" ng-click="deleteValue(em, valueEntry.id)"
-               class="btn btn-danger btn-xs pull-right"
-               uib-tooltip="Remove this value"
-               tooltip-placement="left"
+          <div class="pull-right"
+               uib-popover-html="cellEditTooltip"
+               popover-placement="right"
+               popover-trigger="mouseenter"
           >
-            <i class="fa fa-times" aria-hidden="true"></i>
+            <i class="fa fa-question-circle-o" aria-hidden="true"></i>
           </div>
         </td>
         <td>
-          <span editable-textarea="valueEntry.value"
-                e-rows="2"
+          <div editable-textarea="valueEntry"
+                e-rows="{{textAreaRows}}"
                 e-form="attrTableform"
-                ng-bind="valueEntry.value || '-'"
-                e-ng-keyup="cellTextAreaKeyUp($event, attrTableform, em)"
+                e-ng-keyup="cellTextAreaKeyUp($event, attrTableform)"
+                e-ng-blur="applyAndSubmit(attrTableform)"
           >
-          </span>
+                <!--ng-bind="valueEntry || '-'"-->
+
+            <table ng-if="propValue.length > 1" class="table table-condensed transparent">
+              <tr ng-repeat="v in propValue track by $index">
+                <td ng-bind="v">
+                </td>
+              </tr>
+            </table>
+
+            <span ng-if="propValue.length === 1" ng-bind="propValue[0]">
+              -
+            </span>
+
+            <span ng-if="!propValue.length">
+              -
+            </span>
+
+          </div>
           <!--<pre ng-bind="'valueEntry=' +(valueEntry|json)"></pre>-->
         </td>
       </tr>
     </table>
 
-    <span ng-show="attrTableform.$visible">
-        <div type="button" ng-disabled="attrTableform.$waiting"
-             ng-click="addValue(em)"
-             class="btn btn-default btn-xs"
-             uib-tooltip="[Ctrl-+] Add value for this property"
-             tooltip-placement="bottom"
-        >
-          <i class="fa fa-plus" aria-hidden="true"></i> Add value
-        </div>
-
-        <div type="submit" ng-disabled="attrTableform.$waiting"
-             class="btn btn-default btn-xs"
-             uib-tooltip="[Enter] Apply all changes in this cell. (Use Ctrl-Enter to insert a new line.)"
-             tooltip-placement="bottom"
-        >
-          <i class="fa fa-check" aria-hidden="true"></i> Apply
-        </div>
-
-        <div type="button" ng-disabled="attrTableform.$waiting"
-             class="btn btn-default btn-xs"
-             ng-click="attrTableform.$cancel()"
-             uib-tooltip="[Esc] Cancel changes in this cell"
-             tooltip-placement="bottom"
-        >
-          Cancel
-        </div>
-    </span>
-
   </form>
 </div>
-

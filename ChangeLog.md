@@ -2,10 +2,13 @@
 
 * 2016-07-06: 3.0.4-alpha:
   - Re #43 "modal issues with parameter entry".
-    - Regular Enter accepts changes in the cell
-    - Ctrl-Enter now to be used to enter a new line in the textarea
-    - Ctrl-+ adds a value in the cell
-    - Esc cancels changes in the cell
+    - new simplified handling in <multivalueedit> directive:
+      - now, only a single text area for the cell value is used
+      - Enter and blur event immediately accept the cell contents
+      - five dashes in a line by itself serve a separator for multi-value cell
+      - Ctrl-Enter used to enter a new line for a multi-line value
+      - Esc cancels changes in the cell
+    - TODO: re-use <multivalueedit> in v2r editing
     - make metadata property cells focusable so one can navigate with tab and shift-tab
 
   - fix #40 "Testing popup is offscreen left" --tested with chrome and safari
