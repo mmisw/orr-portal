@@ -49,6 +49,10 @@
           label: "Title",
           tooltip: "A name given to the resource."
         },
+        description: {
+          label: "Description",
+          tooltip: "An account of the resource."
+        },
         creator: {
           label: "Creator",
           tooltip: "An entity primarily responsible for making the resource."
