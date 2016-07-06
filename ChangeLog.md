@@ -4,6 +4,8 @@
   - looking into #42 "updating metadata for an ontology doesn't show or maintain existing values"
     - OntController: do not duplicate refresh ontology request if we already have the information from enclosing UriController;
       but still set the view and visibility options and retrieve the ontology *data*.
+    - marking as fixed as could not reproduce either locally (both directly or via local docker deployment) or
+      on COR.  Likely resolved by various adjustments.
 
   - metadata: include rdfs.label in General section (the SWEET ontologies use it)
   - resolve #50 "Capitalize 'o' in Upload Ontology button"
