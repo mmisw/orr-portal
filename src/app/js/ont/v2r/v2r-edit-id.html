@@ -7,14 +7,22 @@
     <div class="panel-body">
 
       <form class="form-horizontal">
-        <p style="color: gray">
-          To construct the URI of this {{vm.what}} either specify a "local name"
-          (relative to the URI of this ontology)
-          or a full URI<span ng-if="vm.what === 'property'"
-          >, where you can also select from a list of standard properties
-          that may be applicable to your vocabulary
-        </span>.
-        </p>
+        <div style="color: gray">
+          <p ng-if="vm.what === 'class'">
+            Define the name of the class that describes the type of terms you are creating.
+            Note that this name will be used to build the URI for the class, so it should
+            not have any special characters.
+            Camel case is recommended for this name.
+            As a more advanced option you can select "Full URI" and enter
+            the full desired URI for the class.
+          </p>
+          <p ng-if="vm.what === 'property'">
+            To construct the URI of this property either specify a "local name"
+            (relative to the URI of this ontology)
+            or a full URI, where you can also select from a list of standard properties
+            that may be applicable to your vocabulary.
+          </p>
+        </div>
         <br>
 
         <div class="form-group">
