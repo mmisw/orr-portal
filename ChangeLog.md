@@ -9,7 +9,8 @@
       - Ctrl-Enter used to enter a new line for a multi-line value
       - Esc cancels changes in the cell
     - also use <multivalueedit> in v2r editing
-      TODO fix column operations: move/insert/delete property
+    - v2r: move/insert/delete property operations again working upon an adjustment in <multivalueedit> to
+      update vm.valueEntry when vm.propValue changes (using a $watch)
     - make metadata property cells focusable so one can navigate with tab and shift-tab
 
   - fix #40 "Testing popup is offscreen left" --tested with chrome and safari

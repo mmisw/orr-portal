@@ -39,6 +39,11 @@
     vm.valueEntry = (vm.propValue || []).join(VAL_SEPARATOR_INSERT);
     vm.textAreaRows = 1 + vm.valueEntry.split('\n').length;
 
+    $scope.$watch("vm.propValue", function(propValue) {
+      //console.debug("$watch: vm.propValue=", propValue);
+      setValueEntryFromPropValue();
+    }, true);
+
     $scope.$watch("attrTableform.$visible", function(vis) {
       //console.log("$watch attrTableform.$visible", vis);
       vm.editInProgress({inProgress: vis});
@@ -139,7 +144,7 @@
       //console.debug("vm.propValue=", vm.propValue);
     }
     function setValueEntryFromPropValue() {
-      vm.valueEntry = vm.propValue.join(VAL_SEPARATOR_INSERT);
+      vm.valueEntry = (vm.propValue || []).join(VAL_SEPARATOR_INSERT);
       vm.textAreaRows = 1 + vm.valueEntry.split('\n').length;
       //console.debug("vm.valueEntry=", [vm.valueEntry]);
     }
