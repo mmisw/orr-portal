@@ -67,8 +67,8 @@
     };
   }
 
-  V2rDataEditorController.$inject = ['$scope', '$uibModal', '$filter', '$timeout', 'utl', 'focus', 'vocabulary'];
-  function V2rDataEditorController($scope, $uibModal, $filter, $timeout, utl, focus, vocabulary) {
+  V2rDataEditorController.$inject = ['$scope', '$uibModal', '$timeout', 'utl', 'focus', 'vocabulary'];
+  function V2rDataEditorController($scope, $uibModal, $timeout, utl, focus, vocabulary) {
     var vm = this;
     vm.debug = debug;
     if (debug) console.log("++V2rDataEditorController++ vm=", vm);
