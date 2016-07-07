@@ -188,37 +188,79 @@
           label: "Organization"
         },
         origVocManager: {
-          label: "Manager of source vocabulary"
+          label: "Manager of source vocabulary",
+          tooltip: 'Who actively maintains the source vocabulary (used to build the ontology) and the changes to it. ' +
+          'Specify an individual or very specific organization, by name or as a URI. Include phone, mail, ' +
+          'and URL in parentheses after the specification, if available: ' +
+          'First Last (831-nnn-nnnn, name@domain.com, http://domain.com/myHomePage). ' +
+          'If the vocabulary is not actively maintained, put "None" in this field.'
         },
         contact: {
-          label: "Contact/Responsible Party"
+          label: "Contact/Responsible Party",
+          tooltip: 'Who is responsible for distribution of the vocabulary, particularly to MMI. ' +
+          '(In other words, who MMI and the public should contact for more information, or to negotiate changes.) ' +
+          'This should be a specific person or authorized department. Include phone, mail, and URL in parentheses ' +
+          'after the name, if available: First Last (831-nnn-nnnn, name@domain.com, http://domain.com/myHomePage). ' +
+          'Note also the next field shows possible roles this person plays with respect to this product.'
         },
         contactRole: {
-          label: "Contact role"
+          label: "Contact role",
+          tooltip: 'What is the role played by the Contact/Responsible Party named above? Choose the most senior ' +
+          'authority that applies of: Content Manager: the person/organization that manages the content of the ' +
+          'vocabulary Ontology Producer: the person/organization that creates (and possibly serves) this ' +
+          'information in an ontology Organizational Manager: the person/organization manager that is ' +
+          'responsible overall for producing this data product (but does not necessarily produce it themselves) ' +
+          'IP Negotiator: the person/organization that handles intellectual property, including this vocabulary ' +
+          'or ontology Other: specify if none of these fit'
         },
+
+
+        /*
+
+
+
+         */
+
         temporaryMmiRole: {
-          label: "Temporary MMI role"
+          label: "Temporary MMI role",
+          tooltip: "Until an agreement is reached on MMI's role, what role is MMI currently playing: " +
+          "Content Manager: MMI actively manages this vocabulary content and is responsible (with the community) " +
+          "for its creation Ontology Producer: MMI accepts vocabulary content from the community and turns it " +
+          "into a served ontology Ontology Republisher: MMI accepts an ontology, caches it, and produces its " +
+          "own copy of the ontology in order to provide additional services (URI generation, revision history " +
+          "maintenance and tracking, and so on)."
         },
         creditRequired: {
-          label: "Author credit required"
+          label: "Author credit required",
+          tooltip: "Specifies whether users of the ontology have to provide credit to its creator. " +
+          "Please choose whatever applies ('no' is a very helpful selection), and enter the next field " +
+          "if the select here is 'yes' or 'conditional'. Leave blank if you aren't sure."
         },
         creditCitation: {
-          label: "Citation string"
+          label: "Citation string",
+          tooltip: 'Free text containing the credit language that should be included in works based on this ontology'
         },
         origVocDocumentationUri: {
-          label: "Documentation"
+          label: "Documentation",
+          tooltip: 'If the original vocabulary is formally served in an easily parseable way at a URI ' +
+          '(e.g., using RDF, OWL, or comma- or tab-delimited text entries), please specify the URI here.'
         },
         origVocDescriptiveName: {
-          label: "Descriptive name"
+          label: "Descriptive name",
+          tooltip: 'Descriptive name for the original vocabulary (typically in Dublin Core or Ontology Metadata Vocabulary entries)'
         },
         origVocVersionId: {
-          label: "Version"
+          label: "Version",
+          tooltip: 'Version identification string associated with original vocabulary (typically in Dublin ' +
+          'Core or Ontology Metadata Vocabulary entries).'
         },
         origVocKeywords: {
-          label: "Keywords"
+          label: "Keywords",
+          tooltip: 'Keywords specified for original vocabulary (typically in Dublin Core or Ontology Metadata Vocabulary entries).'
         },
         origVocSyntaxFormat: {
-          label: "Syntax format"
+          label: "Syntax format",
+          tooltip: "Format/syntax in which vocabulary is provided (one of: RDF, OWL, 'other XML', CSV, tab-delimited, HTML, or other)."
         }
       }),
 

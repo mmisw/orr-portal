@@ -1,6 +1,9 @@
 ## change log ##
 
 * 2016-07-06: 3.0.4-alpha:
+  - resolve #44 "metadata attribute help needs help"
+    Copy-n-pasted the description from the ORR v2 directly.
+
   - minor adjust style in metadata section header tooltip
   - display and capture organization URL; improve display of organization
   - resolve #53 "Create organization dialog box URI not right?"
