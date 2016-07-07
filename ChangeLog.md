@@ -1,6 +1,9 @@
 ## change log ##
 
 * 2016-07-06: 3.0.4-alpha:
+  - resolve #53 "Create organization dialog box URI not right?"
+    Just remove the displayed URL, which seems I added with a blind copy-n-paste
+
   - resolve #47 "term set class dialog box help text context issue"
 
   - resolve #43 "modal issues with parameter entry".
