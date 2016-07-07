@@ -288,13 +288,8 @@
         .error(httpErrorHandler(gotOrg))
     }
 
-    function createOrg(orgName, name, members, cb) {
-      members = members.split(/\s*,\s*/);
-      var data = {
-        orgName:  orgName,
-        name:     name,
-        members:  members
-      };
+    function createOrg(data, cb) {
+      data.members = data.members.split(/\s*,\s*/);
       putJwtIfAvailable(data);
 
       doHttp("createOrg", {
@@ -308,11 +303,7 @@
         })
     }
 
-    function updateOrg(orgName, name, members, cb) {
-      var data = {
-        name:     name,
-        members:  members
-      };
+    function updateOrg(orgName, data, cb) {
       putJwtIfAvailable(data);
 
       doHttp("updateOrg", {

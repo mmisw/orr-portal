@@ -43,7 +43,15 @@
       var membersArray = _.map($scope.vm.membersString.split(","), function(m) {
         return m.trim();
       });
-      service.updateOrg($scope.orgName, $scope.org.name, membersArray, cb);
+      var data = {
+        name:     $scope.org.name,
+        members:  membersArray
+      };
+      if ($scope.org.url) {
+        data.url = $scope.org.url;
+      }
+
+      service.updateOrg($scope.orgName, data, cb);
 
       function cb(error, org) {
         $scope.editMode = false;

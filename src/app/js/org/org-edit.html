@@ -4,8 +4,21 @@
     <label for="inputMembers" class="control-label col-xs-2">
       Name:
     </label>
-    <div class="col-xs-6" style="font-size: larger">
-      {{org.name}}
+    <div class="col-xs-6"
+         ng-bind="org.name"
+         style="display: block;padding: 6px 12px;font-size: 14px;"
+      ></div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputUrl" class="control-label col-xs-2">
+      URL:
+    </label>
+    <div class="col-xs-6">
+      <input id="inputUrl"
+             type="url" class="form-control"
+             ng-model="org.url"
+      >
     </div>
   </div>
 

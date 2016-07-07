@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-07-06: 3.0.4-alpha:
+  - display and capture organization URL; improve display of organization
   - resolve #53 "Create organization dialog box URI not right?"
     Just remove the displayed URL, which seems I added with a blind copy-n-paste
 

@@ -36,6 +36,7 @@
     var vm = $scope.vm = {
       orgName: '',
       name:    '',
+      url:     '',
       members: ''
     };
 
@@ -51,7 +52,16 @@
       vm.status = "creating...";
       vm.working = true;
 
-      service.createOrg(vm.orgName, vm.name, vm.members, createdOrg);
+      var data = {
+        orgName:  vm.orgName,
+        name:     vm.name,
+        members:  vm.members
+      };
+      if (vm.url) {
+        data.url = vm.url;
+      }
+
+      service.createOrg(data, createdOrg);
 
       function createdOrg(error, org) {
         vm.working = false;

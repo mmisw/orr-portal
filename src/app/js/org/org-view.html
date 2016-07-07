@@ -4,15 +4,25 @@
     <label class="control-label col-xs-2">
       Name:
     </label>
-    <div class="col-xs-4" style="font-size: larger" ng-bind="org.name">
+    <div class="col-xs-6" style="display: block;padding: 6px 12px;font-size: 14px;"
+         ng-bind="org.name"
+    ></div>
+  </div>
+
+  <div class="form-group" ng-if="org.url">
+    <label class="control-label col-xs-2">
+      URL:
+    </label>
+    <div class="col-xs-6" style="display: block;padding: 6px 12px;font-size: 14px;">
+      <a target="_blank" ng-href="{{org.url}}" ng-bind="org.url"></a>
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" ng-if="org.members">
     <label class="control-label col-xs-2">
       Members:
     </label>
-    <div class="col-xs-4" style="font-size: larger">
+    <div class="col-xs-6" style="display: block;padding: 6px 12px;font-size: 14px;">
       <span ng-repeat="userName in org.members | orderBy">
           <a ng-href="#/user/{{userName}}">{{userName}}</a>
           &nbsp;
@@ -24,7 +34,7 @@
     <label class="control-label col-xs-2">
       Registered:
     </label>
-    <div class="col-xs-4">
+    <div class="col-xs-6" style="display: block;padding: 6px 12px;font-size: 14px;">
       {{org.registered}}
       <span ng-if="org.registeredBy">(by {{org.registeredBy}})</span>
     </div>
@@ -34,7 +44,7 @@
     <label class="control-label col-xs-2">
       Updated:
     </label>
-    <div class="col-xs-4">
+    <div class="col-xs-6" style="display: block;padding: 6px 12px;font-size: 14px;">
       {{org.updated}}
       <span ng-if="org.updatedBy">(by {{org.updatedBy}})</span>
     </div>
