@@ -20,9 +20,9 @@
     }
   }
 
-  OrgController.$inject = ['$scope', '$stateParams', 'service'];
+  OrgController.$inject = ['$rootScope', '$scope', '$stateParams', 'service'];
 
-  function OrgController($scope, $stateParams, service) {
+  function OrgController($rootScope, $scope, $stateParams, service) {
     if (appUtil.debug) console.log("++OrgController++");
 
     $scope.editMode = false;
@@ -34,7 +34,10 @@
 
     $scope.orgEditInProgress = false;
     $scope.canEditOrg = function() {
-      return true;  // TODO
+      if ($rootScope.userLoggedInIsAdmin()) return true;
+      if (!$rootScope.rvm.masterAuth.organizations) return false;
+      var userOrgs = _.map($rootScope.rvm.masterAuth.organizations, "orgName");
+      return _.contains(userOrgs, $scope.orgName);
     };
     $scope.startOrgEdit = function() {
       $scope.editMode = true;

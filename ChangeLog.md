@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-07-07: 3.0.5-alpha:
+  - fix #54 "edit organization enabled when not authorized"
   - v2r: also allow selection of values from set of instances of given class for the property, if any.
     Exercised with http://www.w3.org/2003/06/sw-vocab-status/ns#term_status and ad hoc
     values just captured in http://cor.esipfed.org/ont3/testorg/termstatus/Status.
