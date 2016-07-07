@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-07-07: 3.0.5-alpha:
+  - style adjustments in confirmation and selection dialogs
   - <multivalueedit>: handle these keystrokes:
     - Ctrl-s to open the select dialog
     - Ctrl-+ to add value.

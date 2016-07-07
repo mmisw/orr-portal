@@ -1,6 +1,6 @@
 <div>
-  <div class="modal-header">
-    <span class="modalTitle" ng-bind-html="info.title"></span>
+  <div class="modal-header effect2">
+    <span ng-bind-html="info.title"></span>
   </div>
   <div class="modal-body">
     <div ng-if="info.message" ng-bind-html="info.message"></div>
@@ -16,7 +16,7 @@
     <div ng-if="info.error" ng-bind-html="info.error"></div>
     <pre ng-if="info.errorPRE" ng-bind="info.errorPRE | json"></pre>
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer effect2">
     <button class="btn btn-default btn-sm" ng-click="cancel()">Cancel</button>
   </div>
 </div>

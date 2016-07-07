@@ -32,6 +32,7 @@ body {
 .effect2 {
     background-image: linear-gradient(to bottom, #fff 0%, #f5fafd 3%, #f5fafd 97%, #fff 100%);
     background-repeat: repeat-x;
+    border-radius: 6px;
 }
 
 .ontGrid {

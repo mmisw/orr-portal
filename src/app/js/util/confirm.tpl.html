@@ -1,12 +1,12 @@
 <div>
-  <div class="modal-header">
-    <span class="modalTitle" ng-bind-html="info.title"></span>
+  <div class="modal-header effect2">
+    <span ng-bind-html="info.title"></span>
   </div>
   <div class="modal-body">
     <div ng-bind-html="info.message"> </div>
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary btn-sm" ng-click="ok()">{{info.okLabel || 'OK'}}</button>
+  <div class="modal-footer effect2">
+    <button class="btn btn-{{info.okType || 'primary'}} btn-sm" ng-click="ok()">{{info.okLabel || 'OK'}}</button>
     <button class="btn btn-default btn-sm" ng-click="cancel()">{{info.cancelLabel || 'Cancel'}}</button>
   </div>
 </div>

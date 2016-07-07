@@ -438,7 +438,8 @@
             'Are you sure you want to unregister this ontology ' +
             (version ? 'version' : 'including all its versions') + '?' +
           '</div>',
-
+          okType: 'danger',
+          okLabel: "Yes, I'm sure",
           ok: function() { doUnregister(version); }
         });
 
