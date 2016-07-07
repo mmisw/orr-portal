@@ -18,6 +18,8 @@
           editInProgress: '&'
         },
         controller:   MveController,
+        controllerAs: 'vm',
+        bindToController: true,
         templateUrl:  'js/ont/multivalueedit.html'
       }
     })
@@ -26,52 +28,54 @@
   MveController.$inject = ['$scope', '$timeout', 'cfg', 'utl', 'queryUtil'];
 
   function MveController($scope, $timeout, cfg, utl, queryUtil) {
-    if (debug) console.log("++MveController++ propUri=", $scope.propUri, "propValue=", $scope.propValue, "disableEditIf=", $scope.disableEditIf);
+    var vm = this;
+    vm.debug = debug;
+    if (debug) console.log("++MveController++ propUri=", vm.propUri, "propValue=", vm.propValue, "disableEditIf=", vm.disableEditIf);
 
-    if ($scope.propUri) {
-      $scope.propValueSelection = cfg.valueSelections[$scope.propUri];
+    if (vm.propUri) {
+      vm.propValueSelection = cfg.valueSelections[vm.propUri];
     }
 
-    $scope.valueEntry = ($scope.propValue || []).join(VAL_SEPARATOR_INSERT);
-    $scope.textAreaRows = 1 + $scope.valueEntry.split('\n').length;
+    vm.valueEntry = (vm.propValue || []).join(VAL_SEPARATOR_INSERT);
+    vm.textAreaRows = 1 + vm.valueEntry.split('\n').length;
 
     $scope.$watch("attrTableform.$visible", function(vis) {
       //console.log("$watch attrTableform.$visible", vis);
-      $scope.editInProgress({inProgress: vis});
+      vm.editInProgress({inProgress: vis});
     });
 
-    $scope.enterCellEditing = function(tableForm) {
-      if (!$scope.disableEditIf) {
+    vm.enterCellEditing = function(tableForm) {
+      if (!vm.disableEditIf) {
         tableForm.$show()
       }
     };
 
-    $scope.cellKeyUp = function($event, tableForm) {
+    vm.cellKeyUp = function($event, tableForm) {
       if ($event.keyCode == 13) {
-        $scope.enterCellEditing(tableForm);
+        vm.enterCellEditing(tableForm);
       }
     };
 
-    $scope.cellTextAreaKeyUp = function($event, tableForm) {
+    vm.cellTextAreaKeyUp = function($event, tableForm) {
       //console.debug("cellTextAreaKeyUp: keyCode=", $event.keyCode, "$event=", $event);
       if ($event.keyCode == 13 && !$event.ctrlKey) {
-        $scope.applyAndSubmit(tableForm);
+        vm.applyAndSubmit(tableForm);
       }
       else if ($event.keyCode == 27) {
         tableForm.$cancel();
       }
     };
 
-    $scope.applyAndSubmit = function(tableForm) {
+    vm.applyAndSubmit = function(tableForm) {
       $timeout(function() {
-        $scope.applyCellChanges();
+        vm.applyCellChanges();
         tableForm.$submit();
       }, 50);
     };
 
-    $scope.selectValue = function(tableForm) {
-      var title = 'Class: <span class="uriTextSimple">' +$scope.propValueSelection.class+ '</span>';
-      if ($scope.propValueSelection.options) {
+    vm.selectValue = function(tableForm) {
+      var title = 'Class: <span class="uriTextSimple">' +vm.propValueSelection.class+ '</span>';
+      if (vm.propValueSelection.options) {
         doSelect();
       }
       else {
@@ -85,22 +89,22 @@
           '</div>',
           ok: null  // no OK button
         });
-        queryUtil.getPropValueOptions($scope.propUri, $scope.propValueSelection, function (error, options) {
+        queryUtil.getPropValueOptions(vm.propUri, vm.propValueSelection, function (error, options) {
           progressModal.close();
           if (error) {
             console.error(error);
             utl.error({errorPRE: error});
           }
           else {
-            $scope.propValueSelection.options = options;
+            vm.propValueSelection.options = options;
             doSelect();
           }
         });
       }
 
       function doSelect() {
-        if (debug) console.debug("doSelect: propValueSelection=", $scope.propValueSelection);
-        var options = $scope.propValueSelection.options;
+        if (debug) console.debug("doSelect: propValueSelection=", vm.propValueSelection);
+        var options = vm.propValueSelection.options;
         utl.selectFromList({
           title: title,
           selectPlaceholder: 'Select a term',
@@ -108,17 +112,17 @@
           selected: function(index) {
             var value = options[index];
             setPropValueFromValueEntry();
-            $scope.propValue.push(value);
+            vm.propValue.push(value);
             setValueEntryFromPropValue();
-            $scope.applyAndSubmit(tableForm);
+            vm.applyAndSubmit(tableForm);
           }
         });
       }
     };
 
     function setPropValueFromValueEntry() {
-      $scope.propValue = [];
-      var values = $scope.valueEntry.split(VAL_SEPARATOR_REGEX);
+      vm.propValue = [];
+      var values = vm.valueEntry.split(VAL_SEPARATOR_REGEX);
       _.each(values, function (val) {
         var valLines = (val || "").trim().split('\n');
         var valResult = [];
@@ -129,24 +133,24 @@
         });
         var valResultString = valResult.join('\n');
         if (valResultString) {
-          $scope.propValue.push(valResultString);
+          vm.propValue.push(valResultString);
         }
       });
-      //console.debug("$scope.propValue=", $scope.propValue);
+      //console.debug("vm.propValue=", vm.propValue);
     }
     function setValueEntryFromPropValue() {
-      $scope.valueEntry = $scope.propValue.join(VAL_SEPARATOR_INSERT);
-      $scope.textAreaRows = 1 + $scope.valueEntry.split('\n').length;
-      //console.debug("$scope.valueEntry=", [$scope.valueEntry]);
+      vm.valueEntry = vm.propValue.join(VAL_SEPARATOR_INSERT);
+      vm.textAreaRows = 1 + vm.valueEntry.split('\n').length;
+      //console.debug("vm.valueEntry=", [vm.valueEntry]);
     }
 
     // transfer the changes to the model
-    $scope.applyCellChanges = function() {
+    vm.applyCellChanges = function() {
       setPropValueFromValueEntry();
       setValueEntryFromPropValue();
     };
 
-    $scope.cellEditTooltip =
+    vm.cellEditTooltip =
       '<div class="left">' +
       '<p>Cell editing:</p>' +
       '<p>For a multi-line value, type [Ctrl-Enter] to insert new lines.</p>' +

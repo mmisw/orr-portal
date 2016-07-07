@@ -1,21 +1,21 @@
 <div>
   <form editable-form name="attrTableform"
-        onaftersave="applyCellChanges()"
+        onaftersave="vm.applyCellChanges()"
         ng-class="{'cell-editing': attrTableform.$visible}"
         tabindex="0"
-        ng-keyup="cellKeyUp($event, attrTableform)"
+        ng-keyup="vm.cellKeyUp($event, attrTableform)"
         ng-focus="attrTableform.$show()"
   >
 
     <table class="table table-condensed"
            ng-class="{'table-hover': !attrTableform.$visible, 'transparent': attrTableform.$visible}"
-           ng-click="enterCellEditing(attrTableform)"
-           uib-tooltip="{{!attrTableform.$visible && !disableEditIf ? 'Click to edit the value(s) for this property' : ''}}"
+           ng-click="vm.enterCellEditing(attrTableform)"
+           uib-tooltip="{{!attrTableform.$visible && !vm.disableEditIf ? 'Click to edit the value(s) for this property' : ''}}"
     >
       <tr>
         <td ng-show="attrTableform.$visible" style="width: 10px">
-          <div ng-if="propValueSelection"
-               type="button" ng-click="selectValue(attrTableform)"
+          <div ng-if="vm.propValueSelection"
+               type="button" ng-click="vm.selectValue(attrTableform)"
                class="btn btn-info btn-xs pull-right" style="margin-bottom: 4px"
                uib-tooltip="Select value"
                tooltip-placement="right"
@@ -23,7 +23,7 @@
             <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
           </div>
           <div class="pull-right"
-               uib-popover-html="cellEditTooltip"
+               uib-popover-html="vm.cellEditTooltip"
                popover-placement="right"
                popover-trigger="mouseenter"
           >
@@ -31,27 +31,27 @@
           </div>
         </td>
         <td>
-          <div editable-textarea="valueEntry"
-                e-rows="{{textAreaRows}}"
+          <div editable-textarea="vm.valueEntry"
+                e-rows="{{vm.textAreaRows}}"
                 e-form="attrTableform"
-                e-ng-keyup="cellTextAreaKeyUp($event, attrTableform)"
-                e-ng-blur="applyAndSubmit(attrTableform)"
+                e-ng-keyup="vm.cellTextAreaKeyUp($event, attrTableform)"
+                e-ng-blur="vm.applyAndSubmit(attrTableform)"
           >
-            <table ng-if="propValue.length > 1" class="table table-condensed transparent">
-              <tr ng-repeat="v in propValue track by $index">
+            <table ng-if="vm.propValue.length > 1" class="table table-condensed transparent">
+              <tr ng-repeat="v in vm.propValue track by $index">
                 <td ng-bind="v">
                 </td>
               </tr>
             </table>
 
-            <span ng-if="propValue.length === 1" ng-bind="propValue[0] || '-'">
+            <span ng-if="vm.propValue.length === 1" ng-bind="vm.propValue[0] || '-'">
             </span>
 
-            <span ng-if="!propValue.length" ng-bind="'-'">
+            <span ng-if="!vm.propValue.length" ng-bind="'-'">
             </span>
 
           </div>
-          <!--<pre ng-bind="'valueEntry=' +(valueEntry|json)"></pre>-->
+          <!--<pre ng-bind="'vm.valueEntry=' +(vm.valueEntry|json)"></pre>-->
         </td>
       </tr>
     </table>
