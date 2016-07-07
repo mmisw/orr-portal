@@ -275,7 +275,6 @@
         moveArrayElement(vocab.properties, from_index, to_index);
         _.each(vocab.terms, function(term) {
           moveArrayElement(term.attributes, from_index, to_index);
-          moveArrayElement(term._ems,       from_index, to_index);
         });
       }
 
@@ -285,7 +284,7 @@
           //console.log('editIdModel dialog accepted: idModel=', idModel);
           vocab.properties.splice(p_index, 0, idModel);
           _.each(vocab.terms, function(term) {
-            term.attributes.splice(p_index, 0, null);
+            term.attributes.splice(p_index, 0, []);
             setAttrModelsForTerm(term);
           });
         });
@@ -303,7 +302,6 @@
               vocab.properties.splice(p_index, 1);
               _.each(vocab.terms, function(term) {
                 term.attributes.splice(p_index, 1);
-                term._ems.splice(      p_index, 1);
               });
             });
           }
@@ -329,7 +327,7 @@
     vm.addTerm = function(vocab) {
       var term = {
         name:      "",
-        attributes: _.map(vocab.properties, function() { return null }),
+        attributes: _.map(vocab.properties, function() { return [] }),
         _focus: true
       };
       setAttrModelsForTerm(term);
@@ -345,78 +343,20 @@
     //////////////////////////////////////
     // Value cell editing
 
-    vm.enterCellEditing = function(tableForm) {
-      if (!$scope.someEditInProgress()) {
-        //console.log("vm.enterCellEditing");
-        $scope.setEditInProgress(true);
-        tableForm.$show()
-      }
-    };
-
     function setAttrModelsForTerm(term) {
-      term._ems = [];
+      var newAttributes = [];
       _.each(term.attributes, function(attr) {
-        term._ems.push(getAttrEditModel(attr));
+        newAttributes.push(angular.isArray(attr) ? attr : [attr]);
       });
+      term.attributes = newAttributes;
     }
 
-    (function prepareAttrModels() {
+    function prepareAttrModels() {
       _.each(vm.vocabs, function(vocab) {
         _.each(vocab.terms, setAttrModelsForTerm);
       });
-    })();
-
-    function getAttrEditModel(a) {
-      var array = angular.isArray(a) ? a : [a];
-      var em = [];
-      _.each(array, function(value, i) {
-        em.push({
-          id:    i,
-          value: value
-        });
-      });
-      return em;
     }
-
-    // filter values to show
-    vm.filterValue = function(valueEntry) {
-      return valueEntry.isDeleted !== true;
-    };
-
-    // mark valueEntry as deleted
-    vm.deleteValue = function(em, id) {
-      var filtered = $filter('filter')(em, {id: id});
-      if (filtered.length) {
-        filtered[0].isDeleted = true;
-      }
-    };
-
-    // add valueEntry
-    vm.addValue = function(em) {
-      em.push({
-        id:    em.length + 1,
-        value: '',
-        isNew: true
-      });
-    };
-
-    // cancel all changes
-    vm.cancelCell = function(t_index, term, a_index) {
-      var em = term._ems[a_index];
-      $scope.setEditInProgress(false);
-      for (var i = em.length; i--;) {
-        var valueEntry = em[i];
-        // undelete
-        if (valueEntry.isDeleted) {
-          delete valueEntry.isDeleted;
-        }
-        // remove new
-        if (valueEntry.isNew) {
-          em.splice(i, 1);
-        }
-      }
-      focusCell(t_index, a_index);
-    };
+    prepareAttrModels();
 
     vm.cellKeyUp = function($event, tableForm, t_index, term, a_index) {
       //console.debug("cellKeyUp: keyCode=", $event.keyCode, "$event=", $event, "t_index=", t_index, "a_index=", a_index);
@@ -451,61 +391,6 @@
         focusCell(new_t_index, new_a_index);
         return true;
       }
-    };
-
-    vm.cellTextAreaKeyUp = function($event, tableForm, em) {
-      //console.debug("cellTextAreaKeyUp: keyCode=", $event.keyCode, "$event=", $event);
-      if ($event.keyCode == 13 && !$event.ctrlKey) {
-        $timeout(function() {
-          tableForm.$submit();
-        });
-      }
-      else if ($event.keyCode == 187 && $event.ctrlKey) {
-        $timeout(function() {
-          vm.addValue(em);
-        });
-      }
-      else if ($event.keyCode == 27) {
-        tableForm.$cancel();
-      }
-    };
-
-    // transfer the changes to the model
-    vm.applyCellChanges = function(t_index, term, a_index) {
-      var em = term._ems[a_index];
-      $scope.setEditInProgress(false);
-      var result = [];
-
-      for (var i = em.length; i--;) {
-        var valueEntry = em[i];
-        if (valueEntry.isDeleted) {
-          em.splice(i, 1);
-        }
-        // note: empty string "" is regarded as absent value
-        else if (valueEntry.value) {
-          result.push(valueEntry.value);
-        }
-        if (valueEntry.isNew) {
-          valueEntry.isNew = false;
-        }
-      }
-
-      if (result.length > 1)
-        term.attributes[a_index] = result;
-      else if (result.length == 1)
-        term.attributes[a_index] = result[0];
-      else
-        term.attributes[a_index] = null;
-
-      // don't let the cell edit model (array) get empty, so
-      // user can later still click cell to edit and add a value
-      if (em.length === 0) {
-        em.push({id: 0, value: null});
-      }
-
-      focusCell(t_index, a_index);
-
-      //console.log("applyCellChanges: attributes=", term.attributes, "a_index=", a_index, "em=", em);
     };
 
     function focusCell(t_index, a_index) {

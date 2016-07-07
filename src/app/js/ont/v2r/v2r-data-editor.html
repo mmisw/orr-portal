@@ -150,84 +150,15 @@
             ng-class="{'cell-editing': attrTableform.$visible}"
         >
           <div>
+                        <!--prop-uri="p.uri"   TODO select from given vocabulary if any -->
 
-            <div>
-              <form editable-form name="attrTableform"
-                    onaftersave="vm.applyCellChanges(t_index, term, a_index)"
-                    oncancel="vm.cancelCell(t_index, term, a_index)"
-                    tabindex="0"
-                    ng-keyup="!someEditInProgress() ?
-                       vm.cellKeyUp($event, attrTableform, t_index, term, a_index) : null"
-                    focus-on="{{'cell_form_activation_' +t_index+ '_' +a_index}}"
-              >
-                    <!--ng-focus="!someEditInProgress() ? vm.enterCellEditing(attrTableform) : null"-->
-
-                <table class="table table-condensed"
-                       ng-class="{'table-hover': !attrTableform.$visible, 'transparent': attrTableform.$visible}"
-                       ng-click="vm.enterCellEditing(attrTableform)"
-                       uib-tooltip="{{!attrTableform.$visible && !someEditInProgress() ?
-                       'Click (or focus and type Enter) to edit the value(s) for this property' : ''}}"
-                >
-                  <tr ng-repeat="valueEntry in term._ems[a_index] | filter:vm.filterValue track by $index">
-
-                    <td ng-show="attrTableform.$visible" style="width: 5px">
-                      <div type="button" ng-click="vm.deleteValue(term._ems[a_index], valueEntry.id)"
-                           class="btn btn-danger btn-xs"
-                           uib-tooltip="Remove this value"
-                           tooltip-placement="left"
-                      >
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                      </div>
-                    </td>
-
-                    <td>
-                            <!--e-rows="3"-->
-                      <span editable-textarea="valueEntry.value"
-                            e-style="min-width: 20em; min-height:4em"
-                            e-form="attrTableform"
-                            ng-bind="valueEntry.value || '-'"
-                            e-ng-keyup="vm.cellTextAreaKeyUp($event, attrTableform, term._ems[a_index])"
-                      >
-                      </span>
-                      <!--<pre ng-bind="'valueEntry=' +(valueEntry|json)"></pre>-->
-                    </td>
-                  </tr>
-                </table>
-
-                <div ng-show="attrTableform.$visible">
-                    <div type="button" ng-disabled="attrTableform.$waiting"
-                         class="btn btn-default btn-xs"
-                         ng-click="vm.addValue(term._ems[a_index])"
-                         uib-tooltip="[Ctrl-+] Add value for this property"
-                         tooltip-placement="bottom"
-                    >
-                      <i class="fa fa-plus" aria-hidden="true"></i> Add value
-                    </div>
-
-                    <div type="submit" ng-disabled="attrTableform.$waiting"
-                         class="btn btn-default btn-xs"
-                         ng-click="attrTableform.$submit();"
-                         uib-tooltip="[Enter] Apply all changes in this cell. (Use Ctrl-Enter to insert a new line.)"
-                         tooltip-placement="bottom"
-                    >
-                      <i class="fa fa-check" aria-hidden="true"></i> Apply
-                    </div>
-
-                    <div type="button" ng-disabled="attrTableform.$waiting"
-                         class="btn btn-default btn-xs"
-                         ng-click="attrTableform.$cancel()"
-                         uib-tooltip="[Esc] Cancel changes in this cell"
-                         tooltip-placement="bottom"
-                    >
-                      Cancel
-                    </div>
-                </div>
-
-              </form>
-            </div>
+            <multivalueedit prop-value="term.attributes[a_index]"
+                            disable-edit-if="someEditInProgress()"
+                            edit-in-progress="setEditInProgress(inProgress)"
+            ></multivalueedit>
 
           </div>
-          <pre ng-if="debug">em={{term._ems[a_index]|json}}</pre>
+          <pre ng-if="debug">attr={{attr|json}}</pre>
         </td>
 
       </tr>

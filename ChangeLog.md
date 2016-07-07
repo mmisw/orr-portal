@@ -8,7 +8,8 @@
       - five dashes in a line by itself serve a separator for multi-value cell
       - Ctrl-Enter used to enter a new line for a multi-line value
       - Esc cancels changes in the cell
-    - TODO: re-use <multivalueedit> in v2r editing
+    - also use <multivalueedit> in v2r editing
+      TODO fix column operations: move/insert/delete property
     - make metadata property cells focusable so one can navigate with tab and shift-tab
 
   - fix #40 "Testing popup is offscreen left" --tested with chrome and safari
