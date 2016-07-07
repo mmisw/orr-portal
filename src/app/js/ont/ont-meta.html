@@ -25,7 +25,7 @@
       <uib-tab ng-repeat="section in visibleSections"
                style="cursor: pointer"
                heading="{{section.header}}"
-               uib-popover="{{section.tooltip}}"
+               uib-popover-html="section.tooltip"
                popover-trigger="mouseenter"
                popover-placement="right"
       >
