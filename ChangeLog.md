@@ -8,6 +8,9 @@
       $data.<the-name> upon changes during editing, and thus one be able to $watch those changes
       (note that watching vm.valueEntry directly only sees a change when the form is accepted).
       Textarea also resized according to new number of lines in the contents.
+  - resolve #35 "allow any member of an organization to edit the corresponding membership list"
+    This was actually resolved as part of fix to #54.
+    (note, related and pending #36 "organization manager")
   - fix #54 "edit organization enabled when not authorized"
   - v2r: also allow selection of values from set of instances of given class for the property, if any.
     Exercised with http://www.w3.org/2003/06/sw-vocab-status/ns#term_status and ad hoc
