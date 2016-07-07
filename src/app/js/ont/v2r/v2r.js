@@ -265,7 +265,7 @@
 
       vm.columnOptionSelected = function(vocab, p_index, opt) {
         if (opt === MOV_LEFT)  moveProp(vocab, p_index, p_index - 1);
-        if (opt === MOV_RIGHT) moveProp(vocab, p_index, p_index + 1);
+        if (opt === MOV_RIGHT) moveProp(vocab, p_index + 1, p_index);
         if (opt === INS_LEFT)  insertProp(vocab, p_index);
         if (opt === INS_RIGHT) insertProp(vocab, p_index + 1);
         if (opt === DEL_COL)   deleteProp(vocab, p_index);
@@ -344,11 +344,12 @@
     // Value cell editing
 
     function setAttrModelsForTerm(term) {
-      var newAttributes = [];
-      _.each(term.attributes, function(attr) {
-        newAttributes.push(angular.isArray(attr) ? attr : [attr]);
-      });
-      term.attributes = newAttributes;
+      for (var ii = 0; ii < term.attributes.length; ii++) {
+        var attr = term.attributes[ii];
+        if (!angular.isArray(attr)) {
+          term.attributes[ii] = [attr];
+        }
+      }
     }
 
     function prepareAttrModels() {
