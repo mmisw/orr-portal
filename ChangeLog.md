@@ -1,5 +1,18 @@
 ## change log ##
 
+* 2016-07-07: 3.0.5-alpha:
+  - v2r: also allow selection of values from set of instances of given class for the property, if any.
+    Exercised with http://www.w3.org/2003/06/sw-vocab-status/ns#term_status and ad hoc
+    values just captured in http://cor.esipfed.org/ont3/testorg/termstatus/Status.
+    Enabled this particular property in my local.config.js:
+
+      ```js
+        appConfig.valueSelections["http://www.w3.org/2003/06/sw-vocab-status/ns#term_status"] = {
+          class: "http://cor.esipfed.org/ont3/testorg/termstatus/Status",
+          sparqlEndpoint: "http://cor.esipfed.org/ont3sparql"
+        };
+     ```
+
 * 2016-07-06: 3.0.4-alpha:
   - resolve #44 "metadata attribute help needs help"
     Copy-n-pasted the description from the ORR v2 directly.

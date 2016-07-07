@@ -150,9 +150,8 @@
             ng-class="{'cell-editing': attrTableform.$visible}"
         >
           <div>
-                        <!--prop-uri="p.uri"   TODO select from given vocabulary if any -->
-
-            <multivalueedit prop-value="term.attributes[a_index]"
+            <multivalueedit prop-uri="vm.getUri(vocab.properties[a_index])"
+                            prop-value="term.attributes[a_index]"
                             disable-edit-if="someEditInProgress()"
                             edit-in-progress="setEditInProgress(inProgress)"
             ></multivalueedit>

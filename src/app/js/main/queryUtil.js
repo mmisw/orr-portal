@@ -23,7 +23,7 @@
 
       var clazz = propValueSelection.class;
       var query =
-        "select ?instanceUri\n" +
+        "select distinct ?instanceUri\n" +
         "where {\n" +
         " ?instanceUri a <" +clazz+ ">.\n" +
         "}\n" +
