@@ -23,9 +23,9 @@
     })
   ;
 
-  MveController.$inject = ['$scope', '$filter', '$timeout', 'cfg', 'utl', 'queryUtil'];
+  MveController.$inject = ['$scope', '$timeout', 'cfg', 'utl', 'queryUtil'];
 
-  function MveController($scope, $filter, $timeout, cfg, utl, queryUtil) {
+  function MveController($scope, $timeout, cfg, utl, queryUtil) {
     if (debug) console.log("++MveController++ propUri=", $scope.propUri, "propValue=", $scope.propValue, "disableEditIf=", $scope.disableEditIf);
 
     if ($scope.propUri) {
