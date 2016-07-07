@@ -17,8 +17,9 @@
           <div ng-if="vm.propValueSelection"
                type="button" ng-click="vm.selectValue(attrTableform)"
                class="btn btn-info btn-xs pull-right" style="margin-bottom: 4px"
-               uib-tooltip="Select value"
-               tooltip-placement="right"
+               uib-popover="Select value [Ctrl-s]"
+               popover-placement="right"
+               popover-trigger="mouseenter"
           >
             <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
           </div>
@@ -32,6 +33,7 @@
         </td>
         <td>
           <div editable-textarea="vm.valueEntry"
+               e-name="multivalueedit_valueEntry"
                 e-rows="{{vm.textAreaRows}}"
                 e-form="attrTableform"
                 e-ng-keyup="vm.cellTextAreaKeyUp($event, attrTableform)"

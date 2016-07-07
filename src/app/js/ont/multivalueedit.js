@@ -44,6 +44,12 @@
       setValueEntryFromPropValue();
     }, true);
 
+    var watchedValueEntry = undefined;
+    $scope.$watch("attrTableform.$data.multivalueedit_valueEntry", function(valueEntry) {
+      watchedValueEntry = valueEntry;
+      //console.debug("$watch: watchedValueEntry=", watchedValueEntry);
+    });
+
     $scope.$watch("attrTableform.$visible", function(vis) {
       //console.log("$watch attrTableform.$visible", vis);
       vm.editInProgress({inProgress: vis});
@@ -68,6 +74,28 @@
       }
       else if ($event.keyCode == 27) {
         tableForm.$cancel();
+      }
+      else if ($event.keyCode == 83 && $event.ctrlKey) {  // Ctrl-s: value selection
+        if (vm.propValueSelection) {
+          vm.selectValue(tableForm);
+        }
+      }
+      else if ($event.keyCode == 187 && $event.ctrlKey) {  // Ctrl-+: add value
+        if (watchedValueEntry) {
+          vm.valueEntry = watchedValueEntry;
+          setPropValueFromValueEntry();
+          vm.propValue.push("");
+          setValueEntryFromPropValue();
+
+          $timeout(function() {
+            var textareas = document.getElementsByName("multivalueedit_valueEntry");
+            //console.debug("multivalueedit_valueEntry=", textareas);
+            if (textareas.length) {
+              textareas[0].rows = vm.textAreaRows = 1 + vm.valueEntry.split('\n').length;
+              textareas[0].scrollTop = textareas[0].scrollHeight;
+            }
+          });
+        }
       }
     };
 
@@ -156,12 +184,16 @@
     };
 
     vm.cellEditTooltip =
-      '<div class="left">' +
+      '<div class="mveEditTooltip">' +
       '<p>Cell editing:</p>' +
-      '<p>For a multi-line value, type [Ctrl-Enter] to insert new lines.</p>' +
-      '<p>For multiple values in the cell, enter five dashes in a line by itself as the value separator.</p>' +
-      '</div>'
+      '<p>[Ctrl-Enter] inserts a new line.</p>' +
+      '<p>[Ctrl-+] adds a special separator so a new value can be added for a multi-valued property. ' +
+      'The separator consists of five dashes in a line by itself.</p>'
     ;
+    if (vm.propValueSelection) {
+      vm.cellEditTooltip += '<p>[Ctrl-s] opens a selection dialog according to configured value vocabulary.</p>';
+    }
+    vm.cellEditTooltip += "</div>";
   }
 
 })();

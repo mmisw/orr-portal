@@ -1,6 +1,13 @@
 ## change log ##
 
 * 2016-07-07: 3.0.5-alpha:
+  - <multivalueedit>: handle these keystrokes:
+    - Ctrl-s to open the select dialog
+    - Ctrl-+ to add value.
+      This required naming the textarea (via e-name) for xeditable to update corresponding
+      $data.<the-name> upon changes during editing, and thus one be able to $watch those changes
+      (note that watching vm.valueEntry directly only sees a change when the form is accepted).
+      Textarea also resized according to new number of lines in the contents.
   - fix #54 "edit organization enabled when not authorized"
   - v2r: also allow selection of values from set of instances of given class for the property, if any.
     Exercised with http://www.w3.org/2003/06/sw-vocab-status/ns#term_status and ad hoc

@@ -544,6 +544,12 @@ div.debug {
   width: 100%
 }
 
+.mveEditTooltip {
+  text-align: left;
+  color: gray;
+  font-size: small;
+}
+
 .yourTesting {
   font-weight: 300 !important;
   border-radius: 1em;
