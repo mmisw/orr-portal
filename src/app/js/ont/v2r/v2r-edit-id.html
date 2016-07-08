@@ -98,12 +98,13 @@
                     standard property <span class="caret"></span>
                   </div>
                   <ul class="dropdown-menu" role="menu">
-                    <li ng-repeat="stdProp in vm.stdProperties">
-                      <a href ng-click="stdPropertySelected(stdProp)"
-                         uib-popover="{{stdProp.tooltip}}"
-                         popover-placement="left"
-                         popover-trigger="mouseenter"
-                      >
+                    <li ng-repeat="stdProp in vm.stdProperties"
+                        uib-popover-html="'<div class=left>' +stdProp.tooltip+ '</div>'"
+                        popover-placement="right"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                    >
+                      <a href ng-click="stdPropertySelected(stdProp)">
                         {{stdProp.prefix}}:{{stdProp.localName}}
                       </a>
                     </li>
