@@ -8,14 +8,21 @@
 
       <form class="form-horizontal">
         <div style="color: gray">
-          <p ng-if="vm.what === 'class'">
-            Define the name of the class that describes the type of terms you are creating.
-            Note that this name will be used to build the URI for the class, so it should
-            not have any special characters.
-            Camel case is recommended for this name.
-            As a more advanced option you can select "Full URI" and enter
-            the full desired URI for the class.
-          </p>
+          <span ng-if="vm.what === 'class'">
+            <p>
+              Define the name of the class that describes the type of terms you are creating.
+              Note that this name will be used to build the URI for the class, so it should
+              not have any special characters.
+              Camel case is recommended for this name.
+              (For most vocabularies, there will be only one term set, and the name of its class will
+              typically be the same, but capitalized or camel case, as the local name of the ontology.)
+            </p>
+            <p>
+              As a more advanced option you can select "Full URI" and enter
+              the full desired URI for the class.
+            </p>
+          </span>
+
           <p ng-if="vm.what === 'property'">
             To construct the URI of this property either specify a "local name"
             (relative to the URI of this ontology)
@@ -27,9 +34,20 @@
 
         <div class="form-group">
           <div class="col-xs-12 center">
-            <label class="btn btn-default" ng-model="vm.idType" uib-btn-radio="'lname'">Local&nbsp;name</label>
+            <label class="btn btn-default" ng-model="vm.idType" uib-btn-radio="'lname'"
+                   for="inputLocalName"
+            >
+              <i class="fa fa-check" ng-if="vm.idType==='lname'"></i>
+              Local&nbsp;name
+            </label>
             &nbsp;
-            <label class="btn btn-default" ng-model="vm.idType" uib-btn-radio="'uri'">Full&nbsp;URI</label>
+            &nbsp;
+            <label class="btn btn-default" ng-model="vm.idType" uib-btn-radio="'uri'"
+                   for="inputUri"
+            >
+              <i class="fa fa-check" ng-if="vm.idType==='uri'"></i>
+              Full&nbsp;URI
+            </label>
           </div>
         </div>
 
@@ -46,6 +64,7 @@
                      type="text"
                      class="form-control"
                      ng-model="vm.lname"
+                     focus-on="localNameSelected_form_activation"
               >
             </div>
           </div>
@@ -105,6 +124,7 @@
                      type="url"
                      class="form-control"
                      ng-model="vm.uri"
+                     focus-on="fullUriSelected_form_activation"
               >
             </div>
           </div>

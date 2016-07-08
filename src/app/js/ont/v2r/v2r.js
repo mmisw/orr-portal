@@ -399,8 +399,8 @@
     }
   }
 
-  V2rEditIdController.$inject = ['$scope', '$uibModalInstance', 'vocabulary', 'info'];
-  function V2rEditIdController($scope, $uibModalInstance, vocabulary, info) {
+  V2rEditIdController.$inject = ['$scope', '$uibModalInstance', 'vocabulary', 'info', 'focus'];
+  function V2rEditIdController($scope, $uibModalInstance, vocabulary, info, focus) {
     console.log("V2rEditIdController: info=", info);
 
     var vm = $scope.vm = {
@@ -412,6 +412,9 @@
       idType:     info.idModel.name ? "lname" : "uri",
       stdProperties: getStdProperties(vocabulary)
     };
+
+    focus(vm.idType==='lname' ? "localNameSelected_form_activation" : "fullUriSelected_form_activation",
+      700, {select: true});
 
     $scope.$watch("vm.lname", function(val) {
       if (val) vm.lname = fixLocalName(val);

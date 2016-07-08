@@ -1,6 +1,12 @@
 ## change log ##
 
 * 2016-07-08: 3.0.5-alpha:
+  - resolve #41 "Workflow for defining IRIs: term set class"
+    Added some text and improved the visual feedback for the "Local name" vs. "Full URI" selection.
+    Also the relevant field is automatically focused.
+    Did add the part about "..defaults are reflected below; click OK to accept them" because
+    it would require some additional logic (are we editing an already entered entity?, is it the
+    first term class..). Can be improved later.
   - resolve #13 "capture status"
     - possible values: `unstable`, `testing`, `stable`, `archaic`, plus `draft` and `deprecated`,
       with "resource" substituted for "term" in text descriptions in the first 4 above
