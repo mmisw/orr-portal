@@ -1,11 +1,11 @@
 <span>
     <div class="btn-group" uib-dropdown>
       <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle
-              uib-popover="Current status: {{
+              uib-popover-html="'Current status: ' + (
               vm.ontology.status
-              ? vm.ontology.status + ' - ' + (statusInfo[vm.ontology.status] || '(description not available)')
+              ? '<span class=bold>' + vm.ontology.status + '</span> - ' + (statusInfo[vm.ontology.status] || '(description not available)')
               : '(not defined)'
-              }}"
+              )"
               popover-placement="left"
               popover-trigger="mouseenter"
       >
@@ -15,7 +15,7 @@
       <ul class="dropdown-menu" role="menu" style="cursor: pointer">
         <li ng-repeat="s in statuses">
           <a ng-click="setStatus(s)"
-             uib-popover="'{{s}}' - {{statusInfo[s]}}"
+             uib-popover-html="'<span class=bold>' + s + '</span> - ' + statusInfo[s]"
              popover-placement="left"
              popover-trigger="mouseenter"
           >
