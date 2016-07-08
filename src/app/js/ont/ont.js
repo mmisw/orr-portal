@@ -382,9 +382,9 @@
         'will be changed to <span class="bold">\'' + visibility + '\'</span>' +
         '<br>' +
         '<br>' +
-        'Proceed?' +
+        'Are you sure you want to proceed?' +
         '</div>',
-
+        okLabel: 'Yes',
         ok: function() {
           console.debug("setting visibility=", visibility);
           var progressModal = utl.openRegistrationProgressModal(vm.uri, "Setting visibility...");
@@ -442,9 +442,9 @@
         'will be changed to <span class="bold">\'' + status + '\'</span>' +
         '<br>' +
         '<br>' +
-        'Proceed?' +
+        'Are you sure you want to proceed?' +
         '</div>',
-
+        okLabel: 'Yes',
         ok: function() {
           console.debug("setting status=", status);
           var progressModal = utl.openRegistrationProgressModal(vm.uri, "Setting status...");
