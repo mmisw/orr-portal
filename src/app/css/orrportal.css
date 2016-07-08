@@ -527,6 +527,25 @@ div.debug {
   font-weight: 200 !important;
 }
 
+.radioOption {
+  font-weight: 400;
+  padding-left: 6px;
+  padding-right: 6px;
+  margin-right: 4px;
+  border-radius:6px;
+}
+.radioOption:hover {
+  background-color: #dddddd;
+}
+
+.background-selected {
+  background-color: #beddd9;
+  border-radius:6px;
+}
+.background-selected:hover {
+  background-color: #a4d6dd;
+}
+
 .uriNotFound {
   color: darkred;
   font-size: large;

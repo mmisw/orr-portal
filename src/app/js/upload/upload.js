@@ -33,6 +33,18 @@
         templateUrl: 'js/upload/fullyhosted.html'
       }
     })
+    .directive('selectStatus', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/upload/select-status.html'
+      }
+    })
+    .directive('selectVisibility', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/upload/select-visibility.html'
+      }
+    })
   ;
 
   var possibleNamePropertyUris = [
@@ -79,16 +91,39 @@
         }],
         selectedOwner: undefined,
 
-        visibilityOptions: [
-          {
-            value:  'owner',
-            name:   'Visible only to owner (user or members of indicated organization)'
-          }, {
-            value:  'public',
-            name:   'Public'
+        visibilityOptions: (function() {
+          function tt(key, description) {
+            return '<div class="left">' +
+              '<span class="bold">' +key+ '</span>: ' +
+              description +
+              '</div>'
           }
-        ],
-        selectedVisibility: undefined
+          return [{
+            value:   'owner',
+            tooltip: tt('owner', 'Visible only to the owner (submitting user or members of indicated organization)' +
+              ' or anyone with the URI.')
+            }, {
+              value:   'public',
+              tooltip: tt('public', 'Visible to any visitor or client application.')
+            }];
+        })(),
+
+        selectedVisibility: undefined,
+
+        statusOptions: (function() {
+          var opts = [];
+          _.each(cfg.ontologyStatuses, function(description, key) {
+            opts.push({
+              value:   key,
+              tooltip: '<div class="left">' +
+              '<span class="bold">' +key+ '</span>: ' +
+              description +
+              '</div>'
+            })
+          });
+          return opts;
+        })(),
+        selectedStatus: undefined
       };
 
       // add user's organizations:
@@ -184,6 +219,7 @@
       vm.uploadResponse = vm.originalUri = undefined;
       vm.selectedOwner = vm.newShortName = undefined;
       vm.selectedVisibility = undefined;
+      vm.selectedStatus = undefined;
       vm.knownOwner = undefined;
       vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
       vm.checkedNewUriIsAvailable = vm.newUriIsAvailable = undefined;
@@ -193,10 +229,11 @@
 
     $scope.okToRegisterRehosted = function() {
       return (vm.knownOwner || vm.selectedOwner)
-          && validUri(vm.originalUri)
+        && validUri(vm.originalUri)
         && vm.name
-        && vm.selectedVisibility;
-
+        && vm.selectedVisibility
+        && vm.selectedStatus
+      ;
       function validUri(uri) {
         return uri;  // TODO URI validation
       }
@@ -209,7 +246,8 @@
         userName: userName,
         uploadedFilename: vm.uploadResponse.data.filename,
         uploadedFormat:   vm.uploadResponse.data.format,
-        visibility:       vm.selectedVisibility
+        visibility:       vm.selectedVisibility,
+        status:           vm.selectedStatus
       };
       if (vm.knownOwner) {
         if (!vm.knownOwner.startsWith("~")) {
@@ -288,6 +326,7 @@
       else vm.newUri = vm.originalUri;
 
       vm.selectedVisibility = undefined;
+      vm.selectedStatus = undefined;
       vm.knownOwner = undefined;
       vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
 
@@ -306,6 +345,7 @@
           vm.newUriIsAvailable = false;
 
           vm.selectedVisibility = ontology.visibility;
+          vm.selectedStatus     = ontology.status;
 
           vm.knownOwner = ontology.ownerName;
           vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
@@ -332,6 +372,7 @@
       return vm.checkedNewUriIsAvailable
         && vm.name && vm.name.indexOf('<') < 0
         && vm.selectedVisibility
+        && vm.selectedStatus
     };
 
     $scope.doRegisterFullyHosted = function() {
@@ -342,7 +383,8 @@
         userName:         userName,
         uploadedFilename: vm.uploadResponse.data.filename,
         uploadedFormat:   vm.uploadResponse.data.format,
-        visibility:       vm.selectedVisibility
+        visibility:       vm.selectedVisibility,
+        status:           vm.selectedStatus
       };
 
       if (!vm.selectedOwner.id.startsWith("~")) {

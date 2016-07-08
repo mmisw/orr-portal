@@ -58,6 +58,20 @@ var appConfig = {
     // (optional) "Contact us" link.
     // No default value.
     //contactUs: "http://somewhere/contactus"  // OR  "mailto:addr@example.net"
+  },
+
+  ontologyStatuses: {
+    draft:  'The resource is in preliminary stages of development.',
+    unstable: 'The meaning, deployment practices, documentation (or important associated software/services)' +
+    ' associated with this resource are liable to change arbitrarily at some point in the future.' +
+    ' They may not, but stability is not guaranteed. Use with caution.',
+    testing: 'The meaning, deployment practices, documentation and general understanding of this resource' +
+    ' are approaching some stability, but changes are still possible due to implementation experience or other' +
+    ' unanticipated factors.',
+    stable: 'The resource is relatively stable, and its documentation and meaning are not expected to change substantially.',
+    deprecated: 'The resource is marked as no longer suitable for use, although past uses may still exist.',
+    archaic: 'This resource is marked as old-fashioned; although used, it is not considered typical of current' +
+    ' best practice and alternative expressions may be preferable.'
   }
 
   // (required) firebase application.

@@ -343,19 +343,7 @@
       }
 
       function setStatusOptions() {
-        // TODO retrieve this information from some configured vocabulary
-        $scope.statusInfo = {
-          draft:  'The resource is in preliminary stages of development.',
-          unstable: 'The meaning, deployment practices, documentation (or important associated software/services)' +
-          ' associated with this resource are liable to change arbitrarily at some point in the future.' +
-          ' They may not, but stability is not guaranteed. Use with caution.',
-          testing: 'The meaning, deployment practices, documentation and general understanding of this resource' +
-          ' are approaching some stability, but changes are still possible due to implementation experience or other' +
-          ' unanticipated factors.',
-          stable: 'The resource is relatively stable, and its documentation and meaning are not expected to change substantially.',
-          archaic: 'This resource is marked as old-fashioned; although used, it is not considered typical of current' +
-          ' best practice and alternative expressions may be preferable.'
-        };
+        $scope.statusInfo = cfg.ontologyStatuses;
         var all = _.keys($scope.statusInfo);
         $scope.statuses = _.filter(all, function(s) { return s !== vm.ontology.status });
       }

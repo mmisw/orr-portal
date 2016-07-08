@@ -3,7 +3,7 @@
       <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle
               uib-popover="Current status: {{
               vm.ontology.status
-              ? vm.ontology.status + ' - ' + statusInfo[vm.ontology.status]
+              ? vm.ontology.status + ' - ' + (statusInfo[vm.ontology.status] || '(description not available)')
               : '(not defined)'
               }}"
               popover-placement="left"

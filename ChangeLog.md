@@ -1,11 +1,13 @@
 ## change log ##
 
 * 2016-07-08: 3.0.5-alpha:
-  - Re #13 "capture status"
-    - allow to change status for registered ontology.
-      Possible values: `unstable`, `testing`, `stable`, `archaic`, plus `draft`,
-      with "resource" substituted for "term" in text descriptions.
-      Ref: https://www.w3.org/2003/06/sw-vocab-status/note.html
+  - resolve #13 "capture status"
+    - possible values: `unstable`, `testing`, `stable`, `archaic`, plus `draft` and `deprecated`,
+      with "resource" substituted for "term" in text descriptions in the first 4 above
+      from https://www.w3.org/2003/06/sw-vocab-status/note.html.
+      This set of values is given in new configuration entry `cfg.ontologyStatuses`.
+    - capture status in the upload sequence
+    - allow to change status for registered ontology
 
 * 2016-07-07: 3.0.5-alpha:
   - style adjustments in confirmation and selection dialogs

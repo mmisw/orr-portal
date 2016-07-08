@@ -1,0 +1,18 @@
+<div class="form-group">
+  <label class="control-label col-xs-2">
+    Version visibility:
+  </label>
+
+  <div class="col-xs-8" style="padding-top: 7px">
+    <label ng-repeat="visOpt in vm.visibilityOptions">
+      <span class="radioOption left {{vm.selectedVisibility===visOpt.value ? 'background-selected' : ''}}"
+            uib-popover-html="visOpt.tooltip"
+            popover-placement="right"
+            popover-trigger="mouseenter"
+      >
+        <input type="radio" ng-model="vm.selectedVisibility" ng-value="visOpt.value">
+        {{visOpt.value}}
+      </span>
+    </label>
+  </div>
+</div>
