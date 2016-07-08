@@ -29,8 +29,9 @@
     </button>
   </span>
 
-  <span ng-if="!editMode && !rvm.rVersion && canChangeVisibility()">
+  <span ng-if="!editMode && !rvm.rVersion && canChangeVisibilityOrStatus()">
     <change-visibility></change-visibility>
+    <change-status></change-status>
   </span>
 
   <span ng-if="!editMode && unregisterer.canUnregister()">

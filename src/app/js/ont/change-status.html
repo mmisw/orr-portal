@@ -1,25 +1,25 @@
 <span>
     <div class="btn-group" uib-dropdown>
       <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle
-              uib-popover="Current visibility: {{
-              vm.ontology.visibility
-              ? vm.ontology.visibility + ' - ' + visibilityInfo[vm.ontology.visibility]
+              uib-popover="Current status: {{
+              vm.ontology.status
+              ? vm.ontology.status + ' - ' + statusInfo[vm.ontology.status]
               : '(not defined)'
               }}"
               popover-placement="left"
               popover-trigger="mouseenter"
       >
-        Visibility: <span style="font-weight: bold">{{vm.ontology.visibility}}</span>
+        Status: <span style="font-weight: bold">{{vm.ontology.status}}</span>
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu" style="cursor: pointer">
-        <li ng-repeat="v in visibilities">
-          <a ng-click="setVisibility(v)"
-             uib-popover="'{{v}}' - {{visibilityInfo[v]}}"
+        <li ng-repeat="s in statuses">
+          <a ng-click="setStatus(s)"
+             uib-popover="'{{s}}' - {{statusInfo[s]}}"
              popover-placement="left"
              popover-trigger="mouseenter"
           >
-            Change to: <span style="font-weight: bold">{{v}}</span>
+            Change to: <span style="font-weight: bold">{{s}}</span>
           </a>
         </li>
       </ul>

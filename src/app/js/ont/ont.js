@@ -30,6 +30,12 @@
         templateUrl:  'js/ont/change-visibility.html'
       }
     })
+    .directive('changeStatus', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/ont/change-status.html'
+      }
+    })
     .directive('unregisterMenu', function() {
       return {
         restrict:     'E',
@@ -288,6 +294,7 @@
     function ontologyRefreshed() {
       $scope.viewAsOptions = setViewAsOptions(vm.uri);
       setVisibilityOptions();
+      setStatusOptions();
       getOntologyData();
 
       function setViewAsOptions(uri) {
@@ -334,9 +341,27 @@
         var all = _.keys($scope.visibilityInfo);
         $scope.visibilities = _.filter(all, function(v) { return v !== vm.ontology.visibility });
       }
+
+      function setStatusOptions() {
+        // TODO retrieve this information from some configured vocabulary
+        $scope.statusInfo = {
+          draft:  'The resource is in preliminary stages of development.',
+          unstable: 'The meaning, deployment practices, documentation (or important associated software/services)' +
+          ' associated with this resource are liable to change arbitrarily at some point in the future.' +
+          ' They may not, but stability is not guaranteed. Use with caution.',
+          testing: 'The meaning, deployment practices, documentation and general understanding of this resource' +
+          ' are approaching some stability, but changes are still possible due to implementation experience or other' +
+          ' unanticipated factors.',
+          stable: 'The resource is relatively stable, and its documentation and meaning are not expected to change substantially.',
+          archaic: 'This resource is marked as old-fashioned; although used, it is not considered typical of current' +
+          ' best practice and alternative expressions may be preferable.'
+        };
+        var all = _.keys($scope.statusInfo);
+        $scope.statuses = _.filter(all, function(s) { return s !== vm.ontology.status });
+      }
     }
 
-    $scope.canChangeVisibility = function() {
+    $scope.canChangeVisibilityOrStatus = function() {
       if (!vm.ontology)                     return false;
       if (!vm.ontology.ownerName)           return false;
       if (!$rootScope.userLoggedIn())       return false;
@@ -353,9 +378,11 @@
         return _.contains(userOrgs, orgOntOwner);
       }
     };
+
     $scope.setVisibility = function(visibility) {
       utl.confirm({
         size: 'ls',
+        title: 'Confirm visibility change',
         message: '<div class="center">' +
         'The visibility of ' +
         '<br>' +
@@ -391,9 +418,69 @@
               });
             }
             else {
-              if (debug) console.debug("registerOntology: success data=", data);
+              if (debug) console.debug("setVisibility: success data=", data);
               utl.message({
                 title:   'Visibility has been changed to: <span class="bold">\'' + visibility + '\'</span>',
+                message: '<div class="center">' +
+                '<br>' +
+                '<div class="uriText1">' +vm.uri+ '</div>' +
+                '<br>' +
+                'Version: ' + vm.ontology.version +
+                '<br>' +
+                '<br>' +
+                '</div>',
+                ok: function() {
+                  $window.location.href = appUtil.getHref4uriWithSelfHostPrefix(vm.uri);
+                }
+              });
+            }
+          })
+        }
+      });
+    };
+
+    $scope.setStatus = function(status) {
+      utl.confirm({
+        size: 'ls',
+        title: 'Confirm status change',
+        message: '<div class="center">' +
+        'The status of ' +
+        '<br>' +
+        '<br>' +
+        '<div class="uriText1">' +vm.uri+ '</div>' +
+        'Version: ' + vm.ontology.version +
+        '<br>' +
+        '<br>' +
+        'will be changed to <span class="bold">\'' + status + '\'</span>' +
+        '<br>' +
+        '<br>' +
+        'Proceed?' +
+        '</div>',
+
+        ok: function() {
+          console.debug("setting status=", status);
+          var progressModal = utl.openRegistrationProgressModal(vm.uri, "Setting status...");
+
+          var body = {
+            uri:        vm.uri,
+            version:    vm.ontology.version,
+            status:     status,
+            userName:   $rootScope.userLoggedIn().uid
+          };
+
+          var brandNew = false;
+          service.registerOntology(brandNew, body, function cb(error, data) {
+            progressModal.close();
+            if (error) {
+              console.error(error);
+              utl.error({
+                errorPRE: error
+              });
+            }
+            else {
+              if (debug) console.debug("setStatus: success data=", data);
+              utl.message({
+                title:   'Status has been changed to: <span class="bold">\'' + status + '\'</span>',
                 message: '<div class="center">' +
                 '<br>' +
                 '<div class="uriText1">' +vm.uri+ '</div>' +
