@@ -17,7 +17,14 @@ function facetModelFactory($rootScope) {
     var mostRecentByOwner = false;
 
     // determines the desired display order
-    var facetKeys = ["owner", "usr", "ontologyStatus", "resourceType", "ontologyType", "hosting"];
+    var facetKeys = [
+      "owner",
+      "usr",
+      "ontologyStatus",
+      "resourceType",
+      //"ontologyType",  // TODO review this
+      "hosting"
+    ];
 
     // facet definitions
     var facetDict = {
@@ -44,7 +51,7 @@ function facetModelFactory($rootScope) {
         },
         ontologyStatus: {
             label: "Status",
-            height: "48px",
+            height: "96px",
             fieldName: "status",
             list: [],
             selection: []
@@ -122,7 +129,8 @@ function facetModelFactory($rootScope) {
 
     // gets the value of an ontology field for purposes of the faceted search
     function getFieldValue(ont, fieldName) {
-        return (ont[fieldName] || "").toString().toLowerCase();
+      var val = ont[fieldName];
+      return val ? val.toString().toLowerCase() : "<i>undefined</i>";
     }
 
     function prepareFacetWithFieldName(facetKey, fieldName) {

@@ -44,7 +44,7 @@
                                ng-class="{facetItemSelected: item.selected}"
                                style="white-space: nowrap">
                             <input type="checkbox" ng-model="item.selected">
-                            {{item.label}}
+                          <span ng-bind-html="item.label"></span>
                         </label>
                     </div>
                 </div>

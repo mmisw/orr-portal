@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-07-08: 3.0.5-alpha:
+  - show "undefined" for undefined facet values (instead of confusing blank).
+  - hide the "ontology type" facet while this is revisited.
   - adjust status tooltips depending on what specific version is being displayed.
     In particular, recall that rvm.rVersion is only defined when dispatching a version prior to the latest.
   - besides status, also allow changing visibility on any version (not only on the latest)
