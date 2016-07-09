@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-07-08: 3.0.5-alpha:
+  - make facet box height dependent on the number of values.
+  - some minor facet module refact
   - show "undefined" for undefined facet values (instead of confusing blank).
   - hide the "ontology type" facet while this is revisited.
   - adjust status tooltips depending on what specific version is being displayed.

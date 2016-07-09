@@ -1,14 +1,14 @@
 (function() {
-'use strict';
+  'use strict';
 
-angular.module('orrportal.facetModel', [])
+  angular.module('orrportal.facetModel', [])
 
     .factory('facetModel', facetModelFactory)
-;
+  ;
 
-facetModelFactory.$inject = ['$rootScope'];
+  facetModelFactory.$inject = ['$rootScope'];
 
-function facetModelFactory($rootScope) {
+  function facetModelFactory($rootScope) {
     if (appUtil.debug) console.log("++facetModel++");
 
     var ontologies = [];
@@ -28,48 +28,43 @@ function facetModelFactory($rootScope) {
 
     // facet definitions
     var facetDict = {
-        owner: {
-            label: "Owner",
-            height: "120px",
-            fieldName: "ownerName",
-            list: [],
-            selection: []
-        },
-        usr: {
-            label: "Submitter",
-            height: "120px",
-            fieldName: "submitter",
-            list: [],
-            selection: []
-        },
-        ontologyType: {
-            label: "Ontology type",
-            height: "72px",
-            fieldName: "ontologyType",
-            list: ['vocabulary', 'mapping'],
-            selection: []
-        },
-        ontologyStatus: {
-            label: "Status",
-            height: "96px",
-            fieldName: "status",
-            list: [],
-            selection: []
-        },
-        resourceType: {
-            label: "Resource type",
-            height: "100px",
-            fieldName: "resourceType",
-            list: ['discipline', 'parameter', 'platform', 'sensor', 'unit'],
-            selection: []
-        },
-        hosting: {
-            label: "Hosting",
-            height: "48px",
-            list: ['fully-hosted', 're-hosted'],
-            selection: []
-        }
+      owner: {
+        label: "Owner",
+        fieldName: "ownerName",
+        list: [],
+        selection: []
+      },
+      usr: {
+        label: "Submitter",
+        fieldName: "submitter",
+        list: [],
+        selection: []
+      },
+      ontologyType: {
+        label: "Ontology type",
+        fieldName: "ontologyType",
+        list: ['vocabulary', 'mapping'],
+        selection: []
+      },
+      ontologyStatus: {
+        label: "Status",
+        fieldName: "status",
+        list: [],
+        selection: []
+      },
+      resourceType: {
+        label: "Resource type",
+        fieldName: "resourceType",
+        list: ['discipline', 'parameter', 'platform', 'sensor', 'unit'],
+        selection: []
+      },
+      hosting: {
+        label: "Hosting",
+        list: ['fully-hosted', 're-hosted'],
+        selection: []
+      }
     };
+
 
     // the exposed facets (as an array and as a dict) depending on privileges under which
     // the app is running:
@@ -78,53 +73,53 @@ function facetModelFactory($rootScope) {
     resetFacets();
 
     return {
-        getMostRecentByOwner: function() {
-            return mostRecentByOwner;
-        },
-        setMostRecentByOwner: function(mrbo) {
-          mostRecentByOwner = mrbo;
-            refreshFacets();
-        },
-        getOntologies: function getOntologies() { return ontologies; },
-        getFacetArray: function getFacetArray() { return facetArray; },
-        getFacets:     function getFacets()     { return facets; },
+      getMostRecentByOwner: function() {
+        return mostRecentByOwner;
+      },
+      setMostRecentByOwner: function(mrbo) {
+        mostRecentByOwner = mrbo;
+        refreshFacets();
+      },
+      getOntologies: function getOntologies() { return ontologies; },
+      getFacetArray: function getFacetArray() { return facetArray; },
+      getFacets:     function getFacets()     { return facets; },
 
-        setOntologies: setOntologies,
-        refreshFacets: refreshFacets,
+      setOntologies: setOntologies,
+      refreshFacets: refreshFacets,
 
-        anyFacetSelection:   anyFacetSelection,
-        clearFacetSelection: clearFacetSelection
+      anyFacetSelection:   anyFacetSelection,
+      clearFacetSelection: clearFacetSelection
     };
 
     function resetFacets() {
-        facetArray = [];
-        facets = {};
-        _.each(facetKeys, function(facetKey) {
-            if(facets[facetKey] !== undefined) alert("ERROR: repeated facet key: " + facetKey);
-            if(facetDict[facetKey] === undefined) alert("ERROR: facet key not found: " + facetKey);
-            var facet = facetDict[facetKey];
-            if (facetKey !== "usr" || dataHasSubmitter) {
-                facet.key = facetKey;
-                facets[facetKey] = facet;
-                facetArray.push(facet);
-            }
-        });
+      facetArray = [];
+      facets = {};
+      _.each(facetKeys, function(facetKey) {
+        if(facets[facetKey] !== undefined) alert("ERROR: repeated facet key: " + facetKey);
+        if(facetDict[facetKey] === undefined) alert("ERROR: facet key not found: " + facetKey);
+        var facet = facetDict[facetKey];
+        if (facetKey !== "usr" || dataHasSubmitter) {
+          facet.key = facetKey;
+          facets[facetKey] = facet;
+          facetArray.push(facet);
+        }
+      });
     }
 
     function setOntologies(onts) {
-        dataHasSubmitter = _.some(onts, "submitter");
-        //console.log(appUtil.logTs() + ": facetModel on gotOntologies");
-        resetFacets();
-        ontologies = onts;
-        _.each(facets, function(facet, facetKey) {
-            if (facet.fieldName) {
-                prepareFacetWithFieldName(facetKey, facet.fieldName);
-            }
-            else {
-                prepareFacetSelectionFromList(facetKey);
-            }
-        });
-        applyFilters();
+      dataHasSubmitter = _.some(onts, "submitter");
+      //console.log(appUtil.logTs() + ": facetModel on gotOntologies");
+      resetFacets();
+      ontologies = onts;
+      _.each(facets, function(facet, facetKey) {
+        if (facet.fieldName) {
+          prepareFacetWithFieldName(facetKey, facet.fieldName);
+        }
+        else {
+          prepareFacetSelectionFromList(facetKey);
+        }
+      });
+      applyFilters();
     }
 
     // gets the value of an ontology field for purposes of the faceted search
@@ -134,80 +129,80 @@ function facetModelFactory($rootScope) {
     }
 
     function prepareFacetWithFieldName(facetKey, fieldName) {
-        facets[facetKey].list = _.chain(ontologies)
-            .map(function(ont) { return getFieldValue(ont, fieldName) })
-            .uniq()
-            .sortBy(function(val) { return val })
-            .value();
-        prepareFacetSelectionFromList(facetKey);
+      facets[facetKey].list = _.chain(ontologies)
+        .map(function(ont) { return getFieldValue(ont, fieldName) })
+        .uniq()
+        .sortBy(function(val) { return val })
+        .value();
+      prepareFacetSelectionFromList(facetKey);
     }
     function prepareFacetSelectionFromList(facetKey) {
-        facets[facetKey].selection = _.map(facets[facetKey].list, function(owner) {
-            return {
-                label: owner,
-                selected: false
-            };
-        });
+      facets[facetKey].selection = _.map(facets[facetKey].list, function(owner) {
+        return {
+          label: owner,
+          selected: false
+        };
+      });
     }
 
     function refreshFacets() {
-        applyFilters();
+      applyFilters();
     }
 
     function applyFilters() {
-        var selectedOnts = ontologies;
+      var selectedOnts = ontologies;
 
-        if (mostRecentByOwner) {
-            selectedOnts = [];
-            var byOwner = _.groupBy(ontologies, "ownerName");
-            _.each(byOwner, function(ownerOnts) {
-                var mostRecentOnt = _.sortBy(ownerOnts, "version")[ownerOnts.length - 1];
-                selectedOnts.push(mostRecentOnt);
-            })
+      if (mostRecentByOwner) {
+        selectedOnts = [];
+        var byOwner = _.groupBy(ontologies, "ownerName");
+        _.each(byOwner, function(ownerOnts) {
+          var mostRecentOnt = _.sortBy(ownerOnts, "version")[ownerOnts.length - 1];
+          selectedOnts.push(mostRecentOnt);
+        })
+      }
+
+      _.each(facets, function(facet, facetKey) {
+        /*
+         * in general, both no explicit selection and complete explicit selection
+         * means no filtering by this facet.
+         */
+        if (facet.fieldName) {
+          /*
+           * according to facet having a fieldName:
+           */
+          var selectedByFieldName = getSelectedLabels(facet.selection);
+          //console.log(appUtil.logTs() + ": selectedByFieldName:", selectedByFieldName);
+          if (selectedByFieldName.length && selectedByFieldName.length < facet.list.length) {
+            selectedOnts = _.filter(selectedOnts, function(ont) {
+              var val = getFieldValue(ont, facet.fieldName);
+              return _.contains(selectedByFieldName, val);
+            });
+          }
         }
-
-        _.each(facets, function(facet, facetKey) {
-            /*
-             * in general, both no explicit selection and complete explicit selection
-             * means no filtering by this facet.
-             */
-            if (facet.fieldName) {
-                /*
-                 * according to facet having a fieldName:
-                 */
-                var selectedByFieldName = getSelectedLabels(facet.selection);
-                //console.log(appUtil.logTs() + ": selectedByFieldName:", selectedByFieldName);
-                if (selectedByFieldName.length && selectedByFieldName.length < facet.list.length) {
-                    selectedOnts = _.filter(selectedOnts, function(ont) {
-                        var val = getFieldValue(ont, facet.fieldName);
-                        return _.contains(selectedByFieldName, val);
-                    });
-                }
-            }
-            else if (facetKey === "hosting") {
-                /*
-                 * only consider 3 mutually exclusive cases:
-                 *   - all selected (either explicitly or implicitly by default)
-                 *   - fully-hosted selected
-                 *   - re-hosted selected
-                 */
-                var selectedHosting = getSelectedLabels(facet.selection);
-                if (selectedHosting.length === 1) {
-                    var takeSelfHosted = selectedHosting[0] === "fully-hosted";
-                    var orrOntRest = appConfig.orront.rest;
-                    selectedOnts = _.filter(selectedOnts, function(ont) {
-                        var isSelfHosted = ont.uri.startsWith(orrOntRest);
-                        return takeSelfHosted === isSelfHosted;
-                    });
-                }
-            }
-        });
-
-        $rootScope.$broadcast('evtSetFacetSelectedOntologies', selectedOnts);
-
-        function getSelectedLabels(selection) {
-            return _.chain(selection).filter('selected').map('label').value();
+        else if (facetKey === "hosting") {
+          /*
+           * only consider 3 mutually exclusive cases:
+           *   - all selected (either explicitly or implicitly by default)
+           *   - fully-hosted selected
+           *   - re-hosted selected
+           */
+          var selectedHosting = getSelectedLabels(facet.selection);
+          if (selectedHosting.length === 1) {
+            var takeSelfHosted = selectedHosting[0] === "fully-hosted";
+            var orrOntRest = appConfig.orront.rest;
+            selectedOnts = _.filter(selectedOnts, function(ont) {
+              var isSelfHosted = ont.uri.startsWith(orrOntRest);
+              return takeSelfHosted === isSelfHosted;
+            });
+          }
         }
+      });
+
+      $rootScope.$broadcast('evtSetFacetSelectedOntologies', selectedOnts);
+
+      function getSelectedLabels(selection) {
+        return _.chain(selection).filter('selected').map('label').value();
+      }
     }
 
     /**
@@ -215,12 +210,12 @@ function facetModelFactory($rootScope) {
      * or in any of all facets.
      */
     function anyFacetSelection(facetKey) {
-        if (facetKey) {
-            return _.any(facets[facetKey].selection, {selected: true});
-        }
-        else {
-            return _.any(_.keys(facets), anyFacetSelection);
-        }
+      if (facetKey) {
+        return _.any(facets[facetKey].selection, {selected: true});
+      }
+      else {
+        return _.any(_.keys(facets), anyFacetSelection);
+      }
     }
 
     /**
@@ -228,17 +223,15 @@ function facetModelFactory($rootScope) {
      * or in all facets.
      */
     function clearFacetSelection(facetKey) {
-        if (facetKey) {
-            _.map(facets[facetKey].selection, function (facet) {
-                facet.selected = false;
-            });
-        }
-        else {
-            _.each(_.keys(facets), clearFacetSelection);
-        }
+      if (facetKey) {
+        _.map(facets[facetKey].selection, function (facet) {
+          facet.selected = false;
+        });
+      }
+      else {
+        _.each(_.keys(facets), clearFacetSelection);
+      }
     }
-
-}
-
+  }
 
 })();
