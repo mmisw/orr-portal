@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-07-08: 3.0.5-alpha:
+  - show ontology version status even when user cannot change it
   - resolve #41 "Workflow for defining IRIs: term set class"
     Added some text and improved the visual feedback for the "Local name" vs. "Full URI" selection.
     Also the relevant field is automatically focused.

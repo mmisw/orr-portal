@@ -15,6 +15,13 @@
   &nbsp;
 
   <span ng-if="!editMode">
+    <span ng-if="!canChangeVisibilityOrStatus()">
+      <view-status></view-status>
+    </span>
+    <span ng-if="canChangeVisibilityOrStatus()">
+      <change-status></change-status>
+    </span>
+
     <view-as-options options="viewAsOptions"
     ></view-as-options>
 
@@ -31,10 +38,9 @@
 
   <span ng-if="!editMode && !rvm.rVersion && canChangeVisibilityOrStatus()">
     <change-visibility></change-visibility>
-    <change-status></change-status>
   </span>
 
-  <span ng-if="!editMode && unregisterer.canUnregister()">
+  <span ng-if="!editMode && unregisterer.canUnregister()" style="margin-left: 10px">
     <unregister-menu></unregister-menu>
   </span>
 

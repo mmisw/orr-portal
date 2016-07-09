@@ -30,6 +30,12 @@
         templateUrl:  'js/ont/change-visibility.html'
       }
     })
+    .directive('viewStatus', function() {
+      return {
+        restrict:     'E',
+        templateUrl:  'js/ont/view-status.html'
+      }
+    })
     .directive('changeStatus', function() {
       return {
         restrict:     'E',

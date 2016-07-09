@@ -6,8 +6,9 @@
               ? '<span class=bold>' + vm.ontology.status + '</span> - ' + (statusInfo[vm.ontology.status] || '(description not available)')
               : '(not defined)'
               )"
-              popover-placement="left"
+              popover-placement="right"
               popover-trigger="mouseenter"
+              popover-append-to-body="true"
       >
         Status: <span style="font-weight: bold">{{vm.ontology.status}}</span>
         <span class="caret"></span>
@@ -15,9 +16,10 @@
       <ul class="dropdown-menu" role="menu" style="cursor: pointer">
         <li ng-repeat="s in statuses">
           <a ng-click="setStatus(s)"
-             uib-popover-html="'<span class=bold>' + s + '</span> - ' + statusInfo[s]"
-             popover-placement="left"
+             uib-popover-html="'<div class=left><span class=bold>' + s + '</span> - ' + statusInfo[s] + '</div>'"
+             popover-placement="right"
              popover-trigger="mouseenter"
+             popover-append-to-body="true"
           >
             Change to: <span style="font-weight: bold">{{s}}</span>
           </a>

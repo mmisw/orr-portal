@@ -1,0 +1,12 @@
+<div class="btn-group" style="margin-right: 10px; cursor: pointer"
+     uib-popover-html="'<div class=left>' + (
+     vm.ontology.status
+     ? (statusInfo[vm.ontology.status] || '<i>Description for this status is not available</i>')
+     : '<i>Ontology status undefined</i>'
+     ) + '</div>'"
+     popover-placement="right"
+     popover-trigger="mouseenter"
+     popover-append-to-body="true"
+>
+  Status: <span style="font-weight: bold">{{vm.ontology.status || '?'}}</span>
+</div>
