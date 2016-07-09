@@ -20,6 +20,7 @@
     </span>
     <span ng-if="canChangeVisibilityOrStatus()">
       <change-status></change-status>
+      <change-visibility></change-visibility>
     </span>
 
     <view-as-options options="viewAsOptions"
@@ -34,10 +35,6 @@
             type="button" class="btn btn-default btn-xs">
       Edit new version
     </button>
-  </span>
-
-  <span ng-if="!editMode && !rvm.rVersion && canChangeVisibilityOrStatus()">
-    <change-visibility></change-visibility>
   </span>
 
   <span ng-if="!editMode && unregisterer.canUnregister()" style="margin-left: 10px">

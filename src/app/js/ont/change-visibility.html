@@ -1,13 +1,16 @@
 <span>
     <div class="btn-group" uib-dropdown>
       <button type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle
-              uib-popover-html="'Current visibility: ' + (
+              uib-popover-html="'<div class=left>' +
+              (rvm.rVersion ? 'Version: ' +rvm.rVersion+ '<br><br>' : '') +
+              'Visibility: ' + (
               vm.ontology.visibility
               ? '<span class=bold>' + vm.ontology.visibility + '</span> - ' + visibilityInfo[vm.ontology.visibility]
               : '(not defined)'
-              )"
-              popover-placement="left"
+              ) + '</div>'"
+              popover-placement="right"
               popover-trigger="mouseenter"
+              popover-append-to-body="true"
       >
         Visibility: <span style="font-weight: bold">{{vm.ontology.visibility}}</span>
         <span class="caret"></span>
@@ -15,9 +18,10 @@
       <ul class="dropdown-menu" role="menu" style="cursor: pointer">
         <li ng-repeat="v in visibilities">
           <a ng-click="setVisibility(v)"
-             uib-popover-html="'<span class=bold>' + v + '</span> - ' + visibilityInfo[v]"
-             popover-placement="left"
+             uib-popover-html="'<div class=left><span class=bold>' + v + '</span> - ' + visibilityInfo[v] + '</div>'"
+             popover-placement="right"
              popover-trigger="mouseenter"
+             popover-append-to-body="true"
           >
             Change to: <span style="font-weight: bold">{{v}}</span>
           </a>

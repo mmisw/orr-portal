@@ -1,6 +1,9 @@
 ## change log ##
 
 * 2016-07-08: 3.0.5-alpha:
+  - adjust status tooltips depending on what specific version is being displayed.
+    In particular, recall that rvm.rVersion is only defined when dispatching a version prior to the latest.
+  - besides status, also allow changing visibility on any version (not only on the latest)
   - show ontology version status even when user cannot change it
   - resolve #41 "Workflow for defining IRIs: term set class"
     Added some text and improved the visual feedback for the "Local name" vs. "Full URI" selection.

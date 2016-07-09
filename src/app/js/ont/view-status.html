@@ -1,7 +1,8 @@
 <div class="btn-group" style="margin-right: 10px; cursor: pointer"
-     uib-popover-html="'<div class=left>' + (
+     uib-popover-html="'<div class=left>' +
+     (rvm.rVersion ? 'Version: ' +rvm.rVersion+ '<br><br>' : '') + (
      vm.ontology.status
-     ? (statusInfo[vm.ontology.status] || '<i>Description for this status is not available</i>')
+     ? ('<span class=bold>' +vm.ontology.status+ '</span>: ' + statusInfo[vm.ontology.status] || '<i>Description for this status is not available</i>')
      : '<i>Ontology status undefined</i>'
      ) + '</div>'"
      popover-placement="right"
