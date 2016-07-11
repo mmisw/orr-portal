@@ -6,13 +6,13 @@
     <span uib-popover="Check the mapped ontologies from which to load terms for this side"
          popover-trigger="mouseenter"
     >
-      <label ng-style="mappedOntsInfo.length===0 ? {'color': 'lightgray'} : {}">
+      <label ng-style="vm.mappedOntsInfo.length===0 ? {'color': 'lightgray'} : {}">
         Load terms from:
       </label>
     </span>
     <div class="btn btn-default btn-xs" style="margin-left: 5px"
          ng-class="{'btn-primary': vm.ontsToSearch[$index]}"
-         ng-repeat="mo in mappedOntsInfo"
+         ng-repeat="mo in vm.mappedOntsInfo"
          ng-model="vm.ontsToSearch[$index]"
          uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0"
     >{{$index + 1}}
@@ -23,7 +23,7 @@
     <tbody>
     <tr>
       <td style="max-width: 500px; overflow: hidden">
-        <div class="m2rMappingSideGrid" ui-grid="gridOptions" ui-grid-selection></div>
+        <div class="m2rMappingSideGrid" ui-grid="vm.gridOptions" ui-grid-selection></div>
       </td>
     </tr>
     </tbody>

@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-07-11: 3.0.6-alpha:
+  - m2r: bug fix: clear selection on both sides upon addition of mappings
   - m2r: include explanation of the three sections in the edit interface
   - ont: make edit new version button a bit more prominent (btn-info);
   - ont: also use check mark in newvoc/newmap uri construction options

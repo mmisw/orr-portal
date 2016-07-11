@@ -179,10 +179,10 @@
       return vm.selectedRowsLeft.length === 0 || vm.selectedRowsRight.length === 0;
     };
     $scope.relButtonClicked = function(rel) {
-      console.debug("relButtonClicked: rel=", rel
-        ,"selectedRowsLeft=", vm.selectedRowsLeft.length
-        ,"selectedRowsRight=", vm.selectedRowsRight.length
-      );
+      //console.debug("relButtonClicked: rel=", rel
+      //  ,"selectedRowsLeft=", vm.selectedRowsLeft.length
+      //  ,"selectedRowsRight=", vm.selectedRowsRight.length
+      //);
 
       // TODO remove any redundant triples (both data model and grid).
 
@@ -225,10 +225,11 @@
         // insert elements at the beginning
         updateModelArray($scope, $scope.gridOptions.data, triples4grid, false);
 
-        // TODO clear selection on both sides
-        // something like but with additional trigger in the sub-components...
-        vm.selectedRowsLeft  = [];
-        vm.selectedRowsRight = [];
+        $timeout(function() {
+          vm.selectedRowsLeft.splice(0);
+          vm.selectedRowsRight.splice(0);
+          $scope.$broadcast('evtM2rClearRowSelection');
+        });
       }
     }
   }
@@ -298,23 +299,26 @@
         side:            '=',
         mappedOntsInfo:  '=',
         selectedRows:    '='
-      }
+      },
+      controllerAs: 'vm',
+      bindToController: true
     };
   }
 
-  M2rDataEditorMappingSideController.$inject = ['$scope'];
-  function M2rDataEditorMappingSideController($scope) {
-    var vm = $scope.vm = {
-      ontsToSearch: _.map($scope.mappedOntsInfo, function() { return 0 }),
-      subjects: []
-    };
+  M2rDataEditorMappingSideController.$inject = ['$scope', '$timeout'];
+  function M2rDataEditorMappingSideController($scope, $timeout) {
+    var vm = this;
+    vm.debug = debug;
+
+    vm.ontsToSearch = _.map($scope.mappedOntsInfo, function() { return 0 });
+    vm.subjects = [];
 
     var template =
       '<div class="ui-grid-cell-contents">' +
       '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
       + '</div>';
 
-    $scope.gridOptions = {
+    vm.gridOptions = {
       data: 'vm.subjects',
       enableSelectAll: true,  // but mainly to allow deselect-all
       enableColumnMenus: false,
@@ -340,7 +344,7 @@
       var subjects = [];
       _.each(vm.ontsToSearch, function(sel, index) {
         if (sel) {
-          var moi = $scope.mappedOntsInfo[index];
+          var moi = vm.mappedOntsInfo[index];
           _.each(moi.subjects, function(subjectAttributes, subjectUri) {
             subjects.push({
               subjectUri:          subjectUri,
@@ -350,21 +354,36 @@
         }
       });
       subjects = _.sortBy(subjects, "subjectUri");
-      $scope.vm.subjects = [];
-      updateModelArray($scope, $scope.vm.subjects, subjects);
+      vm.subjects = [];
+      updateModelArray($scope, vm.subjects, subjects);
     }
 
-    $scope.gridOptions.onRegisterApi = function(gridApi) {
-      $scope.gridApi = gridApi;
+    var gridApi;
+
+    vm.gridOptions.onRegisterApi = function(_gridApi) {
+      gridApi = _gridApi;
       //console.debug("gridApi.selection=", gridApi.selection);
       gridApi.selection.on.rowSelectionChanged($scope, rowSelectionChanged);
       gridApi.selection.on.rowSelectionChangedBatch($scope, rowSelectionChanged);
 
       function rowSelectionChanged() {
-        $scope.selectedRows = gridApi.selection.getSelectedRows();
-        console.debug("side=" + $scope.side, "$scope.selectedRows=", $scope.selectedRows.length);
+        $timeout(function() {
+          vm.selectedRows.splice(0);
+          _.each(gridApi.selection.getSelectedRows(), function(x) {
+            vm.selectedRows.push(x);
+          });
+          console.debug("side=" + vm.side, "vm.selectedRows=", vm.selectedRows.length);
+        });
       }
     };
+
+    $scope.$on('evtM2rClearRowSelection', function() {
+      //console.debug("$on evtM2rClearRowSelection");
+      if (gridApi) {
+        gridApi.selection.clearSelectedRows();
+      }
+      else console.error("unexpected: gridApi undefined");
+    });
   }
 
   ///////////////////////////////////////////////////////
