@@ -258,20 +258,20 @@
             ownerOptions:  vm.ownerOptions
           };
 
-          vm.ontology.uri = vm.uri = "http://example/TESTMAP";
-          vm.ontology.ownerName = "~" + userName;
-          initMetaForBrandNew("~" + userName);
-          $scope.startEditMode();
+          //vm.ontology.uri = vm.uri = "http://example/TESTMAP";
+          //vm.ontology.ownerName = "~" + userName;
+          //initMetaForBrandNew("~" + userName);
+          //$scope.startEditMode();
 
-          //editOntUri(info).result.then(function(res) {
-          //  if (debug) console.debug('editOntUri dialog accepted: res=', res);
-          //  vm.ontology.uri = vm.uri = res.uri;
-          //  vm.ontology.ownerName = res.owner;
-          //  initMetaForBrandNew(res.owner);
-          //  $scope.startEditMode();
-          //}, function() {
-          //  $state.go("/");
-          //});
+          editOntUri(info).result.then(function(res) {
+            if (debug) console.debug('editOntUri dialog accepted: res=', res);
+            vm.ontology.uri = vm.uri = res.uri;
+            vm.ontology.ownerName = res.owner;
+            initMetaForBrandNew(res.owner);
+            $scope.startEditMode();
+          }, function() {
+            $state.go("/");
+          });
         }
         function initMetaForBrandNew(owner) {
           var creator = loggedInInfo.displayName || userName || owner;
