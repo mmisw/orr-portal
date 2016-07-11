@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2016-07-11: 3.0.6-alpha:
+  - ont: make edit new version button a bit more prominent (btn-info);
+  - ont: also use check mark in newvoc/newmap uri construction options
+
 * 2016-07-08: 3.0.5-alpha:
   - make facet box height dependent on the number of values.
   - some minor facet module refact

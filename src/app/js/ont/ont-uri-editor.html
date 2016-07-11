@@ -41,9 +41,16 @@
               URI construction:
             </label>
             <div class="col-xs-6">
-              <label class="btn btn-default" ng-model="vm.uriType" uib-btn-radio="'orrBasedUri'">ORR-based</label>
+              <label class="btn btn-default" ng-model="vm.uriType" uib-btn-radio="'orrBasedUri'">
+                <i class="fa fa-check" ng-if="vm.uriType==='orrBasedUri'"></i>
+                ORR-based
+              </label>
               &nbsp;
-              <label class="btn btn-default" ng-model="vm.uriType" uib-btn-radio="'myUri'">My URI</label>
+              &nbsp;
+              <label class="btn btn-default" ng-model="vm.uriType" uib-btn-radio="'myUri'">
+                <i class="fa fa-check" ng-if="vm.uriType==='myUri'"></i>
+                My URI
+              </label>
             </div>
           </div>
 
