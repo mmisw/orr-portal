@@ -1,10 +1,9 @@
-<span style="color: gray">
-
-  This interface consists of three main sections:
-  <i>Mapped ontologies</i>,
-  <i>Term and relationship selection</i>,
+<div style="color: gray;margin-right: 30px">
+  This part consists of three main sections:
+  <i style="text-decoration: underline">Mapped ontologies</i>,
+  <i style="text-decoration: underline">Term and relation predicate selection</i>,
   and
-  <i>Defined mappings</i>.
+  <i style="text-decoration: underline">Defined mappings</i>.
   Use the Add button in the first section to load the ontologies
   from which you want to select the terms to be mapped. You can load as
   many ontologies as needed.
@@ -15,13 +14,13 @@
   list of displayed elements. Select the subjects and objects to be mapped
   together and then click the button in the middle with the desired semantic relation
   (<i>predicate</i>).
-  Once this is clicked, the corresponding triples
-  (i.e., <i>subject</i>–<i>predicate</i>–<i>object</i>),
+  Once this is clicked, the corresponding
+  <i>subject</i>–<i>predicate</i>–<i>object</i>) triples
   will be added to the table in the <i>Defined mappings</i> section.
-</span>
+</div>
 
-<div style="background-color: #cfe3e6; width: 100%; text-align: center">
-  <label>
+<div style="background-color: #cfe3e6; width: 100%; text-align: center; margin-top: 10px">
+  <label style="font-size: large">
   Mapped ontologies
   </label>
 
@@ -54,8 +53,8 @@
   <table style="width: 100px; margin-left: auto; margin-right: auto">
     <tbody>
     <tr ng-if="vm.mappedOntsInfo.length===0">
-      <td style="text-align: center;color:lightgrey;font-style: italic">
-        None
+      <td style="text-align: center;color:gray;font-style: italic; white-space: nowrap; margin-bottom: 5px">
+        None (use the Add button above)
       </td>
     </tr>
     <tr ng-repeat="moi in vm.mappedOntsInfo" style="white-space: nowrap">
@@ -83,9 +82,9 @@
   </table>
 </div>
 
-<div style="background-color: #cfe3e6; width: 100%; text-align: center">
-  <label>
-    Term and relationship selection
+<div style="background-color: #cfe3e6; width: 100%; text-align: center; margin-top: 10px">
+  <label style="font-size: large">
+    Term and relation predicate selection
   </label>
 </div>
 
@@ -108,7 +107,7 @@
         <tr style="height: 70px">
           <td style="text-align: center; vertical-align: top">
             <div uib-popover="Select entities on both sides and then choose the
-              relationship below that you want to establish between those entities"
+              relation predicate below that you want to establish between those entities"
                  popover-trigger="mouseenter"
                  style="margin-bottom: 40px"
             >
@@ -147,8 +146,8 @@
 
 </table>
 
-<div style="background-color: #cfe3e6; width: 100%; text-align: center">
-  <label>
+<div style="background-color: #cfe3e6; width: 100%; text-align: center;margin-top: 10px">
+  <label style="font-size: large">
     Defined mappings
   </label>
   <span style="color: gray">

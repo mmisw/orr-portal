@@ -531,18 +531,24 @@
       //width: '****',
       displayName: 'Subject',
       headerCellClass: 'right',
-      cellTemplate: subjectTemplate
+      cellTemplate: subjectTemplate,
+      filter: {
+        placeholder: 'type to filter...'
+      }
     });
 
     columnDefs.push({
       field: 'predicateUri',
-      maxWidth: 110,
+      maxWidth: 140,
       displayName: 'Predicate',
       headerCellClass: 'm2rRelHeader',
       //enableFiltering: false,
       enableSorting: false,
       enableHiding: false,
-      cellTemplate: predicateTemplate
+      cellTemplate: predicateTemplate,
+      filter: {
+        placeholder: 'type to filter...'
+      }
     });
 
     columnDefs.push({
@@ -550,7 +556,10 @@
       //width: '*****',
       displayName: 'Object',
       headerCellClass: 'left',
-      cellTemplate: objectTemplate
+      cellTemplate: objectTemplate,
+      filter: {
+        placeholder: 'type to filter...'
+      }
     });
   }
 
