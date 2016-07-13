@@ -8,6 +8,7 @@ module.exports = function (config) {
       //'src/app/vendor/angular-mocks/angular-mocks.js',
       'node_modules/lodash/dist/lodash.compat.min.js',
       'src/app/js/bUtil.js',
+      'src/app/js/ont/m2r/m2rUtil.js',
       'src/app/js/**/*.spec.js'
     ],
 

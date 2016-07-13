@@ -1,6 +1,21 @@
 ## change log ##
 
-* 2016-07-11: 3.0.6-alpha:
+* 2016-07-12: 3.0.6-alpha:
+  - m2r: fixes and general improvements in editing mode.
+    Satisfactory local testing ... but testing by others is needed!
+    - use regular <table> on the left- and hand- sides in Term and predicate selection section.
+      (again, one big drawback of ui-grid is that variable-height rows are not possible,
+      or perhaps they are but far from clear how to it could be accomplished. Another thing is
+      that setting popovers that can be hover in cell templates is rather complicated).
+    - checkboxes for selection of terms to be mapped laid out in a "symmetric" way
+    - display term information in an expandable box (not using tooltips for this as we want
+      to allow multiple terms to be expanded for easier review by the user)
+    - defined mappings can now be selected for removal (also buttons to select and un-select all)
+    - some TODOs
+      - check and avoid triple duplications to avoid
+      - bug: since triples could duplicated, upon removing one occurrence, make sure to
+        remove all corresp duplicates
+      - revisit m2r model in backend, perhaps could be simplified/adjusted fo easier (mainly client-side) handling
   - m2r: bug fix: clear selection on both sides upon addition of mappings
   - m2r: include explanation of the three sections in the edit interface
   - ont: make edit new version button a bit more prominent (btn-info);

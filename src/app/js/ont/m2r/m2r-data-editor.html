@@ -1,22 +1,38 @@
-<div style="color: gray;margin-right: 30px">
-  This part consists of three main sections:
-  <i style="text-decoration: underline">Mapped ontologies</i>,
-  <i style="text-decoration: underline">Term and relation predicate selection</i>,
-  and
-  <i style="text-decoration: underline">Defined mappings</i>.
-  Use the Add button in the first section to load the ontologies
-  from which you want to select the terms to be mapped. You can load as
-  many ontologies as needed.
-  Once one or more ontologies are loaded, select which ones to load on each side
-  of the second section. The left- and right-hand sides will respectively contain
-  potential "subjects" and "objects" for the needed mappings. All terms from the selected
-  ontologies will be displayed and you can use the filters to search/narrow down the
-  list of displayed elements. Select the subjects and objects to be mapped
-  together and then click the button in the middle with the desired semantic relation
-  (<i>predicate</i>).
-  Once this is clicked, the corresponding
-  <i>subject</i>–<i>predicate</i>–<i>object</i>) triples
-  will be added to the table in the <i>Defined mappings</i> section.
+<div ng-mouseleave="vm._editHelpShowPopup=undefined"
+     style="text-align: center"
+>
+  <script type="text/ng-template" id="m2rEditHelpPopup.html">
+    <div style="color: gray;margin-right: 10px" class="left"
+         ng-mouseleave="vm._editHelpShowPopup=undefined"
+    >
+      This part consists of three main sections:
+      <i style="text-decoration: underline">Mapped ontologies</i>,
+      <i style="text-decoration: underline">Term and relation predicate selection</i>,
+      and
+      <i style="text-decoration: underline">Defined mappings</i>.
+      Use the Add button in the first section to load the ontologies
+      from which you want to select the terms to be mapped. You can load as
+      many ontologies as needed.
+      Once one or more ontologies are loaded, select which ones to load on each side
+      of the second section. The left- and right-hand sides will respectively contain
+      potential "subjects" and "objects" for the needed mappings. All terms from the selected
+      ontologies will be displayed and you can use the filters to search/narrow down the
+      list of displayed elements. Select the subjects and objects to be mapped
+      together and then click the button in the middle with the desired semantic relation
+      (<i>predicate</i>).
+      Once clicked, the corresponding
+      <i>subject</i>–<i>predicate</i>–<i>object</i>) triples
+      will be added to the table in the <i>Defined mappings</i> section.
+    </div>
+  </script>
+
+  <span uib-popover-template="'m2rEditHelpPopup.html'"
+        popover-placement="bottom"
+        popover-is-open="vm._editHelpShowPopup"
+        ng-mouseenter="vm._editHelpShowPopup=true"
+  >
+    <i class="fa fa-question-circle fa-lg" aria-hidden="true" style="color: gray"></i>
+  </span>
 </div>
 
 <div style="background-color: #cfe3e6; width: 100%; text-align: center; margin-top: 10px">
@@ -34,19 +50,31 @@
       <li ng-repeat="ont in vm.selectableOnts">
         <a href class="uriTextSimple"
            uib-popover="{{ont.name}}" popover-trigger="mouseenter"
-           popover-placement="bottom"
+           popover-placement="left"
+           popover-append-to-body="true"
            ng-click="selectMappedOntology(ont)">{{ont.uri}}</a>
       </li>
       <li class="divider"></li>
       <li>
         <a href
            uib-popover="Click to enter URL of desired ontology" popover-trigger="mouseenter"
-           popover-placement="bottom"
+           popover-placement="left"
+           popover-append-to-body="true"
            ng-click="enterExternalOntologyUri()">External ontology&hellip;</a>
       </li>
       <li class="divider"></li>
     </ul>
   </span>
+
+  <span style="margin-left: 12px"
+        uib-popover="This section shows the currently associated ontologies and allows
+        to load additional ones as needed."
+        popover-placement="top"
+        popover-trigger="mouseenter"
+  >
+    <i class="fa fa-question-circle fa-lg" aria-hidden="true" style="color: gray"></i>
+  </span>
+
 </div>
 
 <div style="width: 100%">
@@ -86,6 +114,13 @@
   <label style="font-size: large">
     Term and relation predicate selection
   </label>
+  <span style="margin-left: 12px"
+        uib-popover="Use this section to insert additional mappings into the ontology."
+        popover-placement="top"
+        popover-trigger="mouseenter"
+  >
+    <i class="fa fa-question-circle fa-lg" aria-hidden="true" style="color: gray"></i>
+  </span>
 </div>
 
 <table style="width: 100%" class="table">
@@ -104,24 +139,13 @@
     <td style="width: 30px; vertical-align: middle">
       <table>
         <tbody>
-        <tr style="height: 70px">
-          <td style="text-align: center; vertical-align: top">
-            <div uib-popover="Select entities on both sides and then choose the
-              relation predicate below that you want to establish between those entities"
-                 popover-trigger="mouseenter"
-                 style="margin-bottom: 40px"
-            >
-              <i class="fa fa-question-circle fa-lg" aria-hidden="true" style="color: gray"></i>
-            </div>
-          </td>
-        </tr>
         <tr ng-repeat="(relUri, rel) in relations">
           <td uib-popover="{{rel.prop.prefix + ':' + rel.prop.label + ' - ' +rel.prop.tooltip}}"
               popover-trigger="mouseenter"
               style="text-align: center"
           >
             <div class="btn btn-primary btn-xs"
-                 style="margin-bottom: 7px"
+                 style="margin-bottom: 12px"
                  ng-bind-html="rel.prop.localName"
                  ng-disabled="noSelectedPairs()"
                  ng-click="relButtonClicked(rel)"
@@ -153,6 +177,37 @@
   <span style="color: gray">
     ({{gridOptions.data.length}})
   </span>
+  <span style="margin-left: 12px"
+        uib-popover="Besides filtering by subject, predicate, or object
+        (to facilitate inspection of the currently defined mapping triples, especially on large lists),
+        you can also remove any unnecessary mappings in this section."
+        popover-placement="top"
+        popover-trigger="mouseenter"
+  >
+    <i class="fa fa-question-circle fa-lg" aria-hidden="true" style="color: gray"></i>
+  </span>
+</div>
+
+<div>
+  <div class="btn btn-default btn-xs"
+       ng-disabled="!numSelectedDefinedMappings()"
+       ng-click="removeSelectedDefinedMappings()"
+  >
+    <i class="fa fa-close"></i>
+    Remove selected ({{numSelectedDefinedMappings()}})
+  </div>
+  <div class="btn btn-default btn-xs"
+       ng-disabled="!gridOptions.data.length"
+       ng-click="selectAllDefinedMappings(true)"
+  >
+    Select all
+  </div>
+  <div class="btn btn-default btn-xs"
+       ng-disabled="!gridOptions.data.length"
+       ng-click="selectAllDefinedMappings(false)"
+  >
+    Unselect all
+  </div>
 </div>
 
 <div class="ontGrid" ui-grid="gridOptions"></div>

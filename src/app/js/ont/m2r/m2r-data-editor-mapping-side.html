@@ -2,7 +2,7 @@
 
 <div class="m2rMappingSide">
 
-  <div class="center">
+  <div class="center effect2" style="padding-bottom: 12px">
     <span uib-popover="Check the mapped ontologies from which to load terms for this side"
          popover-trigger="mouseenter"
     >
@@ -17,16 +17,156 @@
          uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0"
     >{{$index + 1}}
     </div>
+
+    <br>
+
+    <table ng-if="vm.subjects.length" style="width: 100%">
+      <tbody>
+      <tr ng-if="vm.side==='left'">
+        <td>
+          <input type="search" style="width: 90%"
+                 placeholder="type to filter"
+                 ng-model="vm.termFilter"
+          >
+        </td>
+
+        <td style="width: 5px">
+          <span style="margin-right: 8px; white-space: nowrap">
+            Selected:
+            <span style="font-weight: bold" ng-bind="vm.selectedRows.length"
+            ></span> / {{vm.subjects.length}}
+            &nbsp;
+            <span ng-if="vm.selectedRows.length"
+                  ng-click="vm.clearSelection()"
+                  uib-tooltip="Clear selection"
+            >
+              <i class="fa fa-close"></i>
+            </span>
+          </span>
+        </td>
+      </tr>
+      </tbody>
+
+      <tr ng-if="vm.side==='right'">
+        <td style="width: 5px">
+          <span style="margin-left: 8px; white-space: nowrap">
+            <span ng-if="vm.selectedRows.length"
+                  ng-click="vm.clearSelection()"
+                  uib-tooltip="Clear selection"
+            >
+              <i class="fa fa-close"></i>
+            </span>
+            &nbsp;
+            Selected:
+            <span style="font-weight: bold" ng-bind="vm.selectedRows.length"
+            ></span> / {{vm.subjects.length}}
+          </span>
+        </td>
+
+        <td>
+          <input type="search" style="width: 90%"
+                 placeholder="type to filter"
+                 ng-model="vm.termFilter"
+          >
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
   </div>
 
-  <table style="width: 100%">
-    <tbody>
-    <tr>
-      <td style="max-width: 500px; overflow: hidden">
-        <div class="m2rMappingSideGrid" ui-grid="vm.gridOptions" ui-grid-selection></div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <div style="height: 430px; overflow-y: scroll">
+    <table style="width: 100%" class="table table-condensed">
+      <tbody style="max-width: 500px; overflow: hidden">
+
+      <tr ng-repeat="s in vm.subjects | filter:vm.termFilter as results" class="m2rTermBox"
+      >
+
+        <td ng-if="vm.side==='right'"
+          style="width: 5px" ng-class="{'m2rTermBoxSelected': s.selected}">
+          <!--<i class="fa fa-check"></i>-->
+          <input type="checkbox" ng-model="s.selected"
+                 ng-click="vm.subjectSelectionClicked(s)"
+          >
+        </td>
+
+        <td>
+          <div ng-init="s._collapsed = true"
+               ng-click="s._collapsed = !s._collapsed"
+          >
+            <div style="cursor: pointer; width: 100%"
+                  ng-class="{'m2rTermBoxSelected': s.selected}"
+            >
+              <i ng-if="s._collapsed" class="fa fa-caret-right"></i>
+              <i ng-if="!s._collapsed" class="fa fa-caret-down"></i>
+              <span class="uriTextSimple">
+                {{s.subjectUri}}
+              </span>
+              <a ng-if="!s._collapsed"
+                 style="font-size: smaller"
+                 target="_blank" href="{{s.subjectUri}}" class="uriTextSimple">
+                <i class="fa fa-external-link" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+
+          <div uib-collapse="s._collapsed" style="margin-left: 20px">
+            <table class="table transparent">
+              <tbody>
+              <tr ng-repeat="(k,v) in s.subjectAttributes">
+
+                <td style="vertical-align: top; text-align: right"
+                    ng-init="propInfo = vm.getSubjectPropInfo(s, k)"
+                >
+                  <a target="_blank" href="{{k}}"
+                     uib-popover="{{propInfo.tooltip}}"
+                     popover-trigger="mouseenter"
+                     popover-placement="bottom-left"
+                     ng-bind="propInfo.localName"
+                  >
+                  </a>:
+                </td>
+
+                <td style="text-align: left">
+                  <span ng-if="v.length===1"
+                        ng-bind-html="v[0] | mklinksOnlyExternal">
+                  </span>
+                  <table ng-if="v.length > 1"
+                         class="table table-condensed transparent">
+                    <tbody>
+                    <tr ng-repeat="w in v">
+                      <td ng-bind-html="w | mklinksOnlyExternal">
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!--<pre>{{s | json}}</pre>-->
+
+        </td>
+
+        <td ng-if="vm.side==='left'"
+            style="width: 5px" ng-class="{'m2rTermBoxSelected': s.selected}">
+          <!--<i class="fa fa-check"></i>-->
+          <input type="checkbox" ng-model="s.selected"
+                 ng-click="vm.subjectSelectionClicked(s)"
+          >
+        </td>
+
+      </tr>
+      <tr ng-if="vm.termFilter && results.length == 0">
+        <td>
+          <strong>No results found</strong>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
 
 </div>

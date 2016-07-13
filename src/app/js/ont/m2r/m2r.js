@@ -121,8 +121,6 @@
 
     getMappedOntsInfo($scope, $timeout, service, false);
 
-    var triples = getTriples($scope.ontData.mappings, m2rRelations);
-
     $scope.gridOptions = {
       data: [],
       enableColumnMenus: false,
@@ -131,9 +129,53 @@
       ,showGridFooter: true
       ,enableFiltering: true
     };
-    addTripleColumnDefs($scope.gridOptions.columnDefs);
+    addTripleColumnDefs($scope.gridOptions.columnDefs, true);
 
-    updateModelArray($scope, $scope.gridOptions.data, triples);
+    (function() {
+      var triples = getTriples($scope.ontData.mappings, m2rRelations);
+      updateModelArray($scope, $scope.gridOptions.data, triples);
+    })();
+
+    function setDefinedMappingSelection(selected) {
+      $scope.definedMappingSelection = {};
+      _.each($scope.gridOptions.data, function(entity, index) {
+        $scope.definedMappingSelection[index] = selected;
+      });
+    }
+    setDefinedMappingSelection(false);
+
+    $scope.numSelectedDefinedMappings = function() {
+      return _.filter($scope.definedMappingSelection, function(selected) {
+        return selected
+      }).length;
+    };
+    $scope.removeSelectedDefinedMappings = function() {
+      console.debug("removeSelectedDefinedMappings", $scope.numSelectedDefinedMappings());
+      var newEntities = [];
+      var oldEntities = [];
+      _.each($scope.gridOptions.data, function(entity, index) {
+        var selected = $scope.definedMappingSelection[index];
+        console.debug("index=", index, "selected=", selected);
+        if (!selected) {
+          entity._m2r_index = newEntities.length;
+          newEntities.push(entity);
+        }
+        else {
+          oldEntities.push(entity);
+        }
+      });
+      var oldTriples = m2rUtil.entityData2Dict(oldEntities);
+      m2rUtil.updateOntDataMappingsWithRemovedTriples($scope.ontData.mappings, oldTriples);
+
+      // update grid:
+      $scope.gridOptions.data = [];
+      updateModelArray($scope, $scope.gridOptions.data, newEntities);
+      setDefinedMappingSelection(false);
+
+    };
+    $scope.selectAllDefinedMappings = function(selected) {
+      setDefinedMappingSelection(selected);
+    };
 
     $scope.relations = m2rRelations.relations;
 
@@ -210,7 +252,7 @@
           objects:    _.map(vm.selectedRowsRight, "subjectUri") // yes, subjectUri
         });
 
-        // and update triples in the grid:
+        // and update triples in the grid   (_m2r_index is updated below):
         var triples4grid = [];
         _.each(vm.selectedRowsLeft, function(left) {
           _.each(vm.selectedRowsRight, function(right) {
@@ -224,6 +266,11 @@
         });
         // insert elements at the beginning
         updateModelArray($scope, $scope.gridOptions.data, triples4grid, false);
+
+        // reset _m2r_index:
+        _.each($scope.gridOptions.data, function(entity, index) {
+          entity._m2r_index = index;
+        });
 
         $timeout(function() {
           vm.selectedRowsLeft.splice(0);
@@ -313,30 +360,6 @@
     vm.ontsToSearch = _.map($scope.mappedOntsInfo, function() { return 0 });
     vm.subjects = [];
 
-    var template =
-      '<div class="ui-grid-cell-contents">' +
-      '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
-      + '</div>';
-
-    vm.gridOptions = {
-      data: 'vm.subjects',
-      enableSelectAll: true,  // but mainly to allow deselect-all
-      enableColumnMenus: false,
-      enableGridMenu: true,
-      showGridFooter: true,
-      enableFiltering: true,
-      columnDefs: [
-        {
-          field: 'subjectUri',
-          displayName: '',
-          filter: {
-            placeholder: 'type to filter...'
-          },
-          cellTemplate: template
-        }
-      ]
-    };
-
     $scope.$watchCollection("vm.ontsToSearch", updateSubjects);
 
     function updateSubjects() {
@@ -358,32 +381,34 @@
       updateModelArray($scope, vm.subjects, subjects);
     }
 
-    var gridApi;
+    vm.clearSelection = function() {
+      _.each(vm.subjects, function(s) {
+        s.selected = undefined;
+      });
+      vm.selectedRows.splice(0);
+    };
 
-    vm.gridOptions.onRegisterApi = function(_gridApi) {
-      gridApi = _gridApi;
-      //console.debug("gridApi.selection=", gridApi.selection);
-      gridApi.selection.on.rowSelectionChanged($scope, rowSelectionChanged);
-      gridApi.selection.on.rowSelectionChangedBatch($scope, rowSelectionChanged);
-
-      function rowSelectionChanged() {
-        $timeout(function() {
-          vm.selectedRows.splice(0);
-          _.each(gridApi.selection.getSelectedRows(), function(x) {
-            vm.selectedRows.push(x);
-          });
-          console.debug("side=" + vm.side, "vm.selectedRows=", vm.selectedRows.length);
-        });
-      }
+    vm.subjectSelectionClicked = function(s) {
+      // not efficient but acceptable as not too many selected elements are expected in general
+      vm.selectedRows.splice(0);
+      _.each(vm.subjects, function(s) {
+        if (s.selected) vm.selectedRows.push(s);
+      });
+      console.debug("side=" + vm.side, "vm.selectedRows=", vm.selectedRows.length);
     };
 
     $scope.$on('evtM2rClearRowSelection', function() {
       //console.debug("$on evtM2rClearRowSelection");
-      if (gridApi) {
-        gridApi.selection.clearSelectedRows();
-      }
-      else console.error("unexpected: gridApi undefined");
+      vm.clearSelection();
     });
+
+    vm.getSubjectPropInfo = function(subject, propUri) {
+      var idxS = propUri.lastIndexOf('/');
+      var idxH = propUri.lastIndexOf('#');
+      var idx = Math.max(idxS, idxH);
+      var localName = propUri.substring(idx + 1);
+      return { localName: localName, tooltip: propUri };
+    }
   }
 
   ///////////////////////////////////////////////////////
@@ -442,6 +467,7 @@
       _.each(mapGroup.subjects, function(subjectUri) {
         _.each(mapGroup.objects, function(objectUri) {
           triples.push({
+            _m2r_index:        triples.length,   // used for removal selection
             subjectUri:        subjectUri,
             predicateUri:      predicate,
             predicateTooltip:  m2rRelations.getRelationTooltip(predicate),
@@ -544,7 +570,19 @@
     });
   }
 
-  function addTripleColumnDefs(columnDefs) {
+  function addTripleColumnDefs(columnDefs, editMode) {
+    if (editMode) {
+      columnDefs.push({
+        field: 'subjectUri',
+        width: 24,
+        displayName: '',
+        enableFiltering: false,
+        cellTemplate: '<input type="checkbox"' +
+        ' ng-model="grid.appScope.definedMappingSelection[row.entity._m2r_index]"' +
+        '>'
+      });
+    }
+
     columnDefs.push({
       field: 'subjectUri',
       //width: '****',
@@ -588,6 +626,17 @@
     '<div class="ui-grid-cell-contents right">' +
     '<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal"></span>'
     + '</div>';
+
+  // just a possible mechanism to display a html tooltip..
+    //"<div uib-popover-html=\"'<pre>' + (row.entity | json) + '</pre>'\"" +
+    //'     popover-placement="top" ' +
+    //'     popover-append-to-body="true" ' +
+    //'     popover-trigger="mouseenter">' +
+    //' <div class="ui-grid-cell-contents right">' +
+    //'<span ng-bind-html="row.entity[col.field] | mklinksOnlyExternal">' +
+    //'  </span>' +
+    //' </div>' +
+    //'</div>';
 
   var predicateTemplate =
     '<div uib-popover="{{ row.entity.predicateTooltip }}" popover-placement="top" popover-append-to-body="true" popover-trigger="mouseenter">' +

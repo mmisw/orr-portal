@@ -510,6 +510,22 @@ div.debug {
   height: 450px;
 }
 
+.m2rTermBox {
+  border-spacing: 0px;
+  border-collapse: collapse;
+  border: 1px solid #8cacbb;
+}
+.m2rTermBox:hover {
+  border: 1px solid #8cacbb;
+  background-color: #f3fcff;
+}
+.m2rTermBoxSelected {
+  background-color: #dbe5fe;
+}
+.m2rTermBoxSelected:hover {
+  background-color: #dbe5fe;
+}
+
 .left {
   text-align: left;
 }
