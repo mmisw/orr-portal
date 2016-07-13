@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-07-12: 3.0.0-beta
+  - start beta status
+
 * 2016-07-12: 3.0.6-alpha:
   - resolve #56 "m2r: various pending enhancements and bugs"
   - utl.message: ad optional autoClose to close the box within the given timeout.
