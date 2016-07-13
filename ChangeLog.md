@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-07-12: 3.0.6-alpha:
+  - utl.message: ad optional autoClose to close the box within the given timeout.
+    Used in m2r when mapping triples are added to the table.
   - m2r: fixes and general improvements in editing mode.
     Satisfactory local testing ... but testing by others is needed!
     - use regular <table> on the left- and hand- sides in Term and predicate selection section.

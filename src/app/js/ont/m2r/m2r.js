@@ -221,6 +221,10 @@
       return vm.selectedRowsLeft.length === 0 || vm.selectedRowsRight.length === 0;
     };
     $scope.relButtonClicked = function(rel) {
+      // why ng-disabled="noSelectedPairs()" is not actually disabling the action??
+      // workaround: just check again
+      if ($scope.noSelectedPairs()) return;
+
       //console.debug("relButtonClicked: rel=", rel
       //  ,"selectedRowsLeft=", vm.selectedRowsLeft.length
       //  ,"selectedRowsRight=", vm.selectedRowsRight.length
@@ -276,6 +280,15 @@
           vm.selectedRowsLeft.splice(0);
           vm.selectedRowsRight.splice(0);
           $scope.$broadcast('evtM2rClearRowSelection');
+          utl.message({
+            title: '',
+            size : 'sm',
+            autoClose: 2000,
+            ok: null,
+            message: '<div class="center">' +
+            numNewMappings + ' mapping triple' +(numNewMappings !== 1 ? 's' : '')+ ' added' +
+            '</div>'
+          });
         });
       }
     }

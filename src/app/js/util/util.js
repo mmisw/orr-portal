@@ -40,8 +40,8 @@
       var modalInstance = $uibModal.open({
         templateUrl: 'js/util/message.tpl.html',
         controller:  'MessageInstanceCtrl',
-        //size:        'sm',
-        backdrop:    'static',
+        size:        info.size,
+        backdrop:    info.autoClose ? undefined : 'static',
         resolve: {
           info: function () {
             return $scope.info;
@@ -136,6 +136,10 @@
     $scope.ok = function() {
       $uibModalInstance.close();
     };
+
+    if (info.autoClose) {
+      $timeout(function() { $uibModalInstance.close(); }, info.autoClose);
+    }
 
     $scope.select = function(index) {
       $uibModalInstance.close(index);
