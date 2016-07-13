@@ -43,7 +43,7 @@ var bUtil = (function() {
      * Logic could be extended here when considering https==http for purposes of URI identification.
      */
     uriEqualOrHasPrefixWithSlash: function(uri, prefix) {
-      return uri === prefix || uri.startsWith(prefix + '/');
+      return uri === prefix || uri.startsWith(prefix.replace(/\/+$/, '') + '/');
     }
   };
 

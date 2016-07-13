@@ -35,6 +35,7 @@ describe('bUtil', function() {
     it('should be true with equal strings', function () {
       expect(bUtil.uriEqualOrHasPrefixWithSlash("", "")).toEqual(true);
       expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex3", "http://ex3")).toEqual(true);
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex/", "http://ex/")).toEqual(true);
     });
     it('should be false when not even a prefix', function () {
       expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex3", "http://ex/")).toEqual(false);
@@ -43,6 +44,11 @@ describe('bUtil', function() {
     it('should be false with prefix but no slash boundary', function () {
       expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex3", "http://ex")).toEqual(false);
       expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex-", "http://ex")).toEqual(false);
+    });
+    it('should be true for other good cases', function () {
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex/abc/d", "http://ex/")).toEqual(true);
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex/abc/d", "http://ex/abc")).toEqual(true);
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex/abc/d", "http://ex/abc/")).toEqual(true);
     });
   });
 });
