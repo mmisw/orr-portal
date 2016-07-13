@@ -30,4 +30,19 @@ describe('bUtil', function() {
       expect(doIt({a:1, _x:'foo', c:{d:2,_e:4}})).toEqual({a:1, c:{d:2}});
     });
   });
+
+  describe('#uriEqualOrHasPrefixWithSlash', function () {
+    it('should be true with equal strings', function () {
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("", "")).toEqual(true);
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex3", "http://ex3")).toEqual(true);
+    });
+    it('should be false when not even a prefix', function () {
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex3", "http://ex/")).toEqual(false);
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex3", "foo")).toEqual(false);
+    });
+    it('should be false with prefix but no slash boundary', function () {
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex3", "http://ex")).toEqual(false);
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex-", "http://ex")).toEqual(false);
+    });
+  });
 });

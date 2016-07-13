@@ -57,7 +57,7 @@ var appUtil = (function(window) {
 
   function getHref4uriWithSelfHostPrefix(uri) {
     uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
-    if (uri.startsWith(windowHref)) {
+    if (bUtil.uriEqualOrHasPrefixWithSlash(uri, windowHref)) {
       // it's self-resolvable:
       return uri;
     }

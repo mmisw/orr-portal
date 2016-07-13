@@ -36,8 +36,15 @@ var bUtil = (function() {
         }
         else return obj;
       }
-    }
+    },
 
+    /**
+     * Introduced to help with determination of URI self-dispatch.
+     * Logic could be extended here when considering https==http for purposes of URI identification.
+     */
+    uriEqualOrHasPrefixWithSlash: function(uri, prefix) {
+      return uri === prefix || uri.startsWith(prefix + '/');
+    }
   };
 
  // from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String

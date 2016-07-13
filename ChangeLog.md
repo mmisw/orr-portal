@@ -1,5 +1,11 @@
 ## change log ##
 
+* 2016-07-13: 3.0.0-beta
+  - fix logic to determine whether a requested URI will be self-dispatched or not.
+    Basically this is true when the URI has the window location as a prefix with
+    slash as separator (or when both pieces are equal).
+    TODO logic to be extended when considering https==http for purposes of URI identification.
+
 * 2016-07-12: 3.0.0-beta
   - start beta status
 
