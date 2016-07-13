@@ -1,48 +1,11 @@
-<div ng-mouseleave="vm._editHelpShowPopup=undefined"
-     style="text-align: center"
->
-  <script type="text/ng-template" id="m2rEditHelpPopup.html">
-    <div style="color: gray;margin-right: 10px" class="left"
-         ng-mouseleave="vm._editHelpShowPopup=undefined"
-    >
-      This part consists of three main sections:
-      <i style="text-decoration: underline">Mapped ontologies</i>,
-      <i style="text-decoration: underline">Term and relation predicate selection</i>,
-      and
-      <i style="text-decoration: underline">Defined mappings</i>.
-      Use the Add button in the first section to load the ontologies
-      from which you want to select the terms to be mapped. You can load as
-      many ontologies as needed.
-      Once one or more ontologies are loaded, select which ones to load on each side
-      of the second section. The left- and right-hand sides will respectively contain
-      potential "subjects" and "objects" for the needed mappings. All terms from the selected
-      ontologies will be displayed and you can use the filters to search/narrow down the
-      list of displayed elements. Select the subjects and objects to be mapped
-      together and then click the button in the middle with the desired semantic relation
-      (<i>predicate</i>).
-      Once clicked, the corresponding
-      <i>subject</i>–<i>predicate</i>–<i>object</i>) triples
-      will be added to the table in the <i>Defined mappings</i> section.
-    </div>
-  </script>
-
-  <span uib-popover-template="'m2rEditHelpPopup.html'"
-        popover-placement="bottom"
-        popover-is-open="vm._editHelpShowPopup"
-        ng-mouseenter="vm._editHelpShowPopup=true"
-  >
-    <i class="fa fa-question-circle fa-lg" aria-hidden="true" style="color: gray"></i>
-  </span>
-</div>
-
-<div style="background-color: #cfe3e6; width: 100%; text-align: center; margin-top: 10px">
+<div style="background-color: #cfe3e6; width: 100%; text-align: center">
   <label style="font-size: large">
   Mapped ontologies
   </label>
 
-  <span uib-dropdown>
+  <span uib-dropdown style="margin-left: 10px">
     <a href id="add-mapped-ont-dropdown" uib-dropdown-toggle
-       class="btn btn-default btn-xs"
+       class="btn btn-info btn-xs" style="padding-left: 12px;padding-right: 12px"
     >
       Add <i class="caret"></i>
     </a>
@@ -67,9 +30,10 @@
   </span>
 
   <span style="margin-left: 12px"
-        uib-popover="This section shows the currently associated ontologies and allows
-        to load additional ones as needed."
-        popover-placement="top"
+        uib-popover="This section shows the currently associated ontologies
+        from which terms can be selected to be mapped.
+        Use the Add button to load either registered or external ontologies as needed."
+        popover-placement="bottom"
         popover-trigger="mouseenter"
   >
     <i class="fa fa-question-circle fa-lg" aria-hidden="true" style="color: gray"></i>
@@ -115,8 +79,17 @@
     Term and relation predicate selection
   </label>
   <span style="margin-left: 12px"
-        uib-popover="Use this section to insert additional mappings into the ontology."
-        popover-placement="top"
+        uib-popover="Once one or more ontologies are selected above,
+        use the numbered buttons to load the corresponding ontologies to load on each side of this section.
+        The left- and right-hand sides here will respectively contain potential
+        'subjects' and 'objects' for the needed mappings.
+        All terms from the selected ontologies will be displayed.
+        To facilitate the term selection you can use the filter on each side to narrow down the list of displayed elements.
+        Once subjects and objects that should be mapped together according to a specific predicate are selected,
+        click the respective button in the middle of this section.
+        Once clicked, the corresponding set of subject–predicate–object triples will be added to the
+        'Defined term mappings' table below."
+        popover-placement="bottom"
         popover-trigger="mouseenter"
   >
     <i class="fa fa-question-circle fa-lg" aria-hidden="true" style="color: gray"></i>
@@ -172,16 +145,19 @@
 
 <div style="background-color: #cfe3e6; width: 100%; text-align: center;margin-top: 10px">
   <label style="font-size: large">
-    Defined mappings
+    Defined term mappings
   </label>
   <span style="color: gray">
     ({{gridOptions.data.length}})
   </span>
   <span style="margin-left: 12px"
         uib-popover="Besides filtering by subject, predicate, or object
-        (to facilitate inspection of the currently defined mapping triples, especially on large lists),
-        you can also remove any unnecessary mappings in this section."
-        popover-placement="top"
+        (to facilitate inspection of the currently defined mapping triples),
+        you can also remove any unnecessary mappings in this section.
+        For this, use the checkboxes on the left and then click the 'Remove selected' button.
+        **NOTE**: The filtering in this table does not affect the triple selection
+        (so this selection might be partially or totally hidden depending on the current filtering)."
+        popover-placement="bottom"
         popover-trigger="mouseenter"
   >
     <i class="fa fa-question-circle fa-lg" aria-hidden="true" style="color: gray"></i>
