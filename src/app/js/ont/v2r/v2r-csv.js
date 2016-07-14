@@ -6,6 +6,7 @@
 
   angular.module('orrportal.v2r')
     .controller('CsvImportController', CsvImportController)
+    .controller('CsvExportController', CsvExportController)
   ;
 
   CsvImportController.$inject = ['$scope', '$uibModalInstance', 'info', 'focus', 'utl'];
@@ -65,6 +66,64 @@
     };
 
     $scope.cancelCsvImport = function() {
+      $uibModalInstance.dismiss();
+    };
+  }
+
+  CsvExportController.$inject = ['$scope', '$uibModalInstance', '$timeout', 'VAL_SEPARATOR_INSERT', 'info'];
+  function CsvExportController($scope, $uibModalInstance, $timeout, VAL_SEPARATOR_INSERT, info) {
+    if (debug) console.log("CsvExportController: info=", info);
+
+    var vm = $scope.vm = {
+      title:     info.title || 'CSV Export',
+      vocab:     info.vocab,
+      separator: ',',
+      csvString: '',
+
+      separators: [
+        { label: 'Comma', value: ',' },
+        { label: 'Tab',   value: '\t' },
+        { label: 'Vertical bar |', value: '|' }
+      ]
+    };
+
+    $scope.doCsvExport = function() {
+      var header = [""];   // empty first cell
+      _.each(vm.vocab.properties, function(property) {
+        header.push(property.name || property.uri);
+      });
+
+      var data = [];
+      _.each(vm.vocab.terms, function(term) {
+        var row = [term.name || term.uri];  // term ID is 1s column
+        _.each(term.attributes, function(attribute) {
+          var values = angular.isArray(attribute) ? attribute : [attribute];
+          row.push(values.join(VAL_SEPARATOR_INSERT));
+        });
+        data.push(row);
+      });
+
+      vm.csvString = new CSV(data, {
+        cellDelimiter: vm.separator,
+        header: header
+      }).encode();
+    };
+
+    $scope.$watch("vm.csvString", function() {
+      vm.copyToClipboardResult = '';
+    });
+
+    $scope.csvCopyToClipboard = function(err) {
+      vm.copyToClipboardResult = err ?
+        "Error trying to automatically copy to clipboard as it seems" +
+        " your browser is not supported."
+        : "Copied!";
+      $timeout(function() {
+        vm.copyToClipboardResult = '';
+      }, err ? 5000 : 2000);
+    };
+
+    $scope.cancelCsvExport = function() {
       $uibModalInstance.dismiss();
     };
   }

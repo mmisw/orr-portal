@@ -8,6 +8,8 @@
   var VAL_SEPARATOR_REGEX  = /\n+-----\n+/;
 
   angular.module('orrportal.multivalueedit', [])
+    .constant('VAL_SEPARATOR_INSERT', VAL_SEPARATOR_INSERT)
+    .constant('VAL_SEPARATOR_REGEX', VAL_SEPARATOR_REGEX)
     .directive('multivalueedit', function() {
       return {
         restrict:     'E',

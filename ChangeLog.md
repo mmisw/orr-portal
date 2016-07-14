@@ -1,6 +1,12 @@
 ## change log ##
 
 * 2016-07-14: 3.0.1-beta
+  - v2r: resolve #55 "export vocabulary table to CSV".
+    This is enabled is new drop-down menu next to the class in View mode.
+    Note, for multi-valued attributes, the new CSV export function uses the `-----` separator in the
+    corresponding CSV cell. This separator is recognized by the CSV import function to reflect the multiple values.
+    So, this separator handling is similar as that in the <multivalueedit> directive.
+    Needs some code clean-up to put the common "separator" stuff in a helper module that the other modules can reuse.
   - resolve #58 "status marks"
 
 * 2016-07-13: 3.0.0-beta

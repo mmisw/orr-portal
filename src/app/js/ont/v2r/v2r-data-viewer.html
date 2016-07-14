@@ -5,7 +5,8 @@
 
 <uib-tabset ng-if="vm.vocabs.length" style="width: 100%">
 
-  <uib-tab ng-repeat="vocab in vm.vocabs track by $index" style="cursor: pointer">
+  <uib-tab ng-repeat="vocab in vm.vocabs track by $index" ng-init="v_index=$index"
+           style="cursor: pointer">
 
     <script type="text/ng-template" id="v2rClassTabPopup.html">
       <div ng-mouseleave="vocab._showPopup=undefined" class="left">
@@ -18,14 +19,37 @@
       </div>
     </script>
 
-    <uib-tab-heading ng-mouseenter="vocab._showPopup=true" ng-mouseleave="vocab._showPopup=undefined">
+    <uib-tab-heading ng-mouseleave="vocab._showPopup=undefined">
 
-      <div uib-popover-template="'v2rClassTabPopup.html'"
-           popover-placement="right"
-           popover-is-open="vocab._showPopup"
-      >
-        <span class="regularFont bold" ng-bind="vm.getName(vocab.class)"></span>
-      </div>
+      <table>
+        <tbody>
+        <tr>
+          <td>
+            <div uib-popover-template="'v2rClassTabPopup.html'"
+                 popover-placement="right"
+                 popover-is-open="vocab._showPopup"
+                 ng-mouseenter="vocab._showPopup=true"
+                 style="margin-right: 10px"
+            >
+              <span class="regularFont bold" ng-bind="vm.getName(vocab.class)"></span>
+            </div>
+          </td>
+
+          <td>
+            <div class="btn-group" uib-dropdown>
+              <div type="button" class="btn btn-default btn-xs dropdown-toggle" uib-dropdown-toggle>
+                <span class="caret"></span>
+              </div>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a href ng-bind="vm.vocabMenu.EXPORT_CSV.label" ng-click="vm.vocabMenu.EXPORT_CSV.handler(v_index)"></a>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
 
     </uib-tab-heading>
 

@@ -1,0 +1,67 @@
+<div style="display: inline-block; vertical-align: top; width:95%; margin: 10px; margin-top: 20px">
+  <div class="panel panel-default">
+
+    <div class="panel-heading" ng-bind="vm.title">
+    </div>
+
+    <div class="panel-body">
+
+      <form class="form-horizontal">
+        <div class="form-group">
+          <div class="col-xs-12">
+            <p style="color: gray; font-size: small">
+              Select the separator character and click the Export button.
+              The result will be displayed in the text area.
+            </p>
+
+            <div class="center">
+              Field separator:
+              <span ng-repeat="sep in vm.separators">
+                <div class="btn btn-default btn-xs" ng-model="vm.separator" uib-btn-radio="sep.value">{{sep.label}}</div>
+                &nbsp;
+              </span>
+            </div>
+
+            <textarea id="inputCsvString"
+                      style="width: 100%"
+                      rows="12"
+                      class="form-control v2rCsvContents"
+                      ng-model="vm.csvString"
+            ></textarea>
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+    <div class="panel-footer">
+
+      <div>
+        <button class="btn btn-info btn-sm"
+                ng-click="doCsvExport()"
+        >Export
+        </button>
+
+        <button class="btn btn-info btn-sm"
+                ng-disabled="!vm.csvString"
+                clipboard text="vm.csvString"
+                on-copied="csvCopyToClipboard()"
+                on-error="csvCopyToClipboard(err)"
+        >Copy to clipboard
+        </button>
+
+        <span ng-bind="vm.copyToClipboardResult"></span>
+
+        <button class="btn btn-default btn-sm"
+                style="float: right"
+                ng-click="cancelCsvExport()"
+                ng-disabled="vm.working"
+        >Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

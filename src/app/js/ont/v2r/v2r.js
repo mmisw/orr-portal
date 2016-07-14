@@ -24,8 +24,8 @@
     }
   }
 
-  V2rDataViewerController.$inject = ['$window', 'vocabulary'];
-  function V2rDataViewerController($window, vocabulary) {
+  V2rDataViewerController.$inject = ['$window', '$uibModal', 'vocabulary'];
+  function V2rDataViewerController($window, $uibModal, vocabulary) {
     var vm = this;
     vm.debug = debug;
     if (debug) console.log("++V2rDataViewerController++ vm=", vm);
@@ -37,6 +37,35 @@
     vm.openLink = function(href) {
       $window.open(href, "_blank");
     };
+
+    (function viewModePrepareVocabMenu() {
+      vm.vocabMenu = {
+        EXPORT_CSV: {
+          label: 'Export table to CSV contents',
+          handler: function(v_index) { exportCsv(v_index); }
+        }
+      };
+
+
+      function exportCsv(v_index) {
+        //console.debug("exportCsv: v_index=", v_index);
+        var vocab = vm.vocabs[v_index];
+        $uibModal.open({
+          templateUrl: 'js/ont/v2r/v2r-csv-export.html',
+          controller: 'CsvExportController',
+          backdrop: 'static',
+          size:     'lg',
+          resolve: {
+            info: function () {
+              return {
+                vocab: vocab
+              };
+            }
+          }
+        });
+      }
+    })();
+
   }
 
   ///////////////////////////////////////////////////////
@@ -67,8 +96,8 @@
     };
   }
 
-  V2rDataEditorController.$inject = ['$scope', '$uibModal', '$timeout', 'utl', 'focus', 'vocabulary'];
-  function V2rDataEditorController($scope, $uibModal, $timeout, utl, focus, vocabulary) {
+  V2rDataEditorController.$inject = ['$scope', '$uibModal', '$timeout', 'utl', 'focus', 'vocabulary', 'VAL_SEPARATOR_REGEX'];
+  function V2rDataEditorController($scope, $uibModal, $timeout, utl, focus, vocabulary, VAL_SEPARATOR_REGEX) {
     var vm = this;
     vm.debug = debug;
     if (debug) console.log("++V2rDataEditorController++ vm=", vm);
@@ -178,7 +207,7 @@
       function importCsv(v_index) {
         //console.debug("dispatchCsvImport: v_index=", v_index);
         var instance = $uibModal.open({
-          templateUrl: 'js/ont/v2r/v2r-csv.html',
+          templateUrl: 'js/ont/v2r/v2r-csv-import.html',
           controller: 'CsvImportController',
           backdrop: 'static',
           size:     'lg',
@@ -213,8 +242,9 @@
             for (cc = 1; cc < csvHeader.length; cc++) {
               var value = cc < csvRow.length ? csvRow[cc] : null;
               if (value) {
-                value = value.trim() || null;
+                value = value.split(VAL_SEPARATOR_REGEX);
               }
+              else value = null;
               term.attributes.push(value);
             }
             setAttrModelsForTerm(term);
