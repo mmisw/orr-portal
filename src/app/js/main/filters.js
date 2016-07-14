@@ -60,12 +60,23 @@
     }])
 
     .filter('mkMarks', [function() {
+      var marks = {
+        draft:      'D',
+        unstable:   'U',
+        testing:    'T',
+        stable:     'S',
+        deprecated: 'P',
+        archaic:    'A'
+      };
       return function(entity) {
         var prefix = '';
-        if ('testing' === entity.status) {
-          prefix = '<span class="testing">T </span>'
+        var mark = marks[entity.status];
+        if (mark) {
+          prefix = '<span' +
+            ' class="statusMark status-' +entity.status+ '"' +
+            ' title="Status: '  +entity.status+ '"' +
+            '>' +mark+ '</span>';
         }
-
         return prefix + appUtil.mklinks4text(entity.name);
       }
     }])

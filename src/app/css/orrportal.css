@@ -40,11 +40,26 @@ body {
     height: 700px;
 }
 
-.testing {
-    vertical-align: super;
-    font-size: smaller;
-    font-style: italic;
-    color: #d59b99;
+.statusMark {
+  vertical-align: super;
+  font-size: x-small;
+  font-style: italic;
+  cursor: pointer;
+  color: #d5a9a9;
+  margin-right: 7px;
+}
+.statusMark:hover {
+  color: #f8644f;
+  font-weight: bold;
+}
+.status-stable {
+  color: #2a8c34;
+}
+.status-stable:hover {
+  color: #3ec549;
+}
+.status-draft, .status-unstable, .status-testing, .status-deprecated, .status-archaic {
+  color: #f85a43;
 }
 
 .urititle {

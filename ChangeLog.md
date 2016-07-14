@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-07-14: 3.0.1-beta
+  - resolve #58 "status marks"
+
 * 2016-07-13: 3.0.0-beta
   - fix logic to determine whether a requested URI will be self-dispatched or not.
     Basically this is true when the URI has the window location as a prefix with
