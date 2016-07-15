@@ -1,6 +1,7 @@
 ## change log ##
 
-* 2016-07-14: 3.0.1-beta
+* 2016-07-15: 3.0.1-beta
+  - bUtil.uriEqualOrHasPrefixWithSlash also to be used in facetModel for the "hosting" facet
   - v2r: resolve #55 "export vocabulary table to CSV".
     This is enabled is new drop-down menu next to the class in View mode.
     Note, for multi-valued attributes, the new CSV export function uses the `-----` separator in the

@@ -191,7 +191,7 @@
             var takeSelfHosted = selectedHosting[0] === "fully-hosted";
             var orrOntRest = appConfig.orront.rest;
             selectedOnts = _.filter(selectedOnts, function(ont) {
-              var isSelfHosted = ont.uri.startsWith(orrOntRest);
+              var isSelfHosted = bUtil.uriEqualOrHasPrefixWithSlash(ont.uri, orrOntRest);
               return takeSelfHosted === isSelfHosted;
             });
           }
