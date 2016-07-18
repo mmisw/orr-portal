@@ -168,7 +168,7 @@ gulp.task('vendor', ['clean'], function() {
       './node_modules/lodash/**',
       './node_modules/moment/**',
       './node_modules/ng-file-upload/**',
-      './node_modules/select2/select2.css',
+      './node_modules/select2/**',
       './node_modules/ui-select/**'
     ], {base: './node_modules/'})
       .pipe(gulp.dest(distDest + '/vendor'))
