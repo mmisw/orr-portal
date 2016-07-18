@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-07-17: 3.0.2-beta
+  - v2r view: add `<clipboard-copy>` for URIs in popovers for vocab classes, properties, and terms
   - resolve #61: "v2r: for a property definition allow to indicate vocabulary from which to select values"
     - New `valueClassUri` in model (backend)
     - New `valueClassUri` attribute in <multivalueedit> directive.
