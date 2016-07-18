@@ -15,6 +15,7 @@
         restrict:     'E',
         scope:        {
           propUri:        '=',
+          valueClassUri:  '=',
           propValue:      '=',
           disableEditIf:  '=',
           editInProgress: '&'
@@ -35,7 +36,12 @@
     if (debug) console.log("++MveController++ propUri=", vm.propUri, "propValue=", vm.propValue, "disableEditIf=", vm.disableEditIf);
 
     if (vm.propUri) {
-      vm.propValueSelection = cfg.valueSelections[vm.propUri];
+      if (vm.valueClassUri) {
+        vm.propValueSelection = {
+          class: vm.valueClassUri
+        }
+      }
+      else vm.propValueSelection = cfg.valueSelections[vm.propUri];
     }
 
     vm.valueEntry = (vm.propValue || []).join(VAL_SEPARATOR_INSERT);

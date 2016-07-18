@@ -114,6 +114,7 @@
     };
 
     vm.editVocabProperty = function(idModel) {
+      //console.debug("editVocabProperty: idModel=", idModel);
       return editIdModel("Term set property", "property", idModel);
     };
 
@@ -440,6 +441,7 @@
       lname:      info.idModel.name,
       uri:        info.idModel.uri,
       idType:     info.idModel.name ? "lname" : "uri",
+      valueClassUri: info.idModel.valueClassUri,
       stdProperties: getStdProperties(vocabulary)
     };
 
@@ -469,6 +471,7 @@
         info.idModel.uri = vm.uri;
         delete info.idModel.name;
       }
+      info.idModel.valueClassUri = vm.valueClassUri;
       $uibModalInstance.close();
     };
 

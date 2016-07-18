@@ -1,6 +1,9 @@
 ## change log ##
 
 * 2016-07-17: 3.0.2-beta
+  - resolve #61: "v2r: for a property definition allow to indicate vocabulary from which to select values"
+    - New `valueClassUri` in model (backend)
+    - New `valueClassUri` attribute in <multivalueedit> directive.
   - gulpfile: include select2/** in distro as there are other resources used (select2.png)
 
 * 2016-07-15: 3.0.1-beta

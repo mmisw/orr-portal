@@ -29,7 +29,7 @@
         "}\n" +
         "order by ?instanceUri";
 
-      var sparqlEndpoint = propValueSelection.sparqlEndpoint || cfg.sparqlEndpoint;
+      var sparqlEndpoint = propValueSelection.sparqlEndpoint || cfg.orront.sparqlEndpoint;
 
       doQuery(sparqlEndpoint, query, function(error, data) {
         if (error) cb(error);

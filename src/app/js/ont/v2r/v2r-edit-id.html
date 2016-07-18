@@ -28,6 +28,9 @@
             (relative to the URI of this ontology)
             or a full URI, where you can also select from a list of standard properties
             that may be applicable to your vocabulary.
+            <br>
+            Optionally, you can also indicate the URI of a class of terms that can
+            be associated as values for this property.
           </p>
         </div>
         <br>
@@ -129,7 +132,24 @@
               >
             </div>
           </div>
+        </div>
 
+        <div ng-if="vm.what === 'property'">
+          <div class="form-group" style="margin-top: 18px">
+
+            <label for="inputValueClass" class="control-label col-xs-2">
+              Value&nbsp;class:
+            </label>
+
+            <div class="col-xs-9">
+              <input id="inputValueClass"
+                     type="url"
+                     class="form-control"
+                     ng-model="vm.valueClassUri"
+                     placeholder="URI of class for selection of values (optional)"
+              >
+            </div>
+          </div>
         </div>
 
         <div class="form-group">
