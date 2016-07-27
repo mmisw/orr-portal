@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-07-27: 3.0.3-beta
+  - show location of SPARQL endpoint in sparql/index.html
   - re #63, add "SPARQL Search" link in header (next to "Term Search")
 
 * 2016-07-17: 3.0.2-beta

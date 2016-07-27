@@ -147,6 +147,7 @@ gulp.task('app', ['clean'], function(){
       .pipe(replace(/@@version/g, version))
       .pipe(replace(/@@portalMainPage/g, appConfig.portal.mainPage))
       .pipe(replace(/@@brandingLogo/g, appConfig.branding.logo || 'img/mmi-orr3-logo.png'))
+      .pipe(replace(/@@sparqlEndpoint/g, appConfig.orront.sparqlEndpoint))
       .pipe(replace(/\.\.\/\.\.\/node_modules/g, 'vendor'))
       .pipe(gulp.dest(distDest))
   );
