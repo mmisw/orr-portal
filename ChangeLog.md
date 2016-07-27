@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-07-27: 3.0.3-beta
+  - re #63, add "SPARQL Search" link in header (next to "Term Search")
+
 * 2016-07-17: 3.0.2-beta
   - v2r view: add `<clipboard-copy>` for URIs in popovers for vocab classes, properties, and terms
   - resolve #61: "v2r: for a property definition allow to indicate vocabulary from which to select values"
