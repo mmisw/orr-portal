@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2016-07-27: 3.0.4-beta
+  - set Help link again to https://mmisw.org/orrdoc/
+    See https://github.com/mmisw/orr-portal/issues/64#issuecomment-235758003
   - resolve #66 "recaptcha"
     Used in create-account. New optional config property: recaptcha.siteKey
 

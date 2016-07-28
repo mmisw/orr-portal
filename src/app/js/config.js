@@ -8,7 +8,7 @@
 //
 
 var appConfig = {
-  help: "https://mmisw.github.io/mmiorr-docs/",
+  help: "https://mmisw.org/orrdoc/",
 
   portal: {
     // (required) main ORR page URL.
