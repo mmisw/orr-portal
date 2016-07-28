@@ -8,7 +8,7 @@ This user interface is against an
 
 ### Status
 
-alpha
+pre-beta
 
 
 ### Development
@@ -59,6 +59,6 @@ $ gulp dev
     $ gulp install --localConfig --base=/orr-ont/ --dest=/path/to/orr-ont/src/main/webapp/
     ```
 
-### Test deployment
+### Test deployments
 
-https://mmisw.org/orr-ont/
+See [wiki/ORR-deployments](https://github.com/mmisw/orr-portal/wiki/ORR-deployments).
