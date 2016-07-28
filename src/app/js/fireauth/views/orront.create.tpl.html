@@ -136,6 +136,15 @@
           </div>
         </div>
 
+        <div class="form-group" ng-if="vm.recaptcha && vm.recaptcha.siteKey">
+          <div class="col-xs-5">
+            <div vc-recaptcha key="vm.recaptcha.siteKey"
+                 on-expire="vm.recaptchaResponse = undefined"
+                 ng-model="vm.recaptchaResponse"
+            ></div>
+          </div>
+        </div>
+
         <div class="form-group">
 
           <label class="col-xs-3"> </label>

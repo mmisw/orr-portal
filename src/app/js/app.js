@@ -7,6 +7,7 @@
     'ui.bootstrap'
     ,'ui.select'
     ,'xeditable'
+    ,'vcRecaptcha'
     ,'angular-clipboard'
     ,'orrportal.main'
     ,'orrportal.facet'

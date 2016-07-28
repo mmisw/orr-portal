@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2016-07-27: 3.0.4-beta
+  - resolve #66 "recaptcha"
+    Used in create-account. New optional config property: recaptcha.siteKey
+
 * 2016-07-27: 3.0.3-beta
   - show location of SPARQL endpoint in sparql/index.html
   - re #63, add "SPARQL Search" link in header (next to "Term Search")

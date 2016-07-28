@@ -449,6 +449,9 @@
   function OrrOntCreateAccountController($scope, $uibModalInstance, $http, cfg, focus) {
 
     var vm = $scope.vm = {
+      recaptcha: cfg.recaptcha,
+      recaptchaResponse: '',
+
       username: "",
       firstName: "",
       lastName: "",
@@ -480,6 +483,7 @@
       if (!vm.phone) return false;
       if (!vm.password) return false;
       if (vm.password !== vm.password2) return false;
+      if (!vm.recaptchaResponse) return false;
 
       return true;
     };
@@ -500,7 +504,8 @@
         firstName:  vm.firstName,
         lastName:   vm.lastName,
         phone:      vm.phone,
-        password:   vm.password
+        password:   vm.password,
+        recaptchaResponse: vm.recaptchaResponse
       };
 
       $http({

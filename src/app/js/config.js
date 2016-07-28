@@ -28,6 +28,11 @@ var appConfig = {
     sparqlEndpoint: '/sparql'
   },
 
+  // recaptcha: optional
+  //recaptcha: {
+  //  siteKey:   "PUBLIC KEY"
+  //}
+
   // (optional) allows to specify vocabularies from which to populate selection drop-down lists in metadata editing.
   valueSelections: {
     // Each key:obj entry indicates:
