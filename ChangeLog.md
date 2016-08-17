@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2016-08-16: 3.1.0
+  - for dockerization (on orr-ont side), do not include `--localConfig` in `gulp install`.
+    Now, orr-ont has a mechanism to capture the `local.config.js` directly at launch time.
+
 * 2016-07-27: 3.0.4-beta
   - set Help link again to https://mmisw.org/orrdoc/
     See https://github.com/mmisw/orr-portal/issues/64#issuecomment-235758003

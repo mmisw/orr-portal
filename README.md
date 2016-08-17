@@ -3,12 +3,7 @@
 
 ## The new ORR front-end
 
-This user interface is against an
-[orr-ont](https://github.com/mmisw/orr-ont)-based REST endpoint.
-
-### Status
-
-pre-beta
+This the user interface counterpart of [orr-ont](https://github.com/mmisw/orr-ont).
 
 
 ### Development
@@ -40,24 +35,23 @@ $ gulp dev
     open [http://localhost:9001/dist/orrportal/](http://localhost:9001/dist/orrportal/)
 
 
-- Install under a running `orr-ont` service:
+- Install under a running `ont` service:
 
     ```shell
-    $ gulp install --base=/orr-ont/ --dest=/opt/tomcat/webapps/orr-ont/
+    $ gulp install --base=/ont/ --dest=/opt/tomcat/webapps/ont/
     ```
 
     Adjust the `--base` parameter value above depending on the actual
-    deployed application context of the `orr-ont` service.
+    deployed application context of the `ont` service.
 
 
-- Install under the `orr-ont` codebase for subsequent packaging:
-
-    As needed, adjust contents of `src/app/js/local.config.js`
-    and the `--base` parameter value below, and then:
+- Install under the `orr-ont` codebase for subsequent packaging/dockerization:
 
     ```shell
-    $ gulp install --localConfig --base=/orr-ont/ --dest=/path/to/orr-ont/src/main/webapp/
+    $ gulp install --base=/ont/ --dest=/path/to/orr-ont/src/main/webapp/
     ```
+
+    Adjust `--base` and `--dest` parameters as appropriate:
 
 ### Test deployments
 
