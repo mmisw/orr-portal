@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-08-16: 3.1.0
+  - add `template.local.config.js` to facilitate docker-based configuration/deployment
   - update testing badge contents
   - for dockerization (on orr-ont side), do not include `--localConfig` in `gulp install`.
     Now, orr-ont has a mechanism to capture the `local.config.js` directly at launch time.
