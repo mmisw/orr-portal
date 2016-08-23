@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-08-22: 3.1.1
+  - fix: require recaptchaResponse only if reCaptcha has been configured
+
 * 2016-08-16: 3.1.0
   - add `template.local.config.js` to facilitate docker-based configuration/deployment
   - update testing badge contents

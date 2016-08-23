@@ -483,7 +483,7 @@
       if (!vm.phone) return false;
       if (!vm.password) return false;
       if (vm.password !== vm.password2) return false;
-      if (!vm.recaptchaResponse) return false;
+      if (vm.recaptcha && vm.recaptcha.siteKey && !vm.recaptchaResponse) return false;
 
       return true;
     };
