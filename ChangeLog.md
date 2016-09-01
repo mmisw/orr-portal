@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-09-01: 3.1.2
+  - align version with orr-ont
+
 * 2016-08-22: 3.1.1
   - fix: require recaptchaResponse only if reCaptcha has been configured
 
