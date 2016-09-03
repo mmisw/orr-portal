@@ -1,18 +1,16 @@
 <span style="float: right; padding: 10px">
 
-  <span ng-if="rvm.masterAuth.loggedInInfo.uid">
-    <span uib-popover="{{rvm.masterAuth.loggedInInfo.displayName}} - {{rvm.masterAuth.loggedInInfo.email}}"
+  <span ng-if="rvm.accountInfo">
+    <span uib-popover="{{rvm.accountInfo.displayName}} - {{rvm.accountInfo.email}}"
           popover-placement="left"
           popover-trigger="mouseenter"
     >
       <span style="font-weight: 300; font-size: small;color: gray"
             class="btn btn-link btn-xs"
-            ng-click="openAccountDialog(rvm.masterAuth.loggedInInfo.uid)"
+            ng-click="openAccountDialog(rvm.accountInfo.uid)"
       >
-        {{rvm.masterAuth.loggedInInfo.displayName || rvm.masterAuth.loggedInInfo.uid}}
+        {{rvm.accountInfo.displayName || rvm.accountInfo.uid}}
       </span>
-
-      <i class="fa fa-{{rvm.masterAuth.loggedInInfo.provider}}"></i>
     </span>
 
     <button uib-popover="Log out"
@@ -23,7 +21,7 @@
     </button>
   </span>
 
-  <span ng-if="!rvm.masterAuth.loggedInInfo.uid">
+  <span ng-if="!rvm.accountInfo">
     <button class="btn btn-default btn-xs" ng-click="openLoginDialog()">
       <i class="fa fa-sign-in"></i>
       Sign in

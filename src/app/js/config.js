@@ -78,10 +78,4 @@ var appConfig = {
     archaic: 'This resource is marked as old-fashioned; although used, it is not considered typical of current' +
     ' best practice and alternative expressions may be preferable.'
   }
-
-  // (required) firebase application.
-  // NOTE: This may be removed in a future version.
-  ,firebase: {
-    url: "https://[myapp].firebaseio.com"
-  }
 };

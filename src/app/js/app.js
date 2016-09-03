@@ -22,7 +22,8 @@
     ,'orrportal.kw'
     ,'orrportal.v2r'
     ,'orrportal.m2r'
-    ,'orrportal.firebase'
+    ,'orrportal.auth'
+    ,'orrportal.auth.controllers'
     ,'orrportal.upload'
     ,'orrportal.util'
     ,'orrportal.items-viewer'
@@ -61,7 +62,7 @@
     $rootScope.cfg = cfg;
 
     var rvm = $rootScope.rvm = {
-      masterAuth: {},
+      accountInfo: undefined,
       rUri:       rUri,
       rVersion:   rVersion
     };
@@ -80,14 +81,8 @@
       $rootScope.refreshing = b;
     });
 
-    $rootScope.userLoggedIn = function() {
-      if (rvm.masterAuth && rvm.masterAuth.loggedInInfo && rvm.masterAuth.loggedInInfo.uid) {
-        return rvm.masterAuth.loggedInInfo;
-      }
-    };
-
     $rootScope.userLoggedInIsAdmin = function() {
-      return $rootScope.userLoggedIn() && rvm.masterAuth.role === "admin";
+      return rvm.accountInfo && rvm.accountInfo.role === "admin";
     }
   }
 
@@ -166,21 +161,6 @@
         template: '<admin-orgs></admin-orgs>'
       })
 
-      .state('signIn', {
-        url: '/signIn',
-        templateUrl: 'js/auth/views/login.tpl.html',
-        controller: 'LoginController'
-      })
-      .state('signInRedirect', {
-        url: '/signIn/{redirect:.*}',
-        templateUrl: 'js/auth/views/login.tpl.html',
-        controller: 'LoginController'
-      })
-
-      .state('fireauth-test', {  // TODO remove
-        url: '/fireauth-test',
-        templateUrl: 'js/fireauth/views/test.tpl.html'
-      })
     ;
   }
 

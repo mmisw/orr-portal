@@ -35,8 +35,8 @@
     $scope.orgEditInProgress = false;
     $scope.canEditOrg = function() {
       if ($rootScope.userLoggedInIsAdmin()) return true;
-      if (!$rootScope.rvm.masterAuth.organizations) return false;
-      var userOrgs = _.map($rootScope.rvm.masterAuth.organizations, "orgName");
+      if (!$rootScope.rvm.accountInfo.organizations) return false;
+      var userOrgs = _.map($rootScope.rvm.accountInfo.organizations, "orgName");
       return _.contains(userOrgs, $scope.orgName);
     };
     $scope.startOrgEdit = function() {
@@ -75,7 +75,7 @@
       $scope.editMode = false;
     };
 
-    $scope.$on('evtAuthenticateStateChanged', function(evt, masterAuth, user) {
+    $scope.$on('evtAuthenticateStateChanged', function() {
       refreshOrg();
     });
 

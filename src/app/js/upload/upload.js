@@ -63,9 +63,9 @@
     var userName, vm = {};
 
     // TODO use ui-router instead of the following hacky logic
-    if (!$rootScope.userLoggedIn()) {  // wait for a bit
+    if (!$rootScope.rvm.accountInfo) {  // wait for a bit
       $timeout(function() {
-        if (!$rootScope.userLoggedIn()) {
+        if (!$rootScope.rvm.accountInfo) {
           $location.url("/");
         }
         else enableController();
@@ -76,7 +76,7 @@
     function enableController() {
       $rootScope.rvm.curView = 'rx';
 
-      userName = $rootScope.rvm.masterAuth.loggedInInfo.uid;
+      userName = $rootScope.rvm.accountInfo.uid;
 
       vm = $scope.vm = {
         name:     '',
@@ -87,7 +87,7 @@
 
         ownerOptions: [{
           id:    '~' + userName,
-          name: 'User: ' + userName + ": " + $rootScope.rvm.masterAuth.loggedInInfo.displayName
+          name: 'User: ' + userName + ": " + $rootScope.rvm.accountInfo.displayName
         }],
         selectedOwner: undefined,
 
@@ -161,9 +161,9 @@
         format:   '_guess'
       };
 
-      if ($rootScope.rvm.masterAuth.authData && $rootScope.rvm.masterAuth.authData.token) {
+      if ($rootScope.rvm.accountInfo && $rootScope.rvm.accountInfo.token) {
         console.log("INCLUDING jwt token");
-        data.jwt = $rootScope.rvm.masterAuth.authData.token;
+        data.jwt = $rootScope.rvm.accountInfo.token;
       }
 
       console.log("upload:", "url=", url, "data=", data);
@@ -360,11 +360,11 @@
       if (vm.knownOwner.startsWith("~")) {
         console.debug("owned by user:", vm.knownOwner);
         var userOntOwner = vm.knownOwner.substring(1);
-        return $rootScope.rvm.masterAuth.loggedInInfo.uid === userOntOwner;
+        return $rootScope.rvm.accountInfo.uid === userOntOwner;
       }
       var orgOntOwner = vm.knownOwner;
-      console.debug("owned by org:", orgOntOwner, "masterAuth.organizations=", $rootScope.rvm.masterAuth.organizations);
-      var organizations = $rootScope.rvm.masterAuth.organizations;
+      console.debug("owned by org:", orgOntOwner, "accountInfo.organizations=", $rootScope.rvm.accountInfo.organizations);
+      var organizations = $rootScope.rvm.accountInfo.organizations;
       return organizations && _.contains(_.map(organizations, "orgName"), orgOntOwner);
     }
 

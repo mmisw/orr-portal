@@ -13,7 +13,7 @@ angular.module('orrportal.directives', [])
     .directive('orrportalLogButton', function() {
         return {
             restrict:    'E',
-            templateUrl: 'js/fireauth/views/button.tpl.html',
+            templateUrl: 'js/auth/views/button.tpl.html',
             controller:   'MainLoginController'
         }
     })
