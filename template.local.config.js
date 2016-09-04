@@ -39,8 +39,3 @@ appConfig.recaptcha = {
   // The "site key" corresponding to the `recaptcha.privateKey` entry in the backend configuration
   //siteKey: "..."
 };
-
-// (required) firebase application URL (https://www.firebase.com/docs/web/guide/login/custom.html).
-// NOTE: This dependency is planned to be removed, see https://github.com/mmisw/orr-ont/issues/25.
-// In the mean time, please contact us if this is preventing you from moving forward with your ORR instance.
-appConfig.firebase.url = "https://[myapp].firebaseio.com";

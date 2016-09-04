@@ -164,6 +164,8 @@ gulp.task('vendor', ['clean'], function() {
       './node_modules/angular-ui-router/**',
       './node_modules/angular-xeditable/**',
       './node_modules/angular-recaptcha/**',
+      './node_modules/angular-jwt/**',
+      './node_modules/angular-local-storage/**',
       './node_modules/comma-separated-values/**',
       './node_modules/bootstrap-css-only/**',
       './node_modules/font-awesome/**',

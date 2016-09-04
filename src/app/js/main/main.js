@@ -28,8 +28,7 @@
 
     $rootScope.rvm.curView = '';
 
-    $scope.$on('evtAuthenticateStateChanged', function(evt, masterAuth, user) {
-      //console.debug('MainController $on evtAuthenticateStateChanged: masterAuth=', masterAuth, "user=", user);
+    $scope.$on('evtAuthenticateStateChanged', function() {
       getOntologies($scope, service);
     });
 

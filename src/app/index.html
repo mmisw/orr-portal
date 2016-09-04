@@ -36,8 +36,8 @@
   <script src='../../node_modules/angular-recaptcha/release/angular-recaptcha.js'></script>
   <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
 
-  <script src="//cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
-  <script src="//cdn.firebase.com/libs/angularfire/1.1.1/angularfire.min.js"></script>
+  <script src="../../node_modules/angular-jwt/dist/angular-jwt.js"></script>
+  <script src="../../node_modules/angular-local-storage/dist/angular-local-storage.js"></script>
 
   <script src='js/config.js'></script>
   <script src='js/local.config.js'></script>
@@ -72,7 +72,8 @@
   <script src='js/user/user.js'></script>
   <script src='js/st/st.js'></script>
   <script src='js/kw/kw.js'></script>
-  <script src='js/fireauth/controllers.js'></script>
+  <script src='js/auth/auth.js'></script>
+  <script src='js/auth/controllers.js'></script>
   <script src='js/upload/upload.js'></script>
   <script src='js/util/items-viewer.js'></script>
   <script src='js/util/util.js'></script>
@@ -93,6 +94,8 @@
     <!-- Note: $state.$current is not a public api -->
   </pre>
 </div>
+
+<pre ng-if="debug" ng-bind="'rvm.accountInfo=' + (rvm.accountInfo | json)"></pre>
 
 <orrportal-header></orrportal-header>
 

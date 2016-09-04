@@ -1,5 +1,10 @@
 ## change log ##
 
+* 2016-09-03:  3.1.3
+  - resolve #71 "remove firebase". Lots of clean-up as well.
+  - create account: move password fields next to username (so typical browser assistance with remembering
+    password does the association with username, not with phone number!)
+
 * 2016-09-01: 3.1.2
   - align version with orr-ont
 

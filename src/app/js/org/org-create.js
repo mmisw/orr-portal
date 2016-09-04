@@ -27,7 +27,7 @@
       $location.url("/");
     }
 
-    $scope.$on('evtAuthenticateStateChanged', function(evt, masterAuth, user) {
+    $scope.$on('evtAuthenticateStateChanged', function() {
       if (!$rootScope.userLoggedInIsAdmin()) {
         $location.url("/");
       }

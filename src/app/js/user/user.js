@@ -24,9 +24,8 @@
 
     $scope.userName = $stateParams.userName;
 
-    $scope.$on('evtAuthenticateStateChanged', function(evt, masterAuth, user) {
-      //console.debug('$on evtAuthenticateStateChanged: masterAuth=', masterAuth);
-      $scope.user = user;
+    $scope.$on('evtAuthenticateStateChanged', function(evt, accountInfo) {
+      $scope.user = accountInfo;
     });
 
     service.refreshUser($scope.userName, function gotUser(error, user) {

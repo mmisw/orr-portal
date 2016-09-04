@@ -207,7 +207,7 @@
     }
 
     function canCreateBrandNew() {
-      return $rootScope.userLoggedIn();
+      return $rootScope.rvm.accountInfo;
     }
 
     function startBrandNew() {
@@ -231,7 +231,7 @@
         };
       }
 
-      var loggedInInfo = rvm.masterAuth.loggedInInfo;
+      var loggedInInfo = rvm.accountInfo;
       var userName = loggedInInfo.uid;
 
       vm.ownerOptions = [{
@@ -368,17 +368,17 @@
     $scope.canChangeVisibilityOrStatus = function() {
       if (!vm.ontology)                     return false;
       if (!vm.ontology.ownerName)           return false;
-      if (!$rootScope.userLoggedIn())       return false;
+      if (!$rootScope.rvm.accountInfo)      return false;
       if ($rootScope.userLoggedInIsAdmin()) return true;
 
       if (vm.ontology.ownerName.startsWith("~")) {
         var userOntOwner = vm.ontology.ownerName.substring(1);
-        return userOntOwner === rvm.masterAuth.loggedInInfo.uid;
+        return userOntOwner === rvm.accountInfo.uid;
       }
       else {
-        if (!rvm.masterAuth.organizations) return false;
+        if (!rvm.accountInfo.organizations) return false;
         var orgOntOwner = vm.ontology.ownerName;
-        var userOrgs = _.map(rvm.masterAuth.organizations, "orgName");
+        var userOrgs = _.map(rvm.accountInfo.organizations, "orgName");
         return _.contains(userOrgs, orgOntOwner);
       }
     };
@@ -409,7 +409,7 @@
             uri:        vm.uri,
             version:    vm.ontology.version,
             visibility: visibility,
-            userName:   $rootScope.userLoggedIn().uid
+            userName:   $rootScope.rvm.accountInfo.uid
           };
 
           var brandNew = false;
@@ -469,7 +469,7 @@
             uri:        vm.uri,
             version:    vm.ontology.version,
             status:     status,
-            userName:   $rootScope.userLoggedIn().uid
+            userName:   $rootScope.rvm.accountInfo.uid
           };
 
           var brandNew = false;
@@ -540,7 +540,7 @@
 
           var params = {
             uri:        vm.uri,
-            userName:   $rootScope.userLoggedIn().uid
+            userName:   $rootScope.rvm.accountInfo.uid
           };
           if (version) {
             params.version = version;
@@ -573,18 +573,18 @@
     $scope.canEditNewVersion = function() {
       if (!vm.ontology)                     return false;
       if ($rootScope.userLoggedInIsAdmin()) return true;
-      if (!$rootScope.userLoggedIn())       return false;
+      if (!$rootScope.rvm.accountInfo)      return false;
 
       if (!vm.ontology.ownerName)           return true; // TODO review this
 
       if (vm.ontology.ownerName.startsWith("~")) {
         var userOntOwner = vm.ontology.ownerName.substring(1);
-        return userOntOwner === rvm.masterAuth.loggedInInfo.uid;
+        return userOntOwner === rvm.accountInfo.uid;
       }
       else {
-        if (!rvm.masterAuth.organizations) return false;
+        if (!rvm.accountInfo.organizations) return false;
         var orgOntOwner = vm.ontology.ownerName;
-        var userOrgs = _.map(rvm.masterAuth.organizations, "orgName");
+        var userOrgs = _.map(rvm.accountInfo.organizations, "orgName");
         return _.contains(userOrgs, orgOntOwner);
       }
     };
@@ -644,7 +644,7 @@
 
       var body = {
         uri:        vm.uri,
-        userName:   $rootScope.userLoggedIn().uid
+        userName:   $rootScope.rvm.accountInfo.uid
       };
 
       if (vm.ontDataFormat === 'v2r' || vm.ontDataFormat === 'm2r') {

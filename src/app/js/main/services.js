@@ -383,7 +383,7 @@
       var params = {};
       putJwtIfAvailable(params);
 
-      console.debug("$rootScope.rvm.masterAuth", $rootScope.rvm.masterAuth)
+      console.debug("$rootScope.rvm.accountInfo", $rootScope.rvm.accountInfo);
 
       doHttp("refreshUsers", {
         method: 'GET',
@@ -401,7 +401,7 @@
       var params = {};
       putJwtIfAvailable(params);
 
-      console.debug("$rootScope.rvm.masterAuth", $rootScope.rvm.masterAuth)
+      console.debug("$rootScope.rvm.accountInfo", $rootScope.rvm.accountInfo);
 
       doHttp("refreshOrgs", {
         method: 'GET',
@@ -420,14 +420,14 @@
     }
 
     function addJwtIfAvailable(params) {
-      //console.log("addJwtIfAvailable: masterAuth.authData=", $rootScope.rvm.masterAuth.authData);
-      if ($rootScope.rvm.masterAuth.authData && $rootScope.rvm.masterAuth.authData.token) {
-        params.push("jwt=" + $rootScope.rvm.masterAuth.authData.token);
+      //console.warn("addJwtIfAvailable: accountInfo=", $rootScope.rvm.accountInfo);
+      if ($rootScope.rvm.accountInfo && $rootScope.rvm.accountInfo.token) {
+        params.push("jwt=" + $rootScope.rvm.accountInfo.token);
       }
     }
     function putJwtIfAvailable(params) {
-      if ($rootScope.rvm.masterAuth.authData && $rootScope.rvm.masterAuth.authData.token) {
-        params.jwt = $rootScope.rvm.masterAuth.authData.token;
+      if ($rootScope.rvm.accountInfo && $rootScope.rvm.accountInfo.token) {
+        params.jwt = $rootScope.rvm.accountInfo.token;
       }
     }
 
