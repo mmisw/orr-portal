@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2016-09-04:  3.1.3
+  - update readme and add development.md
   - gulpfile: do not depend on contents of configuration for changes in distributed html files.
     These changes should instead be done at runtime!
 
