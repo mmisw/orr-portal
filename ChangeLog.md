@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2016-09-04:  3.1.3
+  - gulpfile: do not depend on contents of configuration for changes in distributed html files.
+    These changes should instead be done at runtime!
+
 * 2016-09-03:  3.1.3
   - resolve #71 "remove firebase". Lots of clean-up as well.
   - create account: move password fields next to username (so typical browser assistance with remembering

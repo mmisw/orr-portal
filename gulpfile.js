@@ -18,19 +18,6 @@ var plugins     = require('gulp-load-plugins')();
 // TODO use plugins.* for the others above...
 
 
-(function getAppConfig() {
-  var path = require('path');
-  function evalJs(filenames) {
-    filenames.forEach(function(filename) {
-      var file = path.join(__dirname, '/src/app/js', filename);
-      if (fs.existsSync(file)) eval.apply(this, [fs.readFileSync(file).toString()]);
-    });
-  }
-  evalJs(['config.js', 'local.config.js']);
-  console.log("appConfig=", appConfig);
-})();
-
-
 // TODO min'ified version
 
 var ciMode = false;
@@ -145,9 +132,6 @@ gulp.task('app', ['clean'], function(){
     gulp.src(['./src/app/**/*.html'])
       .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))
       .pipe(replace(/@@version/g, version))
-      .pipe(replace(/@@portalMainPage/g, appConfig.portal.mainPage))
-      .pipe(replace(/@@brandingLogo/g, appConfig.branding.logo || 'img/mmi-orr3-logo.png'))
-      .pipe(replace(/@@sparqlEndpoint/g, appConfig.orront.sparqlEndpoint))
       .pipe(replace(/\.\.\/\.\.\/node_modules/g, 'vendor'))
       .pipe(gulp.dest(distDest))
   );

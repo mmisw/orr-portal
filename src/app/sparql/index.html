@@ -23,8 +23,8 @@
   <div class="effect1">
     <div style="padding: 4px">
       <span title="Go to main page">
-        <a href="@@portalMainPage" title="Go to main page">
-          <img src="@@brandingLogo" style="vertical-align: middle"></a>
+        <a id="mainPage" href="" title="Go to main page">
+          <img id="logoImg" src="" style="vertical-align: middle"></a>
       </span>
     </div>
   </div>
@@ -35,7 +35,8 @@
   queries against the repository.
   <span style="color:gray;font-size:small">
     <br>
-    (The SPARQL endpoint itself is located at <span style="font-family: monospace">@@sparqlEndpoint</span>.
+    (The SPARQL endpoint itself is located at
+    <span id="sparql" style="font-family: monospace"></span>.
     User interface below powered by <a target="_blank" href="http://doc.yasgui.org/" style="color:gray">YASGUI</a>.)
   </span>
 </div>
@@ -47,6 +48,10 @@
   YASGUI.YASQE.defaults.sparql.acceptHeaderGraph = "application/rdf+xml";
   YASGUI.defaults.catalogueEndpoints = [];
   YASGUI(document.getElementById("editor"));
+
+  document.getElementById("mainPage").href    = appConfig.portal.mainPage;
+  document.getElementById("logoImg").src      = appConfig.branding.logo;
+  document.getElementById("sparql").innerHTML = appConfig.orront.sparqlEndpoint;
 </script>
 
 </body>
