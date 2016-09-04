@@ -95,7 +95,7 @@
   </pre>
 </div>
 
-<pre ng-bind="'rvm.accountInfo=' + (rvm.accountInfo | json)"></pre>
+<pre ng-if="debug" ng-bind="'rvm.accountInfo=' + (rvm.accountInfo | json)"></pre>
 
 <orrportal-header></orrportal-header>
 
