@@ -24,6 +24,8 @@
     $scope.debug = debug;
     if (debug) console.debug("++UsersController++ $scope=", $scope);
 
+    $rootScope.rvm.curView = 'users';
+
     if ($rootScope.userLoggedInIsAdmin()) {
       getUsers();
     }

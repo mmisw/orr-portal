@@ -25,6 +25,8 @@
   function OrgController($rootScope, $scope, $stateParams, service) {
     if (appUtil.debug) console.log("++OrgController++");
 
+    $rootScope.rvm.curView = 'org';
+
     $scope.editMode = false;
     $scope.orgName = $stateParams.orgName;
     $scope.org = undefined;

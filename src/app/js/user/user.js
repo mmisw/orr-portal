@@ -17,10 +17,12 @@
       controller: UserController
     }
   }
-  UserController.$inject = ['$scope', '$stateParams', 'service'];
+  UserController.$inject = ['$rootScope', '$scope', '$stateParams', 'service'];
 
-  function UserController($scope, $stateParams, service) {
+  function UserController($rootScope, $scope, $stateParams, service) {
     if (appUtil.debug) console.log("++UserController++");
+
+    $rootScope.rvm.curView = 'user';
 
     $scope.userName = $stateParams.userName;
 

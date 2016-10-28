@@ -26,7 +26,7 @@
   function MainController($rootScope, $scope, service) {
     if (appUtil.debug) console.log("++MainController++");
 
-    $rootScope.rvm.curView = '';
+    $rootScope.rvm.curView = 'home';
 
     $scope.$on('evtAuthenticateStateChanged', function() {
       getOntologies($scope, service);

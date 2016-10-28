@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2016-10-28:  3.1.4
+  - resolve #51 "Couldn't get out of term search mode"
+    In general, include "Home" link when not at home.
+
 * 2016-09-04:  3.1.3
   - update readme and add development.md
   - gulpfile: do not depend on contents of configuration for changes in distributed html files.

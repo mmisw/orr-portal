@@ -24,6 +24,8 @@
     $scope.debug = debug;
     if (debug) console.debug("++OrgsController++ $scope=", $scope);
 
+    $rootScope.rvm.curView = 'orgs';
+
     if ($rootScope.userLoggedInIsAdmin()) {
       getOrgs();
     }

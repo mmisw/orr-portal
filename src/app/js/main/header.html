@@ -42,6 +42,10 @@
           </tr>
           <tr>
             <td>
+            <span ng-if="rvm.curView !== 'home'">
+              <a ng-if="rvm.rUri" ng-href="{{cfg.portal.mainPage}}" class="btn btn-sm btn-link">Home</a>
+              <a ng-if="!rvm.rUri" ui-sref="/" class="btn btn-sm btn-link">Home</a>
+            </span>
             <span ng-if="rvm.curView !== 'st'">
               <a ng-href="{{cfg.portal.mainPage}}#/st/" class="btn btn-sm btn-link">Term Search</a>
             </span>

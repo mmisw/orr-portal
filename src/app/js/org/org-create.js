@@ -23,6 +23,8 @@
   function OrgCreateController($rootScope, $scope, $location, $timeout, service) {
     if (appUtil.debug) console.log("++OrgCreateController++");
 
+    $rootScope.rvm.curView = 'neworg';
+
     if (!$rootScope.userLoggedInIsAdmin()) {
       $location.url("/");
     }
