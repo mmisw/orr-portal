@@ -30,7 +30,73 @@
     </div>
 
     <div ng-if="ontDataFormat === 'rj'">
-      <rj-data-viewer uri="uri" rj="ontData" ></rj-data-viewer>
+
+      <div ng-if="vm.externalOntViewers.length">
+        <script type="text/ng-template" id="regularOntViewPopup.html">
+          <div class="left" style="width: 500px"
+               ng-mouseleave="_showPopup=undefined"
+          >
+            Options to display this externally created ontology:
+            <br>
+            <br>
+            - <i>Triple table</i>: A searchable table of the triples in the ontology.
+            <br>
+            <br>
+            External tools (dispatched in an iframe):
+            <span ng-repeat="x in vm.externalOntViewers">
+              <br>
+              - <span ng-bind-html="x.tooltip"></span>
+            </span>
+          </div>
+        </script>
+
+        <label>
+          Display contents using:
+          <label ng-mouseenter="_showPopup=true" ng-mouseleave="_showPopup=undefined">
+            <span
+              uib-popover-template="'regularOntViewPopup.html'"
+              popover-placement="right-top"
+              popover-is-open="_showPopup"
+            >
+              <i class="fa fa-question-circle" aria-hidden="true" style="color: darkgray"></i>
+            </span>
+          </label>
+
+        </label>
+      </div>
+
+      <div ng-show="vm.externalOntViewers.length"
+           class="btn-group" >
+
+        <div class="btn btn-default btn-xs"
+                ng-model="vm.regularOntViewMode"
+                uib-btn-radio="'rj-data-viewer'"
+                ng-bind="'Triple table'"
+           >
+        </div>
+
+          <label ng-repeat="x in vm.externalOntViewers"
+               class="btn btn-default btn-xs"
+               ng-model="vm.regularOntViewMode"
+               uib-btn-radio="'external_' + $index"
+               ng-bind="x.label"
+          >
+          </label>
+
+      </div>
+
+      <div ng-if="vm.regularOntViewMode === 'rj-data-viewer'">
+        <rj-data-viewer uri="uri" rj="ontData" ></rj-data-viewer>
+      </div>
+
+      <div ng-repeat="x in vm.externalOntViewers">
+        <div ng-if="vm.regularOntViewMode === 'external_' + $index">
+          <iframe ng-src="{{x.srcUrl | trustAsResourceUrl}}"
+                  width="100%" height="1200px"
+          ></iframe>
+        </div>
+      </div>
+
     </div>
 
   </div>

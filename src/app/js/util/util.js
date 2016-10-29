@@ -8,6 +8,7 @@
     .factory('focus', focus)
     .directive('focusOn', focusOn)
     .filter('orPropsFilter', orPropsFilter)
+    .filter('trustAsResourceUrl', trustAsResourceUrl)
   ;
 
   UtilCtrl.$inject = ['$scope', '$uibModal'];
@@ -262,6 +263,14 @@
       }
       else return items;
     }
+  }
+
+  // http://stackoverflow.com/a/24163343/830737
+  focus.$inject = ['$sce'];
+  function trustAsResourceUrl($sce) {
+    return function(val) {
+      return $sce.trustAsResourceUrl(val);
+    };
   }
 
 })();

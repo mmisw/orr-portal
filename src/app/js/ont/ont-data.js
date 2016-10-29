@@ -23,10 +23,23 @@
     }
   }
 
-  OntDataController.$inject = ['$scope'];
-  function OntDataController($scope) {
+  OntDataController.$inject = ['$scope', 'cfg'];
+  function OntDataController($scope, cfg) {
     $scope.debug = debug = debug || $scope.debug;
     if (debug) console.log("++OntDataController++ $scope=", $scope);
+
+    $scope.vm = {
+      regularOntViewMode: 'rj-data-viewer',
+      externalOntViewers: _.map(cfg.externalTools && cfg.externalTools.ontViewers, function(x) {
+        return {
+          label: x.name,
+          srcUrl: x.srcUrlTemplate.replace('$uri', $scope.uri),
+          tooltip: '<i>' + x.name+ '</i>: ' + x.title + ' (' +
+             '<a target="_blank" href="' + x.moreInfoUrl+ '"' +
+          '         >more info</a>)'
+        }
+      })
+    };
   }
 
 })();

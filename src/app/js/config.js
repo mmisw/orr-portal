@@ -65,6 +65,21 @@ var appConfig = {
     //contactUs: "http://somewhere/contactus"  // OR  "mailto:addr@example.net"
   },
 
+  externalTools: {
+    // ontViewers: List of external ontology browsers/visualizers.
+    // These will be shown as options to display ontologies not created by the ORR.
+    // They are are dispatched in an iframe.
+    // Use `$uri` to refer to the ontology URI in srcUrlTemplate.
+    ontViewers: [
+      {
+        name: 'WebVOWL',
+        title: 'Web-based Visualization of Ontologies',
+        srcUrlTemplate: 'http://vowl.visualdataweb.org/webvowl/index.html#iri=$uri',
+        moreInfoUrl: 'http://vowl.visualdataweb.org/webvowl.html'
+      }
+    ]
+  },
+
   ontologyStatuses: {
     draft:  'The resource is in preliminary stages of development.',
     unstable: 'The meaning, deployment practices, documentation (or important associated software/services)' +

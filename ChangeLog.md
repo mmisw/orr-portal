@@ -1,6 +1,11 @@
 ## change log ##
 
 * 2016-10-28:  3.1.4
+  - toward #68 "better display of regular ontology"
+    - besides the existing "triple table", new appConfig.externalTools entry with an
+      ontViewers array to specify external tools that will be dispatched via iframe.
+    - Experimenting with WebVOWL and ORRV for this purpose.
+
   - resolve #51 "Couldn't get out of term search mode"
     In general, include "Home" link when not at home.
 
