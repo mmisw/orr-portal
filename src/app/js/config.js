@@ -68,7 +68,7 @@ var appConfig = {
   externalTools: {
     // ontViewers: List of external ontology browsers/visualizers.
     // These will be shown as options to display ontologies not created by the ORR.
-    // They are are dispatched in an iframe.
+    // They are dispatched in an iframe.
     // Use `$uri` to refer to the ontology URI in srcUrlTemplate.
     ontViewers: [
       {

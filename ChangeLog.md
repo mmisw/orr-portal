@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-10-30:  3.1.5
+  - align version with orr-ont
+
 * 2016-10-28:  3.1.4
   - toward #68 "better display of regular ontology"
     - besides the existing "triple table", new appConfig.externalTools entry with an
