@@ -2,6 +2,8 @@
 
 * 2016-10-30:  3.1.5
   - align version with orr-ont
+  - Noted issue with the external WebVOWL service when trying to visualize an ontology at
+    the secure XDOMES ORR instance: https://github.com/VisualDataWeb/WebVOWL/issues/66
 
 * 2016-10-28:  3.1.4
   - toward #68 "better display of regular ontology"
