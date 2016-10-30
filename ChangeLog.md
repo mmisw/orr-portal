@@ -2,6 +2,7 @@
 
 * 2016-10-30:  3.1.5
   - align version with orr-ont
+  - improve placement of various tooltips (metadata and v2r)
   - Noted issue with the external WebVOWL service when trying to visualize an ontology at
     the secure XDOMES ORR instance: https://github.com/VisualDataWeb/WebVOWL/issues/66
 
