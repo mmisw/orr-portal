@@ -266,7 +266,7 @@
   }
 
   // http://stackoverflow.com/a/24163343/830737
-  focus.$inject = ['$sce'];
+  trustAsResourceUrl.$inject = ['$sce'];
   function trustAsResourceUrl($sce) {
     return function(val) {
       return $sce.trustAsResourceUrl(val);
