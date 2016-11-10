@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2016-11-09:  3.1.6
+  - re orr-ont#31 "https == http...", reflect reported ontology URI from response
+
 * 2016-10-30:  3.1.5
   - align version with orr-ont
   - improve placement of various tooltips (metadata and v2r)

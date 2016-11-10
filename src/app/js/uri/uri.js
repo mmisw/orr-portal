@@ -54,6 +54,7 @@
         }
         else if (uriResolution.ontology) {
           vm.ontology = uriResolution.ontology;
+          vm.uri = rvm.rUri = vm.ontology.uri;
         }
         else if (uriResolution.term) {
           if (uriResolution.term.values && uriResolution.term.values.length) {

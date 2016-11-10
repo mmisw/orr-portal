@@ -30,8 +30,6 @@
     ,'orrportal.admin.users'
     ,'orrportal.admin.orgs'
   ])
-    .constant("rUri",     appUtil.requestedUri)
-    .constant("rVersion", appUtil.requestedVersion)
     .constant("cfg", appConfig)
     .run(init)
     .run(xeditable)
@@ -53,9 +51,9 @@
     ;
   }
 
-  init.$inject = ['$rootScope', 'rUri', 'rVersion', 'cfg'];
+  init.$inject = ['$rootScope', 'cfg'];
 
-  function init($rootScope, rUri, rVersion, cfg) {
+  function init($rootScope, cfg) {
     if (appUtil.debug) console.log("++INIT++");
 
     $rootScope.debug = appUtil.debug;
@@ -63,8 +61,8 @@
 
     var rvm = $rootScope.rvm = {
       accountInfo: undefined,
-      rUri:       rUri,
-      rVersion:   rVersion
+      rUri:       appUtil.requestedUri,
+      rVersion:   appUtil.requestedVersion
     };
 
     if (appUtil.debug) {
