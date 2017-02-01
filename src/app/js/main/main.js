@@ -6,9 +6,6 @@
 
   angular.module('orrportal.main', ['orrportal.directives', 'orrportal.filters', 'orrportal.services'])
     .directive('orrMain',  MainDirective)
-
-    // TODO remove after alpha testing
-    .directive('orrTesting', function() { return { restrict: 'E', templateUrl: 'js/main/testing.html' } })
   ;
 
   MainDirective.$inject = [];

@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2017-02-01:  3.1.7
+  - remove the interim "Testing!" badge/popup (orr-testing directive)
+  
 * 2016-11-09:  3.1.6
   - re orr-ont#31 "https == http...", reflect reported ontology URI from response
 
