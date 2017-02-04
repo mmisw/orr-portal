@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2017-02-03:  3.1.8
+  - fix #70 "duplicate ontology URI not checked at creation"
+  
 * 2017-02-01:  3.1.7
   - remove the interim "Testing!" badge/popup (orr-testing directive)
   

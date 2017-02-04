@@ -832,8 +832,8 @@
     }
   }
 
-  OntUriEditorController.$inject = ['$scope', '$uibModalInstance', 'info'];
-  function OntUriEditorController($scope, $uibModalInstance, info) {
+  OntUriEditorController.$inject = ['$scope', '$uibModalInstance', 'info', 'service', 'utl'];
+  function OntUriEditorController($scope, $uibModalInstance, info, service, utl) {
     if (debug) console.debug("++OntUriEditorController++: info=", info);
 
     var vm = $scope.vm = {
@@ -865,7 +865,28 @@
       if (vm.uriType === 'orrBasedUri') {
         vm.uri = vm.base + "/" + vm.owner.id + "/" + vm.shortName;
       }
-      $uibModalInstance.close({uri: vm.uri, owner: vm.owner.id});
+
+      // check that the uri is available:
+      // TODO use more specific endpoint API to do this check
+      service.refreshOntology(vm.uri, null, gotOntology);
+      function gotOntology(error, ontology) {
+        if (error) {
+          if (debug) console.debug("error getting ontology:", error);
+          $uibModalInstance.close({uri: vm.uri, owner: vm.owner.id});
+        }
+        else {
+          if (debug) console.debug("got ontology:", ontology);
+          utl.message({
+            title:   'URI already registered',
+            message: '<div class="center">' +
+            '<div class="uriText1">' +vm.uri+ '</div>' +
+            '<br>' +
+            'This URI is already registered. Please use a different URI.' +
+            '<br>' +
+            '</div>'
+          });
+        }
+      }
     };
 
     $scope.cancelUriEdit = function() {
