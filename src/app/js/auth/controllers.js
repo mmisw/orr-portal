@@ -410,9 +410,8 @@
 
       var url = cfg.orront.rest + "/api/v0/user/" + vm.username;
 
-      var params = [];
-      addJwtIfAvailable($rootScope.rvm, params);
-      if (params.length > 0) { url += "?" + params.join('&'); }
+      var params = {};
+      putJwtIfAvailable($rootScope.rvm, params);
 
       var body = {
         firstName: vm.firstName,
@@ -423,6 +422,7 @@
       $http({
         method:  'PUT',
         url:     url,
+        params:  params,
         data:    body
       })
         .success(function(data, status, headers, config) {
@@ -496,9 +496,8 @@
 
       var url = cfg.orront.rest + "/api/v0/user/" + vm.username;
 
-      var params = [];
-      addJwtIfAvailable($rootScope.rvm, params);
-      if (params.length > 0) { url += "?" + params.join('&'); }
+      var params = {};
+      putJwtIfAvailable($rootScope.rvm, params);
 
       var body = {
         password:  vm.password
@@ -507,6 +506,7 @@
       $http({
         method:  'PUT',
         url:     url,
+        params:  params,
         data:    body
       })
         .success(function(data, status, headers, config) {
@@ -532,9 +532,9 @@
     };
   }
 
-  function addJwtIfAvailable(rvm, params) {
+  function putJwtIfAvailable(rvm, params) {
     if (rvm.accountInfo && rvm.accountInfo.token) {
-      params.push("jwt=" + rvm.accountInfo.token);
+      params.jwt = rvm.accountInfo.token;
     }
   }
 
