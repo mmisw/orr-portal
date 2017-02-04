@@ -67,20 +67,20 @@
       var reqPath = "/api/v0/ont/";
       var url = appConfig.orront.rest + reqPath;
 
-      var params = [];
+      var params = {};
 
       //if ($rootScope.isPrivilegedSession()) {
       //    params.push(appUtil.getHmacParam("GET," + reqPath));
       //}
 
-      addJwtIfAvailable(params);
-
-      if (params.length > 0) {
-        url += "?" + params.join('&');
-      }
+      putJwtIfAvailable(params);
 
       console.log(appUtil.logTs() + ": GET " + url);
-      $http.get(url)
+      $http({
+        method: 'GET',
+        url:    url,
+        params: params
+      })
         .success(function(res, status, headers, config) {
           console.log(appUtil.logTs() + ": gotOntologies: ", res.length);
           setRefreshing(false);
@@ -137,21 +137,24 @@
       var reqPath = "/api/v0/ont";
       var url = appConfig.orront.rest + reqPath;
 
-      var params = ['format=!md', 'ouri=' +uri];
+      var params = {
+        format: '!md',
+        ouri:   uri
+      };
       if (version) {
-        params.push('version=' +version);
+        params.version = version;
       }
 
       //if ($rootScope.isPrivilegedSession()) {
       //    params.push(appUtil.getHmacParam("GET," + reqPath));
       //}
 
-      if (params.length > 0) {
-        url += "?" + params.join('&');
-      }
-
       console.log(appUtil.logTs() + ": GET " + url);
-      $http.get(url)
+      $http({
+        method: 'GET',
+        url: url,
+        params: params
+      })
         .success(function(res, status, headers, config) {
           setRefreshing(false);
           //console.log(appUtil.logTs() + ": refreshOntology !md response: ", _.cloneDeep(res));
@@ -230,17 +233,20 @@
       var reqPath = "/api/v0/ont";
       var url = appConfig.orront.rest + reqPath;
 
-      var params = ['format=' +format, 'ouri=' +uri];
+      var params = {
+        format: format,
+        ouri:   uri
+      };
       if (version) {
-        params.push('version=' +version);
-      }
-
-      if (params.length > 0) {
-        url += "?" + params.join('&');
+        params.version = version;
       }
 
       console.log(appUtil.logTs() + ": GET " + url);
-      $http.get(url)
+      $http({
+        method: 'GET',
+        url:    url,
+        params: params
+      })
         .success(function(res, status, headers, config) {
           setRefreshing(false);
           //console.log(appUtil.logTs() + ": getOntologyFormat " +format+" response: ", _.cloneDeep(res));
@@ -261,20 +267,20 @@
       var reqPath = "/api/v0/org/" + orgName;
       var url = appConfig.orront.rest + reqPath;
 
-      var params = [];
+      var params = {};
 
       //if ($rootScope.isPrivilegedSession()) {
       //    params.push(appUtil.getHmacParam("GET," + reqPath));
       //}
 
-      addJwtIfAvailable(params);
-
-      if (params.length > 0) {
-        url += "?" + params.join('&');
-      }
+      putJwtIfAvailable(params);
 
       console.log(appUtil.logTs() + ": GET " + url);
-      $http.get(url)
+      $http({
+        method: 'GET',
+        url:    url,
+        params: params
+      })
         .success(function(res, status, headers, config) {
           setRefreshing(false);
           console.log(appUtil.logTs() + ": gotOrg: ", res);
@@ -352,20 +358,20 @@
       var reqPath = "/api/v0/user/" + userName;
       var url = appConfig.orront.rest + reqPath;
 
-      var params = [];
+      var params = {};
 
       //if ($rootScope.isPrivilegedSession()) {
       //    params.push(appUtil.getHmacParam("GET," + reqPath));
       //}
 
-      addJwtIfAvailable(params);
-
-      if (params.length > 0) {
-        url += "?" + params.join('&');
-      }
+      putJwtIfAvailable(params);
 
       if (appUtil.debug) console.log(appUtil.logTs() + ": GET " + url);
-      $http.get(url)
+      $http({
+        method: 'GET',
+        url:    url,
+        params: params
+      })
         .success(function(res, status, headers, config) {
           setRefreshing(false);
           if (appUtil.debug) console.log(appUtil.logTs() + ": gotUser: ", res);
@@ -419,12 +425,6 @@
       refreshing = b;
     }
 
-    function addJwtIfAvailable(params) {
-      //console.warn("addJwtIfAvailable: accountInfo=", $rootScope.rvm.accountInfo);
-      if ($rootScope.rvm.accountInfo && $rootScope.rvm.accountInfo.token) {
-        params.push("jwt=" + $rootScope.rvm.accountInfo.token);
-      }
-    }
     function putJwtIfAvailable(params) {
       if ($rootScope.rvm.accountInfo && $rootScope.rvm.accountInfo.token) {
         params.jwt = $rootScope.rvm.accountInfo.token;

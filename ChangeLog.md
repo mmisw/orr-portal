@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2017-02-03:  3.1.9
+  - fix #77 "iceOfLandOrigin ontology: not dispatched as ontology"
+    services.js: use proper mechanism to indicate parameters in http requests
+  
 * 2017-02-03:  3.1.8
   - fix #70 "duplicate ontology URI not checked at creation"
   
