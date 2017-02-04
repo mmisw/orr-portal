@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2017-02-03:  3.1.9
+  - re #76 "iceOfLandOrigin ontology: RDF/XML failing to upload" -
+    make exception visible in UI
   - fix #77 "iceOfLandOrigin ontology: not dispatched as ontology"
     services.js: use proper mechanism to indicate parameters in http requests
   - auth/controllers.js: use proper mechanism to indicate parameters in http requests

@@ -171,8 +171,12 @@
       Upload.upload({
         url: url,
         data: data
-      }).then(gotUploadResponse,
-        function(resp) { console.log('Error:', resp.status);
+      }).then(gotUploadResponse, function(resp) {
+        console.log('Error:', resp.status);
+        utl.error({
+          title: "Status: " + resp.status,
+          error: !resp.data ? "" : ("<pre>" +resp.data+ "</pre>").replace("\n", "<br>")
+        });
       },
         function(evt) { vm.progressPercentage = parseInt(100.0 * evt.loaded / evt.total); }
       );
