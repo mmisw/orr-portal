@@ -1,5 +1,10 @@
 ## change log ##
 
+* 2017-02-08:  3.2.0
+  - for better display of ontology list when single owners have many ontologies with
+    similar version (that is, time of registration), now the mostRecentByOwner is to 
+    true by default. Concrete example: there are 223 SWEET 2.3 ontologies.
+  
 * 2017-02-03:  3.1.9
   - re #76 "iceOfLandOrigin ontology: RDF/XML failing to upload" -
     make exception visible in UI
