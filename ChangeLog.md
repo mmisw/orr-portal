@@ -1,5 +1,7 @@
 ## change log ##
 
+* 2017-02-09:  3.2.0
+  - reverting: mostRecentByOwner back to false by default per JG's suggestion
 * 2017-02-08:  3.2.0
   - for better display of ontology list when single owners have many ontologies with
     similar version (that is, time of registration), now the mostRecentByOwner is to 

@@ -14,7 +14,7 @@
     var ontologies = [];
     var dataHasSubmitter = false;
 
-    var mostRecentByOwner = true;
+    var mostRecentByOwner = false;
 
     // determines the desired display order
     var facetKeys = [
