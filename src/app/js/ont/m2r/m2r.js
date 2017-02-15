@@ -506,13 +506,23 @@
       var predicate = mapGroup.predicate;
       _.each(mapGroup.subjects, function(subjectUri) {
         _.each(mapGroup.objects, function(objectUri) {
-          triples.push({
-            _m2r_index:        triples.length,   // used for removal selection
-            subjectUri:        subjectUri,
-            predicateUri:      predicate,
-            predicateTooltip:  m2rRelations.getRelationTooltip(predicate),
-            objectUri:         objectUri
-          })
+
+          // avoid duplicates
+          var alreadyThere = _.some(triples, {
+            subjectUri:    subjectUri,
+            predicateUri:  predicate,
+            objectUri:     objectUri
+          });
+
+          if (!alreadyThere) {
+            triples.push({
+              _m2r_index:        triples.length,   // used for removal selection
+              subjectUri:        subjectUri,
+              predicateUri:      predicate,
+              predicateTooltip:  m2rRelations.getRelationTooltip(predicate),
+              objectUri:         objectUri
+            })
+          }
         });
       });
     });
