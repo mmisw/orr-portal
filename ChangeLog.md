@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2017-02-14:  3.2.1
+  - fix #57 "m2r: check and avoid triple duplications"
   - fix #75 ""No such ontology" for external case in mapped ontologies"
   
 * 2017-02-09:  3.2.0

@@ -249,44 +249,71 @@
       function doAddMappings() {
         var predicate = rel.prop.uri;
 
-        // update data mappings:
-        $scope.ontData.mappings.push({
-          subjects:   _.map(vm.selectedRowsLeft, "subjectUri"),
-          predicate:  predicate,
-          objects:    _.map(vm.selectedRowsRight, "subjectUri") // yes, subjectUri
-        });
-
-        // and update triples in the grid   (_m2r_index is updated below):
+        // capture actual triples to be added  (_m2r_index is updated below):
         var triples4grid = [];
+        var effectiveSubjects = [];  // to update $scope.ontData.mappings
+        var effectiveObjects = [];
         _.each(vm.selectedRowsLeft, function(left) {
           _.each(vm.selectedRowsRight, function(right) {
-            triples4grid.push({
-              subjectUri:        left.subjectUri,
-              predicateUri:      predicate,
-              predicateTooltip:  m2rRelations.getRelationTooltip(predicate),
-              objectUri:         right.subjectUri
-            })
+
+            var alreadyThere = _.some($scope.gridOptions.data, {
+              subjectUri:    left.subjectUri,
+              predicateUri:  predicate,
+              objectUri:     right.subjectUri
+            });
+
+            if (!alreadyThere) {
+              effectiveSubjects.push(left.subjectUri);
+              effectiveObjects.push(right.subjectUri);
+
+              triples4grid.push({
+                subjectUri:        left.subjectUri,
+                predicateUri:      predicate,
+                predicateTooltip:  m2rRelations.getRelationTooltip(predicate),
+                objectUri:         right.subjectUri
+              })
+            }
           });
         });
-        // insert elements at the beginning
-        updateModelArray($scope, $scope.gridOptions.data, triples4grid, false);
 
-        // reset _m2r_index:
-        _.each($scope.gridOptions.data, function(entity, index) {
-          entity._m2r_index = index;
-        });
+        if (triples4grid.length) {
+          // update data mappings:
+          $scope.ontData.mappings.push({
+            subjects:   effectiveSubjects,
+            predicate:  predicate,
+            objects:    effectiveObjects
+          });
+
+          // insert elements at the beginning
+          updateModelArray($scope, $scope.gridOptions.data, triples4grid, false);
+
+          // reset _m2r_index:
+          _.each($scope.gridOptions.data, function(entity, index) {
+            entity._m2r_index = index;
+          });
+        }
 
         $timeout(function() {
+          var plural = triples4grid.length > 1 ? "s" : "";
+          var msgAdded = triples4grid.length > 0
+            ? (triples4grid.length + " mapping" +plural+ " added.") : "No mappings added.";
+
+          var alreadyThere = numNewMappings - triples4grid.length;
+          plural = alreadyThere > 1 ? "s" : "";
+          var msgAlreadyThere = alreadyThere > 0
+            ? ("<br><br>(" + alreadyThere + " mapping" +plural+ " already in the table.)") : "";
+
           vm.selectedRowsLeft.splice(0);
           vm.selectedRowsRight.splice(0);
           $scope.$broadcast('evtM2rClearRowSelection');
           utl.message({
             title: '',
             size : 'sm',
-            autoClose: 2000,
+            autoClose: alreadyThere > 0 ? 3000 : 1500,
             ok: null,
             message: '<div class="center">' +
-            numNewMappings + ' mapping triple' +(numNewMappings !== 1 ? 's' : '')+ ' added' +
+              msgAdded +
+              msgAlreadyThere +
             '</div>'
           });
         });
