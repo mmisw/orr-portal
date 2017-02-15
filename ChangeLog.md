@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2017-02-14:  3.2.1
+  - fix #75 ""No such ontology" for external case in mapped ontologies"
+  
 * 2017-02-09:  3.2.0
   - reverting: mostRecentByOwner back to false by default per JG's suggestion
 * 2017-02-08:  3.2.0

@@ -532,14 +532,17 @@
     });
   }
 
+  // Used only in view mode.
   function getBasicInfo(moi, service) {
     moi.loading = true;
     service.refreshOntology(moi.uri, null, function (error, ontology) {
       moi.loading = false;
       if (error) {
-        moi.error = error;
+        // ignore the error here:
+        //moi.error = error;
         console.warn("error getting info for mapped ontology " + moi.uri, error);
-        // TODO try external ontology
+        // but, in getOntologySubjects below, we do try as
+        // if the ontology were external.
       }
       else {
         //console.debug("got mapped ontology info", ontology);
@@ -554,13 +557,36 @@
     service.getOntologySubjects(moi.uri, function(error, osr) {
       moi.loading = false;
       if (error) {
-        moi.error = error;
         console.warn("error getting info for mapped ontology "+moi.uri, error);
+
+        // TODO first check that the error is about an unregistered ontology
+        // to then actually try the following (as if external ontology)
+        getExternalOntologySubjects(moi, service);
       }
       else {
         //console.debug("got mapped ontology info", osr);
         moi.name     = osr.name;
         moi.version  = osr.version;
+        moi.subjects = osr.subjects;
+      }
+    });
+  }
+
+  function getExternalOntologySubjects(moi, service) {
+    moi.error = undefined;
+    moi.loading = true;
+    service.getExternalOntologySubjects(moi.uri, function(error, osr) {
+      moi.loading = false;
+      if (error) {
+        console.warn("error getting external ontology info:", error);
+        if (error.detail && error.detail.match(/parseException/gi)) {
+          moi.error =
+            "This URL could not be loaded or parsed by the ORR backend. " +
+            "Please enter a URL that can resolved to an ontology representation.";
+        }
+        else moi.error = error.error || error;
+      }
+      else {
         moi.subjects = osr.subjects;
       }
     });
