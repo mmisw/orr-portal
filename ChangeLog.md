@@ -1,6 +1,10 @@
 ## change log ##
 
 * 2017-02-16:  3.2.1
+  - fix #14 "admin option to repopulate triplestore".
+    There is now a new UI page to get the size and to reload the triple store in the backend.
+    Using "authorization" header to transfer token for this triple store operations.
+    NOTE: use same header mechanism in all other requests.
   - move admin drop-down menu to a directive
   - fix #60 "capture status and visibility when creating new vocab or new mapping"
   

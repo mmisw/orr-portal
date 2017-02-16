@@ -158,6 +158,11 @@
         template: '<admin-orgs></admin-orgs>'
       })
 
+      .state('ts', {
+        url: '/ts',
+        template: '<orr-ts></orr-ts>'
+      })
+
     ;
   }
 

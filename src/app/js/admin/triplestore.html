@@ -1,0 +1,53 @@
+<div>
+
+  <form class="form-horizontal uriBody">
+
+    <h3>Triple store</h3>
+
+    <div class="form-group">
+      <label class="control-label col-xs-1">
+        Size:
+      </label>
+      <div class="col-xs-3" style="display: block;padding: 6px 12px;font-size: 14px;"
+           ng-bind="vm.tsSize"
+      ></div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-1"> </label>
+      <button class="btn btn-default btn-xs"
+              ng-click="getSize()"
+              ng-disabled="vm.working"
+      >Get size
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-1"> </label>
+      <button class="btn btn-default btn-xs"
+              ng-click="reloadTripleStore()"
+              ng-disabled="vm.working"
+      >Reload triple store
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-1"> </label>
+      &nbsp;
+      <div ng-if="vm.working" class="col-xs-4">
+        <i class="fa fa-spinner fa-spin"></i>
+        {{vm.working}}
+      </div>
+      <div ng-if="vm.error" class="col-xs-4">
+        <span ng-bind="vm.error" style="color: darkred"> </span>
+      </div>
+    </div>
+
+    <br>
+    <div style="color: #b7b7b7; font-weight: 100; font-family: 'Inconsolata', monospace">
+      {{vm.tsRoute}}
+    </div>
+
+  </form>
+
+</div>

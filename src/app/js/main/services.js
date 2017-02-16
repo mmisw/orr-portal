@@ -40,6 +40,9 @@
 
       refreshUsers:      refreshUsers,
       refreshOrgs:       refreshOrgs
+
+      ,getTripleStoreSize:  getTripleStoreSize
+      ,reloadTripleStore:   reloadTripleStore
     };
 
     /**
@@ -420,6 +423,47 @@
         });
     }
 
+    function getTripleStoreSize(uri, cb) {
+      var headers = {};
+      putJwtIfAvailableInHeader(headers);
+
+      var config = {
+        method: 'GET',
+        url:    appConfig.orront.rest + "/api/v0/ts",
+        headers: headers
+      };
+      if (uri) {
+        config.params = {uri: uri};
+      }
+
+      doHttp("getTripleStoreSize", config, cb)
+        .success(function (data) {
+          console.log(appUtil.logTs() + ": getTripleStoreSize: data=", data);
+          cb(null, data);
+        })
+    }
+
+    function reloadTripleStore(uri, cb) {
+      var headers = {};
+      putJwtIfAvailableInHeader(headers);
+
+      var config = {
+        method: 'PUT',
+        url:    appConfig.orront.rest + "/api/v0/ts",
+        headers: headers,
+        timeout: 90*1000
+      };
+      if (uri) {
+        config.params = {uri: uri};
+      }
+
+      doHttp("reloadTripleStore", config, cb)
+        .success(function (data) {
+          console.log(appUtil.logTs() + ": reloadTripleStore: data=", data);
+          cb(null, data);
+        })
+    }
+
     function setRefreshing(b) {
       $rootScope.$broadcast('evtRefreshing', b);
       refreshing = b;
@@ -428,6 +472,13 @@
     function putJwtIfAvailable(params) {
       if ($rootScope.rvm.accountInfo && $rootScope.rvm.accountInfo.token) {
         params.jwt = $rootScope.rvm.accountInfo.token;
+      }
+    }
+
+    function putJwtIfAvailableInHeader(headers) {
+      if ($rootScope.rvm.accountInfo && $rootScope.rvm.accountInfo.token) {
+        var jwt = $rootScope.rvm.accountInfo.token;
+        headers['Authorization'] = "Bearer " + jwt;
       }
     }
 

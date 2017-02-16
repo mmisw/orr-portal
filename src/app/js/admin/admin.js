@@ -4,6 +4,7 @@
   angular.module('orrportal.admin', [
     ,'orrportal.admin.users'
     ,'orrportal.admin.orgs'
+    ,'orrportal.admin.triplestore'
 
   ])
     .directive('adminMenu', function() {
