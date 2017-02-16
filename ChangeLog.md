@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2017-02-16:  3.2.1
+  - move admin drop-down menu to a directive
   - fix #60 "capture status and visibility when creating new vocab or new mapping"
   
 * 2017-02-14:  3.2.1

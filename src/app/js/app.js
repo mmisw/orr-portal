@@ -27,8 +27,7 @@
     ,'orrportal.upload'
     ,'orrportal.util'
     ,'orrportal.items-viewer'
-    ,'orrportal.admin.users'
-    ,'orrportal.admin.orgs'
+    ,'orrportal.admin'
   ])
     .constant("cfg", appConfig)
     .run(init)

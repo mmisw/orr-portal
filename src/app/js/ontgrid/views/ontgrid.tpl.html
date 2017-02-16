@@ -61,34 +61,7 @@
                       </td>
 
                       <td ng-if="userLoggedInIsAdmin()">
-                        <span uib-dropdown>
-                          <a href id="admin-dropdown" uib-dropdown-toggle
-                             class="btn btn-info btn-sm"
-                          >
-                            Admin <i class="caret"></i>
-                          </a>
-                          <ul class="dropdown-menu" aria-labelledby="admin-dropdown">
-                            <li>
-                              <a ui-sref="neworg">
-                                <i class="fa fa-group" aria-hidden="true"></i>
-                                New organization
-                              </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                              <a ui-sref="orgs">
-                                <i class="fa fa-table" aria-hidden="true"></i>
-                                Organizations
-                              </a>
-                            </li>
-                            <li>
-                              <a ui-sref="users">
-                                <i class="fa fa-table" aria-hidden="true"></i>
-                                Users
-                              </a>
-                            </li>
-                          </ul>
-                        </span>
+                        <admin-menu></admin-menu>
                       </td>
                     </tr>
                   </table>
