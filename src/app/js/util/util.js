@@ -151,8 +151,8 @@
     };
   }
 
-  miscUtils.$inject = ['$rootScope', '$uibModal'];
-  function miscUtils($rootScope, $uibModal) {
+  miscUtils.$inject = ['$rootScope', '$uibModal', 'cfg'];
+  function miscUtils($rootScope, $uibModal, cfg) {
     return {
       confirm: function (info) {
         $rootScope.$broadcast('evtConfirm', info);
@@ -169,6 +169,37 @@
       error: function (info) {
         $rootScope.$broadcast('evtError', info);
       },
+
+      visibilityOptions: (function() {
+        function tt(key, description) {
+          return '<div class="left">' +
+            '<span class="bold">' +key+ '</span>: ' +
+            description +
+            '</div>'
+        }
+        return [{
+          value:   'owner',
+          tooltip: tt('owner', 'Visible only to the owner (submitting user or members of indicated organization)' +
+            ' or anyone with the URI.')
+        }, {
+          value:   'public',
+          tooltip: tt('public', 'Visible to any visitor or client application.')
+        }];
+      })(),
+
+      statusOptions: (function() {
+        var opts = [];
+        _.each(cfg.ontologyStatuses, function(description, key) {
+          opts.push({
+            value:   key,
+            tooltip: '<div class="left">' +
+            '<span class="bold">' +key+ '</span>: ' +
+            description +
+            '</div>'
+          })
+        });
+        return opts;
+      })(),
 
       openProgressModal: openProgressModal,
 

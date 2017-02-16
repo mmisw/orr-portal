@@ -1,14 +1,15 @@
 <div class="form-group">
   <label class="control-label col-xs-2">
-    Version status:
+    Status:
   </label>
 
   <div class="col-xs-8" style="padding-top: 7px">
     <label ng-repeat="statusOpt in vm.statusOptions">
       <span class="radioOption left {{vm.selectedStatus===statusOpt.value ? 'background-selected' : ''}}"
             uib-popover-html="statusOpt.tooltip"
-            popover-placement="right"
+            popover-placement="bottom-left"
             popover-trigger="mouseenter"
+            popover-append-to-body="true"
       >
         <input type="radio" ng-model="vm.selectedStatus" ng-value="statusOpt.value">
         {{statusOpt.value}}

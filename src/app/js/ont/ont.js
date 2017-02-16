@@ -270,6 +270,8 @@
               if (debug) console.debug('editOntUri dialog accepted: res=', res);
               vm.ontology.uri = vm.uri = res.uri;
               vm.ontology.ownerName = res.owner;
+              vm.visibility = res.visibility;
+              vm.status     = res.status;
               initMetaForBrandNew(res.owner);
               $scope.startEditMode();
             }, function() {
@@ -645,6 +647,8 @@
       var body = {
         uri:        vm.uri,
         userName:   $rootScope.rvm.accountInfo.uid
+        ,visibility: vm.visibility
+        ,status:     vm.status
       };
 
       if (vm.ontDataFormat === 'v2r' || vm.ontDataFormat === 'm2r') {
@@ -843,6 +847,12 @@
       uriType:    'orrBasedUri',
       owner:      undefined,
       shortName:  undefined
+
+      ,visibilityOptions:  utl.visibilityOptions,
+      selectedVisibility: undefined
+
+      ,statusOptions:  utl.statusOptions,
+      selectedStatus: undefined
     };
 
     $scope.$watch("vm.shortName", function(val) {
@@ -872,7 +882,12 @@
       function gotOntology(error, ontology) {
         if (error) {
           if (debug) console.debug("error getting ontology:", error);
-          $uibModalInstance.close({uri: vm.uri, owner: vm.owner.id});
+          $uibModalInstance.close({
+            uri:         vm.uri,
+            owner:       vm.owner.id
+            ,visibility: vm.selectedVisibility
+            ,status:     vm.selectedStatus
+          });
         }
         else {
           if (debug) console.debug("got ontology:", ontology);

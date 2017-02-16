@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2017-02-16:  3.2.1
+  - fix #60 "capture status and visibility when creating new vocab or new mapping"
+  
 * 2017-02-14:  3.2.1
   - fix #57 "m2r: check and avoid triple duplications"
     Also, avoid duplicates when loading mapping triples in m2r interface in case registered
