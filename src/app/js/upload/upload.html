@@ -27,6 +27,7 @@
       <p ng-if="!vm.uploadResponse"
          style="color: gray; margin-bottom: 20px">
         Select the local file you want to upload and click the 'Upload file' button.
+        <br>
         File formats recognized by the ORR include:
         <a target="_blank" href="https://www.w3.org/TR/REC-rdf-syntax/">RDF/XML</a>,
         <a target="_blank" href="https://www.w3.org/TR/rdf-json/">RDF/JSON</a>,
@@ -75,7 +76,7 @@
         <label class="col-xs-2"> </label>
         <button ng-if="vm.uploadResponse"
                 ng-click="uploadAnotherFile()"
-                class="btn btn-primary btn-sm">
+                class="btn btn-default btn-sm">
           Upload another file
         </button>
         <button ng-if="!vm.uploadResponse"
@@ -95,10 +96,11 @@
       <span ng-show="vm.file.result">Upload Successful</span>
       <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
 
+      <br>
 
       <div ng-if="vm.uploadResponse">
 
-        <div class="form-group">
+        <div class="form-group" ng-if="!uriNewVersion">
           <p class="col-xs-12" style="color: gray">
             Please indicate the original ontology URI in this file.
             <span ng-if="vm.possibleOntologyUris">
@@ -108,7 +110,7 @@
           </p>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-if="!uriNewVersion">
           <label class="control-label col-xs-2" for="inputOriginalUri">
             Original ontology URI:
           </label>
@@ -129,20 +131,26 @@
 
           <div class="col-xs-10" ng-if="vm.possibleOntologyUris">
             <div style="color: gray">
-              The following possible URI(s) were detected in the contents of the file:
+              <span ng-if="!uriNewVersion">
+                The
+              </span>
+              <span ng-if="uriNewVersion">
+                For your reference, the
+              </span>
+              following possible URI(s) were detected in the contents of the file:
             </div>
 
             <table class="table table-bordered table-condensed" style="width: initial">
               <thead>
               <tr>
-                <th></th>
+                <th ng-if="!uriNewVersion"></th>
                 <th>URI</th>
                 <th>Explanation</th>
               </tr>
               </thead>
               <tbody>
               <tr ng-repeat="(uri, info) in vm.possibleOntologyUris">
-                <td style="width: 5px">
+                <td style="width: 5px" ng-if="!uriNewVersion">
                   <button class="btn btn-info btn-xs"
                           ng-click="vm.originalUri = uri"
                           uib-tooltip="Select this as the original URI for this ontology"
@@ -170,9 +178,7 @@
           </div>
 
           <div class="col-xs-6" ng-if="!vm.possibleOntologyUris">
-            <label>
-              No URIs were detected in the contents of the file.
-            </label>
+              No URIs were detected in the contents of the uploaded file.
           </div>
 
         </div>

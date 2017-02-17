@@ -1,6 +1,9 @@
 ## change log ##
 
 * 2017-02-16:  3.2.1
+  - fix #22 "upload option for new version".
+    The `#rx` route now accepts the URI of the ontology for the registration of a new version.
+    A link to this route is now dispatched from the dialog.
   - fix #14 "admin option to repopulate triplestore".
     There is now a new UI page to get the size and to reload the triple store in the backend.
     Using "authorization" header to transfer token for this triple store operations.

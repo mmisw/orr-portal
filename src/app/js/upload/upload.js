@@ -55,12 +55,28 @@
     "http://purl.org/dc/elements/1.0/title"
   ];
 
-  UploadController.$inject = ['$rootScope', '$scope', '$timeout', '$location', '$window', 'Upload', 'cfg', 'service', 'utl'];
+  UploadController.$inject = ['$rootScope', '$scope', '$timeout', '$location', '$window', '$stateParams', 'Upload', 'cfg', 'service', 'utl'];
 
-  function UploadController($rootScope, $scope, $timeout, $location, $window, Upload, cfg, service, utl) {
+  function UploadController($rootScope, $scope, $timeout, $location, $window, $stateParams, Upload, cfg, service, utl) {
     if (appUtil.debug) console.log("++UploadController++");
 
-    var userName, vm = {};
+    $scope.uriNewVersion = $stateParams.uriNewVersion;
+    console.debug("uriNewVersion=", $scope.uriNewVersion);
+
+    var userName, vm = $scope.vm = {
+      originalUri: $scope.uriNewVersion,
+      name:     '',
+
+      prefixFullyHosted: appUtil.windowBareHref + '/',
+
+      maxUploadSize: '10MB'  // TODO retrieve this limit from the backend
+
+      ,visibilityOptions:  utl.visibilityOptions,
+      selectedVisibility: undefined
+
+      ,statusOptions:  utl.statusOptions,
+      selectedStatus: undefined
+    };
 
     // TODO use ui-router instead of the following hacky logic
     if (!$rootScope.rvm.accountInfo) {  // wait for a bit
@@ -78,25 +94,13 @@
 
       userName = $rootScope.rvm.accountInfo.uid;
 
-      vm = $scope.vm = {
-        name:     '',
-
-        prefixFullyHosted: appUtil.windowBareHref + '/',
-
-        maxUploadSize: '10MB',  // TODO retrieve this limit from the backend
-
+      $scope.vm = angular.extend(vm, {
         ownerOptions: [{
           id:    '~' + userName,
           name: 'User: ' + userName + ": " + $rootScope.rvm.accountInfo.displayName
         }],
-        selectedOwner: undefined,
-
-        visibilityOptions:  utl.visibilityOptions,
-        selectedVisibility: undefined,
-
-        statusOptions:  utl.statusOptions,
-        selectedStatus: undefined
-      };
+        selectedOwner: undefined
+      });
 
       // add user's organizations:
       service.refreshUser(userName, function(error, user) {
@@ -113,11 +117,13 @@
       });
     }
 
-    $scope.$watch("vm.originalUri", function(val) {  // avoid pipe character
-      if (val) {
-        $scope.vm.originalUri = val.replace(/\|/g, "");
-      }
-    });
+    if (!$scope.uriNewVersion) {
+      $scope.$watch("vm.originalUri", function(val) {  // avoid pipe character
+        if (val) {
+          $scope.vm.originalUri = val.replace(/\|/g, "");
+        }
+      });
+    }
     $scope.$watch("vm.name", function(val) {
       if (val) {
         $scope.vm.name = val.replace(/(<|>)/g, "");
@@ -192,7 +198,8 @@
     }
 
     $scope.uploadAnotherFile = function() {
-      vm.uploadResponse = vm.originalUri = undefined;
+      vm.uploadResponse = undefined;
+      vm.originalUri = $scope.uriNewVersion;
       vm.selectedOwner = vm.newShortName = undefined;
       vm.selectedVisibility = undefined;
       vm.selectedStatus = undefined;

@@ -610,15 +610,8 @@
               $scope.editMode = true;
             }
             else {
-              var uploadLink = appUtil.windowBareHref + "#rx";
-              var e = "Not directly implemented here yet." +
-                "<br><br>" +
-                "Workaround: use the regular " +
-                "<a href='" +uploadLink+ "'>Upload</a> option.";
-              utl.error({
-                title: "Sorry",
-                error: e,
-                size: '' });
+              var href = appUtil.windowBareHref + "#rx/" + vm.uri;
+              $window.open(href, "_self");
             }
           }
         });

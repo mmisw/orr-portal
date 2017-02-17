@@ -112,7 +112,7 @@
       })
 
       .state('rx', {
-        url: '/rx',
+        url: '/rx/{uriNewVersion:.*}',
         templateUrl: 'js/upload/sequence.html',
         controller: 'UploadController'
       })
