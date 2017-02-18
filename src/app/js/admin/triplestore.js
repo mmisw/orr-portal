@@ -59,7 +59,7 @@
 
     $scope.reloadTripleStore = function() {
       vm.working = RELOADING_MSG;
-      vm.error = undefined;
+      vm.reloadResult = vm.error = undefined;
       // uri undefined to trigger reload of whole triple store.
       service.reloadTripleStore(undefined, function(error, result) {
         vm.working = undefined;
@@ -68,8 +68,8 @@
           vm.error = errorMsg(error);
         }
         else {
-          console.debug("updated result:", result);
-          vm.reloadResult = result;
+          if (debug) console.debug("reloadTripleStore result:", result);
+          vm.reloadResult = result.msg || angular.toJson(result);
           $scope.getSize();
         }
       });

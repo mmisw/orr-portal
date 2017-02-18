@@ -38,6 +38,9 @@
         <i class="fa fa-spinner fa-spin"></i>
         {{vm.working}}
       </div>
+      <div ng-if="vm.reloadResult" class="col-xs-4">
+        <span ng-bind="vm.reloadResult" style="color: gray"> </span>
+      </div>
       <div ng-if="vm.error" class="col-xs-4">
         <span ng-bind="vm.error" style="color: darkred"> </span>
       </div>
