@@ -43,6 +43,8 @@
 
       ,getTripleStoreSize:  getTripleStoreSize
       ,reloadTripleStore:   reloadTripleStore
+
+      , uploadRemoteUrl:  uploadRemoteUrl
     };
 
     /**
@@ -464,6 +466,46 @@
         })
     }
 
+    function uploadRemoteUrl(data, cb) {
+      var headers = {};
+      putJwtIfAvailableInHeader(headers);
+
+      var config = {
+        method:  'POST',
+        url:     appConfig.orront.rest + "/api/v0/ont/upload",
+        headers: headers,
+        data:    data
+      };
+
+      console.log(appUtil.logTs() + ": " +"uploadRemoteUrl" + ": " + config.method+ " " + config.url,
+        "params=", config.params,
+        "data=", config.data
+      );
+
+      // note: direct use of $http to handle response in case of error
+      // TODO: general revision of http dispatch
+      $http(config)
+        .success(function (data) {
+          console.log(appUtil.logTs() + ": uploadRemoteUrl: data=", data);
+          cb(null, data);
+        })
+        .error(function(data, status, headers, config) {
+          var reqMsg = config.method + " '" + config.url + "'";
+
+          console.log("error in request " +reqMsg+ ":",
+            "data=", data, "status=", status,
+            "config=", config);
+
+          setRefreshing(false);
+          if (cb) {
+            cb({
+              status: status,
+              data: data
+            })
+          }
+        })
+    }
+
     function setRefreshing(b) {
       $rootScope.$broadcast('evtRefreshing', b);
       refreshing = b;
@@ -497,21 +539,11 @@
       return function(data, status, headers, config) {
         var reqMsg = config.method + " '" + config.url + "'";
 
-        var error = "[" + appUtil.logTs() + "] ";
-
         console.log("error in request " +reqMsg+ ":",
           "data=", data, "status=", status,
           "config=", config);
-        error += "An error occurred with request: " +
-          config.method + " " +config.url+ "<br/>";
-        error += "Response from server:<br/>";
-        error += '<table class="orrportal-error">';
-        error += "<tr><td>data:</td><td>" + JSON.stringify(data)+ "</td></tr>";
-        error += "<tr><td>status:</td><td>" + status+ "</td></tr>";
-        error += "</table>";
 
         setRefreshing(false);
-        $rootScope.$broadcast('evtRefreshCompleteError', error);
         if (cb) {
           // data is null upon net::ERR_CONNECTION_REFUSED
           cb(data ? data : {status: status});

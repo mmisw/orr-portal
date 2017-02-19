@@ -9,6 +9,18 @@
         templateUrl: 'js/upload/upload.html'
       }
     })
+    .directive('orrportalUploadFile', function() {
+      return {
+        restrict:    'E',
+        templateUrl: 'js/upload/upload-file.html'
+      }
+    })
+    .directive('orrportalUploadUrl', function() {
+      return {
+        restrict:    'E',
+        templateUrl: 'js/upload/upload-url.html'
+      }
+    })
     .directive('orrportalUploadUriConfirmed', function() {
       return {
         restrict:    'E',
@@ -61,13 +73,15 @@
     if (appUtil.debug) console.log("++UploadController++");
 
     $scope.uriNewVersion = $stateParams.uriNewVersion;
-    console.debug("uriNewVersion=", $scope.uriNewVersion);
+    if (appUtil.debug) console.debug("UploadController: uriNewVersion=", $scope.uriNewVersion);
 
     var userName, vm = $scope.vm = {
       originalUri: $scope.uriNewVersion,
       name:     '',
 
       prefixFullyHosted: appUtil.windowBareHref + '/',
+
+      fileOrUrl: 'uploadFile',
 
       maxUploadSize: '10MB'  // TODO retrieve this limit from the backend
 
@@ -130,43 +144,108 @@
       }
     });
 
-    $scope.doUpload = function (file) {
+    $scope.$watch("vm.fileOrUrl", function(val) {
+      $scope.reinitVm()
+    });
+
+    $scope.doUpload = function() {
       vm.name = '';
 
-      var url = appConfig.orront.rest + "/api/v0/ont/upload";
       var data = {
-        file:     file,
         format:   '_guess'
       };
 
-      if ($rootScope.rvm.accountInfo && $rootScope.rvm.accountInfo.token) {
-        console.log("INCLUDING jwt token");
-        data.jwt = $rootScope.rvm.accountInfo.token;
+      if (vm.fileOrUrl === 'uploadFile') {
+        data.file = vm.file;
+        if ($rootScope.rvm.accountInfo && $rootScope.rvm.accountInfo.token) {
+          data.jwt = $rootScope.rvm.accountInfo.token;
+        }
+        var url = appConfig.orront.rest + "/api/v0/ont/upload";
+        console.debug("Upload.upload: data=", data);
+        Upload.upload({
+          url: url,
+          data: data
+        }).then(
+          function(resp) {
+            console.debug('Upload.upload:', resp.config.data.file.name, 'uploaded. resp:', resp);
+            gotUploadResponse(resp.config.data.file.name, resp.data)
+          },
+          function (resp) {
+            console.log('Error:', resp);
+            if (resp.status === 406) {
+              utl.error({
+                size: 'sm',
+                title: resp.data.error,
+                error: "The given file does not correspond to a recognized ontology format."
+              });
+            }
+            else {
+              utl.error({
+                title: "Status: " + resp.status,
+                error: !resp.data ? "" : ("<pre>" + resp.data + "</pre>").replace("\n", "<br>")
+              });
+            }
+          },
+          function (evt) {
+            vm.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          }
+        );
       }
+      else {
+        if (!$scope.uriNewVersion) {
+          vm.originalUri = undefined;
+        }
+        vm.uploadResponse = undefined;
+        vm.uploadingRemoteUrl = true;
+        data.remoteUrl = vm.remoteUrl;
+        console.debug("uploadRemoteUrl: data=", data);
+        service.uploadRemoteUrl(data, function(err, resData) {
+          vm.uploadingRemoteUrl = false;
+          if (err) {
+            console.debug("uploadRemoteUrl: err=", err);
+            if (err.status === 406) {
+              utl.error({
+                size: 'sm',
+                title: err.data.error,
+                error: "The given URL does not resolve to a recognized ontology format."
+              });
+            }
+            else if (err.status === 502) {
+              utl.error({
+                title: "Error in remote server",
+                error: "Remote server did not resolve this URL successfully."
+                + "<br><br>"
+                + "Reported HTTP status: " + err.data.status
+                + "<br>"
+                + "<pre>"
+                + err.data.body.replace(/</g, "&lt;")
+                + "</pre>"
+              });
 
-      console.log("upload:", "url=", url, "data=", data);
-
-      Upload.upload({
-        url: url,
-        data: data
-      }).then(gotUploadResponse, function(resp) {
-        console.log('Error:', resp.status);
-        utl.error({
-          title: "Status: " + resp.status,
-          error: !resp.data ? "" : ("<pre>" +resp.data+ "</pre>").replace("\n", "<br>")
+            }
+            else {
+              utl.error({
+                error: err.error ? ("<pre>" + err.error + "</pre>").replace("\n", "<br>") : err
+              });
+            }
+          }
+          else {
+            console.debug("uploadRemoteUrl: resData=", resData);
+            if (!$scope.uriNewVersion) {
+              vm.originalUri = vm.remoteUrl;
+            }
+            gotUploadResponse(undefined, resData)
+          }
         });
-      },
-        function(evt) { vm.progressPercentage = parseInt(100.0 * evt.loaded / evt.total); }
-      );
+      }
     };
 
-    function gotUploadResponse(resp) {
-      console.log('gotUploadResponse:', resp.config.data.file.name, 'uploaded. resp:', resp);
+    function gotUploadResponse(origFilename, data) {
       vm.uploadResponse = {
-        origFilename: resp.config.data.file.name,
-        data:         resp.data
+        origFilename: origFilename,
+        data:         data
       };
-      console.log('possibleOntologyUris=', vm.uploadResponse.data.possibleOntologyUris);
+      if (appUtil.debug) console.debug('possibleOntologyUris=', vm.uploadResponse.data.possibleOntologyUris);
 
       vm.possibleOntologyUris = undefined;
       vm.possibleOntologyNames = undefined;
@@ -197,7 +276,7 @@
       }
     }
 
-    $scope.uploadAnotherFile = function() {
+    $scope.reinitVm = function() {
       vm.uploadResponse = undefined;
       vm.originalUri = $scope.uriNewVersion;
       vm.selectedOwner = vm.newShortName = undefined;

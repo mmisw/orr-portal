@@ -33,6 +33,9 @@
             <div ng-if="vm.possibleOntologyUris[vm.originalUri].metadata">
               <div ng-repeat="(propUri, propValues) in vm.possibleOntologyUris[vm.originalUri].metadata">
                 <label ng-bind="propUri"></label>
+                <span ng-if="propValues.length > 5" style="color: gray">
+                  ({{propValues.length}} values)
+                </span>
                 <ul>
                   <li ng-repeat="propValue in propValues">
                     <span ng-bind="propValue"></span>

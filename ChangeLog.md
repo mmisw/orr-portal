@@ -1,5 +1,15 @@
 ## change log ##
 
+* 2017-02-17:  3.2.2
+  - resolve #79 "Allow to register a remote URL".
+    Upload sequence starts with selection of "local file" or "remote url".
+    Unless there's an argument to the `#rx` route (meaning "original uri" is fixed 
+    to that value), there will be (as in the "local file" case) an "original uri" 
+    field (initialized to the given remote url), where the user can adjust the 
+    associated uri if needed / as appropriate.
+    The found URIs in the remote file (as in the local file case) are also shown 
+    to help with the inspection or selection.
+  
 * 2017-02-16:  3.2.1
   - fix #22 "upload option for new version".
     The `#rx` route now accepts the URI of the ontology for the registration of a new version.
