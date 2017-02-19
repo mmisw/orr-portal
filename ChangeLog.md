@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2017-02-17:  3.2.2
+  - for version tag point to https://mmisw.org/orrdoc/changes/ 
   - resolve #79 "Allow to register a remote URL".
     Upload sequence starts with selection of "local file" or "remote url".
     Unless there's an argument to the `#rx` route (meaning "original uri" is fixed 
