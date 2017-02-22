@@ -601,10 +601,6 @@ div.debug {
   font-size: small;
 }
 
-.yourTesting {
-  font-weight: 300 !important;
-  border-radius: 1em;
-  padding-left: 14px;
-  padding-right: 10px;
-  cursor: pointer;
+.gray {
+  color: gray
 }

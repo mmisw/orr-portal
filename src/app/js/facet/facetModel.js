@@ -16,6 +16,8 @@
 
     var mostRecentByOwner = false;
 
+    var UNDEFINED_FIELD_VALUE = '<i class="gray">-undefined-</i>';
+
     // determines the desired display order
     var facetKeys = [
       "owner",
@@ -125,14 +127,14 @@
     // gets the value of an ontology field for purposes of the faceted search
     function getFieldValue(ont, fieldName) {
       var val = ont[fieldName];
-      return val ? val.toString().toLowerCase() : "<i>undefined</i>";
+      return val ? val.toString().toLowerCase() : UNDEFINED_FIELD_VALUE;
     }
 
     function prepareFacetWithFieldName(facetKey, fieldName) {
       facets[facetKey].list = _.chain(ontologies)
         .map(function(ont) { return getFieldValue(ont, fieldName) })
         .uniq()
-        .sortBy(function(val) { return val })
+        .sortBy(function(val) { return (val === UNDEFINED_FIELD_VALUE ? "z" : " ") + val })
         .value();
       prepareFacetSelectionFromList(facetKey);
     }

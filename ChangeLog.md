@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2017-02-21:  3.2.3
+  - put "-undefined-" value at the end of facet section
   - adjust style of triple store page; increment timeout to 300secs
 
 * 2017-02-17:  3.2.2
