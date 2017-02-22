@@ -24,7 +24,7 @@
       "usr",
       "ontologyStatus",
       "resourceType",
-      //"ontologyType",  // TODO review this
+      "ontologyType",
       "hosting"
     ];
 
@@ -45,7 +45,7 @@
       ontologyType: {
         label: "Ontology type",
         fieldName: "ontologyType",
-        list: ['vocabulary', 'mapping'],
+        list: [],
         selection: []
       },
       ontologyStatus: {
