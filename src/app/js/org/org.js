@@ -37,6 +37,7 @@
     $scope.orgEditInProgress = false;
     $scope.canEditOrg = function() {
       if ($rootScope.userLoggedInIsAdmin()) return true;
+      if (!$rootScope.rvm.accountInfo) return false;
       if (!$rootScope.rvm.accountInfo.organizations) return false;
       var userOrgs = _.map($rootScope.rvm.accountInfo.organizations, "orgName");
       return _.contains(userOrgs, $scope.orgName);

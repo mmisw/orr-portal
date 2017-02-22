@@ -100,8 +100,8 @@
 
       authService.signIn(body.username, body.password, function(error, accountInfo) {
         if (error) {
-          console.error("HERE signIn callback error=", error);
-          $scope.error = error;
+          if (appUtil.debug) console.error("signIn callback error=", error);
+          $scope.error = error.error || error;
           $scope.progress = undefined;
         }
         else {
