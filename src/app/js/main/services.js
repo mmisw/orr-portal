@@ -91,7 +91,6 @@
           setRefreshing(false);
           ontologies = res;
           $rootScope.$broadcast('evtRefreshCompleteOk');
-          _.each(ontologies, adjustOntology);
           gotOntologies(null, ontologies);
         })
         .error(httpErrorHandler(gotOntologies))
@@ -167,7 +166,7 @@
             gotOntology(res);
           }
           else {
-            gotOntology(null, adjustOntology(res));
+            gotOntology(null, res);
           }
         })
         .error(httpErrorHandler(gotOntology))
@@ -201,34 +200,6 @@
           console.log(appUtil.logTs() + ": getExternalOntologySubjects: data=", data);
           cb(null, data);
         })
-    }
-
-    /**
-     * Ad hoc adjustments while backend service provides the appropriate values
-     * for the adjusted fields here.
-     */
-    function adjustOntology(ont) {
-      if (ont.status) {
-        return ont;
-      }
-
-      if (ont.ownerName) {
-        if (ont.ownerName.startsWith("~")) {
-          // TODO for now, let's associate "testing" status to any user-owned ontology
-          ont.status = "testing";
-        }
-        else {
-          var orgName = ont.ownerName;
-          if (orgName === "testing" || orgName === "mmitest" ||
-            orgName === "odm2test" ||
-            orgName.endsWith("_test") || orgName.startsWith("test_")) {
-            ont.status = "testing";
-          }
-        }
-        //else: better leave blank here, as there should be way for users (at submission time)
-        // or the admin (with whatever mechanism) to explicitly indicate "stable", "experimental", etc.
-      }
-      return ont;
     }
 
     function getOntologyFormat(uri, version, format, gotOntology) {

@@ -1,6 +1,7 @@
 ## change log ##
 
-* 2017-02-21:  3.2.3
+* 2017-02-22:  3.2.3
+  - remove adjustOntology (interim ontology status setting)
   - re-enable ontologyType facet
   - put "-undefined-" value at the end of facet section
   - adjust style of triple store page; increment timeout to 300secs
