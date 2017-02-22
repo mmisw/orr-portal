@@ -8,32 +8,50 @@
       <label class="control-label col-xs-1">
         Size:
       </label>
-      <div class="col-xs-3" style="display: block;padding: 6px 12px;font-size: 14px;"
-           ng-bind="vm.tsSize"
-      ></div>
+      <div class="col-xs-2">
+        <span class="form-control" style="width: 9em" ng-bind="vm.tsSize">
+
+        </span>
+        <span style="color: gray; font-weight: 200">
+          Estimated number of statements
+        </span>
+      </div>
     </div>
 
     <div class="form-group">
       <label class="col-xs-1"> </label>
-      <button class="btn btn-default btn-xs"
-              ng-click="getSize()"
-              ng-disabled="vm.working"
-      >Get size
-      </button>
+      <div class="col-xs-2">
+        <button class="btn btn-primary btn-sm"
+                ng-click="getSize()"
+                ng-disabled="vm.working"
+        >Get size
+        </button>
+      </div>
     </div>
+
+    <br>
+    <br>
 
     <div class="form-group">
       <label class="col-xs-1"> </label>
-      <button class="btn btn-default btn-xs"
-              ng-click="reloadTripleStore()"
-              ng-disabled="vm.working"
-      >Reload triple store
-      </button>
+      <div class="col-xs-2">
+        <button class="btn btn-warning btn-sm"
+                ng-click="reloadTripleStore()"
+                ng-disabled="vm.working"
+        >Reload triple store
+        </button>
+        <br>
+        <span style="color: gray; font-weight: 200">
+          Note: Make sure no other admin is running this operation concurrently.
+        </span>
+
+      </div>
     </div>
 
+    <br>
+    <br>
+
     <div class="form-group">
-      <label class="col-xs-1"> </label>
-      &nbsp;
       <div ng-if="vm.working" class="col-xs-4">
         <i class="fa fa-spinner fa-spin"></i>
         {{vm.working}}

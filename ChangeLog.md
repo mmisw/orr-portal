@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2017-02-21:  3.2.3
+  - adjust style of triple store page; increment timeout to 300secs
+
 * 2017-02-17:  3.2.2
   - for version tag point to https://mmisw.org/orrdoc/changes/ 
   - resolve #79 "Allow to register a remote URL".

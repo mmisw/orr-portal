@@ -19,7 +19,7 @@
   }
 
   var GETTING_SIZE_MSG = "Getting size...";
-  var RELOADING_MSG = "Reloading triple store in the backend, please wait...";
+  var RELOADING_MSG = "Reloading triple store in the backend. This may take several minutes, please wait...";
 
   var tsSize = undefined;
 

@@ -453,7 +453,7 @@
         method: 'PUT',
         url:    appConfig.orront.rest + "/api/v0/ts",
         headers: headers,
-        timeout: 90*1000
+        timeout: 5*60*1000
       };
       if (uri) {
         config.params = {uri: uri};
