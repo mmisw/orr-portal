@@ -18,8 +18,8 @@
     }
   }
 
-  UriController.$inject = ['$rootScope', '$scope', 'service'];
-  function UriController($rootScope, $scope, service) {
+  UriController.$inject = ['$rootScope', '$scope', 'service', 'metaUtil'];
+  function UriController($rootScope, $scope, service, metaUtil) {
 
     debug = debug || $scope.debug;
     $scope.debug = debug;
@@ -53,7 +53,7 @@
           console.error("error getting resolving URI:", error);
         }
         else if (uriResolution.ontology) {
-          vm.ontology = uriResolution.ontology;
+          vm.ontology = metaUtil.removeDuplicateMetadataAttributes(uriResolution.ontology);
           vm.uri = rvm.rUri = vm.ontology.uri;
         }
         else if (uriResolution.term) {

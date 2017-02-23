@@ -60,6 +60,18 @@
         contributor: {
           label: "Contributor",
           tooltip: "An entity responsible for making contributions to the resource."
+        },
+        subject: {
+          label: "Subject",
+          tooltip: "The topic of the resource."
+        },
+        date: {
+          label: "Date",
+          tooltip: "A point or period of time associated with an event in the lifecycle of the resource."
+        },
+        source: {
+          label: "Source",
+          tooltip: "A related resource from which the described resource is derived."
         }
       }),
 
@@ -161,6 +173,14 @@
         reference: {
           label: "Reference",
           tooltip: "Bibliographic references describing the ontology and its applications."
+        },
+        hasDomain: {
+          label: "hasDomain",
+          tooltip: "An object property to indicate the subject domain of the ontology."
+        },
+        creationDate: {
+          label: "creationDate",
+          tooltip: "Date when the ontology was initially created."
         }
       }),
 

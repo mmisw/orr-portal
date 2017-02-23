@@ -23,6 +23,8 @@
       sections:             sections,
       handledPredicateUris: handledPredicateUris,
       otherSection:         sectionObj.other
+
+      ,removeDuplicateMetadataAttributes: removeDuplicateMetadataAttributes
     };
 
     function htmlfyTooltip(t) {
@@ -128,6 +130,53 @@
         })
       });
       return uris;
+    }
+
+    /**
+     * The old ORR system added duplicate values according to rather ad hoc, and
+     * never formally discussed or agreed upon, "equivalence" predicates
+     * (see MdHelper class in old mmiorr code.)
+     * This function removes any such duplications from ontology.metadata.
+     */
+    function removeDuplicateMetadataAttributes(ontology) {
+      var duplicatePredicates = getPredicatesForDuplicateValueRemoval();
+      //console.debug("removeDuplicateMetadataAttributes:", duplicatePredicates);
+      var curMetadata = ontology.metadata || {};
+
+      _.each(duplicatePredicates, function(keepUri, removeUri) {
+        var remValues  = curMetadata[removeUri];
+        var keepValues = curMetadata[keepUri];
+        var remaining = _.filter(remValues, function(remValue) {
+          return !_.contains(keepValues, remValue);
+        });
+        if (remaining && remaining.length) {
+          curMetadata[removeUri] = remaining;
+        }
+        else delete curMetadata[removeUri];
+      });
+
+      ontology.metadata = curMetadata;
+      return ontology;
+
+      /*
+       * @returns object d, where d[removeUri] == keepUri means:
+       *          if both predicates have the same value in an ontology's
+       *          metadata, remove the value from removeUri.
+       */
+      function getPredicatesForDuplicateValueRemoval() {
+        var d = {};
+
+        // according to MdHelper in old ORR system
+        d[dc.subject.uri]      = omv.hasDomain.uri;
+        d[dc.creator.uri]      = omv.hasCreator.uri;
+        d[dc.description.uri]  = omv.description.uri;
+        d[dc.date.uri]         = omv.creationDate.uri;
+        d[dc.contributor.uri]  = omv.hasContributor.uri;
+        d[rdfs.label.uri]      = omv.name.uri;
+        d[dc.source.uri]       = omvmmi.origVocUri.uri;
+
+        return d;
+      }
     }
   }
 

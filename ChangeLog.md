@@ -1,6 +1,15 @@
 ## change log ##
 
 * 2017-02-22:  3.2.3
+  - as part of the preparations to migrate the MMI ORR to this new v3:
+    - add metaUtil.removeDuplicateMetadataAttributes: when an ontology URI is resolved
+      (UriController), this helper removes the duplicate values added by the 
+      old ORR system.  Effects:
+      - immediate display effect when just viewing the ontology (no changes at all 
+        in the original registered ontology)
+      - but will have persistent effect if a new version of the ontology is registered 
+        (those duplicates will be removed in the registered version).
+         
   - remove adjustOntology (interim ontology status setting)
   - re-enable ontologyType facet
   - put "-undefined-" value at the end of facet section
