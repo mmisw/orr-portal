@@ -9,7 +9,8 @@
         in the original registered ontology)
       - but will have persistent effect if a new version of the ontology is registered 
         (those duplicates will be removed in the registered version).
-         
+    - for redirection from /orr/ -> /ont/ once v3 is installed, see https://github.com/mmisw/mmiorr/wiki 
+     
   - remove adjustOntology (interim ontology status setting)
   - re-enable ontologyType facet
   - put "-undefined-" value at the end of facet section
