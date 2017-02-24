@@ -1,5 +1,12 @@
 ## change log ##
 
+* 2017-02-24:  3.2.4
+  - resolve #80 "too much unused real estate".
+    use `height: calc(98vh - 110px)` for the ui-grid: 110 is just an estimate of the 
+    height of the header section. This was only done for the main page (class ontListGrid).
+    There are other uses of ui-grid than can be addressed similarly (bot not now).
+    (Also, note that issues with dynamic adjustment of ui-grid's width is still to be addressed.)
+
 * 2017-02-22:  3.2.3
   - as part of the preparations to migrate the MMI ORR to this new v3:
     - add metaUtil.removeDuplicateMetadataAttributes: when an ontology URI is resolved
