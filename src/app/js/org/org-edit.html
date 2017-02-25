@@ -1,13 +1,15 @@
 <form ng-show="org" class="form-horizontal uriBody">
 
-  <div class="form-group" ng-if="org.name">
-    <label for="inputMembers" class="control-label col-xs-2">
+  <div class="form-group">
+    <label for="inputName" class="control-label col-xs-2">
       Name:
     </label>
-    <div class="col-xs-6"
-         ng-bind="org.name"
-         style="display: block;padding: 6px 12px;font-size: 14px;"
-      ></div>
+    <div class="col-xs-6">
+      <input id="inputName"
+             type="text" class="form-control"
+             ng-model="org.name"
+      >
+    </div>
   </div>
 
   <div class="form-group">

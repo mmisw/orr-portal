@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2017-02-24:  3.2.4
+  - organization's name was not editable; fixed.
   - resolve #80 "too much unused real estate".
     use `height: calc(98vh - 110px)` for the ui-grid: 110 is just an estimate of the 
     height of the header section. This was only done for the main page (class ontListGrid).
