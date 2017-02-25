@@ -23,6 +23,7 @@
   OrgController.$inject = ['$rootScope', '$scope', '$stateParams', 'service'];
 
   function OrgController($rootScope, $scope, $stateParams, service) {
+    $scope.debug = debug;
     if (appUtil.debug) console.log("++OrgController++");
 
     $rootScope.rvm.curView = 'org';
@@ -85,7 +86,8 @@
     refreshOrg();
 
     function refreshOrg() {
-      service.refreshOrg($scope.orgName, function(error, org) {
+      var params = {withOnts: 'yes'};
+      service.refreshOrg($scope.orgName, params, function(error, org) {
         if (error) {
           console.log("error getting org:", error);
           $scope.error = error;

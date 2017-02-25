@@ -236,14 +236,14 @@
         .error(httpErrorHandler(gotOntology))
     }
 
-    function refreshOrg(orgName, gotOrg) {
+    function refreshOrg(orgName, params, gotOrg) {
 
       setRefreshing(true);
 
       var reqPath = "/api/v0/org/" + orgName;
       var url = appConfig.orront.rest + reqPath;
 
-      var params = {};
+      params = params || {};
 
       //if ($rootScope.isPrivilegedSession()) {
       //    params.push(appUtil.getHmacParam("GET," + reqPath));

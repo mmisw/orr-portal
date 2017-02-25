@@ -51,3 +51,27 @@
   </div>
 
 </form>
+
+<div ng-if="org.onts" style="margin-bottom: 12px">
+  <h5>Ontologies</h5>
+
+  <table ng-if="org.onts" class="table table-bordered table-hover table-condensed">
+    <thead>
+    <tr class="effect2">
+      <th>URI</th>
+      <th>Name</th>
+      <th>Author</th>
+      <th>Version</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="ont in org.onts">
+      <td ng-bind-html="ont.uri | mklink4uriWithSelfHostPrefix"></td>
+      <td ng-bind-html="ont | mkMarks"></td>
+      <td ng-bind-html="ont.author | mklinksOnlyExternal"></td>
+      <td ng-bind="ont.version" style="color: gray"></td>
+    </tr>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+<pre ng-if="debug">{{org | json}}</pre>
