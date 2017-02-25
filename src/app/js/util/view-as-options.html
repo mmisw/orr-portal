@@ -3,8 +3,17 @@
     View/download as <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
-    <li ng-repeat="vao in vm.options">
-      <a target="_blank" ng-href="{{vao.url}}" ng-bind="vao.label"></a>
+    <li ng-repeat="vao in vm.options" ng-class="{'divider': vao.divider}">
+      <a ng-if="!vao.divider"
+         target="_blank" ng-href="{{vao.url}}"
+         uib-tooltip="{{vao.tooltip}}"
+         tooltip-placement="top"
+      >
+        {{vao.label}}
+        <span ng-if="vao.includeExternalLinkIcon" style="font-size: smaller">
+          <i class="fa fa-external-link"></i>
+        </span>
+      </a>
     </li>
   </ul>
 </div>

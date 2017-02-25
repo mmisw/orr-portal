@@ -321,7 +321,7 @@
           return appConfig.orront.rest + "/api/v0/ont?format=" +format+ "&uri=" + uri;
         }
 
-        return [
+        var list = [
           {
             label: "RDF/XML",
             url: getUrl('rdf')
@@ -348,6 +348,20 @@
             url: getUrl('rj')
           }
         ];
+
+        if(cfg.externalTools && cfg.externalTools.ontViewers) {
+          list.push({ divider: true });
+          _.each(cfg.externalTools.ontViewers, function(x) {
+            list.push({
+              label: x.name,
+              url: x.srcUrlTemplate.replace('$uri', uri),
+              includeExternalLinkIcon: true,
+              tooltip: "External tool"
+            });
+          });
+        }
+
+        return list;
       }
 
       function setVisibilityOptions() {

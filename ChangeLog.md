@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2017-02-25:  3.2.4
+  - include external viewers as additional options in view/download dropdown menu
   - resolve #83 "include LODE in list of external ontology viewers"
   - resolve #82 "include list of ontologies in organization page"
   - organization's name was not editable; fixed.
