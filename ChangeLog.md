@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2017-02-25:  3.2.4
+  - resolve #83 "include LODE in list of external ontology viewers"
   - resolve #82 "include list of ontologies in organization page"
   - organization's name was not editable; fixed.
   - resolve #80 "too much unused real estate".
