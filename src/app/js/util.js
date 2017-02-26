@@ -35,6 +35,7 @@ var appUtil = (function(window) {
     requestedVersion: requestedVersion,
 
     getHref4uriWithSelfHostPrefix: getHref4uriWithSelfHostPrefix,
+    getOntUrlForExternalTool:      getOntUrlForExternalTool,
     mklink4uriWithSelfHostPrefix:  mklink4uriWithSelfHostPrefix,
     mklink4uriAlwaysUriParameter:  mklink4uriAlwaysUriParameter,
 
@@ -71,6 +72,21 @@ var appUtil = (function(window) {
         return windowHref + qa + "uri=" + url4link;
       }
       else return windowHref;  // already there
+    }
+  }
+
+  /**
+   * This one is directly based on appConfig.orront.rest
+   */
+  function getOntUrlForExternalTool(uri) {
+    uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
+    if (bUtil.uriEqualOrHasPrefixWithSlash(uri, appConfig.orront.rest)) {
+      return uri;  // it's self-resolvable:
+    }
+    else {
+      var url4link = uri.replace(/#/g, "%23");
+      // use ".../api/v0/ont?uri=..." with encoded question mark
+      return appConfig.orront.rest + "/api/v0/ont%3F" + "uri=" + url4link;
     }
   }
 

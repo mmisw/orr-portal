@@ -1,6 +1,9 @@
 ## change log ##
 
-* 2017-02-25:  3.2.4
+* 2017-02-26:  3.2.4
+  - introduce appUtil.getOntUrlForExternalTool to get the URL to resolve an ontology
+    for purposes of dispatch of external visualization tool. 
+    This utility is directly based on cfg.orront.rest.
   - include external viewers as additional options in view/download dropdown menu
   - resolve #83 "include LODE in list of external ontology viewers"
   - resolve #82 "include list of ontologies in organization page"

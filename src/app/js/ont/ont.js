@@ -350,11 +350,12 @@
         ];
 
         if(cfg.externalTools && cfg.externalTools.ontViewers) {
+          var ontUrl = appUtil.getOntUrlForExternalTool(uri);
           list.push({ divider: true });
           _.each(cfg.externalTools.ontViewers, function(x) {
             list.push({
               label: x.name,
-              url: x.srcUrlTemplate.replace('$uri', uri),
+              url: x.srcUrlTemplate.replace('$uri', ontUrl),
               includeExternalLinkIcon: true,
               tooltip: "External tool"
             });
