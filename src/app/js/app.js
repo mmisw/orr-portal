@@ -129,12 +129,12 @@
 
       .state('searchTerm', {
         url :'/st/{st:.*}',
-        templateUrl: 'js/st/views/st.tpl.html',
+        templateUrl: 'js/st/st.html',
         controller: 'SearchTermsController'})
 
       .state('searchKw', {
         url: '/kw/{kw:.*}',
-        templateUrl: 'js/kw/views/kw.tpl.html',
+        templateUrl: 'js/kw/kw.html',
         controller: 'KeywordSearchController'
       })
 

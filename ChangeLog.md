@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2017-02-26:  3.2.5
+  - improve search options
+  
 * 2017-02-26:  3.2.4
   - introduce appUtil.getOntUrlForExternalTool to get the URL to resolve an ontology
     for purposes of dispatch of external visualization tool. 
