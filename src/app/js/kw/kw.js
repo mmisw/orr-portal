@@ -2,8 +2,22 @@
   'use strict';
 
   angular.module('orrportal.kw', [])
-    .controller('KeywordSearchController', KeywordSearchController)
+    .directive('keywordSearch',  keywordSearchDirective)
   ;
+
+  keywordSearchDirective.$inject = [];
+  function keywordSearchDirective() {
+    return {
+      restrict: 'E',
+      templateUrl: 'js/kw/kw.html',
+      controller: KeywordSearchController,
+      controllerAs: 'vm',
+      scope: {
+        kw:  '='
+      },
+      bindToController: true
+    }
+  }
 
   KeywordSearchController.$inject = ['$rootScope', '$scope', '$stateParams', '$location', '$http', 'focus'];
 

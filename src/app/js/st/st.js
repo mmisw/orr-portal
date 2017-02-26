@@ -2,13 +2,27 @@
   'use strict';
 
   angular.module('orrportal.st', [])
-    .controller('SearchTermsController', SearchTermsController)
+    .directive('termSearch',  TermSearchDirective)
   ;
 
-  SearchTermsController.$inject = ['$rootScope', '$scope', '$stateParams', '$location', '$http', 'focus'];
+  TermSearchDirective.$inject = [];
+  function TermSearchDirective() {
+    return {
+      restrict: 'E',
+      templateUrl: 'js/st/st.html',
+      controller: TermSearchController,
+      controllerAs: 'vm',
+      scope: {
+        st:  '='
+      },
+      bindToController: true
+    }
+  }
 
-  function SearchTermsController($rootScope, $scope, $stateParams, $location, $http, focus) {
-    if (appUtil.debug) console.log("++SearchTermsController++");
+  TermSearchController.$inject = ['$rootScope', '$scope', '$stateParams', '$location', '$http', 'focus'];
+
+  function TermSearchController($rootScope, $scope, $stateParams, $location, $http, focus) {
+    if (appUtil.debug) console.log("++TermSearchController++");
 
     $rootScope.rvm.curView = 'st';
 

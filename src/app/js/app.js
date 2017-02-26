@@ -18,8 +18,7 @@
     ,'orrportal.ont'
     ,'orrportal.term'
     ,'orrportal.user'
-    ,'orrportal.st'
-    ,'orrportal.kw'
+    ,'orrportal.search'
     ,'orrportal.v2r'
     ,'orrportal.m2r'
     ,'orrportal.auth'
@@ -129,13 +128,14 @@
 
       .state('searchTerm', {
         url :'/st/{st:.*}',
-        templateUrl: 'js/st/st.html',
-        controller: 'SearchTermsController'})
+        templateUrl: 'js/search/search.html',
+        controller: 'SearchController'
+      })
 
       .state('searchKw', {
         url: '/kw/{kw:.*}',
-        templateUrl: 'js/kw/kw.html',
-        controller: 'KeywordSearchController'
+        templateUrl: 'js/search/search.html',
+        controller: 'SearchController'
       })
 
       .state('org', {

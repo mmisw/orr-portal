@@ -1,0 +1,35 @@
+<div style="width: 100%; margin-left: 20px; margin-right: 10px">
+
+  <p style="margin-top: 20px; margin-bottom: 20px">
+    You can also take advantage of the full query capabilities through the
+    <a href="sparql">SPARQL interface</a>.
+  </p>
+
+
+  <uib-tabset active="active">
+
+    <uib-tab index="1"
+             ng-click="tabStClicked()"
+             style="cursor: pointer"
+             heading="Basic search"
+             uib-popover="dsdsdsd"
+             popover-trigger="mouseenter"
+             popover-placement="bottom-left"
+    >
+      <term-search st="vm.st"></term-search>
+    </uib-tab>
+
+    <uib-tab index="2"
+             ng-click="tabKwClicked()"
+             style="cursor: pointer"
+             heading="Keyword search"
+             uib-popover="dsdsdsd"
+             popover-trigger="mouseenter"
+             popover-placement="bottom-left"
+    >
+      <keyword-search kw="vm.kw"></keyword-search>
+    </uib-tab>
+
+  </uib-tabset>
+
+</div>
