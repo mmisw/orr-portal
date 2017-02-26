@@ -67,7 +67,7 @@
       </div>
 
       <div ng-show="vm.externalOntViewers.length"
-           class="btn-group" >
+           class="btn-group" style="margin-bottom: 8px">
 
         <div class="btn btn-default btn-xs"
                 ng-model="vm.regularOntViewMode"
@@ -75,14 +75,20 @@
                 ng-bind="'Triple table'"
            >
         </div>
+        &nbsp;&nbsp;
 
-          <label ng-repeat="x in vm.externalOntViewers"
-               class="btn btn-default btn-xs"
-               ng-model="vm.regularOntViewMode"
-               uib-btn-radio="'external_' + $index"
-               ng-bind="x.label"
-          >
-          </label>
+        <span ng-repeat="x in vm.externalOntViewers"
+              uib-popover-html="x.tooltip2"
+              popover-placement="bottom-left"
+              popover-trigger="mouseenter"
+              append-to-body="true"
+        >
+          <label class="btn btn-default btn-xs"
+                 ng-model="vm.regularOntViewMode"
+                 uib-btn-radio="'external_' + $index"
+                 ng-bind="x.label"
+          ></label>
+        </span>
 
       </div>
 
@@ -92,10 +98,17 @@
 
       <div ng-repeat="x in vm.externalOntViewers">
         <div ng-if="vm.regularOntViewMode === 'external_' + $index">
-          <span class="uriTextSimple" ng-bind="x.srcUrl"></span>
-          <a class="fa fa-external-link" target="_blank"
-             uib-tooltip="open directly in a new browser window"
-             ng-href="{{x.srcUrl}}"></a>
+          <span class="form-control"
+                uib-popover="Contents in the frame below are from the external service"
+                popover-placement="top-left"
+                popover-trigger="mouseenter"
+          >
+            <span class="uriTextSimple" ng-bind="x.srcUrl"></span>
+            <a class="fa fa-external-link" target="_blank"
+               uib-tooltip="open directly in a new browser window"
+               ng-href="{{x.srcUrl}}"></a>
+
+          </span>
           <iframe ng-src="{{x.srcUrl | trustAsResourceUrl}}"
                   width="100%" height="1200px"
           ></iframe>

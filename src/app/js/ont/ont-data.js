@@ -31,12 +31,21 @@
     $scope.vm = {
       regularOntViewMode: 'rj-data-viewer',
       externalOntViewers: _.map(cfg.externalTools && cfg.externalTools.ontViewers, function(x) {
+        var ontUrl = appUtil.getOntUrlForExternalTool($scope.uri);
+        var srcUrl = x.srcUrlTemplate.replace('$uri', ontUrl);
         return {
           label: x.name,
-          srcUrl: x.srcUrlTemplate.replace('$uri', $scope.uri),
+          title: x.title,
+          srcUrl: srcUrl,
           tooltip: '<i>' + x.name+ '</i>: ' + x.title + ' (' +
              '<a target="_blank" href="' + x.moreInfoUrl+ '"' +
           '         >more info</a>)'
+
+          ,tooltip2:
+            '<span class="nowrap">'
+            + '<span>' +x.title+ '</span>'
+            + '<span class="gray"> (external tool)</span>'
+            + '</span>'
         }
       })
     };

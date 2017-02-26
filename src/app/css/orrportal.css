@@ -610,3 +610,7 @@ div.debug {
 .gray {
   color: gray
 }
+
+.nowrap {
+  white-space: nowrap;
+}
