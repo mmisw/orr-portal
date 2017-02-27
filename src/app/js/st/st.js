@@ -26,8 +26,12 @@
 
     $rootScope.rvm.curView = 'st';
 
-    var vm = {st: $stateParams.st};
-    $scope.vm = vm;
+    var vm = $scope.vm = {
+      st: $stateParams.st,
+
+      // TODO actually handle in UI specially in terms of the routes
+      includeSPO:  [true, false, true]
+    };
     $scope.items = [];
 
     $scope.columnDefs = [
@@ -85,6 +89,7 @@
     };
 
     $scope.$watch("vm.st", createQuerySearch);
+    //$scope.$watchCollection("vm.includeSPO", createQuerySearch);  //not yet
 
     function createQuerySearch() {
       vm.querySource = "";
@@ -106,13 +111,28 @@
 
         // TODO some paging mechanism
 
-        vm.querySource = "select distinct ?subject ?predicate ?object\n" +
-          "where {\n" +
-          " ?subject ?predicate ?object.\n" +
-          " filter regex(str(?object), \"" + searchString + "\", \"i\")\n" +
-          "}\n" +
-          "order by ?subject"
-        ;
+        var ors = [];
+
+        if (vm.includeSPO[0]) {
+          var inSimpleName = searchString + '[^/#]*$';
+          ors.push('regex(str(?subject), "' + inSimpleName + '", "i")');
+        }
+        if (vm.includeSPO[1]) {
+          ors.push('regex(str(?predicate), "' + searchString + '", "i")');
+        }
+        if (vm.includeSPO[2]) {
+          ors.push('regex(str(?object), "' + searchString + '", "i")');
+        }
+
+        if (ors.length) {
+          vm.querySource = "select distinct ?subject ?predicate ?object\n" +
+            "where {\n" +
+            " ?subject ?predicate ?object.\n" +
+            " filter (" +ors.join("\n   || ")+ ")\n" +
+            "}\n" +
+            "order by ?subject"
+          ;
+        }
       }
     }
 
@@ -125,11 +145,14 @@
         return;
       }
 
-      vm.searching = true;
-      $scope.items = [];
-
       createQuerySearch();
       var query = vm.querySource;
+      if (!query) {
+        return;
+      }
+
+      vm.searching = true;
+      $scope.items = [];
 
       if (appUtil.debug) console.log("doSearch: query={" +query+ "}");
 

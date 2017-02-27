@@ -3,6 +3,8 @@
 * 2017-02-26:  3.2.5
   - improve search options
     - show SPARQL query for term-search and keyword-search including clipboard-copy
+    - term-search now also applied on the simple name of the subjects
+      (also, preliminaries to allow user indicate where to search: subject, predicate, and or object)
   
 * 2017-02-26:  3.2.4
   - introduce appUtil.getOntUrlForExternalTool to get the URL to resolve an ontology

@@ -5,7 +5,7 @@
 
   <div style="margin-left: 20px">
     <p>
-      Search applied on the attribute values of the semantic entities in the triple store.
+      Search applied on the subjects and object values of the semantic entities in the triple store.
     </p>
 
     <table class="stInputSection" style="width: 100%">
@@ -15,7 +15,7 @@
           <table style="margin: 6px">
             <tbody>
             <tr>
-              <td>
+              <td style="vertical-align: top">
                 <label style="margin-right: 6px">
                   Find terms containing:
                 </label>
@@ -37,9 +37,26 @@
                     <span class="fa fa-times"></span>
                 </span>
                 </div>
+<!-- not yet
+                <div>
+                  <label>In: &nbsp;</label>
+                  <label style="font-weight: 200">
+                    <input type="checkbox" ng-model="vm.includeSPO[0]">
+                    Subject
+                  </label>
+                  <label style="font-weight: 200">
+                    <input type="checkbox" ng-model="vm.includeSPO[1]">
+                    Predicate
+                  </label>
+                  <label style="font-weight: 200">
+                    <input type="checkbox" ng-model="vm.includeSPO[2]">
+                    Object
+                  </label>
+                </div>
+-->
 
               </td>
-              <td>
+              <td style="vertical-align: top">
                 <div class="btn btn-default btn-xs" ng-click="searchButtonClicked()"
                      style="margin-left: 5px"
                      uib-popover="Capture search in URL and perform search"
@@ -49,7 +66,7 @@
                   <span class="fa fa-search"></span>
                 </div>
               </td>
-              <td>
+              <td style="vertical-align: top">
                 <div ng-show="vm.querySource" style="margin-left: 5px">
                   <div style="width: 10em;"
                        ng-mouseenter="vm._showQuerySourcePopup=true" ng-mouseleave="vm._showQuerySourcePopup=undefined"
