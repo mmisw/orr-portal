@@ -41,11 +41,36 @@
               </td>
               <td>
                 <div class="btn btn-default btn-xs" ng-click="searchButtonClicked()"
+                     style="margin-left: 5px"
                      uib-popover="Capture search in URL and perform search"
                      popover-placement="bottom"
                      popover-trigger="mouseenter"
                 >
                   <span class="fa fa-search"></span>
+                </div>
+              </td>
+              <td>
+                <div ng-show="vm.querySource" style="margin-left: 5px">
+                  <div style="width: 10em;"
+                       ng-mouseenter="vm._showQuerySourcePopup=true" ng-mouseleave="vm._showQuerySourcePopup=undefined"
+                  >
+                    <script type="text/ng-template" id="stQuerySourcePopup.html">
+                      <div ng-mouseleave="vm._showQuerySourcePopup=undefined"
+                           class="querySource">
+                        <span style="color: gray">
+                          Corresponding SPARQL query &nbsp;&nbsp;
+                          <clipboard-copy text="vm.querySource"></clipboard-copy>
+                        </span>
+                        <pre ng-bind="vm.querySource"></pre>
+                      </div>
+                    </script>
+                    <label uib-popover-template="'stQuerySourcePopup.html'"
+                           popover-placement="right"
+                           popover-is-open="vm._showQuerySourcePopup"
+                    >
+                      <span style="color: gray; font-variant: small-caps">sparql</span>
+                    </label>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -60,24 +85,8 @@
 
   <br/>
 
-  <div ng-if="vm.querySource">
-    <div style="width: 10em;"
-         ng-mouseenter="vm._showQuerySourcePopup=true" ng-mouseleave="vm._showQuerySourcePopup=undefined"
-    >
-      <script type="text/ng-template" id="stQuerySourcePopup.html">
-        <div ng-mouseleave="vm._showQuerySourcePopup=undefined"
-             class="querySource">
-          Query:
-          <pre ng-bind="vm.querySource"></pre>
-        </div>
-      </script>
-      <label uib-popover-template="'stQuerySourcePopup.html'"
-             popover-placement="right"
-             popover-is-open="vm.querySource && vm._showQuerySourcePopup"
-      >
-        Result:
-      </label>
-    </div>
+  <div ng-if="vm.gotResults">
+    Result:
   </div>
 
   <div ng-if="items && items.length">

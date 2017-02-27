@@ -84,6 +84,38 @@
       }
     };
 
+    $scope.$watch("vm.st", createQuerySearch);
+
+    function createQuerySearch() {
+      vm.querySource = "";
+      if (vm.st) {
+        /*
+         * TODO options for 'literal', 'glob', and 'regex' searches
+         * and do corresponding internal handling as appropriate.
+         * For now escape the given OR operands to avoid any conflicts with
+         * regex expression.
+         */
+        var orOperands = vm.st.split(/\s*\|\s*/);
+        //console.log("doSearch: orOperands={" +orOperands+ "}");
+        var searchString = _.map(orOperands, function (operand) {
+          return bUtil
+            .escapeRegex(operand)
+            .replace(/\\/g, "\\\\") // for SPARQL still need to escape \ --> \\
+            .replace(/"/g, '\\"')
+        }).join('|');
+
+        // TODO some paging mechanism
+
+        vm.querySource = "select distinct ?subject ?predicate ?object\n" +
+          "where {\n" +
+          " ?subject ?predicate ?object.\n" +
+          " filter regex(str(?object), \"" + searchString + "\", \"i\")\n" +
+          "}\n" +
+          "order by ?subject"
+        ;
+      }
+    }
+
     function doSearch() {
       vm.error = "";
       vm.results = "";
@@ -96,30 +128,8 @@
       vm.searching = true;
       $scope.items = [];
 
-      /*
-       * TODO options for 'literal', 'glob', and 'regex' searches
-       * and do corresponding internal handling as appropriate.
-       * For now escape the given OR operands to avoid any conflicts with
-       * regex expression.
-       */
-      var orOperands = vm.st.split(/\s*\|\s*/);
-      //console.log("doSearch: orOperands={" +orOperands+ "}");
-      var searchString = _.map(orOperands, function(operand) {
-        return bUtil
-          .escapeRegex(operand)
-          .replace(/\\/g, "\\\\"); // for SPARQL still need to escape \ --> \\
-      }).join('|');
-
-      // TODO some paging mechanism
-
-      var query = "select distinct ?subject ?predicate ?object\n" +
-        "where {\n" +
-        " ?subject ?predicate ?object.\n" +
-        " filter regex(str(?object), \"" +searchString+ "\", \"i\")\n" +
-        "}\n" +
-        "order by ?subject";
-
-      vm.querySource = query;
+      createQuerySearch();
+      var query = vm.querySource;
 
       if (appUtil.debug) console.log("doSearch: query={" +query+ "}");
 

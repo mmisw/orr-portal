@@ -81,6 +81,33 @@
       }
     };
 
+    $scope.$watch("vm.kw", createQuerySearch);
+
+    function createQuerySearch() {
+      vm.querySource = "";
+      if (vm.kw) {
+        var searchString = vm.kw;
+
+        searchString = bUtil.escapeRegex(searchString)
+          .replace(/\\/g, "\\\\") // for SPARQL still need to escape \ --> \\
+          .replace(/\s*,\s*/, "|")
+          .replace(/"/g, '\\"')
+        ;
+
+        // TODO some paging mechanism
+
+        vm.querySource = "prefix omv: <http://omv.ontoware.org/2005/05/ontology#>\n" +
+          "select distinct ?subject ?name\n" +
+          "where {\n" +
+          " ?subject omv:keywords ?kws.\n" +
+          " filter regex(str(?kws), \"" +searchString+ "\", \"i\").\n" +
+          " ?subject omv:name ?name.\n" +
+          "}\n" +
+          "order by ?subject";
+
+      }
+    }
+
     function doSearch() {
       vm.error = "";
       vm.results = "";
@@ -92,24 +119,8 @@
 
       vm.searching = true;
 
-      var searchString = vm.kw;
-
-      searchString = bUtil.escapeRegex(searchString);
-      searchString = searchString.replace(/\\/g, "\\\\"); // for SPARQL still need to escape \ --> \\
-      searchString = searchString.replace(/\s*,\s*/, "|");
-
-      // TODO some paging mechanism
-
-      var query = "prefix omv: <http://omv.ontoware.org/2005/05/ontology#>\n" +
-        "select distinct ?subject ?name\n" +
-        "where {\n" +
-        " ?subject omv:keywords ?kws.\n" +
-        " filter regex(str(?kws), \"" +searchString+ "\", \"i\").\n" +
-        " ?subject omv:name ?name.\n" +
-        "}\n" +
-        "order by ?subject";
-
-      vm.querySource = query;
+      createQuerySearch();
+      var query = vm.querySource;
 
       if (appUtil.debug) console.log("doSearch: query={" +query+ "}");
 
