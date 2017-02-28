@@ -29,8 +29,11 @@
     if (debug) console.log("++OntDataController++ $scope=", $scope);
 
     $scope.vm = {
-      regularOntViewMode: 'rj-data-viewer',
-      externalOntViewers: _.map(cfg.externalTools && cfg.externalTools.ontViewers, function(x) {
+      regularOntViewMode: 'rj-data-viewer'
+    };
+
+    if($scope.uri) {
+      $scope.vm.externalOntViewers = _.map(cfg.externalTools && cfg.externalTools.ontViewers, function(x) {
         var ontUrl = appUtil.getOntUrlForExternalTool($scope.uri);
         var srcUrl = x.srcUrlTemplate.replace('$uri', ontUrl);
         return {
@@ -48,7 +51,7 @@
             + '</span>'
         }
       })
-    };
+    }
   }
 
 })();
