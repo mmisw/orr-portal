@@ -51,20 +51,28 @@
         if (error) {
           $scope.error = error;
           console.error("error getting resolving URI:", error);
+          return;
         }
-        else if (uriResolution.ontology) {
+
+        if (uriResolution.ontology) {
           vm.ontology = metaUtil.removeDuplicateMetadataAttributes(uriResolution.ontology);
           vm.uri = rvm.rUri = vm.ontology.uri;
+          return;
         }
-        else if (uriResolution.term) {
+
+        if (uriResolution.term) {
           if (uriResolution.term.values && uriResolution.term.values.length) {
             vm.term = uriResolution.term;
             _.each(vm.term.values, function (row) {
               row[0] = row[0].replace(/^<|>$/g, '');
               row[1] = appUtil.cleanTripleObject(row[1])
             });
+            return;
           }
         }
+
+        var selfHosted = bUtil.uriEqualOrHasPrefixWithSlash(vm.uri, appConfig.orront.rest);
+        vm.couldTryExternalResolution = ! selfHosted;
       }
     }
   }

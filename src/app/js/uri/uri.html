@@ -23,15 +23,28 @@
 
   <div ng-if="!vm.ontology && !vm.term" style="margin: 30px">
 
-    <div class="uriText0">{{vm.uri}}</div>
+    <div class="uriNotFound">
+      <div ng-if="vm.couldTryExternalResolution">
+        <a ng-href="{{vm.uri}}" ng-bind="vm.uri">
+        </a>
+      </div>
 
-    <span class="uriNotFound">
-      URI not found
-    </span>
-    <p style="color: darkgray">
-      - No ontology registered with this URI
-      <br>
-      - No subject in the triple store with this URI
-    </p>
+      <div ng-if="!vm.couldTryExternalResolution">
+        {{vm.uri}}
+      </div>
+    </div>
+
+    <div style="margin-top: 10px; margin-left: 20px">
+      <div style="color: darkred; font-size: large">
+        URI not found
+      </div>
+
+      <ul style="color: darkgray; margin: 10px">
+        <li>No ontology registered with this URI</li>
+        <li>No subject in the triple store with this URI</li>
+      </ul>
+    </div>
+
+
   </div>
 </div>

@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2017-02-28:  3.2.5
+  - when no ontology/term found by given URI, make it clickable if it's not a self-hosted one
+  
 * 2017-02-26:  3.2.5
   - improve search options
     - show SPARQL query for term-search and keyword-search including clipboard-copy

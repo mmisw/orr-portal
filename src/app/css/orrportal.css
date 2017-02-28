@@ -584,8 +584,8 @@ div.debug {
 }
 
 .uriNotFound {
-  color: darkred;
-  font-size: large;
+  font-size: x-large;
+  font-family: 'Inconsolata', monospace;
 }
 
 .vocabTermSelection {
