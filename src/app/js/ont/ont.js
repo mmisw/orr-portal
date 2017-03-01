@@ -48,6 +48,7 @@
         templateUrl:  'js/ont/unregister.html'
       }
     })
+    .controller('RegisterOntController', RegisterOntController)
   ;
 
   OntDirective.$inject = [];
@@ -152,12 +153,13 @@
       }
     })();
 
-    $scope.linkForVersion = function(uri, version) {
+    $scope.linkForVersion = function(uri, ontVersion) {
       var params = [];
       // include version parameter only if it's not the latest:
-      var latest = _.sortBy(vm.ontology.versions)[vm.ontology.versions.length -1];
-      if (version !== latest) {
-        params.push('version=' + version);
+      // (note: latest is the first in backend's returned list)
+      var latestOntVersion = vm.ontology.versions[0];
+      if (ontVersion.version !== latestOntVersion.version) {
+        params.push('version=' + ontVersion.version);
       }
 
       // is our windowBareHref already the intended uri?
@@ -349,7 +351,7 @@
           }
         ];
 
-        if(cfg.externalTools && cfg.externalTools.ontViewers) {
+        if(uri && cfg.externalTools && cfg.externalTools.ontViewers) {
           var ontUrl = appUtil.getOntUrlForExternalTool(uri);
           list.push({ divider: true });
           _.each(cfg.externalTools.ontViewers, function(x) {
@@ -650,14 +652,32 @@
       }
     };
 
-    $scope.registerOntology = function() {
+    $scope.registerOntology = function () {
+      if (vm.brandNew) {
+        doRegisterOntology();  // do not capture logMessage in this case
+      }
+      else {
+        var modalInstance = $uibModal.open({
+          templateUrl: 'js/ont/ont-register.html',
+          controller:  'RegisterOntController',
+          backdrop:    'static'
+        });
+        modalInstance.result.then(doRegisterOntology);
+      }
+    };
 
+    function doRegisterOntology(logMessage) {
+      if (debug) console.debug("doRegisterOntology: logMessage=", logMessage);
       var body = {
         uri:        vm.uri,
         userName:   $rootScope.rvm.accountInfo.uid
         ,visibility: vm.visibility
         ,status:     vm.status
       };
+
+      if (logMessage) {
+        body.log = logMessage;
+      }
 
       if (vm.ontDataFormat === 'v2r' || vm.ontDataFormat === 'm2r') {
         // Whole contents submission case.
@@ -748,7 +768,7 @@
           return angular.isArray(omv_name) ? omv_name.join("; ") : omv_name;
         }
       }
-    };
+    }
 
     function getOntologyData() {
       if (vm.ontology.format === 'v2r') {
@@ -1101,6 +1121,24 @@
     return {
       mappedOnts: mappedOnts,
       mappings: mappings
+    };
+  }
+
+  RegisterOntController.$inject = ['$scope', '$uibModalInstance', 'focus'];
+  function RegisterOntController($scope, $uibModalInstance, focus) {
+    if (debug) console.debug("++RegisterOntController++");
+
+    var vm = $scope.vm = {
+      logMessage:   ''
+    };
+    focus("register_form_activation", 700, {select: true});
+
+    $scope.doOntRegistration = function() {
+      $uibModalInstance.close(vm.logMessage);
+    };
+
+    $scope.cancelOntRegistration = function() {
+      $uibModalInstance.dismiss();
     };
   }
 

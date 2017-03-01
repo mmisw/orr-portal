@@ -1,5 +1,10 @@
 ## change log ##
 
+* 2017-02-28:  3.3.0
+  - resolve #84 "capture log message for ontology version registration".
+    Upon clicking "Register" now a dialog appears for user to enter the log message.
+    This is only in the case of a new version. The log message is optional.
+
 * 2017-02-28:  3.2.5
   - when no ontology/term found by given URI, make it clickable if it's not a self-hosted one
   

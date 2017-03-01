@@ -4,8 +4,13 @@
         Versions <span class="caret"></span>
       </button>
       <ul class="dropdown-menu uriVersionSelect" role="menu">
-        <li ng-repeat="version in vm.ontology.versions">
-          <a ng-href="{{linkForVersion(vm.uri, version)}}">{{version}}</a>
+        <li ng-repeat="ontVersion in vm.ontology.versions">
+          <a ng-href="{{linkForVersion(vm.uri, ontVersion)}}"
+             uib-popover="{{ontVersion.log}}"
+             popover-placement="bottom-left"
+             popover-append-to-body="true"
+             popover-trigger="mouseenter"
+          >{{ontVersion.version}}</a>
         </li>
       </ul>
     </div>
