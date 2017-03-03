@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2017-03-02:  3.3.1
+  - fix #85 "user page is wrong"
+  
 * 2017-02-28:  3.3.0
   - resolve #84 "capture log message for ontology version registration".
     Upon clicking "Register" now a dialog appears for user to enter the log message.

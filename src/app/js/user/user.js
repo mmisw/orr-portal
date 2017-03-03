@@ -26,19 +26,25 @@
 
     $scope.userName = $stateParams.userName;
 
-    $scope.$on('evtAuthenticateStateChanged', function(evt, accountInfo) {
-      $scope.user = accountInfo;
+    $scope.$on('evtAuthenticateStateChanged', function() {
+      refreshUser();
     });
 
-    service.refreshUser($scope.userName, function gotUser(error, user) {
-      if (error) {
-        console.error("error getting user:", error);
-        $scope.error = error;
-      }
-      else {
-        $scope.user = user;
-      }
-    });
+    refreshUser();
+    // TODO: avoid multiple requests by actually first getting the actual
+    // state of being logged in or not.
+
+    function refreshUser() {
+      service.refreshUser($scope.userName, function gotUser(error, user) {
+        if (error) {
+          console.error("error getting user:", error);
+          $scope.error = error;
+        }
+        else {
+          $scope.user = user;
+        }
+      });
+    }
   }
 
 })();
