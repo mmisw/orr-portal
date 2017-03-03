@@ -247,7 +247,7 @@
       service.refreshUser(userName, function(error, user) {
         if (error) { console.error("error getting user:", error); }
         else {
-          console.log("refreshUser: got=", user);
+          if (appUtil.debug) console.debug("refreshUser: got=", user);
           _.each(user.organizations, function(o) {
             vm.ownerOptions.push({
               id: o.orgName,
@@ -850,7 +850,7 @@
     }
 
     function editOntUri(info) {
-      console.log("editOntUri': info=", info);
+      if (appUtil.debug) console.debug("editOntUri': info=", info);
       return $uibModal.open({
         templateUrl: 'js/ont/ont-uri-editor.html',
         controller:   OntUriEditorController,

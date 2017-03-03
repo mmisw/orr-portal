@@ -160,7 +160,7 @@
       var headers = {Authorization: undefined};
       var url = appConfig.orront.sparqlEndpoint;
       var params = {query: query};
-      console.log(appUtil.logTs() + ": GET " + url, params);
+      if (appUtil.debug) console.debug(appUtil.logTs() + ": GET " + url, params);
       $http.get(appConfig.orront.sparqlEndpoint, {params: params, headers: headers})
         .success(function(data, status, headers, config) {
           console.log(appUtil.logTs() + ": got response: status=", status, "data=", data);

@@ -80,7 +80,7 @@
 
       putJwtIfAvailable(params);
 
-      console.log(appUtil.logTs() + ": GET " + url);
+      if (appUtil.debug) console.debug(appUtil.logTs() + ": GET " + url);
       $http({
         method: 'GET',
         url:    url,
@@ -153,7 +153,7 @@
       //    params.push(appUtil.getHmacParam("GET," + reqPath));
       //}
 
-      console.log(appUtil.logTs() + ": GET " + url);
+      if (appUtil.debug) console.debug(appUtil.logTs() + ": GET " + url);
       $http({
         method: 'GET',
         url: url,
@@ -217,7 +217,7 @@
         params.version = version;
       }
 
-      console.log(appUtil.logTs() + ": GET " + url);
+      if (appUtil.debug) console.debug(appUtil.logTs() + ": GET " + url);
       $http({
         method: 'GET',
         url:    url,
@@ -251,7 +251,7 @@
 
       putJwtIfAvailable(params);
 
-      console.log(appUtil.logTs() + ": GET " + url);
+      if (appUtil.debug) console.debug(appUtil.logTs() + ": GET " + url);
       $http({
         method: 'GET',
         url:    url,
@@ -259,7 +259,7 @@
       })
         .success(function(res, status, headers, config) {
           setRefreshing(false);
-          console.log(appUtil.logTs() + ": gotOrg: ", res);
+          if (appUtil.debug) console.debug(appUtil.logTs() + ": gotOrg: ", res);
           if (res.error) {
             gotOrg(res);
           }
@@ -365,7 +365,7 @@
       var params = {};
       putJwtIfAvailable(params);
 
-      console.debug("$rootScope.rvm.accountInfo", $rootScope.rvm.accountInfo);
+      if (appUtil.debug) console.debug("$rootScope.rvm.accountInfo", $rootScope.rvm.accountInfo);
 
       doHttp("refreshUsers", {
         method: 'GET',
@@ -383,7 +383,7 @@
       var params = {};
       putJwtIfAvailable(params);
 
-      console.debug("$rootScope.rvm.accountInfo", $rootScope.rvm.accountInfo);
+      if (appUtil.debug) console.debug("$rootScope.rvm.accountInfo", $rootScope.rvm.accountInfo);
 
       doHttp("refreshOrgs", {
         method: 'GET',
@@ -411,7 +411,7 @@
 
       doHttp("getTripleStoreSize", config, cb)
         .success(function (data) {
-          console.log(appUtil.logTs() + ": getTripleStoreSize: data=", data);
+          if (appUtil.debug) console.debug(appUtil.logTs() + ": getTripleStoreSize: data=", data);
           cb(null, data);
         })
     }
@@ -432,7 +432,7 @@
 
       doHttp("reloadTripleStore", config, cb)
         .success(function (data) {
-          console.log(appUtil.logTs() + ": reloadTripleStore: data=", data);
+          if (appUtil.debug) console.debug(appUtil.logTs() + ": reloadTripleStore: data=", data);
           cb(null, data);
         })
     }
@@ -496,7 +496,7 @@
     }
 
     function doHttp(operationName, config, cb) {
-      console.log(appUtil.logTs() + ": " +operationName + ": " + config.method+ " " + config.url,
+      if (appUtil.debug) console.debug(appUtil.logTs() + ": " +operationName + ": " + config.method+ " " + config.url,
         "params=", config.params,
         "data=", config.data
       );

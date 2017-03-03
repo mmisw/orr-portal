@@ -377,7 +377,7 @@
           vm.status = "";
           _.assign(savedUser, user);
           _.assign(vm, user);
-          console.log("gotUser=", user);
+          if (appUtil.debug) console.debug("gotUser=", user);
         }
       }
     }
