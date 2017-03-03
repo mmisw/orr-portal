@@ -869,7 +869,7 @@
     if (debug) console.debug("++OntUriEditorController++: info=", info);
 
     var vm = $scope.vm = {
-      title:      'Ontology owner and URI',
+      title:      'Ontology owner, URI, visibility, and status',
       base:       info.base,
       ownerOptions: info.ownerOptions,
       uriType:    'orrBasedUri',
@@ -892,6 +892,8 @@
 
     $scope.uriEditFormOk = function() {
       if (!vm.owner) return false;
+      if (!vm.selectedVisibility) return false;
+      if (!vm.selectedStatus) return false;
 
       if (vm.uriType === 'orrBasedUri')
         return vm.shortName;

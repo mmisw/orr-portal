@@ -1,5 +1,11 @@
 ## change log ##
 
+* 2017-03-03:  3.3.2
+  - in create vocab/mapping dialog:
+    - visibility/status were not required; fixed
+    - show cfg.branding.title to refer to the particular ORR instance
+    - some style adjustments
+  
 * 2017-03-02:  3.3.1
   - fix #85 "user page is wrong"
   
