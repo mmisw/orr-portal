@@ -1,6 +1,6 @@
 ## change log ##
 
-* 2017-03-03:  3.3.2
+* 2017-03-03:  3.4.0
   - in create vocab/mapping dialog:
     - visibility/status were not required; fixed
     - show cfg.branding.title to refer to the particular ORR instance
