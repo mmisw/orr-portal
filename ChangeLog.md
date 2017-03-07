@@ -1,6 +1,7 @@
 ## change log ##
 
-* 2017-03-06:  3.4.1
+* 2017-03-07:  3.4.1
+  - in create vocab/mapping, use new option in rest call to check for ontology existence
   - include list of ontologies in user page (those owned by ~username -- not as submitter)
 
 * 2017-03-03:  3.4.0

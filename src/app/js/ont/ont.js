@@ -244,7 +244,7 @@
       // add user's organizations:
 
       // TODO clean up!! as the organization might be already known here
-      service.refreshUser(userName, function(error, user) {
+      service.refreshUser(userName, null, function(error, user) {
         if (error) { console.error("error getting user:", error); }
         else {
           if (appUtil.debug) console.debug("refreshUser: got=", user);
@@ -907,11 +907,10 @@
       }
 
       // check that the uri is available:
-      // TODO use more specific endpoint API to do this check
-      service.refreshOntology(vm.uri, null, gotOntology);
-      function gotOntology(error, ontology) {
+      service.existsOntology(vm.uri, gotExistsOntology);
+      function gotExistsOntology(error, response) {
         if (error) {
-          if (debug) console.debug("error getting ontology:", error);
+          if (debug) console.debug("error making existsOntology request:", error);
           $uibModalInstance.close({
             uri:         vm.uri,
             owner:       vm.owner.id
@@ -920,7 +919,7 @@
           });
         }
         else {
-          if (debug) console.debug("got ontology:", ontology);
+          if (debug) console.debug("existsOntology response:", response);
           utl.message({
             title:   'URI already registered',
             message: '<div class="center">' +

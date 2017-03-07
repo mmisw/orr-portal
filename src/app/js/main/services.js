@@ -23,6 +23,7 @@
 
       resolveUri:              resolveUri,
 
+      existsOntology:          existsOntology,
       refreshOntology:         refreshOntology,
       getOntologySubjects:     getOntologySubjects,
       getExternalOntologySubjects: getExternalOntologySubjects,
@@ -130,6 +131,40 @@
             cb(null, data);
           })
       }
+    }
+
+    function existsOntology(uri, gotExistsOntology) {
+      setRefreshing(true);
+
+      var reqPath = "/api/v0/ont";
+      var url = appConfig.orront.rest + reqPath;
+
+      var params = {
+        ouri:           uri,
+        onlyExistence: 'yes'
+      };
+
+      if (appUtil.debug) console.debug(appUtil.logTs() + ": GET " + url);
+      $http({
+        method: 'GET',
+        url: url,
+        params: params
+      })
+        .success(function(res, status, headers, config) {
+          setRefreshing(false);
+          if (appUtil.debug) console.debug("existsOntology response: ", _.cloneDeep(res));
+          if (res.error) {
+            gotExistsOntology(res);
+          }
+          else {
+            gotExistsOntology(null, res);
+          }
+        })
+        .error(function(data, status, headers, config) {
+          setRefreshing(false);
+          if (appUtil.debug) console.debug("existsOntology error: data=", _.cloneDeep(data), "status=", status);
+          gotExistsOntology({data: data, status: status});
+        })
     }
 
     function refreshOntology(uri, version, gotOntology) {
