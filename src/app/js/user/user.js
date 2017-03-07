@@ -35,7 +35,8 @@
     // state of being logged in or not.
 
     function refreshUser() {
-      service.refreshUser($scope.userName, function gotUser(error, user) {
+      var params = {withOnts: 'yes'};
+      service.refreshUser($scope.userName, params, function gotUser(error, user) {
         if (error) {
           console.error("error getting user:", error);
           $scope.error = error;

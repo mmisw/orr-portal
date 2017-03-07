@@ -327,14 +327,14 @@
         })
     }
 
-    function refreshUser(userName, gotUser) {
+    function refreshUser(userName, params, gotUser) {
 
       setRefreshing(true);
 
       var reqPath = "/api/v0/user/" + userName;
       var url = appConfig.orront.rest + reqPath;
 
-      var params = {};
+      params = params || {};
 
       //if ($rootScope.isPrivilegedSession()) {
       //    params.push(appUtil.getHmacParam("GET," + reqPath));
