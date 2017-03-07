@@ -864,8 +864,8 @@
     }
   }
 
-  OntUriEditorController.$inject = ['$scope', '$uibModalInstance', 'info', 'service', 'utl'];
-  function OntUriEditorController($scope, $uibModalInstance, info, service, utl) {
+  OntUriEditorController.$inject = ['$rootScope', '$scope', '$uibModalInstance', 'info', 'service', 'utl'];
+  function OntUriEditorController($rootScope, $scope, $uibModalInstance, info, service, utl) {
     if (debug) console.debug("++OntUriEditorController++: info=", info);
 
     var vm = $scope.vm = {
@@ -882,6 +882,11 @@
       ,statusOptions:  utl.statusOptions,
       selectedStatus: undefined
     };
+
+    $rootScope.$on('$stateChangeStart', function(event) {
+      //console.debug("$stateChangeStart: arguments=", arguments);
+      event.preventDefault();
+    });
 
     $scope.$watch("vm.shortName", function(val) {
       if (val) {

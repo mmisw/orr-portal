@@ -1,6 +1,7 @@
 ## change log ##
 
 * 2017-03-07:  3.4.1
+  - fix #97 "create vocab/mapping dialog stays open when user navigates back in browser"
   - in create vocab/mapping, use new option in rest call to check for ontology existence
   - include list of ontologies in user page (those owned by ~username -- not as submitter)
 
