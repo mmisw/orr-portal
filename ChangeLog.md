@@ -1,7 +1,7 @@
 ## change log ##
 
 * 2017-03-07:  3.4.1
-  - LOD adjustments/fixes:
+  - LOD adjustments/fixes (related: #88, #92):
     - use mklink4uriWithSelfHostPrefix and mkLinks filters in grids for:
        - term page
        - keyword-search, term-search, and generic ontology data viewer (rj-viewer)
