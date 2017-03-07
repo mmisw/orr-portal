@@ -883,10 +883,14 @@
       selectedStatus: undefined
     };
 
-    $rootScope.$on('$stateChangeStart', function(event) {
-      //console.debug("$stateChangeStart: arguments=", arguments);
-      event.preventDefault();
-    });
+    (function stateChangeHandling() {  // #97
+      var remove = $rootScope.$on('$stateChangeStart', function() {
+        $scope.cancelUriEdit();
+      });
+      $scope.$on('$destroy', function() {
+        remove();
+      });
+    })();
 
     $scope.$watch("vm.shortName", function(val) {
       if (val) {
