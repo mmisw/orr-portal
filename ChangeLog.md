@@ -1,6 +1,8 @@
 ## change log ##
 
 * 2017-03-07:  3.4.1
+  - LOD adjustments/fixes:
+    - mkLinks filter: use getHref4uriWithSelfHostPrefix (instead of older mechanism `/#uri/...`)
   - fix #97 "create vocab/mapping dialog stays open when user navigates back in browser".
     Simply cancelUriEdit() upon $stateChangeStart
   - in create vocab/mapping, use new option in rest call to check for ontology existence

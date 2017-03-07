@@ -196,7 +196,6 @@ var appUtil = (function(window) {
       uri  = m[2];
       post = _.escape(m[3]);
     }
-    var url4link = uri.replace(/#/g, "%23");
 
     var icon = '<span class="fa fa-external-link xsmall"></span>';
     var link;
@@ -205,7 +204,8 @@ var appUtil = (function(window) {
       link = '<a class="uriLink" target="_blank" href="' + uri + '">' + uri + '</a>';
     }
     else {
-      link = '<a class="uriLink" href="#/uri/' + url4link + '">' + uri + '</a> '
+      var href = getHref4uriWithSelfHostPrefix(uri);
+      link = '<a class="uriLink" href="' + href + '">' + uri + '</a> '
         + '<a target="_blank" title="open directly in a new browser window" href="'
         + uri + '">' +icon+ '</a>'
       ;
