@@ -31,14 +31,26 @@
     $scope.vm = vm;
     $scope.items = [];
 
+    var mkUriLinkCellTemplate =
+      '<div class="ui-grid-cell-contents">' +
+      '<span ng-bind-html="row.entity[col.field] | mklink4uriWithSelfHostPrefix"></span>'
+      + '</div>';
+
+    var mkLinksCellTemplate =
+      '<div class="ui-grid-cell-contents">' +
+      '<span ng-bind-html="row.entity[col.field] | mklinks"></span>'
+      + '</div>';
+
     $scope.columnDefs = [
       {
         field: 'subjectUri',
-        displayName: 'Ontology'
+        displayName: 'Ontology',
+        cellTemplate: mkUriLinkCellTemplate
       },
       {
         field: 'name',
-        displayName: 'Name'
+        displayName: 'Name',
+        cellTemplate: mkLinksCellTemplate
       }
     ];
 
