@@ -3,7 +3,8 @@
 * 2017-03-07:  3.4.1
   - LOD adjustments/fixes:
     - use mklink4uriWithSelfHostPrefix and mkLinks filters in grids for:
-       keyword-search, term-search, and generic ontology data viewer (rj-viewer)
+       - term page
+       - keyword-search, term-search, and generic ontology data viewer (rj-viewer)
     - use cfg.portal.mainPage instead of windowHref in some filters dealing with creating uri links
     - mkLinks filter: use getHref4uriWithSelfHostPrefix (instead of older mechanism `/#uri/...`)
   - fix #97 "create vocab/mapping dialog stays open when user navigates back in browser".

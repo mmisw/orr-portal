@@ -32,8 +32,11 @@
 
     <tbody>
     <tr ng-repeat="row in vm.term.values">
-      <td ng-repeat="col in row">
-        <span ng-bind-html="col | mklinksOnlyExternal"></span>
+      <td>
+        <span ng-bind-html="row[0] | mklink4uriWithSelfHostPrefix"></span>
+      </td>
+      <td>
+        <span ng-bind-html="row[1] | mklinks"></span>
       </td>
 
     </tr>
