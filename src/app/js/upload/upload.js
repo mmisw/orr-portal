@@ -1,6 +1,8 @@
 (function() {
   'use strict';
 
+  var debug = appUtil.debug;
+
   angular.module('orrportal.upload', ['ngFileUpload'])
     .controller('UploadController', UploadController)
     .directive('orrportalUploadOntology', function() {
@@ -70,10 +72,10 @@
   UploadController.$inject = ['$rootScope', '$scope', '$timeout', '$location', '$window', '$stateParams', 'Upload', 'cfg', 'service', 'utl'];
 
   function UploadController($rootScope, $scope, $timeout, $location, $window, $stateParams, Upload, cfg, service, utl) {
-    if (appUtil.debug) console.log("++UploadController++");
+    if (debug) console.debug("++UploadController++");
 
     $scope.uriNewVersion = $stateParams.uriNewVersion;
-    if (appUtil.debug) console.debug("UploadController: uriNewVersion=", $scope.uriNewVersion);
+    if (debug) console.debug("UploadController: uriNewVersion=", $scope.uriNewVersion);
 
     var userName, vm = $scope.vm = {
       originalUri: $scope.uriNewVersion,
@@ -161,13 +163,13 @@
           data.jwt = $rootScope.rvm.accountInfo.token;
         }
         var url = appConfig.orront.rest + "/api/v0/ont/upload";
-        console.debug("Upload.upload: data=", data);
+        if (debug) console.debug("Upload.upload: data=", data);
         Upload.upload({
           url: url,
           data: data
         }).then(
           function(resp) {
-            console.debug('Upload.upload:', resp.config.data.file.name, 'uploaded. resp:', resp);
+            if (debug) console.debug('Upload.upload:', resp.config.data.file.name, 'uploaded. resp:', resp);
             gotUploadResponse(resp.config.data.file.name, resp.data)
           },
           function (resp) {
@@ -198,11 +200,11 @@
         vm.uploadResponse = undefined;
         vm.uploadingRemoteUrl = true;
         data.remoteUrl = vm.remoteUrl;
-        console.debug("uploadRemoteUrl: data=", data);
+        if (debug) console.debug("uploadRemoteUrl: data=", data);
         service.uploadRemoteUrl(data, function(err, resData) {
           vm.uploadingRemoteUrl = false;
           if (err) {
-            console.debug("uploadRemoteUrl: err=", err);
+            if (debug) console.debug("uploadRemoteUrl: err=", err);
             if (err.status === 406) {
               utl.error({
                 size: 'sm',
@@ -230,7 +232,7 @@
             }
           }
           else {
-            console.debug("uploadRemoteUrl: resData=", resData);
+            if (debug) console.debug("uploadRemoteUrl: resData=", resData);
             if (!$scope.uriNewVersion) {
               vm.originalUri = vm.remoteUrl;
             }
@@ -245,7 +247,7 @@
         origFilename: origFilename,
         data:         data
       };
-      if (appUtil.debug) console.debug('possibleOntologyUris=', vm.uploadResponse.data.possibleOntologyUris);
+      if (debug) console.debug('possibleOntologyUris=', vm.uploadResponse.data.possibleOntologyUris);
 
       vm.possibleOntologyUris = undefined;
       vm.possibleOntologyNames = undefined;
@@ -392,17 +394,17 @@
       vm.knownOwner = undefined;
       vm.userCanRegisterNewVersion = getUserCanRegisterNewVersion();
 
-      // TODO use more specific endpoint API to do this check
+      // if the ontology exists, get some info from it
       service.refreshOntology(vm.newUri, null, gotOntology);
 
       function gotOntology(error, ontology) {
         vm.checkedNewUriIsAvailable = true;
         if (error) {
-          console.log("error getting ontology:", error);
+          if (debug) console.debug("error getting ontology:", error);
           vm.newUriIsAvailable = true;
         }
         else {
-          console.log("got ontology:", ontology);
+          if (debug) console.debug("got ontology:", ontology);
           vm.name = ontology.name;
           vm.newUriIsAvailable = false;
 
@@ -420,12 +422,12 @@
         return true;
       }
       if (vm.knownOwner.startsWith("~")) {
-        console.debug("owned by user:", vm.knownOwner);
+        if (debug) console.debug("owned by user:", vm.knownOwner);
         var userOntOwner = vm.knownOwner.substring(1);
         return $rootScope.rvm.accountInfo.uid === userOntOwner;
       }
       var orgOntOwner = vm.knownOwner;
-      console.debug("owned by org:", orgOntOwner, "accountInfo.organizations=", $rootScope.rvm.accountInfo.organizations);
+      if (debug) console.debug("owned by org:", orgOntOwner, "accountInfo.organizations=", $rootScope.rvm.accountInfo.organizations);
       var organizations = $rootScope.rvm.accountInfo.organizations;
       return organizations && _.contains(_.map(organizations, "orgName"), orgOntOwner);
     }
@@ -468,7 +470,7 @@
           });
         }
         else {
-          console.log("registerOntology: success data=", data);
+          if (debug) console.debug("registerOntology: success data=", data);
           utl.message({
             title:   "Successful registration",
             message: '<div class="center">' +
