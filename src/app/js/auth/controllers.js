@@ -364,7 +364,7 @@
       vm.working = true;
       vm.status = "retrieving";
 
-      service.refreshUser(userName, gotUser);
+      service.refreshUser(userName, null, gotUser);
 
       function gotUser(error, user) {
         if (error) {

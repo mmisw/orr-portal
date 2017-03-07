@@ -117,7 +117,7 @@
       });
 
       // add user's organizations:
-      service.refreshUser(userName, function(error, user) {
+      service.refreshUser(userName, null, function(error, user) {
         if (error) { console.error("error getting user:", error); }
         else {
           //console.log("refreshUser: got=", user);
