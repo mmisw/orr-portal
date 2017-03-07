@@ -58,20 +58,24 @@ var appUtil = (function(window) {
 
   function getHref4uriWithSelfHostPrefix(uri) {
     uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
-    if (bUtil.uriEqualOrHasPrefixWithSlash(uri, windowHref)) {
+
+    var prefix = appConfig.portal.mainPage;
+    // previously, windowHref
+
+    if (bUtil.uriEqualOrHasPrefixWithSlash(uri, prefix)) {
       // it's self-resolvable:
       return uri;
     }
     else {
-      // use "uri" parameter to windowHref:
+      // use "uri" parameter to prefix:
       var url4link = uri.replace(/#/g, "%23");
       var paramAndValue = "uri=" + url4link;
-      if (windowHref.indexOf(paramAndValue) < 0) {
+      if (prefix.indexOf(paramAndValue) < 0) {
         // question mark or ampersand?
-        var qa = windowHref.indexOf('?') >= 0 ? '&' : '?';
-        return windowHref + qa + "uri=" + url4link;
+        var qa = prefix.indexOf('?') >= 0 ? '&' : '?';
+        return prefix + qa + "uri=" + url4link;
       }
-      else return windowHref;  // already there
+      else return prefix;  // already there
     }
   }
 
