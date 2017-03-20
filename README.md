@@ -7,7 +7,7 @@ of its [Semantic Framework](http://marinemetadata.org/semanticframework) vision.
 
 [![](http://marinemetadata.org/files/mmi/semantic_framework.jpg)](http://marinemetadata.org/semanticframework)
 
-Current funding is provided by the U.S. National Science Foundation SF through the 
+Current funding is provided by the U.S. National Science Foundation through the 
 [Cross-Domain Observational Metadata for Environmental Sensing (X-DOMES) project](
 https://www.earthcube.org/group/x-domes).                       
 
