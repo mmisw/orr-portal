@@ -77,13 +77,13 @@ var appConfig = {
         title: 'Live OWL Documentation Environment',
         srcUrlTemplate: 'http://www.essepuntato.it/lode/owlapi/$uri',
         moreInfoUrl: 'http://www.essepuntato.it/lode'
-      },
-      {
-        name: 'WebVOWL',
-        title: 'Web-based Visualization of Ontologies',
-        srcUrlTemplate: 'http://vowl.visualdataweb.org/webvowl/index.html#iri=$uri',
-        moreInfoUrl: 'http://vowl.visualdataweb.org/webvowl.html'
       }
+      // ,{
+      //   name: 'WebVOWL',
+      //   title: 'Web-based Visualization of Ontologies',
+      //   srcUrlTemplate: 'http://vowl.visualdataweb.org/webvowl/index.html#iri=$uri',
+      //   moreInfoUrl: 'http://vowl.visualdataweb.org/webvowl.html'
+      // }
     ]
   },
 

@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2017-03-08:  3.4.2
+  - remove WebVOWL (until we have time to have a loca deployment)
+  
 * 2017-03-07:  3.4.1
   - LOD adjustments/fixes (related: #88, #92):
     - use mklink4uriWithSelfHostPrefix and mkLinks filters in grids for:
