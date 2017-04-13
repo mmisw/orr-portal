@@ -222,14 +222,28 @@
         });
         instance.result.then(updateVocabFromCsv);
 
-        function updateVocabFromCsv(csvParsed) {
+        function updateVocabFromCsv(input) {
+          console.debug("updateVocabFromCsv: input=", input);
+          var csvParsed       = input.csvParsed;
+          var firstColumnIsId = input.firstColumnIsId;
+          var idPrefix        = input.idPrefix || "row_";
+
           var vocab = vm.vocabs[v_index];
           vocab.properties.splice(0);
           vocab.terms.splice(0);
 
           // properties:
           var csvHeader = csvParsed[0];
-          for (var cc = 1; cc < csvHeader.length; cc++) {
+
+          if (firstColumnIsId) {
+            // first cell in header is ignored
+            var initialColumnInHeader = 1;
+          }
+          else {
+            // all header columns are considered
+            initialColumnInHeader = 0;
+          }
+          for (var cc = initialColumnInHeader; cc < csvHeader.length; cc++) {
             vocab.properties.push(createIdModelFromCsvHeaderCell(csvHeader[cc]));
           }
 
@@ -237,10 +251,11 @@
           for (var rr = 1; rr < csvParsed.length; rr++) {
             var csvRow = csvParsed[rr];
             var term = {
-              name:       csvRow[0].trim(),
+              name:       firstColumnIsId ? csvRow[0].trim() : idPrefix + rr,
               attributes: []
             };
-            for (cc = 1; cc < csvHeader.length; cc++) {
+
+            for (cc = initialColumnInHeader; cc < csvHeader.length; cc++) {
               var value = cc < csvRow.length ? csvRow[cc] : null;
               if (value) {
                 value = value.split(VAL_SEPARATOR_REGEX);

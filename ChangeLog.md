@@ -1,5 +1,8 @@
 ## change log ##
 
+* 2017-04-12:  3.4.3
+  - resolve #101: "CSV import: option to indicate that all columns are properties (and values)"
+    
 * 2017-03-08:  3.4.2
   - remove WebVOWL (until we have time to have a loca deployment)
   

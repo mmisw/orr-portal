@@ -22,7 +22,10 @@
         { label: 'Comma', value: ',' },
         { label: 'Tab',   value: '\t' },
         { label: 'Vertical bar |', value: '|' }
-      ]
+      ],
+
+      firstColumnIsId: true,
+      idPrefix:        "row_"
     };
 
     focus("inputCsvString_form_activation", 700);
@@ -33,12 +36,23 @@
     };
 
     $scope.insertCsvExample = function() {
-      var example = [
-        ['       ', 'color   ', 'skos:definition  ', 'http://ex/someprop'],
-        ['info   ', 'blue    ', 'info message     ', 'abc'],
-        ['warn   ', 'yellow  ', 'warning message  ', 'some xy'],
-        ['error  ', 'red     ', 'error message    ', 'value z']
-      ];
+      if (vm.firstColumnIsId) {
+        var example = [
+          ['       ', 'color   ', 'skos:definition  ', 'http://ex/someprop'],
+          ['info   ', 'blue    ', 'info message     ', 'abc'],
+          ['warn   ', 'yellow  ', 'warning message  ', 'some xy'],
+          ['error  ', 'red     ', 'error message    ', 'value z']
+        ];
+      }
+      else {
+        example = [
+          ['co2  ', 'latitude    ', 'longitude    ', 'altitude  ', 'airSpeed'],
+          ['485  ', '44.3799982  ', '-73.2581033  ', '59.28     ', '0.119999997318'],
+          ['485  ', '44.3799978  ', '-73.2581035  ', '59.28     ', '0.0399999991059'],
+          ['486  ', '44.3799953  ', '-73.2581065  ', '59.25     ', '0.0399999991059'],
+          ['500  ', '44.3805034  ', '-73.258855   ', '48.65     ', '0.0799999982119'],
+        ];
+      }
       vm.csvString = _.map(example, function(row) {
         return row.join(vm.separator);
       }).join('\n');
@@ -58,7 +72,11 @@
         'This action will replace the whole contents of this term set table.' +
         '</div>',
         ok: function() {
-          $uibModalInstance.close(csvParsed);
+          $uibModalInstance.close({
+            csvParsed:       csvParsed,
+            firstColumnIsId: vm.firstColumnIsId,
+            idPrefix:        vm.idPrefix
+          });
         },
         cancelLabel: 'Continue editing CSV contents'
       });

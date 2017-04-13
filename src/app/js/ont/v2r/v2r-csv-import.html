@@ -10,19 +10,49 @@
         <div class="form-group">
           <div class="col-xs-12">
             <p style="color: gray; font-size: small">
-              Select the separator character, enter or paste the new contents in the text area,
-              and click the Import button to update the table.
-              Except for the first cell (which will be ignored) in the first row, the cells in the first row
-              determine the properties for the term set.
-              The other rows define the terms themselves and their associated property values.
+              Select the separator character, indicate whether or not the first column will determine the unique
+              identifier for the terms, and enter or paste the new contents in the text area.
+              Click the Example button to see an example (or update the displayed example) depending on
+              the selected separator and flag related with the unique identifiers for the terms.
+              Click the Import button to update the table.
             </p>
 
-            <div class="center">
-              Field separator:
+            <div>
+              <label>Field separator:</label>
               <span ng-repeat="sep in vm.separators">
                 <div class="btn btn-default btn-xs" ng-model="vm.separator" uib-btn-radio="sep.value">{{sep.label}}</div>
-                &nbsp;
               </span>
+            </div>
+
+            <div>
+              <label>
+                Use first column for the unique identifiers?
+                <input type="checkbox" ng-model="vm.firstColumnIsId">
+              </label>
+            </div>
+
+            <div style="margin-left: 20px">
+              <p ng-if="vm.firstColumnIsId" style="color: gray; font-size: small">
+                <span style="font-weight: bold">Yes</span>:
+                Except for the first cell (which will be ignored) in the first row, the cells in the first row
+                will determine the properties for the term set.
+                The unique identifers for the terms is determined by the values in the first column in the other rows,
+                while the other columns define the associated property values.
+              </p>
+              <p ng-if="!vm.firstColumnIsId" style="color: gray; font-size: small">
+                <span style="font-weight: bold">No</span>:
+                In this case, all cells in the first row will determine the properties for the term set.
+                The unique identifers for the terms will be determined by a given prefix (by default, "row_")
+                and the row position.
+                All columns in the rows after the header define the associated property values.
+              </p>
+
+              <div ng-if="!vm.firstColumnIsId">
+                <label for="idPrefix">
+                  Identifier prefix:
+                </label>
+                <input id="idPrefix" type="text" ng-model="vm.idPrefix" placeholder="ID prefix">
+              </div>
             </div>
 
             <textarea id="inputCsvString"
