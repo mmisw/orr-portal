@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      angular.module('simpleOrrClient', [])
+        .controller('SimpleController',  SimpleController)
+      ;
+
+      SimpleController.$inject = ['$scope', '$http'];
+
+      function SimpleController($scope, $http) {
+        var vm = this;
+
+        vm.ontApiEndpoint    = 'https://xdomes.org/ont/api/v0';
+        //vm.ontSparqlEndpoint = 'https://xdomes.org/sparql';
+        vm.ontSparqlEndpoint = 'http://mmisw.org/sparql';
+
+        vm.term = 'pressure';
+        vm.limit = '5';
+        vm.query = getQuery();
+        $scope.$watch("vm.term", function() { vm.query = getQuery(); });
+        $scope.$watch("vm.limit", function() { vm.query = getQuery(); });
+
+        function getQuery() {
+          return 'select distinct ?subject ?predicate ?object\n' +
+            'where {\n' +
+            ' ?subject ?predicate ?object.\n' +
+            ' filter (regex(str(?subject), "pressure[^/#]*$", "i")\n' +
+            ' || regex(str(?object), "' +vm.term+ '", "i"))\n' +
+            '}\n' +
+            'order by ?subject\n' +
+            'limit ' +vm.limit;
+        }
+
+        $scope.getOntologies = function() {
+          vm.status = 'getting ontologies...';
+          vm.response = vm.error = vm.ontologyList = undefined;
+          $http({
+            method: 'GET',
+            url: vm.ontApiEndpoint + '/ont'
+          }).then(function successCallback(response) {
+            console.debug(" GET /ont response=", response);
+            vm.status = '';
+            vm.response = response;
+            vm.ontologyList = response.data || [];
+          }, function errorCallback(response) {
+            //console.error(" GET /ont error: ", response);
+            vm.status = '';
+            vm.error = response;
+          });
+        };
+
+        $scope.searchTerm = function() {
+          vm.status = 'performing query...';
+          vm.response = vm.error = vm.ontologyList = undefined;
+          $http({
+            method: 'POST',
+            url: vm.ontSparqlEndpoint,
+            params: {
+                query: vm.query
+            }
+          }).then(function successCallback(response) {
+            //console.debug(" GET /ont response=", response);
+            vm.status = '';
+            vm.response = response;
+          }, function errorCallback(response) {
+            console.error(" GET /ont error: ", response);
+            vm.status = '';
+            vm.error = response;
+          });
+        };
+      }
+
+    })();
+
+  </script>
+  <style>
+    body { margin: 20px; }
+  </style>
+</head>
+
+<body ng-app="simpleOrrClient" ng-controller="SimpleController as vm">
+
+<h3>Simple ORR client demo</h3>
+
+<table>
+  <tbody>
+  <tr>
+    <th>ORR API endpoint</th>
+    <td>
+      <input ng-model="vm.ontApiEndpoint" style="width: 20em">
+    </td>
+  </tr>
+  <tr>
+    <th>ORR SPARQL endpoint</th>
+    <td>
+      <input ng-model="vm.ontSparqlEndpoint" style="width: 20em">
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<table style="margin-top: 10px; margin-bottom: 10px"
+       class="table table-border">
+  <tbody>
+  <tr>
+    <td>
+      <button ng-click="searchTerm()"
+              class="btn btn-primary"
+      >Search term:</button>
+      <input ng-model="vm.term" style="width: 20em">
+      Limit= <input ng-model="vm.limit" style="width: 2em">
+      <pre ng-bind="vm.query" style="margin-left: 20px"></pre>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <button ng-click="getOntologies()"
+              class="btn btn-primary"
+      >Get ontologies</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<div ng-if="vm.status" style="color:green" ng-bind="vm.status">
+</div>
+
+<hr>
+
+<div ng-if="vm.ontologyList">
+  <h4>Ontologies</h4>
+  <table class="table table-border">
+    <thead>
+    <tr>
+      <th>uri</th>
+      <th>version</th>
+      <th>name</th>
+      <th>ownerName</th>
+      <th>status</th>
+      <th>ontologyType</th>
+      <th>visibility</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="row in vm.ontologyList">
+      <td ng-bind="row.uri"></td>
+      <td ng-bind="row.version"></td>
+      <td ng-bind="row.name"></td>
+      <td ng-bind="row.ownerName"></td>
+      <td ng-bind="row.status"></td>
+      <td ng-bind="row.ontologyType"></td>
+      <td ng-bind="row.visibility"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr>
+
+<div ng-if="vm.response">
+  <label>Response:</label>
+  <div style="margin-left: 20px">
+    Status: <status ng-bind="vm.response.status"></status>
+
+    <br>
+    Data:
+    <pre ng-bind="vm.response.data | json"></pre>
+
+  </div>
+</div>
+
+<div ng-if="vm.error">
+  <label>Error:</label>
+  <div style="margin-left: 20px">
+    <pre ng-bind="vm.error | json"></pre>
+  </div>
+</div>
+
+</body>
+</html>

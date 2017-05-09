@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2017-05-09:
+
+- a simple orr client demo page
+
 * 2017-04-12:  3.4.3
   - resolve #101: "CSV import: option to indicate that all columns are properties (and values)"
     
