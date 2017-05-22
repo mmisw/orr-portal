@@ -17,8 +17,9 @@
         var vm = this;
 
         vm.ontApiEndpoint    = 'https://xdomes.org/ont/api/v0';
-        //vm.ontSparqlEndpoint = 'https://xdomes.org/sparql';
-        vm.ontSparqlEndpoint = 'http://mmisw.org/sparql';
+        vm.ontSparqlEndpoint = 'https://xdomes.org/sparql';
+        //vm.ontSparqlEndpoint = 'http://mmisw.org/sparql';
+        //vm.ontSparqlEndpoint = 'http://cor.esipfed.org/sparql';
 
         vm.term = 'pressure';
         vm.limit = '5';
@@ -59,7 +60,7 @@
           vm.status = 'performing query...';
           vm.response = vm.error = vm.ontologyList = undefined;
           $http({
-            method: 'POST',
+            method: 'GET',
             url: vm.ontSparqlEndpoint,
             params: {
                 query: vm.query

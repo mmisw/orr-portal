@@ -1,5 +1,10 @@
 ## change log ##
 
+* 2017-05-22:
+
+- simple orr client demo page now with xdomes.org/sparql as (default) SPARQL endpoint.
+  (CORS just enabled there -- BTW, I also enabled this for COR.)
+
 * 2017-05-09:
 
 - a simple orr client demo page
