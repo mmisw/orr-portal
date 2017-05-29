@@ -136,7 +136,7 @@
           </div>
         </div>
 
-        <div class="form-group" ng-if="vm.recaptcha && vm.recaptcha.siteKey">
+        <div class="form-group" ng-if="vm.creating && vm.recaptcha && vm.recaptcha.siteKey">
           <div class="col-xs-5">
             <div vc-recaptcha key="vm.recaptcha.siteKey"
                  on-expire="vm.recaptchaResponse = undefined"

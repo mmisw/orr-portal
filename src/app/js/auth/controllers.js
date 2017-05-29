@@ -249,8 +249,8 @@
     };
   }
 
-  OrrOntCreateAccountController.$inject = ['$scope', '$uibModalInstance', '$http', 'cfg', 'focus'];
-  function OrrOntCreateAccountController($scope, $uibModalInstance, $http, cfg, focus) {
+  OrrOntCreateAccountController.$inject = ['$scope', '$uibModalInstance', '$http', '$timeout', 'cfg', 'focus'];
+  function OrrOntCreateAccountController($scope, $uibModalInstance, $http, $timeout, cfg, focus) {
 
     var vm = $scope.vm = {
       recaptcha: cfg.recaptcha,
@@ -308,15 +308,20 @@
           vm.working = vm.created = false;
           vm.error = "username '" +vm.username+ "' already taken"
           vm.status = undefined;
+          $timeout(function () {
+            vm.error = '';
+          }, 2000)
         })
         .error(function(data, status, headers, config) {
           if (status === 404) {
             doCreate();
           }
-          vm.working = false;
-          console.error("error checking for username: data=", data, "status=", status);
-          vm.error = data.error ? data.error : "error: " + angular.toJson(data);
-          vm.status = undefined;
+          else {
+            vm.working = false;
+            console.error("error checking for username: data=", data, "status=", status);
+            vm.error = data.error ? data.error : "error: " + angular.toJson(data);
+            vm.status = undefined;
+          }
         });
     }
 
