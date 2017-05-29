@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2017-05-29: 3.4.4
+
+- reset vm.recaptchaResponse upon error when trying to create user account
+
 * 2017-05-22:
 
 - simple orr client demo page now with xdomes.org/sparql as (default) SPARQL endpoint.

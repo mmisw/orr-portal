@@ -328,6 +328,7 @@
           vm.working = false;
           console.error("request create account error: data=", data, "status=", status);
           vm.error = data.error ? data.error : "error: " + angular.toJson(data);
+          vm.recaptchaResponse = undefined;
           vm.status = undefined;
         });
     };
