@@ -292,15 +292,36 @@
       return true;
     };
 
-    $scope.doCreate = function() {
+    $scope.createUserAccount = function() {
       if (!$scope.isValid()) {
         return;
       }
-
       vm.error = undefined;
       vm.working = true;
-      vm.status = "Creating...";
+      vm.status = "Checking username...";
 
+      $http({
+        method:  'GET',
+        url:     cfg.orront.rest + "/api/v0/user/" + vm.username
+      })
+        .success(function(data, status, headers, config) {
+          vm.working = vm.created = vm.creating = false;
+          vm.error = "username '" +vm.username+ "' already taken"
+          vm.status = undefined;
+        })
+        .error(function(data, status, headers, config) {
+          if (status === 404) {
+            doCreate();
+          }
+          vm.working = false;
+          console.error("error checking for username: data=", data, "status=", status);
+          vm.error = data.error ? data.error : "error: " + angular.toJson(data);
+          vm.status = undefined;
+        });
+    }
+
+    function doCreate() {
+      vm.status = "Creating...";
       var body = {
         userName:   vm.username,
         email:      vm.email,
@@ -331,7 +352,7 @@
           vm.recaptchaResponse = undefined;
           vm.status = undefined;
         });
-    };
+    }
 
     $scope.close = function() {
       if(vm.created)

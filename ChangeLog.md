@@ -2,7 +2,9 @@
 
 * 2017-05-29: 3.4.4
 
-- reset vm.recaptchaResponse upon error when trying to create user account
+- create user account:
+  - first check for username
+  - reset vm.recaptchaResponse upon error
 
 * 2017-05-22:
 
