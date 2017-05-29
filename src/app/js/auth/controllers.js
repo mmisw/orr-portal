@@ -305,7 +305,7 @@
         url:     cfg.orront.rest + "/api/v0/user/" + vm.username
       })
         .success(function(data, status, headers, config) {
-          vm.working = vm.created = vm.creating = false;
+          vm.working = vm.created = false;
           vm.error = "username '" +vm.username+ "' already taken"
           vm.status = undefined;
         })
