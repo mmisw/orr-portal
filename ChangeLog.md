@@ -1,6 +1,8 @@
 ## change log ##
 
-* 2017-05-29: 3.4.4
+* 2017-05-29: 3.5.0
+
+- set version 3.5.0 (aligning with orr-ont)
 
 - create user account:
   - first check for username
