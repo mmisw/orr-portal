@@ -1,6 +1,6 @@
 {
   "name": "orrportal",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -20,7 +20,6 @@
     "gulp-util": "~2.2.13",
     "gulp-webserver": "^0.9.0",
     "gulp-zip": "^2.0.1",
-    "gulp-load-plugins": "~0.7.0",
     "lodash": "~2.4.1",
     "log4js": "~0.6.9",
     "merge-stream": "^0.1.5",

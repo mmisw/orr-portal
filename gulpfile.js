@@ -14,8 +14,6 @@ var fs          = require('fs');
 var extend      = require('extend');
 var karma       = require('karma').server;
 var karmaConfig = require('./karma.conf');
-var plugins     = require('gulp-load-plugins')();
-// TODO use plugins.* for the others above...
 
 
 // TODO min'ified version
@@ -100,7 +98,7 @@ gulp.task('test', function () {
       });
 
       karma.start(testConfig, function (exitCode) {
-        plugins.util.log('Karma has exited with ' + exitCode);
+        gutil.log('Karma has exited with ' + exitCode);
         process.exit(exitCode);
       });
     }

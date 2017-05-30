@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2017-05-29: 3.5.1
+
+- (internal) remove gulp-load-plugins (unneeded)
+
 * 2017-05-29: 3.5.0
 
 - set version 3.5.0 (aligning with orr-ont)
