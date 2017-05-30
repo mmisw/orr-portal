@@ -2,6 +2,9 @@
 
 * 2017-05-29: 3.5.1
 
+- fix #109 "fully-hosted filter should consider https and http"
+  bUtil.uriEqualOrHasPrefixWithSlash now also considers https-http scheme change
+
 - (internal) remove gulp-load-plugins (unneeded)
 
 * 2017-05-29: 3.5.0

@@ -40,14 +40,33 @@ var bUtil = (function() {
 
     /**
      * Introduced to help with determination of URI self-dispatch.
-     * Logic could be extended here when considering https==http for purposes of URI identification.
+     * Considers https==http for purposes of URI identification.
      */
     uriEqualOrHasPrefixWithSlash: function(uri, prefix) {
-      return uri === prefix || uri.startsWith(prefix.replace(/\/+$/, '') + '/');
+      var normalizedPrefix = prefix.replace(/\/+$/, '') + '/'; // only one trailing slash.
+      function baseCheck(u) {
+        return u === prefix || u.startsWith(normalizedPrefix);
+      }
+      if (baseCheck(uri)) {
+        return true;
+      }
+      else {
+        var uri2 = replaceHttpScheme(uri);
+        return uri2 && baseCheck(uri2);
+      }
     }
   };
 
- // from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
+  /**
+   * If url starts with "http:" or "https:", returns the same url but with the scheme replaced for the other.
+   * Otherwise, undefined.
+   */
+  function replaceHttpScheme(url) {
+    if      (url.startsWith("http:"))  return "https:" + url.substring("http:".length)
+    else if (url.startsWith("https:")) return "http:" +  url.substring("https:".length)
+  }
+
+  // from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
   function setPolyfills() {
     if (!String.prototype.startsWith) {
       Object.defineProperty(String.prototype, 'startsWith', {

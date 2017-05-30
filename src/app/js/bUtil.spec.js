@@ -45,6 +45,11 @@ describe('bUtil', function() {
       expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex3", "http://ex")).toEqual(false);
       expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex-", "http://ex")).toEqual(false);
     });
+    it('should be true with http-https scheme change', function () {
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("https://ex/abc/d", "http://ex/")).toEqual(true);
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex/abc/d",  "https://ex/abc")).toEqual(true);
+      expect(bUtil.uriEqualOrHasPrefixWithSlash("https://ex/abc/d", "http://ex/abc/")).toEqual(true);
+    });
     it('should be true for other good cases', function () {
       expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex/abc/d", "http://ex/")).toEqual(true);
       expect(bUtil.uriEqualOrHasPrefixWithSlash("http://ex/abc/d", "http://ex/abc")).toEqual(true);
