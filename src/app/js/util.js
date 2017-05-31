@@ -89,7 +89,7 @@ var appUtil = (function(window) {
     }
     else {
       var url4link = uri.replace(/#/g, "%23");
-      // use ".../api/v0/ont?uri=..." with encoded question mark
+      // use ".../api/v0/ont?iri=..." with encoded question mark
       return appConfig.orront.rest + "/api/v0/ont%3F" + "iri=" + url4link;
     }
   }
@@ -254,8 +254,8 @@ var appUtil = (function(window) {
   //}
 
   function setRequestedUriAndVersionIfAny() {
-    if (windowLocationSearch.uri) {
-      requestedUri     = windowLocationSearch.uri;
+    if (windowLocationSearch.iri || windowLocationSearch.uri) {
+      requestedUri     = windowLocationSearch.iri || windowLocationSearch.uri;
       requestedVersion = windowLocationSearch.version;
       console.debug("from window.location.search: requestedUri=" +requestedUri+ " requestedVersion=" + requestedVersion);
     }

@@ -5,6 +5,7 @@
 - resolve #48 "URIs should be IRIs"  (backend orr-ont#32)
     - use "IRI"/"iri" instead of "URI"/"iri" in all user-visible widgets/messages
     - use iri/oiri/tiri parameters in all relevant requests to the backend
+    - consider windowLocationSearch.iri in appUtil.setRequestedUriAndVersionIfAny 
     - NOTE: underlying variable/function names continue to use 'uri'.
     
 * 2017-05-29: 3.5.1
