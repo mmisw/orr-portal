@@ -64,17 +64,17 @@
 
     <div class="form-group" ng-if="!uriNewVersion">
       <p class="col-xs-12" style="color: gray">
-        Please indicate the original ontology URI in this file.
+        Please indicate the original ontology IRI in this file.
         <span ng-if="vm.possibleOntologyUris">
-          You can either enter the URI manually or
-          select one of the possible URIs detected from typical properties below.
+          You can either enter the IRI manually or
+          select one of the possible IRIs detected from typical properties below.
         </span>
       </p>
     </div>
 
     <div class="form-group" ng-if="!uriNewVersion">
       <label class="control-label col-xs-2" for="inputOriginalUri">
-        Original ontology URI:
+        Original ontology IRI:
       </label>
 
       <div class="col-xs-4">
@@ -83,7 +83,7 @@
                class="form-control"
                ng-model="vm.originalUri"
                name="originalUri"
-               placeholder="Enter URI"
+               placeholder="Enter IRI"
                required>
       </div>
     </div>
@@ -99,14 +99,14 @@
           <span ng-if="uriNewVersion">
             For your reference, the
           </span>
-          following possible URI(s) were detected in the contents of the file:
+          following possible IRI(s) were detected in the contents of the file:
         </div>
 
         <table class="table table-bordered table-condensed" style="width: initial">
           <thead>
           <tr>
             <th ng-if="!uriNewVersion"></th>
-            <th>URI</th>
+            <th>IRI</th>
             <th>Explanation</th>
           </tr>
           </thead>
@@ -115,7 +115,7 @@
             <td style="width: 5px" ng-if="!uriNewVersion">
               <button class="btn btn-info btn-xs"
                       ng-click="vm.originalUri = uri"
-                      uib-tooltip="Select this as the original URI for this ontology"
+                      uib-tooltip="Select this as the original IRI for this ontology"
                       tooltip-placement="right"
               >
                 Select
@@ -140,7 +140,7 @@
       </div>
 
       <div class="col-xs-6" ng-if="!vm.possibleOntologyUris">
-          No URIs were detected in the contents of the uploaded file.
+          No IRIs were detected in the contents of the uploaded file.
       </div>
 
     </div>

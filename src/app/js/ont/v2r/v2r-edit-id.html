@@ -11,25 +11,25 @@
           <span ng-if="vm.what === 'class'">
             <p>
               Define the name of the class that describes the type of terms you are creating.
-              Note that this name will be used to build the URI for the class, so it should
+              Note that this name will be used to build the IRI for the class, so it should
               not have any special characters.
               Camel case is recommended for this name.
               (For most vocabularies, there will be only one term set, and the name of its class will
               typically be the same, but capitalized or camel case, as the local name of the ontology.)
             </p>
             <p>
-              As a more advanced option you can select "Full URI" and enter
-              the full desired URI for the class.
+              As a more advanced option you can select "Full IRI" and enter
+              the full desired IRI for the class.
             </p>
           </span>
 
           <p ng-if="vm.what === 'property'">
-            To construct the URI of this property either specify a "local name"
-            (relative to the URI of this ontology)
-            or a full URI, where you can also select from a list of standard properties
+            To construct the IRI of this property either specify a "local name"
+            (relative to the IRI of this ontology)
+            or a full IRI, where you can also select from a list of standard properties
             that may be applicable to your vocabulary.
             <br>
-            Optionally, you can also indicate the URI of a class of terms that can
+            Optionally, you can also indicate the IRI of a class of terms that can
             be associated as values for this property.
           </p>
         </div>
@@ -49,7 +49,7 @@
                    for="inputUri"
             >
               <i class="fa fa-check" ng-if="vm.idType==='uri'"></i>
-              Full&nbsp;URI
+              Full&nbsp;IRI
             </label>
           </div>
         </div>
@@ -77,7 +77,7 @@
 
             <div class="col-xs-7">
               <span>
-                URI:&nbsp;<span class="uriTextSimple"
+                IRI:&nbsp;<span class="uriTextSimple"
               >{{vm.namespace}}/<span ng-if="vm.lname" ng-bind="vm.lname" style="text-decoration: underline"
               ></span><span ng-if="!vm.lname" style="color: red">?</span>
                 </span>
@@ -120,7 +120,7 @@
           <div class="form-group">
 
             <label for="inputUri" class="control-label col-xs-2">
-              Full&nbsp;URI:
+              Full&nbsp;IRI:
             </label>
 
             <div class="col-xs-8">
@@ -146,7 +146,7 @@
                      type="url"
                      class="form-control"
                      ng-model="vm.valueClassUri"
-                     placeholder="URI of class for selection of values (optional)"
+                     placeholder="IRI of class for selection of values (optional)"
               >
             </div>
           </div>

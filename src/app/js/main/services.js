@@ -98,7 +98,7 @@
     }
 
     function resolveUri(uri, version, gotUriResolution) {
-      console.debug("resolveUri: uri=", uri, "version=", version);
+      console.debug("resolveUri: iri=", uri, "version=", version);
       refreshOntology(uri, version, function(error, ontology) {
         if (error) {
           console.debug("resolveUri: error getting ontology:", error, ". Will try term");
@@ -118,7 +118,7 @@
 
       function resolveTerm(cb) {
         var params = {
-          turi:    uri,
+          tiri:    uri,
           format: 'json'
         };
         doHttp("resolveTerm", {
@@ -140,7 +140,7 @@
       var url = appConfig.orront.rest + reqPath;
 
       var params = {
-        ouri:           uri,
+        oiri:           uri,
         onlyExistence: 'yes'
       };
 
@@ -178,7 +178,7 @@
 
       var params = {
         format: '!md',
-        ouri:   uri
+        oiri:   uri
       };
       if (version) {
         params.version = version;
@@ -246,7 +246,7 @@
 
       var params = {
         format: format,
-        ouri:   uri
+        oiri:   uri
       };
       if (version) {
         params.version = version;

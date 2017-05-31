@@ -50,7 +50,7 @@
         vm.resolved = true;
         if (error) {
           $scope.error = error;
-          console.error("error getting resolving URI:", error);
+          console.error("error resolving IRI:", error);
           return;
         }
 

@@ -1,5 +1,12 @@
 ## change log ##
 
+* 2017-05-31: 3.6.0
+
+- resolve #48 "URIs should be IRIs"  (backend orr-ont#32)
+    - use "IRI"/"iri" instead of "URI"/"iri" in all user-visible widgets/messages
+    - use iri/oiri/tiri parameters in all relevant requests to the backend
+    - NOTE: underlying variable/function names continue to use 'uri'.
+    
 * 2017-05-29: 3.5.1
 
 - fix #109 "fully-hosted filter should consider https and http"

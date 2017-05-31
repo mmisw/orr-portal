@@ -180,7 +180,7 @@
         return [{
           value:   'owner',
           tooltip: tt('owner', 'Visible only to the owner (submitting user or members of indicated organization)' +
-            ' or anyone with the URI.')
+            ' or anyone with the IRI.')
         }, {
           value:   'public',
           tooltip: tt('public', 'Visible to any visitor or client application.')
@@ -217,7 +217,7 @@
             return {
               title:   title || "Registering ...",
               message: '<div class="center">' +
-              'Ontology URI:' +
+              'Ontology IRI:' +
               '<br>' +
               '<div class="uriText1">' +uri+ '</div>' +
               '</div>' +

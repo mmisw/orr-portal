@@ -30,26 +30,25 @@
 
         <hr>
         <p style="color: gray">
-          For the URI required for registering the ontology
+          For the IRI required for registering the ontology
           you can either select the "ORR-based" option (so you will only need to indicate a short name),
-          or select "My URI" to indicate the full desired URI.
+          or select "My IRI" to indicate the full desired IRI.
         </p>
         <br>
 
         <div class="form-group">
           <label for="inputShortName" class="control-label col-xs-4">
-            URI construction:
+            IRI construction:
           </label>
           <div class="col-xs-6">
             <label class="btn btn-default" ng-model="vm.uriType" uib-btn-radio="'orrBasedUri'">
               <i class="fa fa-check" ng-if="vm.uriType==='orrBasedUri'"></i>
               ORR-based
             </label>
-            &nbsp;
-            &nbsp;
+            &nbsp;&nbsp;
             <label class="btn btn-default" ng-model="vm.uriType" uib-btn-radio="'myUri'">
               <i class="fa fa-check" ng-if="vm.uriType==='myUri'"></i>
-              My URI
+              My IRI
             </label>
           </div>
         </div>
@@ -71,7 +70,7 @@
         </div>
 
         <div class="form-group" ng-if="vm.uriType === 'orrBasedUri'">
-          <div class="control-label col-xs-2">URI:</div>
+          <div class="control-label col-xs-2">IRI:</div>
 
           <div class="col-xs-9">
             <div class="form-control uriTextSimple" style="color: gray"
@@ -89,14 +88,14 @@
 
         <div class="form-group" ng-if="vm.uriType === 'myUri'">
 
-          <label for="inputUri" class="control-label col-xs-2">URI:</label>
+          <label for="inputUri" class="control-label col-xs-2">IRI:</label>
 
           <div class="col-xs-9">
             <input id="inputUri"
                    type="url"
                    class="form-control uriTextSimple"
                    ng-model="vm.uri"
-                   placeholder="Enter the full desired URI"
+                   placeholder="Enter the full desired IRI"
             >
           </div>
         </div>

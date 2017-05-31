@@ -30,7 +30,7 @@
     function setViewAsOptions() {
       var uri = $scope.vm.uri.replace(/#/g, '%23');
       function getUrl(format) {
-        return appConfig.orront.rest + "/api/v0/ont?format=" +format+ "&turi=" + uri;
+        return appConfig.orront.rest + "/api/v0/ont?format=" +format+ "&tiri=" + uri;
       }
 
       return [

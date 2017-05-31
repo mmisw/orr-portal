@@ -339,7 +339,7 @@
         return true;
       }
       if (_.indexOf(info.ontUris, vm.ontUri) >= 0) {
-        vm.error = "Ontology by this URI is already loaded";
+        vm.error = "Ontology by this IRI is already loaded";
         return true;
       }
       vm.error = "";

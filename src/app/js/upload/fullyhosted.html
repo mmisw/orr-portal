@@ -7,8 +7,8 @@
             Registration type: Fully hosted ontology
           </label>
           <p>
-            The URI of the ontology will be changed to a new target URI,
-            and all associated terms will be moved to a namespace also determined by the target URI.
+            The IRI of the ontology will be changed to a new target IRI,
+            and all associated terms will be moved to a namespace also determined by the target IRI.
           </p>
         </div>
 
@@ -32,8 +32,8 @@
         <div class="form-group">
           <p class="col-xs-12">
             Select the owner of this submission and provide a short name for the ontology.
-            These pieces of information are also used to compose the target URI for the registration.
-            Click the 'Check target URI' to determine whether this will be a brand new
+            These pieces of information are also used to compose the target IRI for the registration.
+            Click the 'Check target IRI' button to determine whether this will be a brand new
             entry in the repository or a new version for an existing entry.
             Then indicate a short description, desired visibility, and an associated status for the ontology
             and click the 'Complete registration' button.
@@ -92,16 +92,16 @@
             <button ng-disabled="!okToCheckNewUriIsAvailable()"
                     ng-click="checkNewUriIsAvailable()"
                     class="btn btn-info btn-xs">
-              Check target URI
+              Check target IRI
             </button>
             <span ng-if="vm.checkedNewUriIsAvailable">
               <span ng-if="vm.newUriIsAvailable" style="color: darkgreen">
                 <i class="fa fa-check"></i>
-                A brand new entry identified with the target URI will be registered.
+                A brand new entry identified with the target IRI will be registered.
               </span>
               <span ng-if="!vm.newUriIsAvailable" style="color: darkblue">
                 <i class="fa fa-check"></i>
-                URI already exists so a new ontology
+                IRI already exists so a new ontology
                 <span style="text-decoration: underline">version</span>
                 will be registered for the existing entry.
               </span>
