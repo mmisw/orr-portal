@@ -5,10 +5,10 @@
   <div style="margin-left: 4em; min-height: 40px">
     <table ng-if="vm.originalUri">
       <tr>
-        <td class="uriLabel">Original URI:
+        <td class="uriLabel">Original IRI:
         </td>
         <td>
-          <span class="uriText0" ng-bind="vm.originalUri" uib-tooltip="Original URI"></span>
+          <span class="uriText0" ng-bind="vm.originalUri" uib-tooltip="Original IRI"></span>
         </td>
       </tr>
 
@@ -20,10 +20,10 @@
       </tr>
 
       <tr ng-if="vm.page === 'regtype-selected' && vm.registrationType === 'fully-hosted'">
-        <td class="uriLabel">Target URI:
+        <td class="uriLabel">Target IRI:
         </td>
         <td>
-          <span class="uriText0" uib-tooltip="Target URI">
+          <span class="uriText0" uib-tooltip="Target IRI">
             {{vm.prefixFullyHosted}}<span ng-if="vm.selectedOwner" ng-bind="vm.selectedOwner.id"
                                       style="font-weight: bold;text-decoration: underline"
             ></span><span ng-if="!vm.selectedOwner"

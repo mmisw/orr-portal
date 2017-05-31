@@ -168,7 +168,7 @@
       }
       else {
         link = appConfig.portal.mainPage;
-        params.push('uri=' + uri);
+        params.push('iri=' + uri);
       }
       if (params.length) {
         link += '?' + params.join('&');
@@ -320,7 +320,7 @@
       function setViewAsOptions(uri) {
         uri = uri.replace(/#/g, '%23');
         function getUrl(format) {
-          return appConfig.orront.rest + "/api/v0/ont?format=" +format+ "&uri=" + uri;
+          return appConfig.orront.rest + "/api/v0/ont?format=" +format+ "&iri=" + uri;
         }
 
         var list = [
@@ -370,7 +370,7 @@
       function setVisibilityOptions() {
         $scope.visibilityInfo = {
           owner:  'Visible only to the owner (submitting user or members of indicated organization) ' +
-          'in the main ORR ontology page, or to anyone with the URI.',
+          'in the main ORR ontology page, or to anyone with the IRI.',
           public: 'Visible to any visitor or client application.'
         };
         var all = _.keys($scope.visibilityInfo);
@@ -742,7 +742,7 @@
             utl.message({
               title:   "Successful registration",
               message: '<div class="center">' +
-              'Ontology URI:' +
+              'Ontology IRI:' +
               '<br>' +
               '<div class="uriText1">' +uri+ '</div>' +
               '</div>',
@@ -869,7 +869,7 @@
     if (debug) console.debug("++OntUriEditorController++: info=", info);
 
     var vm = $scope.vm = {
-      title:      'Ontology owner, URI, visibility, and status',
+      title:      'Ontology owner, IRI, visibility, and status',
       base:       info.base,
       ownerOptions: info.ownerOptions,
       uriType:    'orrBasedUri',
@@ -930,11 +930,11 @@
         else {
           if (debug) console.debug("existsOntology response:", response);
           utl.message({
-            title:   'URI already registered',
+            title:   'IRI already registered',
             message: '<div class="center">' +
             '<div class="uriText1">' +vm.uri+ '</div>' +
             '<br>' +
-            'This URI is already registered. Please use a different URI.' +
+            'This IRI is already registered. Please use a different IRI.' +
             '<br>' +
             '</div>'
           });

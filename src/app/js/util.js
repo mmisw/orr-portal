@@ -67,13 +67,13 @@ var appUtil = (function(window) {
       return uri;
     }
     else {
-      // use "uri" parameter to prefix:
+      // use 'iri' parameter to prefix:
       var url4link = uri.replace(/#/g, "%23");
-      var paramAndValue = "uri=" + url4link;
+      var paramAndValue = "iri=" + url4link;
       if (prefix.indexOf(paramAndValue) < 0) {
         // question mark or ampersand?
         var qa = prefix.indexOf('?') >= 0 ? '&' : '?';
-        return prefix + qa + "uri=" + url4link;
+        return prefix + qa + "iri=" + url4link;
       }
       else return prefix;  // already there
     }
@@ -89,8 +89,8 @@ var appUtil = (function(window) {
     }
     else {
       var url4link = uri.replace(/#/g, "%23");
-      // use ".../api/v0/ont?uri=..." with encoded question mark
-      return appConfig.orront.rest + "/api/v0/ont%3F" + "uri=" + url4link;
+      // use ".../api/v0/ont?iri=..." with encoded question mark
+      return appConfig.orront.rest + "/api/v0/ont%3F" + "iri=" + url4link;
     }
   }
 
@@ -102,7 +102,7 @@ var appUtil = (function(window) {
   function mklink4uriAlwaysUriParameter(uri) {
     uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
     var url4link = uri.replace(/#/g, "%23");
-    var href = "?uri=" + url4link;
+    var href = "?iri=" + url4link;
     return '<a class="uriLink" href="' + href + '">' + uri + '</a>';
   }
 
@@ -254,8 +254,8 @@ var appUtil = (function(window) {
   //}
 
   function setRequestedUriAndVersionIfAny() {
-    if (windowLocationSearch.uri) {
-      requestedUri     = windowLocationSearch.uri;
+    if (windowLocationSearch.iri || windowLocationSearch.uri) {
+      requestedUri     = windowLocationSearch.iri || windowLocationSearch.uri;
       requestedVersion = windowLocationSearch.version;
       console.debug("from window.location.search: requestedUri=" +requestedUri+ " requestedVersion=" + requestedVersion);
     }
@@ -267,7 +267,7 @@ var appUtil = (function(window) {
       console.debug("mainPage=[" +mainPage+ "] windowBareHref=[" +windowBareHref+ "]");
       //if (windowBareHref.startsWith(mainPage) && windowBareHref.length > mainPage.length && mainPage+"/" !== windowBareHref) {
       if (windowBareHref.startsWith(mainPage) && !bUtil.equalModuloTrailingSlash(windowBareHref, mainPage)) {
-        console.debug("mainPage is proper prefix of windowBareHref, so using the latter as uri");
+        console.debug("mainPage is proper prefix of windowBareHref, so using the latter as iri");
         requestedUri     = windowBareHref;
         requestedVersion = windowLocationSearch.version;
       }

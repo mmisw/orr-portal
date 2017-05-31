@@ -55,7 +55,7 @@ function OntGridController($scope, $stateParams, $location, $filter, uiGridConst
 
     function getCommonColumnDefs() {
         return [
-            { field: 'uri',       width: '****', displayName: 'URI', enableHiding: false, cellTemplate: mkUriLinkCellTemplate },
+            { field: 'uri',       width: '****', displayName: 'IRI', enableHiding: false, cellTemplate: mkUriLinkCellTemplate },
             { field: 'name',      width: '*****', cellTemplate: markCellTemplate },
             { field: 'author',    width: '**',    cellTemplate: authorCellTemplate },
             { field: 'ownerName', width: 100, displayName: 'Owner', cellTemplate: ownerCellTemplate},

@@ -7,7 +7,7 @@
             Registration type: Re-hosted ontology
           </label>
           <p>
-            The ontology will be registered at the ORR with no changes at all in URIs or contents.
+            The ontology will be registered at the ORR with no changes at all in IRIs or contents.
           </p>
         </div>
 
@@ -32,10 +32,10 @@
           <label class="control-label col-xs-2"> </label>
           <div class="col-xs-6">
             <span ng-if="vm.newUriIsAvailable" style="color: darkgreen; font-style: italic">
-              A brand new ontology entry by the indicated original URI will be registered.
+              A brand new ontology entry by the indicated original IRI will be registered.
             </span>
             <span ng-if="!vm.newUriIsAvailable" style="color: darkblue; font-style: italic">
-              The indicated URI is already registered so a new ontology
+              The indicated IRI is already registered so a new ontology
               <span style="text-decoration: underline">version</span>
               will be created for the existing entry.
             </span>
@@ -169,7 +169,7 @@
         <div ng-if="!vm.userCanRegisterNewVersion">
           <label class="control-label col-xs-2"> </label>
           <div class="col-xs-6" style="color: darkred">
-            You are not authorized to submit on behalf of the owner of this URI.
+            You are not authorized to submit on behalf of the owner of this IRI.
           </div>
         </div>
 

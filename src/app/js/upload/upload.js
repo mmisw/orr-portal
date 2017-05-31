@@ -474,7 +474,7 @@
           utl.message({
             title:   "Successful registration",
             message: '<div class="center">' +
-            'Ontology URI:' +
+            'Ontology IRI:' +
             '<br>' +
             '<div class="uriText1">' +uri+ '</div>' +
             '</div>',

@@ -166,7 +166,7 @@
           label: "Contributor",
           tooltip: {
             edit: "List of all the individuals and/or organizations that contributed materially to this vocabulary/ontology. " +
-                  "You may use comma-separated names or URIs. This is a free text field.",
+                  "You may use comma-separated names or IRIs. This is a free text field.",
             view: "List of all the individuals and/or organizations that contributed materially to this vocabulary/ontology."
           }
         },
@@ -210,7 +210,7 @@
         origVocManager: {
           label: "Manager of source vocabulary",
           tooltip: 'Who actively maintains the source vocabulary (used to build the ontology) and the changes to it. ' +
-          'Specify an individual or very specific organization, by name or as a URI. Include phone, mail, ' +
+          'Specify an individual or very specific organization, by name or as an IRI. Include phone, mail, ' +
           'and URL in parentheses after the specification, if available: ' +
           'First Last (831-nnn-nnnn, name@domain.com, http://domain.com/myHomePage). ' +
           'If the vocabulary is not actively maintained, put "None" in this field.'
@@ -247,7 +247,7 @@
           "Content Manager: MMI actively manages this vocabulary content and is responsible (with the community) " +
           "for its creation Ontology Producer: MMI accepts vocabulary content from the community and turns it " +
           "into a served ontology Ontology Republisher: MMI accepts an ontology, caches it, and produces its " +
-          "own copy of the ontology in order to provide additional services (URI generation, revision history " +
+          "own copy of the ontology in order to provide additional services (IRI generation, revision history " +
           "maintenance and tracking, and so on)."
         },
         creditRequired: {
@@ -262,8 +262,8 @@
         },
         origVocDocumentationUri: {
           label: "Documentation",
-          tooltip: 'If the original vocabulary is formally served in an easily parseable way at a URI ' +
-          '(e.g., using RDF, OWL, or comma- or tab-delimited text entries), please specify the URI here.'
+          tooltip: 'If the original vocabulary is formally served in an easily parseable way at an IRI ' +
+          '(e.g., using RDF, OWL, or comma- or tab-delimited text entries), please specify the IRI here.'
         },
         origVocDescriptiveName: {
           label: "Descriptive name",
