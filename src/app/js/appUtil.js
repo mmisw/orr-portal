@@ -307,6 +307,10 @@ var appUtil = (function(window) {
   }
 
   function expandPortalMainPageUrl() {
+    if (!appConfig.portal.mainPage) {
+      console.warn("DEV mode: portal.mainPage undefined; setting to windowBareHref=", windowBareHref);
+      appConfig.portal.mainPage = windowBareHref;
+    }
     var original = appConfig.portal.mainPage;
     if (original.startsWith("//")) {
       var loc = window.location;

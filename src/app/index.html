@@ -2,113 +2,26 @@
 <html ng-app="orrportal">
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <title ng-bind="(rvm.rUri ? (rvm.rUri + (rvm.rVersion ? ' version=' +rvm.rVersion : '') + ' - ') : '') +
-  (cfg.branding.title ? cfg.branding.title : 'MMI Ontology Registry and Repository') + ' (portal @@version)'"
-  ></title>
+  <title ng-bind="(rvm.rUri ? (rvm.rUri + (rvm.rVersion ? ' version=' +rvm.rVersion : '') + ' - ') : '') + (cfg.branding.title||'') + ' (portal @@version)'"></title>
   <link rel="shortcut icon" href="img/favicon.ico">
-
-  <link rel="stylesheet" href="../../node_modules/bootstrap-css-only/css/bootstrap.css">
-  <link rel="stylesheet" href="../../node_modules/bootstrap-css-only/css/bootstrap-theme.css">
-  <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css">
-  <link rel="stylesheet" href="../../node_modules/angular-ui-grid/ui-grid.css">
-  <link rel="stylesheet" href="../../node_modules/ui-select/dist/select.css">
-  <link rel="stylesheet" href="../../node_modules/select2/select2.css">
-  <link rel="stylesheet" href="../../node_modules/angular-xeditable/dist/css/xeditable.css">
-  <link rel='stylesheet' href='css/orrportal.css'>
-
+  <link rel='stylesheet' href='css/orrportal.min.css'>
   <!--[if lt IE 9]>
   <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-
-  <script src="../../node_modules/angular/angular.js"></script>
-  <script src='../../node_modules/angular-cookie/angular-cookie.js'></script>
-  <script src="../../node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
-  <script src="../../node_modules/angular-sanitize/angular-sanitize.js"></script>
-  <script src="../../node_modules/angular-ui-router/release/angular-ui-router.js"></script>
-  <script src="../../node_modules/angular-clipboard/angular-clipboard.js"></script>
-  <script src="../../node_modules/lodash/dist/lodash.js"></script>
-  <script src="../../node_modules/moment/moment.js"></script>
-  <script src='../../node_modules/angular-ui-grid/ui-grid.js'></script>
-  <script src='../../node_modules/ng-file-upload/dist/ng-file-upload.js'></script>
-  <script src='../../node_modules/ui-select/dist/select.js'></script>
-  <script src='../../node_modules/angular-xeditable/dist/js/xeditable.js'></script>
-  <script src='../../node_modules/comma-separated-values/csv.min.js'></script>
-  <script src='../../node_modules/angular-recaptcha/release/angular-recaptcha.js'></script>
-  <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
-
-  <script src="../../node_modules/angular-jwt/dist/angular-jwt.js"></script>
-  <script src="../../node_modules/angular-local-storage/dist/angular-local-storage.js"></script>
-
   <script src='js/config.js'></script>
   <script src='js/local.config.js'></script>
-  <script src='js/bUtil.js'></script>
-  <script src='js/util.js'></script>
-  <script src='js/app.js'></script>
-  <script src='js/main/directives.js'></script>
-  <script src='js/main/filters.js'></script>
-  <script src='js/main/services.js'></script>
-  <script src='js/main/main.js'></script>
-  <script src='js/main/queryUtil.js'></script>
-  <script src='js/facet/facetModel.js'></script>
-  <script src='js/facet/facets.js'></script>
-  <script src='js/ontgrid/ontgrid.js'></script>
-  <script src='js/org/org.js'></script>
-  <script src='js/org/org-create.js'></script>
-  <script src='js/vocabulary/vocabulary.js'></script>
-  <script src='js/uri/uri.js'></script>
-  <script src='js/ont/metaUtil.js'></script>
-  <script src='js/ont/ont.js'></script>
-  <script src='js/ont/ont-contents.js'></script>
-  <script src='js/ont/ont-meta.js'></script>
-  <script src='js/ont/ont-meta-section.js'></script>
-  <script src='js/ont/ont-data.js'></script>
-  <script src='js/ont/v2r/v2r.js'></script>
-  <script src='js/ont/v2r/v2r-csv.js'></script>
-  <script src='js/ont/m2r/m2rUtil.js'></script>
-  <script src='js/ont/m2r/m2r.js'></script>
-  <script src='js/ont/rj/rj-viewer.js'></script>
-  <script src='js/ont/multivalueedit.js'></script>
-  <script src='js/term/term.js'></script>
-  <script src='js/user/user.js'></script>
-  <script src='js/st/st.js'></script>
-  <script src='js/kw/kw.js'></script>
-  <script src='js/search/search.js'></script>
-  <script src='js/auth/auth.js'></script>
-  <script src='js/auth/controllers.js'></script>
-  <script src='js/upload/upload.js'></script>
-  <script src='js/util/items-viewer.js'></script>
-  <script src='js/util/util.js'></script>
-  <script src='js/util/clipboardCopy.js'></script>
-  <script src='js/util/view-as-options.js'></script>
-  <script src='js/admin/users.js'></script>
-  <script src='js/admin/orgs.js'></script>
-  <script src='js/admin/triplestore.js'></script>
-  <script src='js/admin/admin.js'></script>
+  <script src="js/orrportal.min.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
 </head>
-
 <body ng-controller="UtilCtrl">
-
-<div ng-if="debug && !rvm.rUri" class="debug">
-  <pre>
-    <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
-    $state = {{$state.current.name}}
-    $stateParams = {{$stateParams}}
-    $state full url = {{ $state.$current.url.source }}
-    <!-- Note: $state.$current is not a public api -->
-  </pre>
-</div>
-
-<pre ng-if="debug" ng-bind="'rvm.accountInfo=' + (rvm.accountInfo | json)"></pre>
-
+<pre ng-if="debug" ng-bind="'rvm.accountInfo=' + (rvm.accountInfo|json)"></pre>
 <orrportal-header></orrportal-header>
-
 <div ng-if="rvm.rUri">
   <orr-uri></orr-uri>
 </div>
 <div ng-if="!rvm.rUri">
   <div ui-view></div>
 </div>
-
-<pre ng-if="debug" ng-bind="rvm | json"></pre>
+<pre ng-if="debug" ng-bind="rvm|json"></pre>
 </body>
 </html>

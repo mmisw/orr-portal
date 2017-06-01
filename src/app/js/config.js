@@ -49,13 +49,12 @@ var appConfig = {
   },
 
   branding: {
+    // string used for <head><title> in main pages.
+    title: "ORR"
+
     // (optional) URL of image to show in the page header.
     // By default, this will be MMI ORR's logo.
     //logo: "http://cor.esipfed.org/orr/images/logo.png"
-
-    // (optional) string used for <head><title> in main pages.
-    // By default, this will be related with the MMI ORR.
-    //title: "ESIP Community Ontology Repository"
 
     // (optional) "Terms of Use" link.
     // No default value.

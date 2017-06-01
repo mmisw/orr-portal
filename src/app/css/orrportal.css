@@ -251,7 +251,7 @@ div.facetblock {
 div.facetsubblock {
     width: 100%;
     overflow: auto;
-    overflow-x:hidden;"
+    overflow-x:hidden;
 }
 .facetItem {
   font-weight: 200;
