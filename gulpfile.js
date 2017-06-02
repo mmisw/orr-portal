@@ -74,7 +74,12 @@ gulp.task('webserver', function() {
 /////////////////////////////////////////////////////////////////////////////
 // dist
 
-gulp.task('dist', ['dist-directory'], function(){
+gulp.task('dist', function (cb) {
+  runSequence('clean', 'package', cb);
+});
+
+
+gulp.task('package', ['dist-directory'], function(){
   return gulp.src([distDest + '/**'])
     .pipe(zip(zipFile))
     .pipe(gulp.dest(zipDest));
@@ -121,7 +126,7 @@ gulp.task('ci', function () {
 
 /////////////////////////////////////////////////////////////////////////////
 
-gulp.task('dist-directory', ['app', 'vendor']);
+gulp.task('dist-directory', ['app', 'vendor', 'min']);
 
 gulp.task('app', ['clean'], function(){
   var src = ['./src/app/**', '!./src/app/**/*.html'];
@@ -167,18 +172,14 @@ gulp.task('vendor', ['clean'], function() {
       .pipe(gulp.dest(distDest + '/vendor'))
 });
 
-gulp.task('minified', function(cb) {
-  runSequence('clean', 'min', cb);
-});
-
 gulp.task('min', ['app-index-and-config', 'app-min']);
 
 gulp.task('app-index-and-config', function () {
   return merge(
-    gulp.src(['./src/app/**/*.html'])
-      .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))
-      .pipe(replace(/@@version/g, version))
-      .pipe(gulp.dest(distDest)),
+    // gulp.src(['./src/app/**/*.html'])
+    //   .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))
+    //   .pipe(replace(/@@version/g, version))
+    //   .pipe(gulp.dest(distDest)),
     gulp.src(['./src/app/js/config.js'
       , './src/app/js/local.config.js'
     ])
