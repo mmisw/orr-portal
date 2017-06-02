@@ -614,3 +614,9 @@ div.debug {
 .nowrap {
   white-space: nowrap;
 }
+
+.noscript {
+  color: #801a2b;
+  width: 50%;
+  margin: 0 auto;
+}

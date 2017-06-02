@@ -2,6 +2,7 @@
 <html ng-app="orrportal">
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title ng-bind="(rvm.rUri ? (rvm.rUri + (rvm.rVersion ? ' version=' +rvm.rVersion : '') + ' - ') : '') + (cfg.branding.title||'') + ' (portal @@version)'"></title>
   <link rel="shortcut icon" href="img/favicon.ico">
   <link rel='stylesheet' href='css/orrportal.min.css'>
@@ -14,7 +15,6 @@
   <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit" async defer></script>
 </head>
 <body ng-controller="UtilCtrl">
-<pre ng-if="debug" ng-bind="'rvm.accountInfo=' + (rvm.accountInfo|json)"></pre>
 <orrportal-header></orrportal-header>
 <div ng-if="rvm.rUri">
   <orr-uri></orr-uri>
@@ -23,5 +23,10 @@
   <div ui-view></div>
 </div>
 <pre ng-if="debug" ng-bind="rvm|json"></pre>
+<noscript>
+  <div class="noscript">
+    The ORR application requires Javascript to be enabled in your browser.
+  </div>
+</noscript>
 </body>
 </html>

@@ -2,6 +2,7 @@
 <html ng-app="orrportal">
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title ng-bind="(rvm.rUri ? (rvm.rUri + (rvm.rVersion ? ' version=' +rvm.rVersion : '') + ' - ') : '') + (cfg.branding.title || '') + ' (portal @@version)'"></title>
   <link rel="shortcut icon" href="img/favicon.ico">
 
@@ -86,18 +87,6 @@
 
 <body ng-controller="UtilCtrl">
 
-<div ng-if="debug && !rvm.rUri" class="debug">
-  <pre>
-    <!-- Here's some values to keep an eye on in the sample in order to understand $state and $stateParams -->
-    $state = {{$state.current.name}}
-    $stateParams = {{$stateParams}}
-    $state full url = {{ $state.$current.url.source }}
-    <!-- Note: $state.$current is not a public api -->
-  </pre>
-</div>
-
-<pre ng-if="debug" ng-bind="'rvm.accountInfo=' + (rvm.accountInfo | json)"></pre>
-
 <orrportal-header></orrportal-header>
 
 <div ng-if="rvm.rUri">
@@ -108,5 +97,10 @@
 </div>
 
 <pre ng-if="debug" ng-bind="rvm | json"></pre>
+<noscript>
+  <div class="noscript">
+    The ORR application requires Javascript to be enabled in your browser.
+  </div>
+</noscript>
 </body>
 </html>

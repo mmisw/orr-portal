@@ -14,7 +14,9 @@
     - Dev mode: mainPage set to undefined in local.config.js so it gets window.location in 
       appUtil.expandPortalMainPageUrl
       
-- per lighthouse: add rel="noopener" to all _blank refs
+- lighthouse: 
+  - add rel="noopener" to all _blank refs
+  - add viewport and noscript in index files
   
 * 2017-05-31: 3.6.0
 
