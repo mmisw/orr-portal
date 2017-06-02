@@ -75,7 +75,7 @@ gulp.task('webserver', function() {
 // dist
 
 gulp.task('dist', function (cb) {
-  runSequence('clean', 'package', cb);
+  runSequence('clean', 'package', 'min', cb);
 });
 
 
@@ -126,7 +126,7 @@ gulp.task('ci', function () {
 
 /////////////////////////////////////////////////////////////////////////////
 
-gulp.task('dist-directory', ['app', 'vendor', 'min']);
+gulp.task('dist-directory', ['app', 'vendor']);
 
 gulp.task('app', ['clean'], function(){
   var src = ['./src/app/**', '!./src/app/**/*.html'];
