@@ -13,6 +13,8 @@
     - new index.html for the minified version
     - Dev mode: mainPage set to undefined in local.config.js so it gets window.location in 
       appUtil.expandPortalMainPageUrl
+      
+- per lighthouse: add rel="noopener" to all _blank refs
   
 * 2017-05-31: 3.6.0
 

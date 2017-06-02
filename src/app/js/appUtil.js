@@ -204,13 +204,13 @@ var appUtil = (function(window) {
     var icon = '<span class="fa fa-external-link xsmall"></span>';
     var link;
     if (onlyExternalLink) {
-      //link = '<a target="_blank" href="' + uri + '">' + icon + uri + '</a>';
-      link = '<a class="uriLink" target="_blank" href="' + uri + '">' + uri + '</a>';
+      //link = '<a target="_blank" rel="noopener" href="' + uri + '">' + icon + uri + '</a>';
+      link = '<a class="uriLink" target="_blank" rel="noopener" href="' + uri + '">' + uri + '</a>';
     }
     else {
       var href = getHref4uriWithSelfHostPrefix(uri);
       link = '<a class="uriLink" href="' + href + '">' + uri + '</a> '
-        + '<a target="_blank" title="open directly in a new browser window" href="'
+        + '<a target="_blank" rel="noopener" title="open directly in a new browser window" href="'
         + uri + '">' +icon+ '</a>'
       ;
     }

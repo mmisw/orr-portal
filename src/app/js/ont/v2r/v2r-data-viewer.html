@@ -12,7 +12,7 @@
       <div ng-mouseleave="vocab._showPopup=undefined" class="left">
         Class: {{vm.getLabel(vocab.class)}}
         <div style="white-space: nowrap">
-          <a target="_blank" class="uriLink"
+          <a target="_blank" rel="noopener" class="uriLink"
              ng-bind="vm.getUri(vocab.class)"
              ng-click="vm.openLink(vm.getUri(vocab.class))"
           >
@@ -73,7 +73,7 @@
                 <br>{{vm.getTooltip(p)}}
               </span>
               <br>
-              <a target="_blank" class="uriLink"
+              <a target="_blank" rel="noopener" class="uriLink"
                  ng-href="{{vm.getUri(p)}}"
                  ng-bind="vm.getUri(p)"
               >
@@ -106,7 +106,7 @@
             <div ng-mouseleave="t._showPopup=undefined" class="left">
               Term&nbsp;IRI:
               <br>
-              <a target="_blank" class="uriLink"
+              <a target="_blank" rel="noopener" class="uriLink"
                  ng-href="{{vm.getUri(t)}}"
                  ng-bind="vm.getUri(t)"
               ></a>
