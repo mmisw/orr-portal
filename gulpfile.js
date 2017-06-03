@@ -88,7 +88,7 @@ gulp.task('package', ['dist-directory'], function(){
 /////////////////////////////////////////////////////////////////////////////
 // install
 
-gulp.task('install', ['check-dest', 'dist-directory'], function(){
+gulp.task('install', ['check-dest', 'dist'], function(){
   return gulp.src([distDest + '/**'])
     .pipe(gulp.dest(installDest));
 });

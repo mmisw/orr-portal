@@ -14,7 +14,7 @@
     - Dev mode: mainPage set to undefined in local.config.js so it gets window.location in 
       appUtil.expandPortalMainPageUrl
       
-- lighthouse: 
+- re #107 "PWA - Progressive Web App" 
   - add rel="noopener" to all _blank refs
   - add viewport and noscript in index files
   
