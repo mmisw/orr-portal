@@ -22,7 +22,6 @@ var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
 // var closure = require('google-closure-compiler').gulp();
 // var sourcemaps = require('gulp-sourcemaps');
-// js: using uglify for now.
 var csso = require('gulp-csso');
 
 var ciMode = false;
