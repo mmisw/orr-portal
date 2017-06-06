@@ -104,7 +104,7 @@
               </span>
               <a ng-if="!s._collapsed"
                  style="font-size: smaller"
-                 target="_blank" href="{{s.subjectUri}}" class="uriTextSimple">
+                 target="_blank" rel="noopener" href="{{s.subjectUri}}" class="uriTextSimple">
                 <i class="fa fa-external-link" aria-hidden="true"></i>
               </a>
             </div>
@@ -118,7 +118,7 @@
                 <td style="vertical-align: top; text-align: right"
                     ng-init="propInfo = vm.getSubjectPropInfo(s, k)"
                 >
-                  <a target="_blank" href="{{k}}"
+                  <a target="_blank" rel="noopener"  href="{{k}}"
                      uib-popover="{{propInfo.tooltip}}"
                      popover-trigger="mouseenter"
                      popover-placement="bottom-left"

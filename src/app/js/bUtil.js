@@ -51,20 +51,20 @@ var bUtil = (function() {
         return true;
       }
       else {
-        var uri2 = replaceHttpScheme(uri);
+        var uri2 = bUtil.replaceHttpScheme(uri);
         return uri2 && baseCheck(uri2);
       }
+    },
+
+    /**
+     * If url starts with "http:" or "https:", returns the same url but with the scheme replaced for the other.
+     * Otherwise, undefined.
+     */
+    replaceHttpScheme: function (url) {
+      if      (url.startsWith("http:"))  return "https:" + url.substring("http:".length)
+      else if (url.startsWith("https:")) return "http:" +  url.substring("https:".length)
     }
   };
-
-  /**
-   * If url starts with "http:" or "https:", returns the same url but with the scheme replaced for the other.
-   * Otherwise, undefined.
-   */
-  function replaceHttpScheme(url) {
-    if      (url.startsWith("http:"))  return "https:" + url.substring("http:".length)
-    else if (url.startsWith("https:")) return "http:" +  url.substring("https:".length)
-  }
 
   // from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
   function setPolyfills() {

@@ -251,7 +251,7 @@ div.facetblock {
 div.facetsubblock {
     width: 100%;
     overflow: auto;
-    overflow-x:hidden;"
+    overflow-x:hidden;
 }
 .facetItem {
   font-weight: 200;
@@ -613,4 +613,10 @@ div.debug {
 
 .nowrap {
   white-space: nowrap;
+}
+
+.noscript {
+  color: #801a2b;
+  width: 50%;
+  margin: 0 auto;
 }

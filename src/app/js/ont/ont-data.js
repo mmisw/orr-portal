@@ -41,7 +41,7 @@
           title: x.title,
           srcUrl: srcUrl,
           tooltip: '<i>' + x.name+ '</i>: ' + x.title + ' (' +
-             '<a target="_blank" href="' + x.moreInfoUrl+ '"' +
+             '<a target="_blank" rel="noopener" href="' + x.moreInfoUrl+ '"' +
           '         >more info</a>)'
 
           ,tooltip2:

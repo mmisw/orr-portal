@@ -31,13 +31,13 @@
 </div>
 
 <div style="margin: 5px; font-family: Arial, sans-serif">
-  Edit, submit, and view the results of <a target="_blank" href="http://en.wikipedia.org/wiki/SPARQL">SPARQL</a>
+  Edit, submit, and view the results of <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/SPARQL">SPARQL</a>
   queries against the repository.
   <span style="color:gray;font-size:small">
     <br>
     (The SPARQL endpoint itself is located at
     <span id="sparql" style="font-family: monospace"></span>.
-    User interface below powered by <a target="_blank" href="http://doc.yasgui.org/" style="color:gray">YASGUI</a>.)
+    User interface below powered by <a target="_blank" rel="noopener" href="http://doc.yasgui.org/" style="color:gray">YASGUI</a>.)
   </span>
 </div>
 
@@ -54,5 +54,10 @@
   document.getElementById("sparql").innerHTML = appConfig.orront.sparqlEndpoint;
 </script>
 
+<noscript>
+  <div class="noscript">
+    The ORR application requires Javascript to be enabled in your browser.
+  </div>
+</noscript>
 </body>
 </html>

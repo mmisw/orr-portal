@@ -1,5 +1,26 @@
 ## change log ##
 
+* 2017-06-06: 3.6.2
+
+- fix: use cfg.portal.mainPage, not appUtil.windowBareHref, in link to start
+  file upload for new version of (non-ORR) ontology
+- getHref4uriWithSelfHostPrefix: when self-resolvable IRI, make sure the same
+  http/https scheme as the mainPage is used.
+
+- resolve #111 "minify resources"
+  - `gulp dist` creates minified version 
+  - `gulp dev` opens http://localhost:9001/src/app/indexdev.html
+  - some details:
+    - use gulp-uglify for js, gulp-csso for css
+    - rename index.html to indexdev.html
+    - new index.html for the minified version
+    - Dev mode: mainPage set to undefined in local.config.js so it gets window.location in 
+      appUtil.expandPortalMainPageUrl
+      
+- re #107 "PWA - Progressive Web App" 
+  - add rel="noopener" to all _blank refs
+  - add viewport and noscript in index files
+  
 * 2017-05-31: 3.6.0
 
 - resolve #48 "URIs should be IRIs"  (backend orr-ont#32)

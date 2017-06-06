@@ -627,7 +627,7 @@
               $scope.editMode = true;
             }
             else {
-              var href = appUtil.windowBareHref + "#rx/" + vm.uri;
+              var href = cfg.portal.mainPage + "#rx/" + vm.uri;
               $window.open(href, "_self");
             }
           }
