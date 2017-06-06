@@ -2,6 +2,8 @@
 
 * 2017-06-06: 3.6.2
 
+- fix: use cfg.portal.mainPage, not appUtil.windowBareHref, in link to start
+  file upload for new version of (non-ORR) ontology
 - getHref4uriWithSelfHostPrefix: when self-resolvable IRI, make sure the same
   http/https scheme as the mainPage is used.
 
