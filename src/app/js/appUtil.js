@@ -59,23 +59,28 @@ var appUtil = (function(window) {
   function getHref4uriWithSelfHostPrefix(uri) {
     uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
 
-    var prefix = appConfig.portal.mainPage;
-    // previously, windowHref
+    var mainPage = appConfig.portal.mainPage;
 
-    if (bUtil.uriEqualOrHasPrefixWithSlash(uri, prefix)) {
-      // it's self-resolvable:
-      return uri;
+    if (bUtil.uriEqualOrHasPrefixWithSlash(uri, mainPage)) {
+      // it's self-resolvable. Return the same uri but making sure it
+      // uses the same http/https scheme as mainPage:
+      if (uri.startsWith('http:') === mainPage.startsWith('http:')) {
+        return uri;
+      }
+      else {
+        return bUtil.replaceHttpScheme(uri);
+      }
     }
     else {
-      // use 'iri' parameter to prefix:
+      // use 'iri' parameter to mainPage:
       var url4link = uri.replace(/#/g, "%23");
       var paramAndValue = "iri=" + url4link;
-      if (prefix.indexOf(paramAndValue) < 0) {
+      if (mainPage.indexOf(paramAndValue) < 0) {
         // question mark or ampersand?
-        var qa = prefix.indexOf('?') >= 0 ? '&' : '?';
-        return prefix + qa + "iri=" + url4link;
+        var qa = mainPage.indexOf('?') >= 0 ? '&' : '?';
+        return mainPage + qa + "iri=" + url4link;
       }
-      else return prefix;  // already there
+      else return mainPage;  // already there
     }
   }
 

@@ -2,6 +2,9 @@
 
 * 2017-06-06: 3.6.2
 
+- getHref4uriWithSelfHostPrefix: when self-resolvable IRI, make sure the same
+  http/https scheme as the mainPage is used.
+
 - resolve #111 "minify resources"
   - `gulp dist` creates minified version 
   - `gulp dev` opens http://localhost:9001/src/app/indexdev.html
