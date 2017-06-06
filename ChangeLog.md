@@ -1,14 +1,12 @@
 ## change log ##
 
-* 2017-06-01: 3.6.1
+* 2017-06-06: 3.6.2
 
-- re #111 "minify resources"
-  - status:
-    - `gulp minified` is the current test task TODO: update usual 'dist' task 
-    - with this, http://localhost:9001/dist/orrportal/ is working great
-    - now `gulp dev` opens http://localhost:9001/src/app/indexdev.html
+- resolve #111 "minify resources"
+  - `gulp dist` creates minified version 
+  - `gulp dev` opens http://localhost:9001/src/app/indexdev.html
   - some details:
-    - use uglify for js, csso for css
+    - use gulp-uglify for js, gulp-csso for css
     - rename index.html to indexdev.html
     - new index.html for the minified version
     - Dev mode: mainPage set to undefined in local.config.js so it gets window.location in 

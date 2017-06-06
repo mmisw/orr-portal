@@ -228,7 +228,7 @@ gulp.task('clean', function (cb) {
     rimraf(distDest, cb);
 });
 
-const appCssSources = [
+const vendorCssSources = [
   'node_modules/bootstrap-css-only/css/bootstrap.css',
   'node_modules/bootstrap-css-only/css/bootstrap-theme.css',
   'node_modules/font-awesome/css/font-awesome.css',
@@ -238,7 +238,7 @@ const appCssSources = [
   'node_modules/angular-xeditable/dist/css/xeditable.css'
 ]
 
-const vendorCssSources = [
+const appCssSources = [
   'src/app/css/orrportal.css'
 ]
 
