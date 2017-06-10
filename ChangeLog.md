@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2017-06-10: 3.6.3
+
+- align version with backend (orr-ont)
+
 * 2017-06-06: 3.6.2
 
 - fix: use cfg.portal.mainPage, not appUtil.windowBareHref, in link to start
