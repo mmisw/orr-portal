@@ -5,7 +5,7 @@ The Ontology Registry and Repository (ORR) integrates semantic web services and 
 created by the Marine Metadata Interoperability project, MMI, toward the realization
 of its [Semantic Framework](https://marinemetadata.org/semanticframework) vision.
 
-[![](https://marinemetadata.org/files/mmi/semantic_framework.jpg)](https://marinemetadata.org/semanticframework)
+![](https://marinemetadata.org/files/mmi/semantic_framework.jpg)
 
 Current funding is provided by the U.S. National Science Foundation through the 
 [Cross-Domain Observational Metadata for Environmental Sensing (X-DOMES) project](
