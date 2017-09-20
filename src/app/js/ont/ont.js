@@ -339,12 +339,12 @@
           }, {
             label: "N-Triples",
             url: getUrl('nt')
-          //}, {             // TODO jena fails with the following(?)
-          //  label: "N-Quads",
-          //  url: getUrl('nq')
-          //}, {
-          //  label: "TriG",
-          //  getUrl('trig')
+          }, {
+           label: "N-Quads",
+           url: getUrl('nq')
+          }, {
+           label: "TriG",
+           url: getUrl('trig')
           }, {
             label: "RDF/JSON",
             url: getUrl('rj')

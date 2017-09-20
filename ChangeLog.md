@@ -1,5 +1,10 @@
 ## change log ##
 
+* 2017-09-20: 3.6.5
+
+- enable "N-Quads" and "TriG" in view-as-options, 
+  which are now properly handle by Jena in the backend
+
 * 2017-07-21: 3.6.4
 
 - align version with backend (orr-ont)
