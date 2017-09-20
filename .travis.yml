@@ -1,6 +1,10 @@
 language: node_js
 node_js:
-  - "0.12"
+  - "6"
+
+cache:
+  directories:
+    - "node_modules"
 
 notifications:
   slack: mmisw:yEUK01ro6HVvhRbkq9a2Y3df
