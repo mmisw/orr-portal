@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2017-10-04: 3.6.6
+
+- align version with backend (orr-ont)
+
 * 2017-09-20: 3.6.5
 
 - enable "N-Quads" and "TriG" in view-as-options, 
