@@ -2,6 +2,7 @@
 
 * 2017-11-17: 3.7.0
 
+- upgrade moment to 2.19.2
 - align version with backend (orr-ont)
 
 * 2017-10-11: 3.6.8
