@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2017-11-17: 3.7.0
+
+- align version with backend (orr-ont)
+
 * 2017-10-11: 3.6.8
 
 - align version with backend (orr-ont)
