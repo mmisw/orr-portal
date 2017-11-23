@@ -130,10 +130,11 @@ gulp.task('dist-directory', ['app', 'vendor']);
 gulp.task('app', ['clean'], function(){
   var src = ['./src/app/**', '!./src/app/**/*.html'];
   if (gutil.env.localConfig) {
-    gutil.log("Including local.config.js");
+    gutil.log("app task: Including local.config.js");
   }
   else {
-    src.push('!./src/app/js/local.config.js');
+    gutil.log("app task: Excluding local.config.js");
+    src.push('!./**/local.config.js');
   }
   return merge(
     gulp.src(src)
@@ -174,14 +175,17 @@ gulp.task('vendor', ['clean'], function() {
 gulp.task('min', ['app-index-and-config', 'app-min']);
 
 gulp.task('app-index-and-config', function () {
+  var cfgSrc = ['./src/app/js/config.js'];
+  if (gutil.env.localConfig) {
+    gutil.log("app-index-and-config: Including local.config.js");
+    cfgSrc.push('./src/app/js/local.config.js');
+  }
+  else {
+    gutil.log("app-index-and-config: Excluding local.config.js");
+  }
+
   return merge(
-    // gulp.src(['./src/app/**/*.html'])
-    //   .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))
-    //   .pipe(replace(/@@version/g, version))
-    //   .pipe(gulp.dest(distDest)),
-    gulp.src(['./src/app/js/config.js'
-      , './src/app/js/local.config.js'
-    ])
+    gulp.src(cfgSrc)
       .pipe(gulp.dest(distDest + '/js')),
     gulp.src(['./src/app/img/**'])
       .pipe(gulp.dest(distDest + '/img'))

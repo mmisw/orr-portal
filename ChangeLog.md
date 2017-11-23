@@ -1,5 +1,12 @@
 ## change log ##
 
+* 2017-11-22: 3.7.0
+
+- only include `local.config.js` in `gulp dist` if `--localConfig` is given
+  (this got broken somehow).
+  This noted while doing adjustments to the backend, which will take care of
+  automatically generating `local.config.js` based on the ORR master configuration. 
+
 * 2017-11-17: 3.7.0
 
 - upgrade moment to 2.19.2
