@@ -2,6 +2,7 @@
 
 * 2017-11-22: 3.7.0
 
+- remove `template.local.config.js` (unneeded)
 - only include `local.config.js` in `gulp dist` if `--localConfig` is given
   (this got broken somehow).
   This noted while doing adjustments to the backend, which will take care of
