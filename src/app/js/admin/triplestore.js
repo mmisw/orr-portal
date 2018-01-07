@@ -37,7 +37,7 @@
 
     var vm = $scope.vm = {
       tsRoute: appConfig.orront.rest + "/api/v0/ts",
-      tsSize: tsSize || "?",
+      tsSize: tsSize !== undefined ? tsSize : "?",
       reloadResult: "",
       working: false
     };
@@ -52,7 +52,7 @@
           vm.error = errorMsg(error);
         }
         else {
-          vm.tsSize = tsSize = result.size || "?";
+          vm.tsSize = tsSize = result.size !== undefined ? result.size : "?";
         }
       });
     };

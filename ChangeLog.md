@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2018-01-07: 3.7.1
+
+- show triple store size when zero 
+
 * 2017-11-22: 3.7.0
 
 - remove `template.local.config.js` (unneeded)
