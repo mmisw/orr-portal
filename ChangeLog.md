@@ -1,7 +1,8 @@
 ## change log ##
 
-* 2018-01-07: 3.7.1
+* 2018-01-16: 3.7.1
 
+- \#117: link to https://mmisw.org/orrdoc/query/#some-sparql-examples in the sparql yasgui page
 - show triple store size when zero 
 
 * 2017-11-22: 3.7.0
