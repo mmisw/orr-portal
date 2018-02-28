@@ -1,5 +1,13 @@
 ## change log ##
 
+* 2018-02-28: 3.7.2
+
+- fix #121 "Update jQuery to 3.0.0".
+  Actually, I just removed jQuery as a dependecy as after some careful inspection
+  it doesn't seem to be used at all. I don't recall why I added it as a dependency
+  but likely it was because of some interim testing not supported
+  by [Angular's jqLite](https://docs.angularjs.org/api/ng/function/angular.element).
+
 * 2018-01-16: 3.7.1
 
 - \#117: link to https://mmisw.org/orrdoc/query/#some-sparql-examples in the sparql yasgui page
