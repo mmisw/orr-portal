@@ -1,5 +1,10 @@
 ## change log ##
 
+* 2018-03-05: 3.7.3
+
+- per github notification about potential security vulnerability, upgrade moment (to 2.21.0 from 2.19.2)
+
+
 * 2018-02-28: 3.7.2
 
 - fix #121 "Update jQuery to 3.0.0".
