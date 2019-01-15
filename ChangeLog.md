@@ -1,5 +1,12 @@
 ## change log ##
 
+* 2019-01-15: 3.8.1
+
+- update some dependencies and check in package-lock.json
+  TODO: Not surprisingly, there are now several packages that should be upgraded.
+  This will require some significant effort.
+- 3.8.1 also toward aligning with next version of backend (orr-ont)
+
 * 2018-03-05: 3.7.3
 
 - per github notification about potential security vulnerability, upgrade moment (to 2.21.0 from 2.19.2)
@@ -16,7 +23,7 @@
 * 2018-01-16: 3.7.1
 
 - \#117: link to https://mmisw.org/orrdoc/query/#some-sparql-examples in the sparql yasgui page
-- show triple store size when zero 
+- show triple store size when zero
 
 * 2017-11-22: 3.7.0
 
@@ -24,7 +31,7 @@
 - only include `local.config.js` in `gulp dist` if `--localConfig` is given
   (this got broken somehow).
   This noted while doing adjustments to the backend, which will take care of
-  automatically generating `local.config.js` based on the ORR master configuration. 
+  automatically generating `local.config.js` based on the ORR master configuration.
 
 * 2017-11-17: 3.7.0
 
@@ -45,7 +52,7 @@
 
 * 2017-09-20: 3.6.5
 
-- enable "N-Quads" and "TriG" in view-as-options, 
+- enable "N-Quads" and "TriG" in view-as-options,
   which are now properly handle by Jena in the backend
 
 * 2017-07-21: 3.6.4
@@ -64,27 +71,27 @@
   http/https scheme as the mainPage is used.
 
 - resolve #111 "minify resources"
-  - `gulp dist` creates minified version 
+  - `gulp dist` creates minified version
   - `gulp dev` opens http://localhost:9001/src/app/indexdev.html
   - some details:
     - use gulp-uglify for js, gulp-csso for css
     - rename index.html to indexdev.html
     - new index.html for the minified version
-    - Dev mode: mainPage set to undefined in local.config.js so it gets window.location in 
+    - Dev mode: mainPage set to undefined in local.config.js so it gets window.location in
       appUtil.expandPortalMainPageUrl
-      
-- re #107 "PWA - Progressive Web App" 
+
+- re #107 "PWA - Progressive Web App"
   - add rel="noopener" to all _blank refs
   - add viewport and noscript in index files
-  
+
 * 2017-05-31: 3.6.0
 
 - resolve #48 "URIs should be IRIs"  (backend orr-ont#32)
     - use "IRI"/"iri" instead of "URI"/"iri" in all user-visible widgets/messages
     - use iri/oiri/tiri parameters in all relevant requests to the backend
-    - consider windowLocationSearch.iri in appUtil.setRequestedUriAndVersionIfAny 
+    - consider windowLocationSearch.iri in appUtil.setRequestedUriAndVersionIfAny
     - NOTE: underlying variable/function names continue to use 'uri'.
-    
+
 * 2017-05-29: 3.5.1
 
 - fix #109 "fully-hosted filter should consider https and http"
@@ -111,10 +118,10 @@
 
 * 2017-04-12:  3.4.3
   - resolve #101: "CSV import: option to indicate that all columns are properties (and values)"
-    
+
 * 2017-03-08:  3.4.2
   - remove WebVOWL (until we have time to have a loca deployment)
-  
+
 * 2017-03-07:  3.4.1
   - LOD adjustments/fixes (related: #88, #92):
     - use mklink4uriWithSelfHostPrefix and mkLinks filters in grids for:
@@ -132,10 +139,10 @@
     - visibility/status were not required; fixed
     - show cfg.branding.title to refer to the particular ORR instance
     - some style adjustments
-  
+
 * 2017-03-02:  3.3.1
   - fix #85 "user page is wrong"
-  
+
 * 2017-02-28:  3.3.0
   - resolve #84 "capture log message for ontology version registration".
     Upon clicking "Register" now a dialog appears for user to enter the log message.
@@ -143,23 +150,23 @@
 
 * 2017-02-28:  3.2.5
   - when no ontology/term found by given URI, make it clickable if it's not a self-hosted one
-  
+
 * 2017-02-26:  3.2.5
   - improve search options
     - show SPARQL query for term-search and keyword-search including clipboard-copy
     - term-search now also applied on the simple name of the subjects
       (also, preliminaries to allow user indicate where to search: subject, predicate, and or object)
-  
+
 * 2017-02-26:  3.2.4
   - introduce appUtil.getOntUrlForExternalTool to get the URL to resolve an ontology
-    for purposes of dispatch of external visualization tool. 
+    for purposes of dispatch of external visualization tool.
     This utility is directly based on cfg.orront.rest.
   - include external viewers as additional options in view/download dropdown menu
   - resolve #83 "include LODE in list of external ontology viewers"
   - resolve #82 "include list of ontologies in organization page"
   - organization's name was not editable; fixed.
   - resolve #80 "too much unused real estate".
-    use `height: calc(98vh - 110px)` for the ui-grid: 110 is just an estimate of the 
+    use `height: calc(98vh - 110px)` for the ui-grid: 110 is just an estimate of the
     height of the header section. This was only done for the main page (class ontListGrid).
     There are other uses of ui-grid than can be addressed similarly (bot not now).
     (Also, note that issues with dynamic adjustment of ui-grid's width is still to be addressed.)
@@ -167,30 +174,30 @@
 * 2017-02-22:  3.2.3
   - as part of the preparations to migrate the MMI ORR to this new v3:
     - add metaUtil.removeDuplicateMetadataAttributes: when an ontology URI is resolved
-      (UriController), this helper removes the duplicate values added by the 
+      (UriController), this helper removes the duplicate values added by the
       old ORR system.  Effects:
-      - immediate display effect when just viewing the ontology (no changes at all 
+      - immediate display effect when just viewing the ontology (no changes at all
         in the original registered ontology)
-      - but will have persistent effect if a new version of the ontology is registered 
+      - but will have persistent effect if a new version of the ontology is registered
         (those duplicates will be removed in the registered version).
-    - for redirection from /orr/ -> /ont/ once v3 is installed, see https://github.com/mmisw/mmiorr/wiki 
-     
+    - for redirection from /orr/ -> /ont/ once v3 is installed, see https://github.com/mmisw/mmiorr/wiki
+
   - remove adjustOntology (interim ontology status setting)
   - re-enable ontologyType facet
   - put "-undefined-" value at the end of facet section
   - adjust style of triple store page; increment timeout to 300secs
 
 * 2017-02-17:  3.2.2
-  - for version tag point to https://mmisw.org/orrdoc/changes/ 
+  - for version tag point to https://mmisw.org/orrdoc/changes/
   - resolve #79 "Allow to register a remote URL".
     Upload sequence starts with selection of "local file" or "remote url".
-    Unless there's an argument to the `#rx` route (meaning "original uri" is fixed 
-    to that value), there will be (as in the "local file" case) an "original uri" 
-    field (initialized to the given remote url), where the user can adjust the 
+    Unless there's an argument to the `#rx` route (meaning "original uri" is fixed
+    to that value), there will be (as in the "local file" case) an "original uri"
+    field (initialized to the given remote url), where the user can adjust the
     associated uri if needed / as appropriate.
-    The found URIs in the remote file (as in the local file case) are also shown 
+    The found URIs in the remote file (as in the local file case) are also shown
     to help with the inspection or selection.
-  
+
 * 2017-02-16:  3.2.1
   - fix #22 "upload option for new version".
     The `#rx` route now accepts the URI of the ontology for the registration of a new version.
@@ -201,34 +208,34 @@
     NOTE: use same header mechanism in all other requests.
   - move admin drop-down menu to a directive
   - fix #60 "capture status and visibility when creating new vocab or new mapping"
-  
+
 * 2017-02-14:  3.2.1
   - fix #57 "m2r: check and avoid triple duplications"
     Also, avoid duplicates when loading mapping triples in m2r interface in case registered
     content contains such duplicates (which may be the case due to initial implementations).
-    
+
   - fix #75 ""No such ontology" for external case in mapped ontologies"
-  
+
 * 2017-02-09:  3.2.0
   - reverting: mostRecentByOwner back to false by default per JG's suggestion
 * 2017-02-08:  3.2.0
   - for better display of ontology list when single owners have many ontologies with
-    similar version (that is, time of registration), now the mostRecentByOwner is to 
+    similar version (that is, time of registration), now the mostRecentByOwner is to
     true by default. Concrete example: there are 223 SWEET 2.3 ontologies.
-  
+
 * 2017-02-03:  3.1.9
   - re #76 "iceOfLandOrigin ontology: RDF/XML failing to upload" -
     make exception visible in UI
   - fix #77 "iceOfLandOrigin ontology: not dispatched as ontology"
     services.js: use proper mechanism to indicate parameters in http requests
   - auth/controllers.js: use proper mechanism to indicate parameters in http requests
-  
+
 * 2017-02-03:  3.1.8
   - fix #70 "duplicate ontology URI not checked at creation"
-  
+
 * 2017-02-01:  3.1.7
   - remove the interim "Testing!" badge/popup (orr-testing directive)
-  
+
 * 2016-11-09:  3.1.6
   - re orr-ont#31 "https == http...", reflect reported ontology URI from response
 
