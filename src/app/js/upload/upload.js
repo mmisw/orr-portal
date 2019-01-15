@@ -85,7 +85,7 @@
 
       fileOrUrl: 'uploadFile',
 
-      maxUploadSize: '10MB'  // TODO retrieve this limit from the backend
+      maxUploadSize: '150MB'  // TODO retrieve this limit from the backend
 
       ,visibilityOptions:  utl.visibilityOptions,
       selectedVisibility: undefined

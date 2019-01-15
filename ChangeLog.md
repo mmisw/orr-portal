@@ -2,6 +2,11 @@
 
 * 2019-01-15: 3.8.1
 
+- resolve #126 "Increase size of upload data > 10MB"
+  ah! the upload file size limit is hard-coded in upload.js
+  Just set it there to '150MB' but the TODO has long been
+  to retrieve this limit from the backend.
+
 - update some dependencies and check in package-lock.json
   TODO: Not surprisingly, there are now several packages that should be upgraded.
   This will require some significant effort.
