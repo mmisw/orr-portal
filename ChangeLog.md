@@ -1,5 +1,7 @@
 ## change log ##
 
+* 2019-01-19: 3.8.2 - align with backend version
+
 * 2019-01-15: 3.8.1
 
 - resolve #126 "Increase size of upload data > 10MB"
