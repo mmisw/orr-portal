@@ -398,7 +398,7 @@
         if (!rvm.accountInfo.organizations) return false;
         var orgOntOwner = vm.ontology.ownerName;
         var userOrgs = _.map(rvm.accountInfo.organizations, "orgName");
-        return _.contains(userOrgs, orgOntOwner);
+        return _.includes(userOrgs, orgOntOwner);
       }
     };
 
@@ -604,7 +604,7 @@
         if (!rvm.accountInfo.organizations) return false;
         var orgOntOwner = vm.ontology.ownerName;
         var userOrgs = _.map(rvm.accountInfo.organizations, "orgName");
-        return _.contains(userOrgs, orgOntOwner);
+        return _.includes(userOrgs, orgOntOwner);
       }
     };
 
@@ -970,7 +970,7 @@
       return;
     }
 
-    var isVoc2Rdf = _.any(usedOntologyEngineeringToolValue, {value: voc2rdfPropertyUri});
+    var isVoc2Rdf = _.some(usedOntologyEngineeringToolValue, {value: voc2rdfPropertyUri});
 
     if (!isVoc2Rdf) {
       if (debug) console.debug("try_voc_2_v2r: Ontology not built with voc2rdf");
@@ -1093,7 +1093,7 @@
       return;
     }
 
-    var isVine = _.any(usedOntologyEngineeringToolValue, {value: vinePropertyUri});
+    var isVine = _.some(usedOntologyEngineeringToolValue, {value: vinePropertyUri});
 
     if (!isVine) {
       if (debug) console.debug("try_map_2_m2r: Ontology not built with vine");
@@ -1112,7 +1112,7 @@
     var mappings = [];
     _.forOwn(data, function(props, uri) {
       var types = props['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'];
-      if (types && _.any(types, {value: vineStatementUri})) {
+      if (types && _.some(types, {value: vineStatementUri})) {
         var subjectUris   = _.map(props[vineSubjectUri], "value");
         var predicateUris = _.map(props[vinePredicateUri], "value");
         var objectUris    = _.map(props[vineObjectUri], "value");

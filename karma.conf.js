@@ -6,7 +6,7 @@ module.exports = function (config) {
     files: [
       //'src/app/vendor/angular/angular.js',
       //'src/app/vendor/angular-mocks/angular-mocks.js',
-      'node_modules/lodash/dist/lodash.compat.min.js',
+      'node_modules/lodash/lodash.min.js',
       'src/app/js/bUtil.js',
       'src/app/js/ont/m2r/m2rUtil.js',
       'src/app/js/**/*.spec.js'

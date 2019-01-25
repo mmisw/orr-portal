@@ -177,7 +177,7 @@
           if (selectedByFieldName.length && selectedByFieldName.length < facet.list.length) {
             selectedOnts = _.filter(selectedOnts, function(ont) {
               var val = getFieldValue(ont, facet.fieldName);
-              return _.contains(selectedByFieldName, val);
+              return _.includes(selectedByFieldName, val);
             });
           }
         }
@@ -213,10 +213,10 @@
      */
     function anyFacetSelection(facetKey) {
       if (facetKey) {
-        return _.any(facets[facetKey].selection, {selected: true});
+        return _.some(facets[facetKey].selection, {selected: true});
       }
       else {
-        return _.any(_.keys(facets), anyFacetSelection);
+        return _.some(_.keys(facets), anyFacetSelection);
       }
     }
 

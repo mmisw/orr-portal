@@ -299,7 +299,7 @@ const vendorJsSources = [
   'node_modules/angular-sanitize/angular-sanitize.js',
   'node_modules/angular-ui-router/release/angular-ui-router.js',
   'node_modules/angular-clipboard/angular-clipboard.js',
-  'node_modules/lodash/dist/lodash.js',
+  'node_modules/lodash/lodash.js',
   'node_modules/moment/moment.js',
   'node_modules/angular-ui-grid/ui-grid.js',
   'node_modules/ng-file-upload/dist/ng-file-upload.js',

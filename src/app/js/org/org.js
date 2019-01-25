@@ -41,7 +41,7 @@
       if (!$rootScope.rvm.accountInfo) return false;
       if (!$rootScope.rvm.accountInfo.organizations) return false;
       var userOrgs = _.map($rootScope.rvm.accountInfo.organizations, "orgName");
-      return _.contains(userOrgs, $scope.orgName);
+      return _.includes(userOrgs, $scope.orgName);
     };
     $scope.startOrgEdit = function() {
       $scope.editMode = true;

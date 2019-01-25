@@ -147,7 +147,7 @@
         var remValues  = curMetadata[removeUri];
         var keepValues = curMetadata[keepUri];
         var remaining = _.filter(remValues, function(remValue) {
-          return !_.contains(keepValues, remValue);
+          return !_.includes(keepValues, remValue);
         });
         if (remaining && remaining.length) {
           curMetadata[removeUri] = remaining;

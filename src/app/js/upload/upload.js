@@ -429,7 +429,7 @@
       var orgOntOwner = vm.knownOwner;
       if (debug) console.debug("owned by org:", orgOntOwner, "accountInfo.organizations=", $rootScope.rvm.accountInfo.organizations);
       var organizations = $rootScope.rvm.accountInfo.organizations;
-      return organizations && _.contains(_.map(organizations, "orgName"), orgOntOwner);
+      return organizations && _.includes(_.map(organizations, "orgName"), orgOntOwner);
     }
 
     $scope.okToRegisterFullyHosted = function() {

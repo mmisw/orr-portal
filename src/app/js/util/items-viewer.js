@@ -58,7 +58,7 @@
         for (var ii = 0; ii < max; ii++) {
           var itemKeys = _.keys($scope.items[ii]);
           _.each(itemKeys, function(itemKey) {
-            if (!_.contains(collectedKeys, itemKey)) {
+            if (!_.includes(collectedKeys, itemKey)) {
               collectedKeys.push(itemKey);
               columnDefs.push({field: itemKey});
             }
