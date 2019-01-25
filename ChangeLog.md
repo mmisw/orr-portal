@@ -1,5 +1,11 @@
 ## change log ##
 
+* 2019-01-25: 3.8.3
+
+- re #127 "Update lodash and jquery dependncies"
+  - jquery removed altogether by just upgrading angular-xeditable
+  - TODO lodash: not as straightforward due to breaking changes
+
 * 2019-01-19: 3.8.2 - align with backend version
 
 * 2019-01-15: 3.8.1
