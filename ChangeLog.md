@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2019-02-07: 3.8.4
+
+- internal: lib upgrade to address potential vulnerability
+
 * 2019-01-25: 3.8.3
 
 - resolve #127 "Update lodash and jquery dependncies"

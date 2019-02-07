@@ -1,13 +1,13 @@
 {
   "name": "orrportal",
-  "version": "3.8.3",
+  "version": "3.8.4",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/mmisw/orr-portal.git"
   },
   "devDependencies": {
-    "extend": "2.0.1",
+    "extend": "^2.0.2",
     "gulp": "3.9.1",
     "gulp-concat": "2.5.2",
     "gulp-csso": "3.0.0",
