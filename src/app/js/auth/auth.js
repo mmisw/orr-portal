@@ -35,12 +35,14 @@
 
       console.log(appUtil.logTs() + ": POST " + url);
       $http.post(url, body)
-        .success(function(res, status, headers, config) {
+        .then(function({data, status, headers, config}) {
+          const res = data;
           //console.debug(appUtil.logTs() + ": user/auth:", res);
           token = res.token;
           loginOk()
-        })
-        .error(httpErrorHandler(gotLogin));
+        },
+          httpErrorHandler(gotLogin)
+        );
 
       function loginOk() {
         localStorageService.set("token", token);
@@ -86,8 +88,9 @@
       $http.get(url, {
           params: params
         })
-        .success(function(res, status, headers, config) {
-          //console.debug(appUtil.logTs() + ": gotUser: ", res);
+        .then(function({data, status, headers, config}) {
+          const res = data
+          console.debug(appUtil.logTs() + ": gotUser: ", res);
           if (res.error) {
             if (cb) cb(res);
           }
@@ -98,8 +101,9 @@
             service.setDoRefreshOntologies(true);
             notifyAuthenticateStateChanged();
           }
-        })
-        .error(httpErrorHandler(cb))
+        },
+          httpErrorHandler(cb)
+        )
     }
 
     function notifyAuthenticateStateChanged() {
@@ -107,7 +111,7 @@
     }
 
     function httpErrorHandler(cb) {
-      return function(data, status, headers, config) {
+      return function({data, status, headers, config}) {
         var reqMsg = config.method + " '" + config.url + "'";
 
         var error = "[" + appUtil.logTs() + "] ";

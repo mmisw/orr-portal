@@ -142,7 +142,7 @@
       var params = {query: query};
       if (appUtil.debug) console.debug(appUtil.logTs() + ": GET " + url, params);
       $http.get(appConfig.orront.sparqlEndpoint, {params: params, headers: headers})
-        .success(function(data, status, headers, config) {
+        .then(function({data, status, headers, config}) {
           if (appUtil.debug) console.debug(appUtil.logTs() + ": got response: status=", status, "data=", data);
           if (status !== 200) {
             gotResults("Error: " +status+ ": " +data);
@@ -150,8 +150,7 @@
           }
 
           gotResults(null, data);
-        })
-        .error(function(data, status, headers, config) {
+        }, function(data, status, headers, config) {
           var reqMsg = config.method + " '" + config.url + "'";
           var error = "[" + appUtil.logTs() + "] ";
           console.log("error in request " +reqMsg+ ":",
