@@ -1,5 +1,10 @@
 ## change log ##
 
+* 2019-08-06: 3.8.5
+
+- bump Angular from 1.4.7 to 1.6.0 and consequently replace
+  several deprecated $http methods that were removed.
+
 * 2019-02-07: 3.8.4
 
 - internal: lib upgrade to address potential vulnerability

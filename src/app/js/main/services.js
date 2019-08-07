@@ -87,14 +87,16 @@
         url:    url,
         params: params
       })
-        .success(function(res, status, headers, config) {
+        .then(function({data, status, headers, config}) {
+          const res = data
           console.log(appUtil.logTs() + ": gotOntologies: ", res.length);
           setRefreshing(false);
           ontologies = res;
           $rootScope.$broadcast('evtRefreshCompleteOk');
           gotOntologies(null, ontologies);
-        })
-        .error(httpErrorHandler(gotOntologies))
+        },
+          httpErrorHandler(gotOntologies)
+        )
     }
 
     function resolveUri(uri, version, gotUriResolution) {
@@ -150,7 +152,8 @@
         url: url,
         params: params
       })
-        .success(function(res, status, headers, config) {
+        .then(function({data, status, headers, config}) {
+          const res = data
           setRefreshing(false);
           if (appUtil.debug) console.debug("existsOntology response: ", _.cloneDeep(res));
           if (res.error) {
@@ -159,8 +162,7 @@
           else {
             gotExistsOntology(null, res);
           }
-        })
-        .error(function(data, status, headers, config) {
+        }, function({data, status, headers, config}) {
           setRefreshing(false);
           if (appUtil.debug) console.debug("existsOntology error: data=", _.cloneDeep(data), "status=", status);
           gotExistsOntology({data: data, status: status});
@@ -194,7 +196,8 @@
         url: url,
         params: params
       })
-        .success(function(res, status, headers, config) {
+        .then(function({data, status, headers, config}) {
+          const res = data
           setRefreshing(false);
           //console.log(appUtil.logTs() + ": refreshOntology !md response: ", _.cloneDeep(res));
           if (res.error) {
@@ -203,8 +206,9 @@
           else {
             gotOntology(null, res);
           }
-        })
-        .error(httpErrorHandler(gotOntology))
+        },
+          httpErrorHandler(gotOntology)
+        )
     }
 
     function getOntologySubjects(uri, cb) {
@@ -258,7 +262,8 @@
         url:    url,
         params: params
       })
-        .success(function(res, status, headers, config) {
+        .then(function({data, status, headers, config}) {
+          const res = data
           setRefreshing(false);
           //console.log(appUtil.logTs() + ": getOntologyFormat " +format+" response: ", _.cloneDeep(res));
           if (res.error) {
@@ -267,8 +272,9 @@
           else {
             gotOntology(null, res);
           }
-        })
-        .error(httpErrorHandler(gotOntology))
+        },
+          httpErrorHandler(gotOntology)
+        )
     }
 
     function refreshOrg(orgName, params, gotOrg) {
@@ -292,7 +298,8 @@
         url:    url,
         params: params
       })
-        .success(function(res, status, headers, config) {
+        .then(function({data, status, headers, config}) {
+          const res = data
           setRefreshing(false);
           if (appUtil.debug) console.debug(appUtil.logTs() + ": gotOrg: ", res);
           if (res.error) {
@@ -301,8 +308,9 @@
           else {
             gotOrg(null, res);
           }
-        })
-        .error(httpErrorHandler(gotOrg))
+        },
+          httpErrorHandler(gotOrg)
+        )
     }
 
     function createOrg(data, cb) {
@@ -383,7 +391,8 @@
         url:    url,
         params: params
       })
-        .success(function(res, status, headers, config) {
+        .then(function({data, status, headers, config}) {
+          const res = data
           setRefreshing(false);
           if (appUtil.debug) console.log(appUtil.logTs() + ": gotUser: ", res);
           if (res.error) {
@@ -392,8 +401,8 @@
           else {
             gotUser(null, res);
           }
-        })
-        .error(httpErrorHandler(gotUser))
+        },
+          httpErrorHandler(gotUser))
     }
 
     function refreshUsers(cb) {
@@ -491,11 +500,10 @@
       // note: direct use of $http to handle response in case of error
       // TODO: general revision of http dispatch
       $http(config)
-        .success(function (data) {
+        .then(function ({data}) {
           console.log(appUtil.logTs() + ": uploadRemoteUrl: data=", data);
           cb(null, data);
-        })
-        .error(function(data, status, headers, config) {
+        }, function({data, status, headers, config}) {
           var reqMsg = config.method + " '" + config.url + "'";
 
           console.log("error in request " +reqMsg+ ":",
@@ -536,13 +544,20 @@
         "data=", config.data
       );
 
-      var http = $http(config);
-      http.error(httpErrorHandler(cb));
-      return http;
+      return {
+        success: function(cbSuccess) {
+          $http(config)
+            .then(function({data}) {
+              cbSuccess(data)
+            },
+              httpErrorHandler(cb)
+            )
+        }
+      };
     }
 
     function httpErrorHandler(cb) {
-      return function(data, status, headers, config) {
+      return function({data, status, headers, config}) {
         var reqMsg = config.method + " '" + config.url + "'";
 
         console.log("error in request " +reqMsg+ ":",
