@@ -1,6 +1,10 @@
 ## change log ##
 
-* 2019-08-06: 3.8.5
+* 2019-08-08: 3.8.5
+
+- adjust $http method calls to use ECMAScript 5 as uglify-js only supports this dialect.
+  Issue noted while tryong to run `gulp install`.
+  (`gulp dev` was fine because no uglification is performed).
 
 - bump Angular from 1.4.7 to 1.6.0 and consequently replace
   several deprecated $http methods that were removed.

@@ -55,7 +55,9 @@
       var params = {query: query};
       if (debug) console.log("GET " + url, params);
       $http.get(sparqlEndpoint, {params: params, headers: headers})
-        .then(function({data, status, headers, config}) {
+        .then(function(r) {
+          var data = r.data
+          var status = r.status
           if (debug) console.log("got response: status=", status, "data=", data);
           if (status !== 200) {
             cb("Error: " +status+ ": " +data);
@@ -63,7 +65,10 @@
           }
 
           cb(null, data);
-        }, function({data, status, headers, config}) {
+        }, function(r) {
+          var data = r.data
+          var status = r.status
+          var config = r.config
           var reqMsg = config.method + " '" + config.url + "'";
           var error = "[" + appUtil.logTs() + "] ";
           console.log("error in request " +reqMsg+ ":",

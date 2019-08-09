@@ -35,8 +35,8 @@
 
       console.log(appUtil.logTs() + ": POST " + url);
       $http.post(url, body)
-        .then(function({data, status, headers, config}) {
-          const res = data;
+        .then(function(r) {
+          const res = r.data;
           //console.debug(appUtil.logTs() + ": user/auth:", res);
           token = res.token;
           loginOk()
@@ -88,8 +88,8 @@
       $http.get(url, {
           params: params
         })
-        .then(function({data, status, headers, config}) {
-          const res = data
+        .then(function(r) {
+          const res = r.data
           console.debug(appUtil.logTs() + ": gotUser: ", res);
           if (res.error) {
             if (cb) cb(res);
@@ -111,7 +111,10 @@
     }
 
     function httpErrorHandler(cb) {
-      return function({data, status, headers, config}) {
+      return function(r) {
+        var data = r.data
+        var status = r.status
+        var config = r.config
         var reqMsg = config.method + " '" + config.url + "'";
 
         var error = "[" + appUtil.logTs() + "] ";

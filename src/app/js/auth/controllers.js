@@ -179,13 +179,15 @@
         method:  'PUT',
         url:     cfg.orront.rest + "/api/v0/user/rpwr/" + vm.username,
       })
-        .then(function({data, status, headers, config}) {
+        .then(function(r) {
+          var data = r.data
           $scope.working = false;
           console.log("request password reset response:", data);
           vm.alreadyRequested.push(vm.username);
           $scope.status = data.message;
           authService.signOut();
-        }, function({data, status, headers, config}) {
+        }, function(r) {
+          var data = r.data
           $scope.working = false;
           console.error("request password reset error: data=", data, "status=", status);
           $scope.error = data.error ? data.error : "error: " + angular.toJson(data);
@@ -229,12 +231,15 @@
         url:     cfg.orront.rest + "/api/v0/user/unr/",
         data:    {email: vm.email}
       })
-        .then(function({data, status, headers, config}) {
+        .then(function(r) {
+          var data = r.data
           vm.working = false;
           console.log("request username reminder response:", data);
           vm.status = data.message;
           vm.reminded = true;
-        }, function({data, status, headers, config}) {
+        }, function(r) {
+          var data = r.data
+          var status = r.status
           vm.working = false;
           console.error("request username reminder error: data=", data, "status=", status);
           vm.error = data.error ? data.error : "error: " + angular.toJson(data);
@@ -302,14 +307,16 @@
         method:  'GET',
         url:     cfg.orront.rest + "/api/v0/user/" + vm.username
       })
-        .then(function({data, status, headers, config}) {
+        .then(function(r) {
           vm.working = vm.created = false;
           vm.error = "username '" +vm.username+ "' already taken"
           vm.status = undefined;
           $timeout(function () {
             vm.error = '';
           }, 2000)
-        }, function({data, status, headers, config}) {
+        }, function(r) {
+          var data = r.data
+          var status = r.status
           if (status === 404) {
             doCreate();
           }
@@ -340,13 +347,16 @@
         url:     cfg.orront.rest + "/api/v0/user/",
         data:    body
       })
-        .then(function({data, status, headers, config}) {
+        .then(function(r) {
+          var data = r.data
           vm.working = false;
           vm.created = true;
           vm.creating = false;
           console.log("request create account response:", data);
           vm.status = '';  // ok creation msg shown in the heading
-        }, function({data, status, headers, config}) {
+        }, function(r) {
+          var data = r.data
+          var status = r.status
           vm.working = false;
           console.error("request create account error: data=", data, "status=", status);
           vm.error = data.error ? data.error : "error: " + angular.toJson(data);
@@ -448,12 +458,15 @@
         params:  params,
         data:    body
       })
-        .then(function({data, status, headers, config}) {
+        .then(function(r) {
+          var data = r.data
           console.log("save account info response:", data);
           vm.working = false;
           vm.status = "saved.";
           savedUser = _.clone(vm);
-        }, function({data, status, headers, config}) {
+        }, function(r) {
+          var data = r.data
+          var status = r.status
           vm.working = false;
           console.error("save account info error: data=", data, "status=", status);
           vm.error = data.error ? data.error : "error: " + angular.toJson(data);
@@ -531,7 +544,8 @@
         params:  params,
         data:    body
       })
-        .then(function({data, status, headers, config}) {
+        .then(function(r) {
+          var data = r.data
           vm.working = false;
           console.log("save password response:", data);
           vm.status = 'Password changed. Please log in again.';
@@ -540,7 +554,9 @@
           $timeout(function(){
             $uibModalInstance.close();
           }, 2000)
-        }, function({data, status, headers, config}) {
+        }, function(r) {
+          var data = r.data
+          var status = r.status
           vm.working = false;
           console.error("request create account error: data=", data, "status=", status);
           vm.error = data.error ? data.error : "error: " + angular.toJson(data);
