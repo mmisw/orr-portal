@@ -61,6 +61,7 @@
     ];
 
     var items = [];
+    console.log('rj-viewer: vm.rj=', vm.rj)
     _.each(vm.rj, function(subjectProps, subjectUri) {
       // do not include the ontology URI itself as a subject:
       if (subjectUri !== vm.uri) {
@@ -81,11 +82,12 @@
     });
 
     vm.items = [];
+    console.debug("PRE: vm.items=", vm.items, "items.length=", items.length);
     appUtil.updateModelArray(vm.items, items,
       function(done) {
         if (done) {
           $scope.$parent.$digest();
-          if (debug) console.debug("Done update model array: vm.items=", vm.items.length);
+          console.debug("Done update model array: vm.items=", vm.items.length);
         }
         else {
           $scope.$digest();
