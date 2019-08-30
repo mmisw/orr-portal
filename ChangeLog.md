@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2019-08-30: 3.8.7
+
+- upgrade select2
+
 * 2019-08-28: 3.8.6
 
 - PR #139: reverting to angular 1.4.7 seems to make things work better,

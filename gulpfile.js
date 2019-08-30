@@ -238,7 +238,7 @@ const vendorCssSources = [
   'node_modules/font-awesome/css/font-awesome.css',
   'node_modules/angular-ui-grid/ui-grid.css',
   'node_modules/ui-select/dist/select.css',
-  'node_modules/select2/select2.css',
+  'node_modules/select2/dist/css/select2.css',
   'node_modules/angular-xeditable/dist/css/xeditable.css'
 ]
 
