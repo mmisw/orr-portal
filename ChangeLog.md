@@ -1,5 +1,15 @@
 ## change log ##
 
+* 2019-08-28: 3.8.6
+
+- PR #139: reverting to angular 1.4.7 seems to make things work better,
+  but this will need some good testing
+ 
+* 2019-08-18: 3.8.6
+
+- PR #139 plus upgrade of angular-ui-router to 1.0.22, which seems to fix
+  the "trasition superseded" errors noted while testing the original PR
+
 * 2019-08-08: 3.8.5
 
 - adjust $http method calls to use ECMAScript 5 as uglify-js only supports this dialect.
