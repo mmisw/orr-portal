@@ -1,5 +1,12 @@
 ## change log ##
 
+* 2019-09-04: 3.8.7
+
+- fix #147 "'Upload ontology' broken":
+  explicit pass paramter in `ui-sref="rx({ uriNewVersion: null })`
+
+- upgrade select2
+
 * 2019-08-30: 3.8.7
 
 - upgrade select2
