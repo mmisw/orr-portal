@@ -531,7 +531,26 @@
 
       function canUnregister() {
         if (!vm.ontology)                     return false;
+        if (!rvm.accountInfo)                 return false;
         if ($rootScope.userLoggedInIsAdmin()) return true;
+        if (!vm.ontology.ownerName)           return false;
+
+        // if visibility is public, only admin can unregister:
+        if (vm.ontology.visibility === 'public') return false;
+
+        // allow owner (user or org) to unregister:
+        if (vm.ontology.ownerName.startsWith("~")) {
+          var userOntOwner = vm.ontology.ownerName.substring(1);
+          return userOntOwner === rvm.accountInfo.uid;
+        }
+        else {
+          if (!rvm.accountInfo.organizations) return false;
+          var orgOntOwner = vm.ontology.ownerName;
+          var userOrgs = _.map(rvm.accountInfo.organizations, "orgName");
+          return _.includes(userOrgs, orgOntOwner);
+        }
+
+        return false;
       }
 
       function unregister(version) {
@@ -539,14 +558,103 @@
           (version ? 'Version: ' + vm.ontology.version : '(' +vm.ontology.versions.length+ ' versions)')+
             '<br><br>';
 
+        var note = '';
+        var details = '';
+
+        (function() {
+          details =
+            '<table class="unregisterConfirmTable">' +
+            '<tbody>' +
+            '<tr>' +
+            '<td>' + 'Owner:' + '</td>' +
+            '<td>' + vm.ontology.ownerName + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>' + 'Visibility:' + '</td>' +
+            '<td>' + vm.ontology.visibility + '</td>' +
+            '</tr>'
+          ;
+
+          if (version) {
+            note =
+              'Before unregistering this version ' +
+              '(especially if it is the latest), please consider whether ' +
+              'anyone else might already be using it, and whether it could offer ' +
+              'future value to other users even though it is no longer useful to you.';
+
+            var status = (function() {
+              var ver = _.find(vm.ontology.versions, {version: version});
+              return ver && ver.status;
+            })();
+
+            details +=
+              '<tr>' +
+              '<td>' + 'Status:' + '</td>' +
+              '<td>' + (status || '(not defined)') + '</td>' +
+              '</tr>';
+
+            details += '</tbody>' + '</table>';
+          }
+          else {
+            // status of most recent version:
+            status = vm.ontology.versions && vm.ontology.versions[0].status;
+
+            note =
+              'Before unregistering this ontology (including all its versions), ' +
+              'please consider whether ' +
+              'anyone else might already be using it, and whether it could offer ' +
+              'future value to other users even though it is no longer useful to you.'
+            ;
+
+            details += '</tbody>' + '</table>';
+
+            var versionsTable =
+              '<br/>Versions: (most recent first)' +
+              '<table class="unregisterVersionsTable table">' +
+              '<tbody>' +
+              '<tr>' +
+              '<th>' + 'Version&nbsp;' + '</th>' +
+              '<th>' + 'Visibility&nbsp;' + '</th>' +
+              '<th>' + 'Status&nbsp;' + '</th>' +
+              '</tr>'
+            ;
+            _.each(vm.ontology.versions, function(v) {
+              versionsTable +=
+                '<tr>' +
+                '<td>' + v.version + '&nbsp;</td>' +
+                '<td>' + v.visibility + '&nbsp;</td>' +
+                '<td>' + (v.status || '(not defined)') + '&nbsp;</td>' +
+                '</tr>'
+              ;
+            });
+            versionsTable += '</tbody>' + '</table>';
+
+            details += versionsTable;
+          }
+
+          if (status !== 'deprecated') {
+            note += ' An alternative action is to set the status of the latest version of this ontology to "deprecated."';
+          }
+        })();
+
+        console.log('unregister: version=', version, 'vm=', vm);
+        console.log('unregister: rvm.accountInfo=', rvm.accountInfo);
+
         utl.confirm({
-          title: 'Confirm unregistration',
+          title: 'Confirm unregistration of ' + (version ? 'particular version' : 'complete ontology entry'),
           size: 'ls',
           message:
             '<div class="center">' +
             ontInfo +
+            '</div>' +
+            details +
+            '<br/><br/>' +
+            note +
+            '<br/><br/>' +
+            '<div class="center unregisterConfirmText">' +
             'Are you sure you want to unregister this ontology ' +
             (version ? 'version' : 'including all its versions') + '?' +
+            '</div>' +
           '</div>',
           okType: 'danger',
           okLabel: "Yes, I'm sure",
