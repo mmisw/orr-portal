@@ -1,5 +1,9 @@
 ## change log ##
 
+* 2019-10-03: 3.8.8
+
+- resolve #150 "Add ability to update email of user's account"
+
 * 2019-09-04: 3.8.7
 
 - fix #147 "'Upload ontology' broken":

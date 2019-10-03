@@ -285,7 +285,7 @@
       if (!vm.username) return false;
       if (!vm.firstName) return false;
       if (!vm.lastName) return false;
-      if (!vm.email) return false;
+      if (!emailIsValid(vm.email)) return false;
       if (vm.email !== vm.email2) return false;
       if (!vm.phone) return false;
       if (!vm.password) return false;
@@ -419,12 +419,14 @@
       return savedUser.firstName !== vm.firstName
           || savedUser.lastName !== vm.lastName
           || savedUser.phone !== vm.phone
+          || savedUser.email !== vm.email
       ;
     };
 
     $scope.isValid = function() {
       if ($scope.working) return false;
       if (!vm.username) return false;
+      if (!emailIsValid(vm.email)) return false;
       if (!vm.firstName) return false;
       if (!vm.lastName) return false;
       if (!vm.phone) return false;
@@ -447,6 +449,7 @@
       putJwtIfAvailable($rootScope.rvm, params);
 
       var body = {
+        email:     vm.email,
         firstName: vm.firstName,
         lastName:  vm.lastName,
         phone:     vm.phone
@@ -573,6 +576,11 @@
     if (rvm.accountInfo && rvm.accountInfo.token) {
       params.jwt = rvm.accountInfo.token;
     }
+  }
+
+  // https://tylermcginnis.com/validate-email-address-javascript/
+  function emailIsValid(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   }
 
 })();

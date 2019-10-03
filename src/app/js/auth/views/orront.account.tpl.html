@@ -2,16 +2,29 @@
   <div class="panel panel-default">
 
     <div class="panel-heading">
-      <span ng-if="modified()" style="color: red">*</span>
-      Account:
-      <span style="font-weight: bold">
-        {{vm.username}} - {{vm.email}}
+      Account details for:
+      <span style="font-weight: bold; font-size:large; margin-left:7px">
+        {{vm.username}}
       </span>
+      <span ng-if="modified()" style="color:red; font-size:large">*</span>
     </div>
 
     <div class="panel-body">
 
       <form class="form-horizontal">
+
+        <div class="form-group">
+          <label for="inputEmail" class="control-label col-xs-4">
+            Email:
+          </label>
+
+          <div class="col-xs-5">
+            <input id="inputEmail"
+                   type="email" class="form-control" style="width: 14em"
+                   ng-model="vm.email"
+            >
+          </div>
+        </div>
 
         <div class="form-group">
           <label for="inputFirstName" class="control-label col-xs-4">
