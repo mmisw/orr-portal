@@ -1,6 +1,6 @@
 ## change log ##
 
-* 2019-10-03: 3.8.8
+* 2019-10-03: 3.8.9
 
 - fix #128 "Update YASGUI" https://github.com/mmisw/orr-portal/issues/128#issuecomment-538172422
 
