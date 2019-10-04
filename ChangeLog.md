@@ -2,6 +2,8 @@
 
 * 2019-10-03: 3.8.8
 
+- fix #128 "Update YASGUI" https://github.com/mmisw/orr-portal/issues/128#issuecomment-538172422
+
 - resolve #150 "Add ability to update email of user's account"
 
 * 2019-09-04: 3.8.7

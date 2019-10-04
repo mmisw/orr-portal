@@ -48,10 +48,27 @@
 <div id="editor"></div>
 
 <script>
+  var debug = window.location.search.match(/.*debug.*/)
+
+  // (1) looks like not all of the "default" mechanism is having effect anymore:
   YASGUI.YASQE.defaults.sparql.endpoint = appConfig.orront.sparqlEndpoint;
   YASGUI.YASQE.defaults.sparql.acceptHeaderGraph = "application/rdf+xml";
   YASGUI.defaults.catalogueEndpoints = [];
-  YASGUI(document.getElementById("editor"));
+
+  // (2) so, pass an explicit config object to the constructor:
+  var config = {
+    yasqe: {
+      sparql: {
+        endpoint: appConfig.orront.sparqlEndpoint,
+        acceptHeaderGraph: "application/rdf+xml"
+      }
+    },
+    catalogueEndpoints: []
+  };
+  var yasgui = YASGUI(document.getElementById("editor"), config);
+  if (debug) {
+    console.log('config=', config, 'yasgui=', yasgui);
+  }
 
   document.getElementById("mainPage").href    = appConfig.portal.mainPage;
   document.getElementById("logoImg").src      = appConfig.branding.logo;
