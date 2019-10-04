@@ -4,6 +4,8 @@
 
 - fix #128 "Update YASGUI" https://github.com/mmisw/orr-portal/issues/128#issuecomment-538172422
 
+- resolve #149 "more permissive unregister access"
+
 - resolve #150 "Add ability to update email of user's account"
 
 * 2019-09-04: 3.8.7

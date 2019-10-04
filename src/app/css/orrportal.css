@@ -620,3 +620,15 @@ div.debug {
   width: 50%;
   margin: 0 auto;
 }
+
+.unregisterConfirmTable {
+  width: 200px;
+  margin: 0 auto;
+}
+.unregisterVersionsTable {
+  margin: 0 auto;
+}
+.unregisterConfirmText {
+  color: darkred;
+  font-size: 1.1em;
+}
