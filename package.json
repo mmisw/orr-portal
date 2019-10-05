@@ -38,7 +38,7 @@
     "test": "./node_modules/gulp/bin/gulp.js ci"
   },
   "dependencies": {
-    "angular": "1.4.7",
+    "angular": "1.6.5",
     "angular-clipboard": "~1.4.2",
     "angular-cookie": "~4.1.0",
     "angular-jwt": "0.1.10",
