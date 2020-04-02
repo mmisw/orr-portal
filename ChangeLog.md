@@ -1,5 +1,21 @@
 ## change log ##
 
+* 2020-04-01: 3.9.0
+
+- internal: some lib upgrades triggered by a reported vulnerability related with
+  the indirect "kind-of" dependency.
+  
+    Again, my `gulp dev` command failed as indicated in  miscnotes, which I fixed in a similar way:
+  
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+        
+        nvm use lts/dubnium
+        
+        gulp dev   # now OK
+
 * 2019-10-03: 3.8.9
 
 - fix #128 "Update YASGUI" https://github.com/mmisw/orr-portal/issues/128#issuecomment-538172422
