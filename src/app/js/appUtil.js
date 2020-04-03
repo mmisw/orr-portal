@@ -65,10 +65,10 @@ var appUtil = (function(window) {
       // it's self-resolvable. Return the same uri but making sure it
       // uses the same http/https scheme as mainPage:
       if (uri.startsWith('http:') === mainPage.startsWith('http:')) {
-        return uri;
+        return uri.replace(/#/g, "%23");
       }
       else {
-        return bUtil.replaceHttpScheme(uri);
+        return bUtil.replaceHttpScheme(uri).replace(/#/g, "%23");
       }
     }
     else {

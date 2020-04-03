@@ -1,6 +1,8 @@
 ## change log ##
 
-* 2020-04-01: 3.9.0
+**2020-04-01: 3.9.0**
+
+- fix #155 "Hash character not encoded for proper link in main list"
 
 - internal: some lib upgrades triggered by a reported vulnerability related with
   the indirect "kind-of" dependency.
