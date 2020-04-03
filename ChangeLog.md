@@ -2,6 +2,8 @@
 
 **2020-04: 3.9.1**
 
+- update [development.md](development.md) notes
+
 - fix #155 "Hash character not encoded for proper link in main list"
   Use `decodeURIComponent` to get the `requestedUri` from `windowBareHref`
 

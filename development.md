@@ -11,11 +11,18 @@ To set everything up:
 
     $ npm install
 
-In all of the following, adjust `src/app/js/local.config.js` as appropriate.
+In all of the following, adjust `src/app/js/local.config.js` as appropriate,
+for example, including indication of the target ont service:
+
+```js
+appConfig.orront.rest  = "https://mmisw.org/ont";
+``` 
 
 Launch server and browser for local development:
 
     $ gulp dev
+
+![](gulp-dev.png)
 
 ## Installing
 
@@ -29,7 +36,7 @@ Use `gulp install` as follows depending on destination:
     
       $ gulp install --base=/ont/ --dest=/opt/tomcat/webapps/ont/
 
-    or under the `ont` source tree (presumably for subsequent packaginf of
+    or under the `ont` source tree (presumably for subsequent packaging of
     the whole integrated ont service including the frontend):
          
       $ gulp install --base=/ont/ --dest=/path/to/orr-ont/src/main/webapp/
