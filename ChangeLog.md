@@ -1,6 +1,6 @@
 ## change log ##
 
-**2020-04-01: 3.9.0**
+**2020-04: 3.9.0**
 
 - fix #155 "Hash character not encoded for proper link in main list"
 
