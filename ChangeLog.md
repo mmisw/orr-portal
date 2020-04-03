@@ -3,6 +3,7 @@
 **2020-04: 3.9.0**
 
 - fix #155 "Hash character not encoded for proper link in main list"
+  Use `decodeURIComponent` to get the `requestedUri` from `windowBareHref`
 
 - internal: some lib upgrades triggered by a reported vulnerability related with
   the indirect "kind-of" dependency.
