@@ -17,28 +17,34 @@ Launch server and browser for local development:
 
     $ gulp dev
 
-
 ## Installing
 
-- Create installable directory and compressed archive under `dist/`,
-  adjust `src/app/js/local.config.js` and then:
+### Installation for the `ont` service
+
+This is the typical case for actual deployment purposes.
+
+Use `gulp install` as follows depending on destination:
+    
+- Under an already installed `ont` service, for example:
+    
+      $ gulp install --base=/ont/ --dest=/opt/tomcat/webapps/ont/
+
+    or under the `ont` source tree (presumably for subsequent packaginf of
+    the whole integrated ont service including the frontend):
+         
+      $ gulp install --base=/ont/ --dest=/path/to/orr-ont/src/main/webapp/
+            
+    In either case, adjust the `--base` parameter depending on the actual
+    deployed application context of the `ont` service.
+    NOTE: `/ont/` has been the value in all ORR instances installed out there
+    that we are aware of. 
+
+### Separate installable of the frontend component
+
+Create installable directory and compressed archive under `dist/`,
+adjust `src/app/js/local.config.js` and then:
 
         $ gulp dist --localConfig
 
-    To locally verify the "local" installation involved in the above,
-    open [http://localhost:9001/dist/orrportal/](http://localhost:9001/dist/orrportal/)
-
-
-- Install under a running `ont` service:
-
-        $ gulp install --base=/ont/ --dest=/opt/tomcat/webapps/ont/
-
-    Adjust the `--base` parameter value above depending on the actual
-    deployed application context of the `ont` service.
-
-
-- Install under the `orr-ont` codebase for subsequent packaging/dockerization:
-
-        $ gulp install --base=/ont/ --dest=/path/to/orr-ont/src/main/webapp/
-
-    Adjust `--base` and `--dest` parameters as appropriate:
+Open [http://localhost:9001/dist/orrportal/](http://localhost:9001/dist/orrportal/)
+to locally verify the "local" installation above.

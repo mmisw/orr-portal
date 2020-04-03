@@ -37,4 +37,4 @@ See [wiki/ORR-deployments](https://github.com/mmisw/orr-portal/wiki/ORR-deployme
 
 # Development
 
-See [development.md](https://github.com/mmisw/orr-portal/blob/master/development.md).
+See [development.md](development.md).
