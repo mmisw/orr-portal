@@ -1,6 +1,9 @@
 ## change log ##
 
-**2020-04: 3.9.2**
+**2020-04: 3.9.3**
+
+- reattempt term resolution with https-http scheme change 
+  https://github.com/mmisw/orr-portal/issues/115#issuecomment-608963657
 
 - fix #156 "Trailing slash ignored for resolution"
 
