@@ -3,8 +3,8 @@
 **2020-04: 3.9.3**
 
 - adjust uriRegex so trailing slash in IRIs is captured in mklinks4text.
-  Previously, the link was skipping that trailing slash.
-  Eg: linked http://vocab.nerc.ac.uk/collection/P07/current/CFSN0390
+  Previously, the `<a href>` text was skipping that trailing slash.
+  Eg: linked http://vocab.nerc.ac.uk/collection/P07/current/CFSN0390/
   is resolution of https://mmisw.org/ont/cf/parameter/sea_surface_wind_wave_significant_height
   
 - reattempt term resolution with https-http scheme change 
