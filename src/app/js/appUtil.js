@@ -341,9 +341,10 @@ var appUtil = (function(window) {
   }
 
   /**
-   * Returns window.location.href without anything starting with search part (if any)
-   * and no trailing slash.
-   * If no search part, returns the same as getWindowHref but without trailing slash.
+   * Returns window.location.href without anything starting with search part (if any).
+   * If there's no search part, returns the same as getWindowHref.
+   * In any case, if location.href starts with `http://localhost`, then any
+   * trailing slashes are removed.
    * This was mainly introduced to facilitate local development.
    */
   function getBareWindowHref() {
@@ -355,7 +356,9 @@ var appUtil = (function(window) {
     else {
       result = windowHref;
     }
-    return result.replace(/\/+$/, '');
+
+    var is_localhost = window.location.href.startsWith('http://localhost');
+    return is_localhost ? result.replace(/\/+$/, '') : result;
   }
 
   /**

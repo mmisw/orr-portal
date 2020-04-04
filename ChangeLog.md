@@ -1,5 +1,9 @@
 ## change log ##
 
+**2020-04: 3.9.2**
+
+- fix #156 "Trailing slash ignored for resolution"
+
 **2020-04: 3.9.1**
 
 - update [development.md](development.md) notes
