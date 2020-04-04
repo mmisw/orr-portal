@@ -21,7 +21,15 @@ var appUtil = (function(window) {
    * TODO the whole htmlfying/text-processing/filtering in this module needs revision/simplification
    */
 
+  /* Note: the trailing slash in e.g., "http://vocab.nerc.ac.uk/collection/P07/current/CFSN0390/"
+     is not captured by this regex despite the literal slash being included:
+
   var uriRegex = /\b(https?:\/\/[0-9A-Za-z-\.\/&@:%_\+~#=\?\(\)]+\b)/g;
+
+     But they're captured by just removing the trailing `\b` boundary piece:
+  */
+  var uriRegex = /\b(https?:\/\/[0-9A-Za-z-\.\/&@:%_\+~#=\?\(\)]+)/g;
+
   // http://stackoverflow.com/q/7885096/830737
   // we could use JSON.parse instead of this regex based conversion
   var escapedUnicodeRegex = /\\u([\d\w]{4})/gi;
