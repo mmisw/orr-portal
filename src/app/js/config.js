@@ -71,12 +71,12 @@ var appConfig = {
     // They are dispatched in an iframe.
     // Use `$uri` to refer to the ontology URI in srcUrlTemplate.
     ontViewers: [
-      {
-        name: 'LODE',
-        title: 'Live OWL Documentation Environment',
-        srcUrlTemplate: 'http://www.essepuntato.it/lode/owlapi/$uri',
-        moreInfoUrl: 'http://www.essepuntato.it/lode'
-      }
+      // {
+      //   name: 'LODE',
+      //   title: 'Live OWL Documentation Environment',
+      //   srcUrlTemplate: 'http://www.essepuntato.it/lode/owlapi/$uri',
+      //   moreInfoUrl: 'http://www.essepuntato.it/lode'
+      // }
       // ,{
       //   name: 'WebVOWL',
       //   title: 'Web-based Visualization of Ontologies',
