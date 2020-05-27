@@ -1,8 +1,10 @@
+var argv        = require('minimist')(process.argv.slice(3));
 var gulp        = require('gulp');
-var gutil       = require('gulp-util');
+//var gutil       = require('gulp-util');
 var replace     = require('gulp-replace');
 var rimraf      = require('rimraf');
 var zip         = require('gulp-zip');
+var log         = require('fancy-log');
 var merge       = require('merge-stream');
 var concat      = require('gulp-concat');
 var rename      = require('gulp-rename');
@@ -26,7 +28,7 @@ var csso = require('gulp-csso');
 
 var ciMode = false;
 
-var base = gutil.env.base;
+var base = argv.base;
 
 var appInfo = require('./package');
 var appName = appInfo.name;
@@ -36,17 +38,17 @@ var distDest = './dist/' + appName;
 var zipFile = appName + '-' + version + (base ? '-BASE' + base.replace(/\//g, '_') : '') + '.zip';
 var zipDest = './dist';
 
-gutil.log("Building version " + version);
+log("Building version " + version);
 
 if (base) {
-  gutil.log('Will insert <base href="' +base+ '">');
+  log('Will insert <base href="' +base+ '">');
 }
 
-var installDest = gutil.env.dest;
+var installDest = argv.dest;
 if (installDest) {
-  gutil.log('dest=' +installDest);
+  log('dest=' +installDest);
   installDest = installDest.replace(/^~/, process.env.HOME);
-  gutil.log('Install destination: ' +installDest);
+  log('Install destination: ' +installDest);
 }
 
 gulp.task('default', ['dist']);
@@ -109,7 +111,7 @@ gulp.task('test', function () {
       });
 
       karma.start(testConfig, function (exitCode) {
-        gutil.log('Karma has exited with ' + exitCode);
+        log('Karma has exited with ' + exitCode);
         process.exit(exitCode);
       });
     }
@@ -129,11 +131,11 @@ gulp.task('dist-directory', ['app', 'vendor']);
 
 gulp.task('app', ['clean'], function(){
   var src = ['./src/app/**', '!./src/app/**/*.html'];
-  if (gutil.env.localConfig) {
-    gutil.log("app task: Including local.config.js");
+  if (argv.localConfig) {
+    log("app task: Including local.config.js");
   }
   else {
-    gutil.log("app task: Excluding local.config.js");
+    log("app task: Excluding local.config.js");
     src.push('!./**/local.config.js');
   }
   return merge(
@@ -176,12 +178,12 @@ gulp.task('min', ['app-index-and-config', 'app-min']);
 
 gulp.task('app-index-and-config', function () {
   var cfgSrc = ['./src/app/js/config.js'];
-  if (gutil.env.localConfig) {
-    gutil.log("app-index-and-config: Including local.config.js");
+  if (argv.localConfig) {
+    log("app-index-and-config: Including local.config.js");
     cfgSrc.push('./src/app/js/local.config.js');
   }
   else {
-    gutil.log("app-index-and-config: Excluding local.config.js");
+    log("app-index-and-config: Excluding local.config.js");
   }
 
   return merge(
