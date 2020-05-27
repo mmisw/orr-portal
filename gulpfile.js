@@ -1,6 +1,5 @@
 var argv        = require('minimist')(process.argv.slice(3));
 var gulp        = require('gulp');
-//var gutil       = require('gulp-util');
 var replace     = require('gulp-replace');
 var rimraf      = require('rimraf');
 var zip         = require('gulp-zip');
