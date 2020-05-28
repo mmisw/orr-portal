@@ -159,6 +159,7 @@ gulp.task('test', function () {
 
       karma.start(testConfig, function (exitCode) {
         gutil.log('Karma has exited with ' + exitCode);
+        done()
         process.exit(exitCode);
       });
     }
