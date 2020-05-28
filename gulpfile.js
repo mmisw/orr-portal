@@ -159,16 +159,16 @@ gulp.task('test', function () {
 
       karma.start(testConfig, function (exitCode) {
         gutil.log('Karma has exited with ' + exitCode);
-        done()
         process.exit(exitCode);
       });
     }
   });
 });
 
-gulp.task('ci', function () {
+gulp.task('ci', (done) => {
   ciMode = true;
-  return gulp.series(['test']);
+  gulp.series(['test']);
+  done();
   //return gulp.series(['clean', 'scripts', 'test']);
 });
 
