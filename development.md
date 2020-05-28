@@ -46,7 +46,7 @@ Use `gulp install` as follows depending on destination:
     NOTE: `/ont/` has been the value in all ORR instances installed out there
     that we are aware of. 
 
-### Separate installable of the frontend component
+### Separate installation of the frontend component
 
 Create installable directory and compressed archive under `dist/`,
 adjust `src/app/js/local.config.js` and then:
