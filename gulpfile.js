@@ -167,8 +167,8 @@ gulp.task('test', function () {
 
 gulp.task('ci', function () {
   ciMode = true;
-  return gulp.start(['test']);
-  //return gulp.start(['clean', 'scripts', 'test']);
+  return gulp.series(['test']);
+  //return gulp.series(['clean', 'scripts', 'test']);
 });
 
 
