@@ -1,5 +1,9 @@
 ## change log ##
 
+**2020-05: 3.9.4**
+
+- resolve #163 "Admin: show indication of public or owner visibility in main list"
+
 **2020-04: 3.9.3**
 
 - adjust uriRegex so trailing slash in IRIs is captured in mklinks4text.

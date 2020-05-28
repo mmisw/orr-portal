@@ -69,13 +69,22 @@
         archaic:    'A'
       };
       return function(entity) {
+        var title = 'Status: '  +entity.status;
+
+        // show an extra mark and expand tooltip if visibility is not public:
+        var visMark = '';
+        if (entity.visibility !== 'public') {
+          visMark = '*&nbsp;';
+          title += ', Visibility: '  +entity.visibility;
+        }
+
         var prefix = '';
         var mark = marks[entity.status];
         if (mark) {
           prefix = '<span' +
             ' class="statusMark status-' +entity.status+ '"' +
-            ' title="Status: '  +entity.status+ '"' +
-            '>' +mark+ '</span>';
+            ' title="' +title+ '"' +
+            '>' + visMark + mark + '</span>';
         }
         return prefix + appUtil.mklinks4text(entity.name);
       }
