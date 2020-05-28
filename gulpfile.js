@@ -49,7 +49,7 @@ if (installDest) {
   gutil.log('Install destination: ' +installDest);
 }
 
-gulp.task('default', ['dist']);
+gulp.task('default', dist);
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -58,27 +58,76 @@ gulp.task('default', ['dist']);
 var localPort   = 9001;
 var localUrl    = 'http://localhost:' +localPort+ '/src/app/indexdev.html';
 
-gulp.task('dev', ['webserver'], function(cb) {
+gulp.task('dev', webserver, function(cb) {
     open(localUrl);
     cb();
 });
 
-gulp.task('webserver', function() {
-    gulp.src('.')
-        .pipe(webserver({port: localPort}))
-    ;
-});
+function webserver() {
+  gulp.src('.')
+      .pipe(webserver({port: localPort}))
+  ;
+};
 
+gulp.task('clean', function (cb) {
+    rimraf(distDest, cb);
+});
 
 /////////////////////////////////////////////////////////////////////////////
 // dist
 
-gulp.task('dist', function (cb) {
+function dist(cb) {
   runSequence('clean', 'package', 'min', cb);
+};
+
+gulp.task('app', gulp.series('clean'), function(){
+  var src = ['./src/app/**', '!./src/app/**/*.html'];
+  if (gutil.env.localConfig) {
+    gutil.log("app task: Including local.config.js");
+  }
+  else {
+    gutil.log("app task: Excluding local.config.js");
+    src.push('!./**/local.config.js');
+  }
+  return merge(
+    gulp.src(src)
+      .pipe(gulp.dest(distDest)),
+    gulp.src(['./src/app/**/*.html'])
+      .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))
+      .pipe(replace(/@@version/g, version))
+      .pipe(replace(/\.\.\/\.\.\/node_modules/g, 'vendor'))
+      .pipe(gulp.dest(distDest))
+  );
 });
 
+gulp.task('vendor', gulp.series('clean'), function() {
+  return gulp.src([
+      './node_modules/angular/**',
+      './node_modules/angular-clipboard/**',
+      './node_modules/angular-cookie/**',
+      './node_modules/angular-sanitize/**',
+      './node_modules/angular-ui-bootstrap/**',
+      './node_modules/angular-ui-grid/**',
+      './node_modules/angular-ui-router/**',
+      './node_modules/angular-xeditable/**',
+      './node_modules/angular-recaptcha/**',
+      './node_modules/angular-jwt/**',
+      './node_modules/angular-local-storage/**',
+      './node_modules/comma-separated-values/**',
+      './node_modules/bootstrap-css-only/**',
+      './node_modules/font-awesome/**',
+      './node_modules/lodash/**',
+      './node_modules/moment/**',
+      './node_modules/ng-file-upload/**',
+      './node_modules/select2/**',
+      './node_modules/ui-select/**'
+    ], {base: './node_modules/'})
+      .pipe(gulp.dest(distDest + '/vendor'))
+});
 
-gulp.task('package', ['dist-directory'], function(){
+gulp.task('dist-directory', gulp.series('app', 'vendor'));
+
+gulp.task('package', gulp.series('dist-directory'), function(){
   return gulp.src([distDest + '/**'])
     .pipe(zip(zipFile))
     .pipe(gulp.dest(zipDest));
@@ -87,15 +136,15 @@ gulp.task('package', ['dist-directory'], function(){
 /////////////////////////////////////////////////////////////////////////////
 // install
 
-gulp.task('install', ['check-dest', 'dist'], function(){
-  return gulp.src([distDest + '/**'])
-    .pipe(gulp.dest(installDest));
-});
-
-gulp.task('check-dest', function (cb) {
+function check_dest() {
   if (installDest === undefined) throw Error("install needs --dest=dir");
   if (!fs.lstatSync(installDest).isDirectory()) throw Error(installDest+ " is not a directory");
   cb()
+};
+
+gulp.task('install', gulp.series(check_dest, dist), function(){
+  return gulp.src([distDest + '/**'])
+    .pipe(gulp.dest(installDest));
 });
 
 /////////////////////////////////////////////////////////////////////////////
@@ -125,55 +174,6 @@ gulp.task('ci', function () {
 
 /////////////////////////////////////////////////////////////////////////////
 
-gulp.task('dist-directory', ['app', 'vendor']);
-
-gulp.task('app', ['clean'], function(){
-  var src = ['./src/app/**', '!./src/app/**/*.html'];
-  if (gutil.env.localConfig) {
-    gutil.log("app task: Including local.config.js");
-  }
-  else {
-    gutil.log("app task: Excluding local.config.js");
-    src.push('!./**/local.config.js');
-  }
-  return merge(
-    gulp.src(src)
-      .pipe(gulp.dest(distDest)),
-    gulp.src(['./src/app/**/*.html'])
-      .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))
-      .pipe(replace(/@@version/g, version))
-      .pipe(replace(/\.\.\/\.\.\/node_modules/g, 'vendor'))
-      .pipe(gulp.dest(distDest))
-  );
-});
-
-gulp.task('vendor', ['clean'], function() {
-  return gulp.src([
-      './node_modules/angular/**',
-      './node_modules/angular-clipboard/**',
-      './node_modules/angular-cookie/**',
-      './node_modules/angular-sanitize/**',
-      './node_modules/angular-ui-bootstrap/**',
-      './node_modules/angular-ui-grid/**',
-      './node_modules/angular-ui-router/**',
-      './node_modules/angular-xeditable/**',
-      './node_modules/angular-recaptcha/**',
-      './node_modules/angular-jwt/**',
-      './node_modules/angular-local-storage/**',
-      './node_modules/comma-separated-values/**',
-      './node_modules/bootstrap-css-only/**',
-      './node_modules/font-awesome/**',
-      './node_modules/lodash/**',
-      './node_modules/moment/**',
-      './node_modules/ng-file-upload/**',
-      './node_modules/select2/**',
-      './node_modules/ui-select/**'
-    ], {base: './node_modules/'})
-      .pipe(gulp.dest(distDest + '/vendor'))
-});
-
-gulp.task('min', ['app-index-and-config', 'app-min']);
-
 gulp.task('app-index-and-config', function () {
   var cfgSrc = ['./src/app/js/config.js'];
   if (gutil.env.localConfig) {
@@ -190,16 +190,6 @@ gulp.task('app-index-and-config', function () {
     gulp.src(['./src/app/img/**'])
       .pipe(gulp.dest(distDest + '/img'))
   )
-});
-
-gulp.task('app-min', ['app-min-css', 'vendor-other', 'app-min-js']);
-
-gulp.task('app-min-css', function() {
-  return gulp.src(vendorCssSources.concat(appCssSources))
-    .pipe(concat('orrportal.all.css'))
-    .pipe(csso())
-    .pipe(rename('orrportal.min.css'))
-    .pipe(gulp.dest(distDest + '/css'))
 });
 
 gulp.task('vendor-other', function() {
@@ -228,9 +218,17 @@ gulp.task('app-min-js', function() {
     .pipe(gulp.dest(distDest + '/js'))
 });
 
-gulp.task('clean', function (cb) {
-    rimraf(distDest, cb);
+gulp.task('app-min-css', function() {
+  return gulp.src(vendorCssSources.concat(appCssSources))
+    .pipe(concat('orrportal.all.css'))
+    .pipe(csso())
+    .pipe(rename('orrportal.min.css'))
+    .pipe(gulp.dest(distDest + '/css'))
 });
+
+gulp.task('app-min', gulp.series('app-min-css', 'vendor-other', 'app-min-js'));
+
+gulp.task('min', gulp.series('app-index-and-config', 'app-min'));
 
 const vendorCssSources = [
   'node_modules/bootstrap-css-only/css/bootstrap.css',
