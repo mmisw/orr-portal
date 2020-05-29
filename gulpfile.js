@@ -11,8 +11,7 @@ var open        = require('open');
 var fs          = require('fs');
 
 var extend      = require('extend');
-var karma       = require('karma').server;
-var karmaConfig = require('./karma.conf');
+var karma       = require('karma');
 
 var runSequence = require('run-sequence');
 
@@ -148,27 +147,32 @@ gulp.task('install', gulp.series(check_dest, dist), function(){
 });
 
 /////////////////////////////////////////////////////////////////////////////
-gulp.task('test', function () {
-  karmaConfig({
-    set: function (testConfig) {
-      extend(testConfig, {
-        singleRun: ciMode,
-        autoWatch: !ciMode,
-        browsers: ['PhantomJS']
-      });
-
-      karma.start(testConfig, function (exitCode) {
-        gutil.log('Karma has exited with ' + exitCode);
-        process.exit(exitCode);
-      });
+gulp.task('test', (done) => {
+  var karmaConfig = {
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true,
+    autoWatch: !ciMode,
+    browsers: ['PhantomJS']
+  };
+  var karmaServer = new karma.Server(
+    karmaConfig,
+    function handleKarmaServerExit(processExitCode){
+      if(processExitCode === 0 || processExitCode === null || typeof processExitCode === 'undefined'){
+        done();
+      } else {
+        var err = new Error('ERROR: Karma Server exited with code "' + processExitCode + '"');
+        taskDone(err);
+      }
+      done();
+      process.exit(processExitCode); //Exit the node process
     }
-  });
+  );
+  karmaServer.start();
 });
 
-gulp.task('ci', (done) => {
+gulp.task('ci', function () {
   ciMode = true;
-  gulp.series(['test']);
-  done();
+  return gulp.series(['test']);
   //return gulp.series(['clean', 'scripts', 'test']);
 });
 
