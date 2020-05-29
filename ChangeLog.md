@@ -2,6 +2,9 @@
 
 **2020-05: 3.9.4**
 
+- resolve #123 "Capture acceptance of Terms Of Use in new-account setup"
+  Plus some password related usability inprovements.
+
 - resolve #163 "Admin: show indication of public or owner visibility in main list"
 
 **2020-04: 3.9.3**

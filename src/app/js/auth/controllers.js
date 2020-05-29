@@ -267,6 +267,7 @@
       phone: "",
       password: "",
       password2: "",
+      acceptTou: false,
 
       creating: true,
       created: false
@@ -291,6 +292,10 @@
       if (!vm.password) return false;
       if (vm.password !== vm.password2) return false;
       if (vm.recaptcha && vm.recaptcha.siteKey && !vm.recaptchaResponse) return false;
+
+      if (cfg.branding.tou) {
+        if (!vm.acceptTou) return false
+      }
 
       return true;
     };

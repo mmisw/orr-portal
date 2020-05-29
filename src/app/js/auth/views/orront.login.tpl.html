@@ -18,6 +18,7 @@
           <div class="col-xs-5">
             <input id="inputUserName"
                    type="text" class="form-control" style="width: 10em"
+                   autocomplete="username"
                    ng-keypress="loginKeyPressed($event)"
                    ng-model="vm.userName"
                    focus-on="login_form_activation"
@@ -33,6 +34,7 @@
           <div class="col-xs-5">
             <input id="inputPassword"
                    type="password" class="form-control" style="width: 10em"
+                   autocomplete="current-password"
                    ng-keypress="loginKeyPressed($event)"
                    ng-model="vm.password"
             >
