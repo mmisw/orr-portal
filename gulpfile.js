@@ -1,39 +1,51 @@
-var gulp        = require('gulp');
-var gutil       = require('gulp-util');
-var replace     = require('gulp-replace');
-var rimraf      = require('rimraf');
-var zip         = require('gulp-zip');
-var merge       = require('merge-stream');
-var concat      = require('gulp-concat');
-var rename      = require('gulp-rename');
-var webserver   = require('gulp-webserver');
-var open        = require('open');
-var fs          = require('fs');
-
-var extend      = require('extend');
-var karma       = require('karma');
-
-var runSequence = require('run-sequence');
+const gulp        = require('gulp');
+const gutil       = require('gulp-util');
+const replace     = require('gulp-replace');
+const rimraf      = require('rimraf');
+const zip         = require('gulp-zip');
+const concat      = require('gulp-concat');
+const rename      = require('gulp-rename');
+const webserver   = require('gulp-webserver');
+const open        = require('open');
+const fs          = require('fs');
+const extend      = require('extend');
+const karma       = require('karma');
 
 //////////////////////////
 // for minified version
 // js: using uglify for now.
-var uglify = require('gulp-uglify');
+const uglify = require('gulp-uglify');
 // var closure = require('google-closure-compiler').gulp();
 // var sourcemaps = require('gulp-sourcemaps');
-var csso = require('gulp-csso');
+const csso = require('gulp-csso');
 
-var ciMode = false;
+///////////////////////////////////////////////////////////
+// Exports:
 
-var base = gutil.env.base;
+const app = gulp.parallel(localConfig, baseStuff)
+const dist_directory = gulp.series(clean, app, vendor);
+const dist = gulp.series(clean, dist_directory, do_package, min);
+const install = gulp.series(check_dest, dist, do_install);
 
-var appInfo = require('./package');
-var appName = appInfo.name;
-var version = appInfo.version;
+exports.default = dist;
+exports.dist = dist
+exports.dev = dev;
+exports.install = install;
+exports.test = doKarma(false);
+exports.ci = gulp.series(clean, doKarma(true));
+exports.clean = clean;
 
-var distDest = './dist/' + appName;
-var zipFile = appName + '-' + version + (base ? '-BASE' + base.replace(/\//g, '_') : '') + '.zip';
-var zipDest = './dist';
+///////////////////////////////////////////////////////////
+
+const base = gutil.env.base;
+
+const appInfo = require('./package');
+const appName = appInfo.name;
+const version = appInfo.version;
+
+const distDest = './dist/' + appName;
+const zipFile = appName + '-' + version + (base ? '-BASE' + base.replace(/\//g, '_') : '') + '.zip';
+const zipDest = './dist';
 
 gutil.log("Building version " + version);
 
@@ -41,43 +53,37 @@ if (base) {
   gutil.log('Will insert <base href="' +base+ '">');
 }
 
-var installDest = gutil.env.dest;
+let installDest = gutil.env.dest;
 if (installDest) {
   gutil.log('dest=' +installDest);
   installDest = installDest.replace(/^~/, process.env.HOME);
   gutil.log('Install destination: ' +installDest);
 }
 
-gulp.task('default', dist);
-
-
 /////////////////////////////////////////////////////////////////////////////
 // local development/testing
 
-var localPort   = 9001;
-var localUrl    = 'http://localhost:' +localPort+ '/src/app/indexdev.html';
+const localPort   = 9001;
+const localUrl    = 'http://localhost:' +localPort+ '/src/app/indexdev.html';
 
-gulp.task('dev', function() {
+function dev(cb) {
   gulp.src('.')
       .pipe(webserver({
         port: localPort,
         open: localUrl,
         livereload: true
       }));
-});
+ cb();
+}
 
-gulp.task('clean', function (cb) {
+function clean(cb) {
     rimraf(distDest, cb);
-});
+};
 
 /////////////////////////////////////////////////////////////////////////////
 // dist
 
-function dist(cb) {
-  runSequence('clean', 'package', 'min', cb);
-};
-
-gulp.task('app', gulp.series('clean'), function(){
+function localConfig(cb) {
   var src = ['./src/app/**', '!./src/app/**/*.html'];
   if (gutil.env.localConfig) {
     gutil.log("app task: Including local.config.js");
@@ -86,19 +92,25 @@ gulp.task('app', gulp.series('clean'), function(){
     gutil.log("app task: Excluding local.config.js");
     src.push('!./**/local.config.js');
   }
-  return merge(
-    gulp.src(src)
-      .pipe(gulp.dest(distDest)),
-    gulp.src(['./src/app/**/*.html'])
-      .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))
-      .pipe(replace(/@@version/g, version))
-      .pipe(replace(/\.\.\/\.\.\/node_modules/g, 'vendor'))
-      .pipe(gulp.dest(distDest))
-  );
-});
 
-gulp.task('vendor', gulp.series('clean'), function() {
-  return gulp.src([
+  gulp.src(src)
+      .pipe(gulp.dest(distDest));
+
+  cb();
+}
+
+function baseStuff(cb) {
+    gulp.src(['./src/app/**/*.html'])
+        .pipe(replace(/<head>/g, '<head>' + (base ? '<base href="' +base+ '">' : '')))
+        .pipe(replace(/@@version/g, version))
+        .pipe(replace(/\.\.\/\.\.\/node_modules/g, 'vendor'))
+        .pipe(gulp.dest(distDest));
+
+    cb();
+}
+
+function vendor(cb) {
+  gulp.src([
       './node_modules/angular/**',
       './node_modules/angular-clipboard/**',
       './node_modules/angular-cookie/**',
@@ -119,84 +131,82 @@ gulp.task('vendor', gulp.series('clean'), function() {
       './node_modules/select2/**',
       './node_modules/ui-select/**'
     ], {base: './node_modules/'})
-      .pipe(gulp.dest(distDest + '/vendor'))
-});
+      .pipe(gulp.dest(distDest + '/vendor'));
 
-gulp.task('dist-directory', gulp.series('app', 'vendor'));
+  cb();
+}
 
-gulp.task('package', gulp.series('dist-directory'), function(){
-  return gulp.src([distDest + '/**'])
+function do_package(cb) {
+  gulp.src([distDest + '/**'])
     .pipe(zip(zipFile))
     .pipe(gulp.dest(zipDest));
-});
+  cb();
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // install
 
-function check_dest() {
-  if (installDest === undefined) throw Error("install needs --dest=dir");
+function check_dest(cb) {
+  if (!installDest) throw Error("install needs --dest=dir");
   if (!fs.lstatSync(installDest).isDirectory()) throw Error(installDest+ " is not a directory");
-  cb()
-};
+  cb();
+}
 
-gulp.task('install', gulp.series(check_dest, dist), function(){
-  return gulp.src([distDest + '/**'])
-    .pipe(gulp.dest(installDest));
-});
+function do_install(cb) {
+  gulp.src([distDest + '/**'])
+      .pipe(gulp.dest(installDest));
+  cb();
+}
 
 /////////////////////////////////////////////////////////////////////////////
-gulp.task('test', (done) => {
-  var karmaConfig = {
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true,
-    autoWatch: !ciMode,
-    browsers: ['PhantomJS']
-  };
-  var karmaServer = new karma.Server(
-    karmaConfig,
-    function handleKarmaServerExit(processExitCode){
-      if(processExitCode === 0 || processExitCode === null || typeof processExitCode === 'undefined'){
+function doKarma(singleRun) {
+  return done => {
+    const karmaConfig = {
+      configFile: __dirname + '/karma.conf.js',
+      singleRun: singleRun,
+      browsers: ['PhantomJS']
+    };
+    const karmaServer = new karma.Server(
+      karmaConfig,
+      function handleKarmaServerExit(processExitCode){
+        if(processExitCode === 0 || processExitCode === null || typeof processExitCode === 'undefined'){
+          done();
+        } else {
+          var err = new Error('ERROR: Karma Server exited with code "' + processExitCode + '"');
+          taskDone(err);
+        }
         done();
-      } else {
-        var err = new Error('ERROR: Karma Server exited with code "' + processExitCode + '"');
-        taskDone(err);
+        process.exit(processExitCode); //Exit the node process
       }
-      done();
-      process.exit(processExitCode); //Exit the node process
-    }
-  );
-  karmaServer.start();
-});
-
-gulp.task('ci', function () {
-  ciMode = true;
-  return gulp.series(['test']);
-  //return gulp.series(['clean', 'scripts', 'test']);
-});
-
+    );
+    karmaServer.start();
+  }
+}
 
 /////////////////////////////////////////////////////////////////////////////
 
-gulp.task('app-index-and-config', function () {
+function app_index_and_config(cb) {
   var cfgSrc = ['./src/app/js/config.js'];
   if (gutil.env.localConfig) {
-    gutil.log("app-index-and-config: Including local.config.js");
+    gutil.log("app_index_and_config: Including local.config.js");
     cfgSrc.push('./src/app/js/local.config.js');
   }
   else {
-    gutil.log("app-index-and-config: Excluding local.config.js");
+    gutil.log("app_index_and_config: Excluding local.config.js");
   }
 
-  return merge(
+  gulp.parallel(
     gulp.src(cfgSrc)
       .pipe(gulp.dest(distDest + '/js')),
     gulp.src(['./src/app/img/**'])
       .pipe(gulp.dest(distDest + '/img'))
-  )
-});
+  );
 
-gulp.task('vendor-other', function() {
-  return merge(
+  cb();
+}
+
+function vendor_other(cb) {
+  gulp.parallel(
     gulp.src([
       'node_modules/font-awesome/fonts/**'
     ], {base: 'node_modules/font-awesome/'})
@@ -210,28 +220,37 @@ gulp.task('vendor-other', function() {
       'node_modules/angular-ui-grid/ui-grid.ttf'
     ], {base: 'node_modules/angular-ui-grid/'})
       .pipe(gulp.dest(distDest + "/css"))
-  )
-});
+  );
+  cb();
+}
 
-gulp.task('app-min-js', function() {
-  return gulp.src(vendorJsSources.concat(appJsSources))
+function app_min_js(cb) {
+  gulp.src(vendorJsSources.concat(appJsSources))
     .pipe(concat('orrportal.js'))
     .pipe(uglify())
     .pipe(rename('orrportal.min.js'))
-    .pipe(gulp.dest(distDest + '/js'))
-});
+    .pipe(gulp.dest(distDest + '/js'));
+  cb();
+}
 
-gulp.task('app-min-css', function() {
-  return gulp.src(vendorCssSources.concat(appCssSources))
+function app_min_css(cb) {
+  gulp.src(vendorCssSources.concat(appCssSources))
     .pipe(concat('orrportal.all.css'))
     .pipe(csso())
     .pipe(rename('orrportal.min.css'))
-    .pipe(gulp.dest(distDest + '/css'))
-});
+    .pipe(gulp.dest(distDest + '/css'));
+  cb();
+}
 
-gulp.task('app-min', gulp.series('app-min-css', 'vendor-other', 'app-min-js'));
+function app_min(cb) {
+  gulp.series(app_min_css, vendor_other, app_min_js);
+  cb();
+}
 
-gulp.task('min', gulp.series('app-index-and-config', 'app-min'));
+function min(cb) {
+  gulp.series(app_index_and_config, app_min);
+  cb();
+}
 
 const vendorCssSources = [
   'node_modules/bootstrap-css-only/css/bootstrap.css',
