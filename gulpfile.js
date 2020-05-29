@@ -57,16 +57,14 @@ gulp.task('default', dist);
 var localPort   = 9001;
 var localUrl    = 'http://localhost:' +localPort+ '/src/app/indexdev.html';
 
-gulp.task('dev', webserver, function(cb) {
-    open(localUrl);
-    cb();
-});
-
-function webserver() {
+gulp.task('dev', function() {
   gulp.src('.')
-      .pipe(webserver({port: localPort}))
-  ;
-};
+      .pipe(webserver({
+        port: localPort,
+        open: localUrl,
+        livereload: true
+      }));
+});
 
 gulp.task('clean', function (cb) {
     rimraf(distDest, cb);
