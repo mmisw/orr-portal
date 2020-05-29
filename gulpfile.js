@@ -6,7 +6,6 @@ const zip         = require('gulp-zip');
 const concat      = require('gulp-concat');
 const rename      = require('gulp-rename');
 const webserver   = require('gulp-webserver');
-const open        = require('open');
 const fs          = require('fs');
 const karma       = require('karma');
 
@@ -25,7 +24,7 @@ const app = gulp.parallel(localConfig, baseStuff)
 const dist_directory = gulp.series(clean, app, vendor);
 const vendor_other = gulp.parallel(vendor_other_fontawesome, vendor_other_bootstrap);
 const min = gulp.series(config, img, vendor_other, app_min_js, app_min_css);
-const dist = gulp.series(clean, dist_directory, do_package, min);
+const dist = gulp.series(dist_directory, do_package, min);
 const try_dist = gulp.series(dist, open_dist);
 const install = gulp.series(check_dest, dist, do_install);
 
@@ -166,7 +165,7 @@ function check_dest(cb) {
 }
 
 function do_install(cb) {
-  gulp.src([distDest + '/**'])
+  gulp.src(distDest + '/**')
       .pipe(gulp.dest(installDest));
   cb();
 }
