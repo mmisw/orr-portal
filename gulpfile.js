@@ -11,8 +11,7 @@ var open        = require('open');
 var fs          = require('fs');
 
 var extend      = require('extend');
-var karma       = require('karma').server;
-var karmaConfig = require('./karma.conf');
+var karma       = require('karma');
 
 var runSequence = require('run-sequence');
 
@@ -49,7 +48,7 @@ if (installDest) {
   gutil.log('Install destination: ' +installDest);
 }
 
-gulp.task('default', ['dist']);
+gulp.task('default', dist);
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -58,76 +57,27 @@ gulp.task('default', ['dist']);
 var localPort   = 9001;
 var localUrl    = 'http://localhost:' +localPort+ '/src/app/indexdev.html';
 
-gulp.task('dev', ['webserver'], function(cb) {
-    open(localUrl);
-    cb();
+gulp.task('dev', function() {
+  gulp.src('.')
+      .pipe(webserver({
+        port: localPort,
+        open: localUrl,
+        livereload: true
+      }));
 });
 
-gulp.task('webserver', function() {
-    gulp.src('.')
-        .pipe(webserver({port: localPort}))
-    ;
+gulp.task('clean', function (cb) {
+    rimraf(distDest, cb);
 });
-
 
 /////////////////////////////////////////////////////////////////////////////
 // dist
 
-gulp.task('dist', function (cb) {
+function dist(cb) {
   runSequence('clean', 'package', 'min', cb);
-});
+};
 
-
-gulp.task('package', ['dist-directory'], function(){
-  return gulp.src([distDest + '/**'])
-    .pipe(zip(zipFile))
-    .pipe(gulp.dest(zipDest));
-});
-
-/////////////////////////////////////////////////////////////////////////////
-// install
-
-gulp.task('install', ['check-dest', 'dist'], function(){
-  return gulp.src([distDest + '/**'])
-    .pipe(gulp.dest(installDest));
-});
-
-gulp.task('check-dest', function (cb) {
-  if (installDest === undefined) throw Error("install needs --dest=dir");
-  if (!fs.lstatSync(installDest).isDirectory()) throw Error(installDest+ " is not a directory");
-  cb()
-});
-
-/////////////////////////////////////////////////////////////////////////////
-gulp.task('test', function () {
-  karmaConfig({
-    set: function (testConfig) {
-      extend(testConfig, {
-        singleRun: ciMode,
-        autoWatch: !ciMode,
-        browsers: ['PhantomJS']
-      });
-
-      karma.start(testConfig, function (exitCode) {
-        gutil.log('Karma has exited with ' + exitCode);
-        process.exit(exitCode);
-      });
-    }
-  });
-});
-
-gulp.task('ci', function () {
-  ciMode = true;
-  return gulp.start(['test']);
-  //return gulp.start(['clean', 'scripts', 'test']);
-});
-
-
-/////////////////////////////////////////////////////////////////////////////
-
-gulp.task('dist-directory', ['app', 'vendor']);
-
-gulp.task('app', ['clean'], function(){
+gulp.task('app', gulp.series('clean'), function(){
   var src = ['./src/app/**', '!./src/app/**/*.html'];
   if (gutil.env.localConfig) {
     gutil.log("app task: Including local.config.js");
@@ -147,7 +97,7 @@ gulp.task('app', ['clean'], function(){
   );
 });
 
-gulp.task('vendor', ['clean'], function() {
+gulp.task('vendor', gulp.series('clean'), function() {
   return gulp.src([
       './node_modules/angular/**',
       './node_modules/angular-clipboard/**',
@@ -172,7 +122,60 @@ gulp.task('vendor', ['clean'], function() {
       .pipe(gulp.dest(distDest + '/vendor'))
 });
 
-gulp.task('min', ['app-index-and-config', 'app-min']);
+gulp.task('dist-directory', gulp.series('app', 'vendor'));
+
+gulp.task('package', gulp.series('dist-directory'), function(){
+  return gulp.src([distDest + '/**'])
+    .pipe(zip(zipFile))
+    .pipe(gulp.dest(zipDest));
+});
+
+/////////////////////////////////////////////////////////////////////////////
+// install
+
+function check_dest() {
+  if (installDest === undefined) throw Error("install needs --dest=dir");
+  if (!fs.lstatSync(installDest).isDirectory()) throw Error(installDest+ " is not a directory");
+  cb()
+};
+
+gulp.task('install', gulp.series(check_dest, dist), function(){
+  return gulp.src([distDest + '/**'])
+    .pipe(gulp.dest(installDest));
+});
+
+/////////////////////////////////////////////////////////////////////////////
+gulp.task('test', (done) => {
+  var karmaConfig = {
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true,
+    autoWatch: !ciMode,
+    browsers: ['PhantomJS']
+  };
+  var karmaServer = new karma.Server(
+    karmaConfig,
+    function handleKarmaServerExit(processExitCode){
+      if(processExitCode === 0 || processExitCode === null || typeof processExitCode === 'undefined'){
+        done();
+      } else {
+        var err = new Error('ERROR: Karma Server exited with code "' + processExitCode + '"');
+        taskDone(err);
+      }
+      done();
+      process.exit(processExitCode); //Exit the node process
+    }
+  );
+  karmaServer.start();
+});
+
+gulp.task('ci', function () {
+  ciMode = true;
+  return gulp.series(['test']);
+  //return gulp.series(['clean', 'scripts', 'test']);
+});
+
+
+/////////////////////////////////////////////////////////////////////////////
 
 gulp.task('app-index-and-config', function () {
   var cfgSrc = ['./src/app/js/config.js'];
@@ -190,16 +193,6 @@ gulp.task('app-index-and-config', function () {
     gulp.src(['./src/app/img/**'])
       .pipe(gulp.dest(distDest + '/img'))
   )
-});
-
-gulp.task('app-min', ['app-min-css', 'vendor-other', 'app-min-js']);
-
-gulp.task('app-min-css', function() {
-  return gulp.src(vendorCssSources.concat(appCssSources))
-    .pipe(concat('orrportal.all.css'))
-    .pipe(csso())
-    .pipe(rename('orrportal.min.css'))
-    .pipe(gulp.dest(distDest + '/css'))
 });
 
 gulp.task('vendor-other', function() {
@@ -228,9 +221,17 @@ gulp.task('app-min-js', function() {
     .pipe(gulp.dest(distDest + '/js'))
 });
 
-gulp.task('clean', function (cb) {
-    rimraf(distDest, cb);
+gulp.task('app-min-css', function() {
+  return gulp.src(vendorCssSources.concat(appCssSources))
+    .pipe(concat('orrportal.all.css'))
+    .pipe(csso())
+    .pipe(rename('orrportal.min.css'))
+    .pipe(gulp.dest(distDest + '/css'))
 });
+
+gulp.task('app-min', gulp.series('app-min-css', 'vendor-other', 'app-min-js'));
+
+gulp.task('min', gulp.series('app-index-and-config', 'app-min'));
 
 const vendorCssSources = [
   'node_modules/bootstrap-css-only/css/bootstrap.css',
