@@ -53,5 +53,8 @@ adjust `src/app/js/local.config.js` and then:
 
         $ gulp dist --localConfig
 
-Open [http://localhost:9001/dist/orrportal/](http://localhost:9001/dist/orrportal/)
-to locally verify the "local" installation above.
+To locally verify a distribution:
+
+        $ gulp try_dist --localConfig --base=/orrportal/
+
+which should open [http://localhost:9001/dist/orrportal/](http://localhost:9001/dist/orrportal/).

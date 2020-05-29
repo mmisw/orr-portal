@@ -2,19 +2,20 @@
 
 **2020-05: 3.9.4**
 
-- some fixes for #164 "gulp tasks broken" while doing lots of cleanup
-  to better align with more modern js and the new gulp version.
+- fix #164 "gulp tasks broken"
   
-    Besides `gulp dev`, these are now working again as expected:
     - `gulp test`  which stays running while watching for code changes
     - `gulp ci`    runs the tests just once, as intended for CI
-        
-    Broken:
+    - `gulp dist`
+    - `gulp install` 
+    - `gulp dev`    
     
-    - `gulp dist --localConfig` completes but http://localhost:9001/dist/orrportal/
-      doesn't open properly
-    - `gulp install` completes, but likely broken as it depends on `dist` 
-
+    New mechanism to try the distribution locally:
+    
+            gulp try_dist --localConfig --base=/orrportal/
+       
+     should open http://localhost:9001/orrportal/#/
+        
 - resolve #123 "Capture acceptance of Terms Of Use in new-account setup"
   Plus some password related usability inprovements.
 

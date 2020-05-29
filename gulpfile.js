@@ -8,7 +8,6 @@ const rename      = require('gulp-rename');
 const webserver   = require('gulp-webserver');
 const open        = require('open');
 const fs          = require('fs');
-const extend      = require('extend');
 const karma       = require('karma');
 
 //////////////////////////
@@ -24,11 +23,15 @@ const csso = require('gulp-csso');
 
 const app = gulp.parallel(localConfig, baseStuff)
 const dist_directory = gulp.series(clean, app, vendor);
+const vendor_other = gulp.parallel(vendor_other_fontawesome, vendor_other_bootstrap);
+const min = gulp.series(config, img, vendor_other, app_min_js, app_min_css);
 const dist = gulp.series(clean, dist_directory, do_package, min);
+const try_dist = gulp.series(dist, open_dist);
 const install = gulp.series(check_dest, dist, do_install);
 
 exports.default = dist;
 exports.dist = dist
+exports.try_dist = try_dist
 exports.dev = dev;
 exports.install = install;
 exports.test = doKarma(false);
@@ -72,6 +75,16 @@ function dev(cb) {
         port: localPort,
         open: localUrl,
         livereload: true
+      }));
+ cb();
+}
+
+function open_dist(cb) {
+  gulp.src('dist')
+      .pipe(webserver({
+        port: localPort,
+        open: 'http://localhost:9001/orrportal/',
+        livereload: false
       }));
  cb();
 }
@@ -169,7 +182,7 @@ function doKarma(singleRun) {
     const karmaServer = new karma.Server(
       karmaConfig,
       function handleKarmaServerExit(processExitCode){
-        if(processExitCode === 0 || processExitCode === null || typeof processExitCode === 'undefined'){
+        if (!processExitCode) {
           done();
         } else {
           var err = new Error('ERROR: Karma Server exited with code "' + processExitCode + '"');
@@ -185,42 +198,53 @@ function doKarma(singleRun) {
 
 /////////////////////////////////////////////////////////////////////////////
 
-function app_index_and_config(cb) {
+function config(cb) {
   var cfgSrc = ['./src/app/js/config.js'];
   if (gutil.env.localConfig) {
-    gutil.log("app_index_and_config: Including local.config.js");
+    gutil.log("config: INCLUDING local.config.js");
     cfgSrc.push('./src/app/js/local.config.js');
   }
   else {
-    gutil.log("app_index_and_config: Excluding local.config.js");
+    gutil.log("config: EXCLUDING local.config.js");
   }
-
-  gulp.parallel(
-    gulp.src(cfgSrc)
-      .pipe(gulp.dest(distDest + '/js')),
-    gulp.src(['./src/app/img/**'])
-      .pipe(gulp.dest(distDest + '/img'))
-  );
+  gulp.src(cfgSrc)
+    .pipe(gulp.dest(distDest + '/js'));
 
   cb();
 }
 
-function vendor_other(cb) {
-  gulp.parallel(
-    gulp.src([
-      'node_modules/font-awesome/fonts/**'
-    ], {base: 'node_modules/font-awesome/'})
-      .pipe(gulp.dest(distDest)),
-    gulp.src([
-      'node_modules/bootstrap-css-only/fonts/**'
-    ], {base: 'node_modules/bootstrap-css-only/'})
-      .pipe(gulp.dest(distDest)),
-    gulp.src([
-      'node_modules/angular-ui-grid/ui-grid.woff',
-      'node_modules/angular-ui-grid/ui-grid.ttf'
-    ], {base: 'node_modules/angular-ui-grid/'})
-      .pipe(gulp.dest(distDest + "/css"))
-  );
+function img(cb) {
+  gulp.src(['./src/app/img/**'])
+    .pipe(gulp.dest(distDest + '/img'));
+
+  cb();
+}
+
+function vendor_other_fontawesome(cb) {
+  gulp.src([
+    'node_modules/font-awesome/fonts/**'
+  ], {base: 'node_modules/font-awesome/'})
+      .pipe(gulp.dest(distDest));
+
+  cb();
+}
+
+function vendor_other_bootstrap(cb) {
+  gulp.src([
+    'node_modules/bootstrap-css-only/fonts/**'
+  ], {base: 'node_modules/bootstrap-css-only/'})
+      .pipe(gulp.dest(distDest));
+
+  cb();
+}
+
+function vendor_other_bootstrap(cb) {
+  gulp.src([
+    'node_modules/angular-ui-grid/ui-grid.woff',
+    'node_modules/angular-ui-grid/ui-grid.ttf'
+  ], {base: 'node_modules/angular-ui-grid/'})
+      .pipe(gulp.dest(distDest + "/css"));
+
   cb();
 }
 
@@ -239,16 +263,6 @@ function app_min_css(cb) {
     .pipe(csso())
     .pipe(rename('orrportal.min.css'))
     .pipe(gulp.dest(distDest + '/css'));
-  cb();
-}
-
-function app_min(cb) {
-  gulp.series(app_min_css, vendor_other, app_min_js);
-  cb();
-}
-
-function min(cb) {
-  gulp.series(app_index_and_config, app_min);
   cb();
 }
 

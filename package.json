@@ -7,7 +7,6 @@
     "url": "https://github.com/mmisw/orr-portal.git"
   },
   "devDependencies": {
-    "extend": "^2.0.2",
     "gulp": "4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-csso": "3.0.0",
