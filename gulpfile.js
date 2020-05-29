@@ -21,7 +21,7 @@ const csso = require('gulp-csso');
 // Exports:
 
 const app = gulp.parallel(localConfig, baseStuff)
-const dist_directory = gulp.series(clean, app, vendor);
+const dist_directory = gulp.series(app, vendor);
 const vendor_other = gulp.parallel(vendor_other_fontawesome, vendor_other_bootstrap);
 const min = gulp.series(config, img, vendor_other, app_min_js, app_min_css);
 const dist = gulp.series(dist_directory, do_package, min);
@@ -34,7 +34,7 @@ exports.try_dist = try_dist
 exports.dev = dev;
 exports.install = install;
 exports.test = doKarma(false);
-exports.ci = gulp.series(clean, doKarma(true));
+exports.ci = gulp.series(doKarma(true));
 exports.clean = clean;
 
 ///////////////////////////////////////////////////////////
@@ -101,7 +101,7 @@ function localConfig(cb) {
     gutil.log("app task: Including local.config.js");
   }
   else {
-    gutil.log("app task: Excluding local.config.js");
+    gutil.log("app task: EXCLUDING local.config.js");
     src.push('!./**/local.config.js');
   }
 
