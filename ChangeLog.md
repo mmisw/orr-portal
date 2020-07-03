@@ -1,5 +1,9 @@
 ## change log ##
 
+**2020-07: 3.9.5**
+
+- fix #169 "Double slash in create vocab or mapping"
+  
 **2020-05: 3.9.4**
 
 - fix #164 "gulp tasks broken"

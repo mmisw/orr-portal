@@ -978,7 +978,8 @@
 
     var vm = $scope.vm = {
       title:      'Ontology owner, IRI, visibility, and status',
-      base:       info.base,
+      // remove any trailing slashes (#169):
+      base:       info.base.replace(/\/+$/, ''),
       ownerOptions: info.ownerOptions,
       uriType:    'orrBasedUri',
       owner:      undefined,
