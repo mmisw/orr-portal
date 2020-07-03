@@ -1,5 +1,15 @@
 ## change log ##
 
+**2020-07: 3.9.6**
+
+Adjustments for a docker-friendly "local" configuration of the webapp:
+the traditional `local.config.js` file is now located under a directory
+that can be mounted from the host at deployment time.
+(This location needs to be isolated from other regular sources/resources.)  
+
+This new directory for `local.config.js` is `src/app/config/`, which will
+continue to be used for local development as usual.
+
 **2020-07: 3.9.5**
 
 - fix #169 "Double slash in create vocab or mapping"
