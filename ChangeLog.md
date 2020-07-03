@@ -1,5 +1,9 @@
 ## change log ##
 
+**2020-07: 3.9.6**
+
+- adjust version after reverting unneeded change 
+
 **2020-07: 3.9.5**
 
 - fix #169 "Double slash in create vocab or mapping"
