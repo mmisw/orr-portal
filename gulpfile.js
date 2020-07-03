@@ -201,7 +201,7 @@ function config(cb) {
   var cfgSrc = ['./src/app/js/config.js'];
   if (gutil.env.localConfig) {
     gutil.log("config: INCLUDING local.config.js");
-    cfgSrc.push('./src/app/config/local.config.js');
+    cfgSrc.push('./src/app/js/local.config.js');
   }
   else {
     gutil.log("config: EXCLUDING local.config.js");
