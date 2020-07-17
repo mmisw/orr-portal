@@ -1,5 +1,6 @@
 const gulp        = require('gulp');
-const gutil       = require('gulp-util');
+const argv        = require('minimist')(process.argv.slice(3))
+const log         = require('fancy-log')
 const replace     = require('gulp-replace');
 const rimraf      = require('rimraf');
 const zip         = require('gulp-zip');
@@ -39,7 +40,7 @@ exports.clean = clean;
 
 ///////////////////////////////////////////////////////////
 
-const base = gutil.env.base;
+const base = argv.base;
 
 const appInfo = require('./package');
 const appName = appInfo.name;
@@ -49,17 +50,17 @@ const distDest = './dist/' + appName;
 const zipFile = appName + '-' + version + (base ? '-BASE' + base.replace(/\//g, '_') : '') + '.zip';
 const zipDest = './dist';
 
-gutil.log("Building version " + version);
+log("Building version " + version);
 
 if (base) {
-  gutil.log('Will insert <base href="' +base+ '">');
+  log('Will insert <base href="' +base+ '">');
 }
 
-let installDest = gutil.env.dest;
+let installDest = argv.dest;
 if (installDest) {
-  gutil.log('dest=' +installDest);
+  log('dest=' +installDest);
   installDest = installDest.replace(/^~/, process.env.HOME);
-  gutil.log('Install destination: ' +installDest);
+  log('Install destination: ' +installDest);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -97,11 +98,11 @@ function clean(cb) {
 
 function localConfig(cb) {
   var src = ['./src/app/**', '!./src/app/**/*.html'];
-  if (gutil.env.localConfig) {
-    gutil.log("app task: Including local.config.js");
+  if (argv.localConfig) {
+    log("app task: Including local.config.js");
   }
   else {
-    gutil.log("app task: EXCLUDING local.config.js");
+    log("app task: EXCLUDING local.config.js");
     src.push('!./**/local.config.js');
   }
 
@@ -199,12 +200,12 @@ function doKarma(singleRun) {
 
 function config(cb) {
   var cfgSrc = ['./src/app/js/config.js'];
-  if (gutil.env.localConfig) {
-    gutil.log("config: INCLUDING local.config.js");
-    cfgSrc.push('./src/app/js/local.config.js');
+  if (argv.localConfig) {
+    log("config: INCLUDING local.config.js");
+    cfgSrc.push('./src/app/config/local.config.js');
   }
   else {
-    gutil.log("config: EXCLUDING local.config.js");
+    log("config: EXCLUDING local.config.js");
   }
   gulp.src(cfgSrc)
     .pipe(gulp.dest(distDest + '/js'));
