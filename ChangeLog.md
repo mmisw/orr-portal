@@ -2,6 +2,8 @@
 
 **2020-07: 3.9.7**
 
+- add 'visibility' facet
+
 - resolve dedendabot alert about 'qs' by replacing gulp-webserver with gulp-connect + open
   
 - resolve #138 based on @lewismc's https://github.com/mmisw/orr-portal/pull/160 PR.
