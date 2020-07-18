@@ -64,7 +64,7 @@ body {
 .status-stable:hover {
   color: #3ec549;
 }
-.status-draft, .status-unstable, .status-testing, .status-deprecated, .status-archaic {
+.status-draft, .status-unstable, .status-testing, .status-deprecated, .status-archaic, .status-undefined {
   color: #f85a43;
 }
 

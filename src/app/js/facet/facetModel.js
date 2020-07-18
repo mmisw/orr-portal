@@ -25,7 +25,8 @@
       "ontologyStatus",
       "resourceType",
       "ontologyType",
-      "hosting"
+      "hosting",
+      "visibility"
     ];
 
     // facet definitions
@@ -63,6 +64,11 @@
       hosting: {
         label: "Hosting",
         list: ['fully-hosted', 're-hosted'],
+        selection: []
+      },
+      visibility: {
+        label: "Visibility",
+        list: ['public', 'owner'],
         selection: []
       }
     };
@@ -195,6 +201,16 @@
             selectedOnts = _.filter(selectedOnts, function(ont) {
               var isSelfHosted = bUtil.uriEqualOrHasPrefixWithSlash(ont.uri, orrOntRest);
               return takeSelfHosted === isSelfHosted;
+            });
+          }
+        }
+        else if (facetKey === "visibility") {
+          var selected = getSelectedLabels(facet.selection);
+          // need to do fitering only in one visibility selected:
+          if (selected.length === 1) {
+            var desiredVisibility = selected[0];
+            selectedOnts = _.filter(selectedOnts, function(ont) {
+              return ont.visibility === desiredVisibility;
             });
           }
         }
