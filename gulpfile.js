@@ -6,7 +6,8 @@ const rimraf      = require('rimraf');
 const zip         = require('gulp-zip');
 const concat      = require('gulp-concat');
 const rename      = require('gulp-rename');
-const webserver   = require('gulp-webserver');
+const connect     = require('gulp-connect')
+const open        = require('open')
 const fs          = require('fs');
 const karma       = require('karma');
 
@@ -70,23 +71,25 @@ const localPort   = 9001;
 const localUrl    = 'http://localhost:' +localPort+ '/src/app/indexdev.html';
 
 function dev(cb) {
-  gulp.src('.')
-      .pipe(webserver({
-        port: localPort,
-        open: localUrl,
-        livereload: true
-      }));
- cb();
+  return connect.server({
+    port: localPort,
+    root: '.',
+    livereload: true
+  }, () => {
+    open(localUrl)
+    cb()
+  })
 }
 
 function open_dist(cb) {
-  gulp.src('dist')
-      .pipe(webserver({
-        port: localPort,
-        open: 'http://localhost:9001/orrportal/',
-        livereload: false
-      }));
- cb();
+  return connect.server({
+    port: localPort,
+    root: 'dist',
+    livereload: false
+  }, () => {
+    open('http://localhost:9001/orrportal/')
+    cb()
+  })
 }
 
 function clean(cb) {
@@ -202,7 +205,7 @@ function config(cb) {
   var cfgSrc = ['./src/app/js/config.js'];
   if (argv.localConfig) {
     log("config: INCLUDING local.config.js");
-    cfgSrc.push('./src/app/config/local.config.js');
+    cfgSrc.push('./src/app/js/local.config.js');
   }
   else {
     log("config: EXCLUDING local.config.js");
