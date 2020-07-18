@@ -69,7 +69,9 @@
         archaic:    'A'
       };
       return function(entity) {
-        var title = 'Status: '  +entity.status;
+        var title = 'Status: '  + (entity.status || '(not defined)');
+
+        var statusClass = 'status-' + (entity.status || 'undefined')
 
         // show an extra mark and expand tooltip if visibility is not public:
         var visMark = '';
@@ -79,13 +81,12 @@
         }
 
         var prefix = '';
-        var mark = marks[entity.status];
-        if (mark) {
-          prefix = '<span' +
-            ' class="statusMark status-' +entity.status+ '"' +
-            ' title="' +title+ '"' +
-            '>' + visMark + mark + '</span>';
-        }
+        var mark = marks[entity.status] || '?';
+        prefix = '<span' +
+          ' class="statusMark ' +statusClass+ '"' +
+          ' title="' +title+ '"' +
+          '>' + visMark + mark + '</span>';
+
         return prefix + appUtil.mklinks4text(entity.name);
       }
     }])

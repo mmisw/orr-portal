@@ -2,6 +2,9 @@
 
 **2020-07: 3.9.7**
 
+- adjust marks for status and visibility, in particular to show the visibility
+  even when status is undefined
+  
 - add 'visibility' facet
 
 - resolve dedendabot alert about 'qs' by replacing gulp-webserver with gulp-connect + open
