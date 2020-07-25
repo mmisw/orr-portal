@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>ORR SPARQL UI</title>
-  <link href='//cdn.jsdelivr.net/npm/yasgui@2.7.29/dist/yasgui.min.css' rel='stylesheet' type='text/css'/>
-  <script src='//cdn.jsdelivr.net/npm/yasgui@2.7.29/dist/yasgui.min.js'></script>
+  <link href="https://unpkg.com/@triply/yasgui/build/yasgui.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://unpkg.com/@triply/yasgui/build/yasgui.min.js"></script>
   <style>
     .endpointText {
       display: none !important;
@@ -41,7 +41,7 @@
     <br>
     (The SPARQL endpoint itself is located at
     <span id="sparql" style="font-family: monospace"></span>.
-    User interface below powered by <a target="_blank" rel="noopener" href="http://doc.yasgui.org/" style="color:gray">YASGUI</a>.)
+    User interface below powered by <a target="_blank" rel="noopener" href="https://github.com/TriplyDB/YASGUI" style="color:gray">YASGUI</a>.)
   </span>
 </div>
 
@@ -51,11 +51,11 @@
   var debug = window.location.search.match(/.*debug.*/)
 
   // (1) looks like not all of the "default" mechanism is having effect anymore:
-  YASGUI.YASQE.defaults.sparql.endpoint = appConfig.orront.sparqlEndpoint;
-  YASGUI.YASQE.defaults.sparql.acceptHeaderGraph = "application/rdf+xml";
-  YASGUI.defaults.catalogueEndpoints = [];
+  Yasgui.Yasqe.defaults.requestConfig.endpoint = appConfig.orront.sparqlEndpoint;
+  Yasgui.Yasqe.defaults.requestConfig.headers = "application/rdf+xml";
+  Yasgui.defaults.catalogueEndpoints = [];
 
-  // (2) so, pass an explicit config object to the constructor:
+  //(2) so, pass an explicit config object to the constructor:
   var config = {
     yasqe: {
       sparql: {
@@ -65,7 +65,23 @@
     },
     catalogueEndpoints: []
   };
-  var yasgui = YASGUI(document.getElementById("editor"), config);
+  var yasgui = new Yasgui(document.getElementById("editor"), config);
+  // Add a new Tab. Returns the new Tab object.
+  var query1 = yasgui.addTab(
+    true, // set as active tab
+    { ...Yasgui.Tab.getDefaults(), name: "Example Query 1" }
+  );
+  // Get a Tab. Returns the current Tab if no tab id is given.
+  query1.setQuery("SELECT * WHERE {\n\t?sub ?pred ?obj .\n} LIMIT 10");
+
+  // Add a new Tab. Returns the new Tab object.
+  var query2 = yasgui.addTab(
+    { ...Yasgui.Tab.getDefaults(), name: "Example Query 2" }
+  );
+  // Get a Tab. Returns the current Tab if no tab id is given.
+  query2.setQuery("PREFIX geo: <http://www.opengis.net/ont/geosparql#>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>\nPREFIX vocab: <http://cor.esipfed.org/ont/geotriples/GRanD_dams_v1_1/>\nSELECT ?wkt ?wktLabel WHERE {\n\t?geometry a geo:Geometry .\n\t?geometry a owl:NamedIndividual .\n\t?geometry geo:asWKT ?wkt .\n\t?dam geo:hasGeometry ?geometry .\n\t?dam vocab:has_DAM_NAME ?wktLabel .\n} LIMIT 100");
+
+  //var yasgui = YASGUI(document.getElementById("editor"), config);
   if (debug) {
     console.log('config=', config, 'yasgui=', yasgui);
   }
