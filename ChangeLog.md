@@ -1,6 +1,6 @@
 ## change log ##
 
-**2020-07: 3.9.8**
+**2020-08-14: 3.9.8**
 
 - fix #174 "No URL-encoding when dispatching external viewer for fully-hosted ontology"
 
