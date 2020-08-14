@@ -96,12 +96,13 @@ var appUtil = (function(window) {
    * This one is directly based on appConfig.orront.rest
    */
   function getOntUrlForExternalTool(uri) {
+    var url4link = uri.replace(/#/g, "%23");
+    if (debug) console.log('getOntUrlForExternalTool: url4link=', url4link)
     uri = uri.replace(escapedUnicodeRegex, unescapeEscapedUnicode);
     if (bUtil.uriEqualOrHasPrefixWithSlash(uri, appConfig.orront.rest)) {
-      return uri;  // it's self-resolvable:
+      return url4link;  // it's self-resolvable:
     }
     else {
-      var url4link = uri.replace(/#/g, "%23");
       // use ".../api/v0/ont?iri=..." with encoded question mark
       return appConfig.orront.rest + "/api/v0/ont%3F" + "iri=" + url4link;
     }
