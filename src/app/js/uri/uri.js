@@ -43,6 +43,9 @@
       vm.resolved = false;
       vm.ontology = vm.term = undefined;
 
+      // #178 "Retry without trailing slash"
+      var reattemptingWithRemovedTrailingSlash = false;
+
       // #115 https://github.com/mmisw/orr-portal/issues/115#issuecomment-608963657
       // in case it's a term request (see below):
       var reattemptingTermWithHttpsSchemeChange = false;
@@ -74,12 +77,23 @@
             return;
           }
           else {
+            if (vm.uri.endsWith("/")) {
+              if (!reattemptingWithRemovedTrailingSlash) {
+                var uriNoSlash = vm.uri.replace(/\/+$/, '');
+                reattemptingWithRemovedTrailingSlash = true;
+                if (debug) console.debug("reattempting with uriNoSlash:", uriNoSlash);
+                service.resolveUri(uriNoSlash, vm.version, gotUriResolution);
+                return;
+              }
+            }
             // We got no predicates for the term request, thus nominally indicating "Not Found".
             // Let's re-attempt with https-http scheme change as done for ontologies by the backend:
             if (!reattemptingTermWithHttpsSchemeChange) {
               var uri2 = bUtil.replaceHttpScheme(vm.uri);
               if (uri2) {
                 reattemptingTermWithHttpsSchemeChange = true;
+                reattemptingWithRemovedTrailingSlash = false;
+                if (debug) console.debug("reattempting with uri2:", uri2);
                 service.resolveUri(uri2, vm.version, gotUriResolution);
                 return;
               }

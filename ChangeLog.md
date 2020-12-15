@@ -1,5 +1,9 @@
 ## change log ##
 
+**2020-12-14: 3.9.81**
+
+- resolve #178 "Retry without trailing slash"
+
 **2020-08-14: 3.9.8**
 
 - fix #174 "No URL-encoding when dispatching external viewer for fully-hosted ontology"
