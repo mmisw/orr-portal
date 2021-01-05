@@ -1,5 +1,10 @@
 ## change log ##
 
+**2021-01-05: 3.9.82**
+
+- fix #179 "Icons failing to build"
+  Was a naming mistake in gulpfile.js
+
 **2020-12-14: 3.9.81**
 
 - resolve #178 "Retry without trailing slash"

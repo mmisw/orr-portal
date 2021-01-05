@@ -24,7 +24,8 @@ const csso = require('gulp-csso');
 
 const app = gulp.parallel(localConfig, baseStuff)
 const dist_directory = gulp.series(app, vendor);
-const vendor_other = gulp.parallel(vendor_other_fontawesome, vendor_other_bootstrap);
+const vendor_other = gulp.parallel(vendor_other_fontawesome, vendor_other_bootstrap,
+    vendor_other_angular);
 const min = gulp.series(config, img, vendor_other, app_min_js, app_min_css);
 const dist = gulp.series(dist_directory, do_package, min);
 const try_dist = gulp.series(dist, open_dist);
@@ -241,7 +242,7 @@ function vendor_other_bootstrap(cb) {
   cb();
 }
 
-function vendor_other_bootstrap(cb) {
+function vendor_other_angular(cb) {
   gulp.src([
     'node_modules/angular-ui-grid/ui-grid.woff',
     'node_modules/angular-ui-grid/ui-grid.ttf'
