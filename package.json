@@ -25,7 +25,7 @@
     "karma-jasmine": "3.3.1",
     "karma-junit-reporter": "2.0.1",
     "karma-phantomjs-launcher": "1.0.4",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "log4js": "^3.0.6",
     "merge-stream": "0.1.7",
     "minimist": "1.2.5",
