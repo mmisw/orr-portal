@@ -14,7 +14,8 @@ const karma       = require('karma');
 //////////////////////////
 // for minified version
 // js: using uglify for now.
-const uglify = require('gulp-uglify');
+//const uglify = require('gulp-uglify');
+var uglify = require('gulp-uglify-es').default;
 // var closure = require('google-closure-compiler').gulp();
 // var sourcemaps = require('gulp-sourcemaps');
 const csso = require('gulp-csso');
@@ -244,8 +245,8 @@ function vendor_other_bootstrap(cb) {
 
 function vendor_other_angular(cb) {
   gulp.src([
-    'node_modules/angular-ui-grid/ui-grid.woff',
-    'node_modules/angular-ui-grid/ui-grid.ttf'
+    'node_modules/angular-ui-grid/fonts/ui-grid.woff',
+    'node_modules/angular-ui-grid/fonts/ui-grid.ttf'
   ], {base: 'node_modules/angular-ui-grid/'})
       .pipe(gulp.dest(distDest + "/css"));
 
@@ -272,7 +273,6 @@ function app_min_css(cb) {
 
 const vendorCssSources = [
   'node_modules/bootstrap-css-only/css/bootstrap.css',
-  'node_modules/bootstrap-css-only/css/bootstrap-theme.css',
   'node_modules/font-awesome/css/font-awesome.css',
   'node_modules/angular-ui-grid/ui-grid.css',
   'node_modules/ui-select/dist/select.css',
