@@ -1,5 +1,10 @@
 ## change log ##
 
+**2021-12-07: 3.9.83**
+
+- bump the version
+  (just to reflect change in backend 3.8.7)
+
 **2021-01-05: 3.9.82**
 
 - fix #179 "Icons failing to build"
@@ -17,11 +22,11 @@
 
 - adjust marks for status and visibility, in particular to show the visibility
   even when status is undefined
-  
+
 - add 'visibility' facet
 
 - resolve dedendabot alert about 'qs' by replacing gulp-webserver with gulp-connect + open
-  
+
 - resolve #138 based on @lewismc's https://github.com/mmisw/orr-portal/pull/160 PR.
   Many thanks Lewis! I went ahead and manually applied the key changes from your PR
   as there have been quite a few changes in related files (and didn't want to deal
@@ -32,28 +37,28 @@
 
 **2020-07: 3.9.6**
 
-- adjust version after reverting unneeded change 
+- adjust version after reverting unneeded change
 
 **2020-07: 3.9.5**
 
 - fix #169 "Double slash in create vocab or mapping"
-  
+
 **2020-05: 3.9.4**
 
 - fix #164 "gulp tasks broken"
-  
+
     - `gulp test`  which stays running while watching for code changes
     - `gulp ci`    runs the tests just once, as intended for CI
     - `gulp dist`
-    - `gulp install` 
-    - `gulp dev`    
-    
+    - `gulp install`
+    - `gulp dev`
+
     New mechanism to try the distribution locally:
-    
+
             gulp try_dist --localConfig --base=/orrportal/
-       
+
      should open http://localhost:9001/orrportal/#/
-        
+
 - resolve #123 "Capture acceptance of Terms Of Use in new-account setup"
   Plus some password related usability inprovements.
 
@@ -65,8 +70,8 @@
   Previously, the `<a href>` text was skipping that trailing slash.
   Eg: linked http://vocab.nerc.ac.uk/collection/P07/current/CFSN0390/
   is resolution of https://mmisw.org/ont/cf/parameter/sea_surface_wind_wave_significant_height
-  
-- reattempt term resolution with https-http scheme change 
+
+- reattempt term resolution with https-http scheme change
   https://github.com/mmisw/orr-portal/issues/115#issuecomment-608963657
 
 - fix #156 "Trailing slash ignored for resolution"
@@ -80,16 +85,16 @@
 
 - internal: some lib upgrades triggered by a reported vulnerability related with
   the indirect "kind-of" dependency.
-  
+
     Again, my `gulp dev` command failed as indicated in  miscnotes, which I fixed in a similar way:
-  
+
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
         export NVM_DIR="$HOME/.nvm"
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
         [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-        
+
         nvm use lts/dubnium
-        
+
         gulp dev   # now OK
 
 * 2019-10-03: 3.8.9
@@ -115,7 +120,7 @@
 
 - PR #139: reverting to angular 1.4.7 seems to make things work better,
   but this will need some good testing
- 
+
 * 2019-08-18: 3.8.6
 
 - PR #139 plus upgrade of angular-ui-router to 1.0.22, which seems to fix
