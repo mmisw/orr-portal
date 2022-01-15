@@ -32,7 +32,7 @@
     "mocha": "^5.2.0",
     "open": "^7.0.4",
     "rimraf": "2.2.8",
-    "shelljs": "0.2.6"
+    "shelljs": "0.8.5"
   },
   "scripts": {
     "test": "./node_modules/gulp/bin/gulp.js ci"
