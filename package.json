@@ -28,7 +28,7 @@
     "lodash": "^4.17.19",
     "log4js": "^3.0.6",
     "merge-stream": "0.1.7",
-    "minimist": "1.2.5",
+    "minimist": "1.2.6",
     "mocha": "^5.2.0",
     "open": "^7.0.4",
     "rimraf": "2.2.8",
